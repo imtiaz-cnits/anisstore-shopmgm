@@ -1,4 +1,4 @@
-@extends('layout.dashboard-sidenav')
+@extends('layouts.dashboard-sidenav')
 @section('title', 'Supplier Due Payable Page')
 @section('content')
 

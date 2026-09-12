@@ -1,4 +1,4 @@
-@extends('layout.dashboard-sidenav')
+@extends('layouts.dashboard-sidenav')
 @section('title','Purchase Page')
 @section('content')
     @include('components.back-end.Purchase.purchase-list')

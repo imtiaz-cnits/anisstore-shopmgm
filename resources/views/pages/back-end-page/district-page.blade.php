@@ -1,4 +1,4 @@
-@extends('layout.dashboard-sidenav')
+@extends('layouts.dashboard-sidenav')
 @section('title','District Page')
 @section('content')
     @include('components.back-end.District.district-list')

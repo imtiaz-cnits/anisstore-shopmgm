@@ -7,13 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Brand extends Model
 {
-    use HasFactory;
+    use HasFactory, \App\Traits\HasStorageImage;
+
     protected $fillable = [
         'name',
         'logo',
         'status',
         'user_id',
     ];
+
+    public function getLogoAttribute($value)
+    {
+        return $this->formatImageUrl($value);
+    }
 
     public function products()
     {

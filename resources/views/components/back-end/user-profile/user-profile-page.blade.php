@@ -1,4 +1,4 @@
-@extends('layout.dashboard-sidenav')
+@extends('layouts.dashboard-sidenav')
 @section('title','Admin Profile - মেসার্স আনিস ষ্টোর')
 @section('content')
 

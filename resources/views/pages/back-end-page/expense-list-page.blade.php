@@ -1,4 +1,4 @@
-@extends('layout.dashboard-sidenav')
+@extends('layouts.dashboard-sidenav')
 @section('title','Expence Type Page')
 @section('content')
     @include('components.back-end.Expense.expense-list.expense-list')

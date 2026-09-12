@@ -102,7 +102,7 @@ public function CategoryCreate(Request $request)
             $img_url = "uploads/category_image/{$img_name}";
 
             // Upload File
-            $img->move(public_path('uploads/category_image'), $img_name);
+            $img->storeAs('uploads/category_image', $img_name, 'public');
         }
 
         // Create the category
@@ -113,11 +113,7 @@ public function CategoryCreate(Request $request)
             'user_id' => $user_id,
         ]);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => "Category Created Successfully",
-            'newCategoryId' => $category->id,
-        ]);
+        return response()->json(['status' => 'success', 'message' => 'Category created successfully']);
 
     } catch (Exception $e) {
         return response()->json([
@@ -132,7 +128,7 @@ function CategoryByID(Request $request){
         $user_id = Auth::id();
         $request->validate(["id" => 'required|string']);
 
-        $rows = Category ::where('id', $request->input('id'))->first();
+        $rows = Category::where('id', $request->input('id'))->where('user_id', $user_id)->first();
         return response()->json(['status' => 'success', 'rows' => $rows]);
     } catch (Exception $e) {
         return response()->json(['status' => 'fail', 'message' => $e->getMessage()]);
@@ -141,49 +137,51 @@ function CategoryByID(Request $request){
 
 function CategoryUpdate(Request $request)
 {
-try {
-    $user_id = Auth::id();
-    $CategoryData_Update = Category::find($request->input('id'));
+    try {
+        $user_id = Auth::id();
+        $CategoryData_Update = Category::find($request->input('id'));
 
-    if (!$CategoryData_Update) {
-        return response()->json(['status' => 'fail', 'message' => 'Category not found.']);
-    }
-
-    // Validate inputs
-    $validatedData = $request->validate([
-        'category_name' => 'required|string|max:255',
-        'status' => 'required|in:Active,InActive',
-        'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024', // Max 1MB
-    ]);
-
-    // Update Category name and status
-    $CategoryData_Update->category_name = $validatedData['category_name'];
-    $CategoryData_Update->status = $validatedData['status'];
-
-    if ($request->hasFile('img')) {
-        $img = $request->file('img');
-        $t = time();
-        $file_name = $img->getClientOriginalName();
-        $img_name = "{$user_id}-{$t}-{$file_name}";
-        $img_url = "uploads/category_image/{$img_name}";
-
-        // Upload File
-        $img->move(public_path('uploads/category_image'), $img_name);
-
-        // Delete old image if it exists
-        if ($CategoryData_Update->img_url && file_exists(public_path($CategoryData_Update->img_url))) {
-            unlink(public_path($CategoryData_Update->img_url));
+        if (!$CategoryData_Update) {
+            return response()->json(['status' => 'fail', 'message' => 'Category not found.']);
         }
 
-        $CategoryData_Update->img_url = $img_url; // Correct property to set img_url
+        // Validate inputs
+        $validatedData = $request->validate([
+            'id' => 'required|string',
+            'category_name' => 'required|string|max:255',
+            'status' => 'required|in:Active,InActive',
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Update Category name and status
+        $CategoryData_Update->category_name = $validatedData['category_name'];
+        $CategoryData_Update->status = $validatedData['status'];
+
+        if ($request->hasFile('img')) {
+            $img = $request->file('img');
+            $t = time();
+            $file_name = $img->getClientOriginalName();
+            $img_name = "{$user_id}-{$t}-{$file_name}";
+            $img_url = "uploads/category_image/{$img_name}";
+
+            // Upload File
+            $img->storeAs('uploads/category_image', $img_name, 'public');
+
+            // Delete old image if it exists
+            if ($CategoryData_Update->img_url) {
+                $oldPath = preg_replace('/^(\/?storage\/|\/)/', '', $CategoryData_Update->img_url);
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
+            }
+
+            $CategoryData_Update->img_url = $img_url; // Correct property to set img_url
+        }
+
+        $CategoryData_Update->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Category updated successfully']);
+    } catch (Exception $e) {
+        return response()->json(['status' => 'fail', 'message' => $e->getMessage()]);
     }
-
-    $CategoryData_Update->save();
-
-    return response()->json(['status' => 'success', 'message' => 'Category updated successfully']);
-} catch (Exception $e) {
-    return response()->json(['status' => 'fail', 'message' => $e->getMessage()]);
-}
 }
 
 function CategoryDelete(Request $request)
@@ -199,6 +197,11 @@ try {
         return response()->json(['status' => 'fail', 'message' => 'Category not found.']);
     }
 
+    // Delete image if exists
+    if ($Category_delete->img_url) {
+        $oldPath = preg_replace('/^(\/?storage\/|\/)/', '', $Category_delete->img_url);
+        \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
+    }
 
     // Delete Category
     $Category_delete->delete();

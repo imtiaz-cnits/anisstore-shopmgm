@@ -1,4 +1,4 @@
-@extends('layout.dashboard-sidenav')
+@extends('layouts.dashboard-sidenav')
 @section('title','Low Stock Products')
 @section('content')
     @include('components.back-end.Product.low-stock-product-list')

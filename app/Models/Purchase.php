@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Purchase extends Model
 {
-    use HasFactory;
+    use HasFactory, \App\Traits\HasStorageImage;
     protected $fillable = [
         'purchase_id',
         'referance_no',
@@ -21,6 +21,11 @@ class Purchase extends Model
         'supplier_id',
         'user_id'
     ];
+
+    public function getAttachDocumentAttribute($value)
+    {
+        return $this->formatImageUrl($value);
+    }
 
     // One Purchase has many PurchaseOrderDetails
     public function orderDetails()

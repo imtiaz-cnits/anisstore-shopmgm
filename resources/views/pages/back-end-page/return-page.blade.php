@@ -1,4 +1,4 @@
-@extends('layout.dashboard-sidenav')
+@extends('layouts.dashboard-sidenav')
 @section('title','Return List Page')
 @section('content')
     @include('components.back-end.Return.return-list')

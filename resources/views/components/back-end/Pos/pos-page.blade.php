@@ -9,29 +9,28 @@
 
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('back-end/assets/icons/nexus-pos-logo.svg') }}" type="image/x-icon" />
+    <link rel="icon" type="image/png" href="{{ asset('back-end/assets/img/anis-store-icon.png') }}" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('back-end/assets/img/anis-store-icon.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('back-end/assets/img/anis-store-icon.png') }}" />
 
     <!-- Bootstrap Css -->
-    <link href="{{ asset('back-end/assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet"
+    <link href="{{ asset('back-end/assets/css/vendor/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet"
         type="text/css" />
-
-    <!-- Icons Css -->
-    <link href="{{ asset('back-end/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
     <!-- CSS Link-->
     <link href="{{ asset('back-end/assets/css/pos.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('back-end/assets/css/all-modal.css.css') }}" rel="stylesheet" />
+    <link href="{{ asset('back-end/assets/css/all-modal.css') }}" rel="stylesheet" />
 
 
-    <link href="{{ asset('back-end/assets/css/toastify.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('back-end/assets/css/vendor/toastify.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('back-end/assets/css/progress.css') }}" rel="stylesheet" />
-    <link href="{{ asset('back-end/assets/css/animate.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('back-end/assets/css/vendor/animate.min.css') }}" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('back-end/assets/js/toastify-js.js') }}"></script>
-    <script src="{{ asset('back-end/assets/js/axios.min.js') }}"></script>
+    <script src="{{ asset('back-end/assets/js/vendor/toastify-js.js') }}"></script>
+    <script src="{{ asset('back-end/assets/js/vendor/axios.min.js') }}"></script>
     <script src="{{ asset('back-end/assets/js/config.js') }}"></script>
 
 
@@ -463,7 +462,7 @@
             }
 
             #holdInvoicesModal .hold-invoices-table th {
-                background-color: #f8fafc !important;
+                background-color: #F3ECFB !important;
                 color: #475569 !important;
                 font-weight: 700 !important;
                 font-size: 13px !important;
@@ -471,7 +470,7 @@
             }
 
             #holdInvoicesModal .hold-invoices-table tr:hover td {
-                background-color: #f8fafc !important;
+                background-color: #F3ECFB !important;
             }
             body[light-mode="dark"] .store-brand-header {
                 background-color: #1e293b !important;
@@ -500,7 +499,7 @@
                 display: none !important;
             }
             html, body {
-                background: #f8fafc !important;
+                background: #F3ECFB !important;
                 margin: 0 !important;
                 padding: 0 !important;
                 width: 100% !important;
@@ -510,7 +509,7 @@
             }
             .pos-mobile-wrapper {
                 display: block !important;
-                background: #f8fafc !important;
+                background: #F3ECFB !important;
                 min-height: 100vh !important;
                 width: 100% !important;
                 min-width: 100% !important;
@@ -2469,12 +2468,12 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <!-- JAVASCRIPT -->
-    <script src="{{ asset('back-end/assets/js/fontawesome.js') }}"></script>
-    <script src="{{ asset('back-end/assets/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('back-end/assets/js/pos-product-slider.js') }}"></script>
-    <script src="{{ asset('back-end/assets/js/orderlist-table-qty.js') }}"></script>
+    <script src="{{ asset('back-end/assets/js/vendor/fontawesome.js') }}"></script>
+    <script src="{{ asset('back-end/assets/js/vendor/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('back-end/assets/js/pos/pos-product-slider.js') }}"></script>
+    <script src="{{ asset('back-end/assets/js/pos/orderlist-table-qty.js') }}"></script>
     <script src="{{ asset('back-end/assets/js/full-screen-toggle.js') }}"></script>
-    <script src="{{ asset('back-end/assets/js/pos-payment-methode-click.js') }}"></script>
+    <script src="{{ asset('back-end/assets/js/pos/pos-payment-methode-click.js') }}"></script>
     <script src="{{ asset('back-end/assets/js/all-modals.js') }}"></script>
     <script src="{{ asset('back-end/assets/js/app.js') }}"></script>
 

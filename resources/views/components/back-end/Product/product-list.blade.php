@@ -298,12 +298,12 @@
         body[light-mode="dark"] .product-mobile-card {
             background-color: #1e293b !important;
             border-color: #334155 !important;
-            color: #f8fafc !important;
+            color: #F3ECFB !important;
         }
 
         body[light-mode="dark"] .product-mobile-card .text-dark,
         body[light-mode="dark"] .product-mobile-card h6 {
-            color: #f8fafc !important;
+            color: #F3ECFB !important;
         }
 
         body[light-mode="dark"] .product-mobile-card .bg-light {

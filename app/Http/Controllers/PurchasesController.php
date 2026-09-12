@@ -263,7 +263,7 @@ public function PurchasesList()
                 $img = $request->file('img');
                 $img_name = "{$user_id}-" . time() . "-" . $img->getClientOriginalName();
                 $img_url = "uploads/purchases-img/{$img_name}";
-                $img->move(public_path('uploads/purchases-img'), $img_name);
+                $img->storeAs('uploads/purchases-img', $img_name, 'public');
             }
 
             // Create Purchase record

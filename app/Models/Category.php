@@ -7,13 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, \App\Traits\HasStorageImage;
+
     protected $fillable = [
         'category_name',
         'img_url',
         'status',
         'user_id',
     ];
+
+    public function getImgUrlAttribute($value)
+    {
+        return $this->formatImageUrl($value);
+    }
 
     public function products()
     {

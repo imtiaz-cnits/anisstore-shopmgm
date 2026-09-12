@@ -10,11 +10,16 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, \App\Traits\HasStorageImage;
 
     protected $fillable = ['img_url','name','email','mobile','password','otp','status','role','permissions'];
     protected $attributes = ['otp' => '0'];
     protected $hidden = ['password', 'otp'];
+
+    public function getImgUrlAttribute($value)
+    {
+        return $this->formatImageUrl($value);
+    }
 
      // Ensure otp_expires_at is cast as a datetime
     protected $casts = [

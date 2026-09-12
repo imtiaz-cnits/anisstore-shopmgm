@@ -145,7 +145,7 @@ class ProductController extends Controller
                 $productImg = $request->file('img');
                 $productImgName = time() . '-' . $user_id . '-' . $productImg->getClientOriginalName();
                 $productImgPath = "uploads/Product-img/{$productImgName}";
-                $productImg->move(public_path('uploads/Product-img'), $productImgName);
+                $productImg->storeAs('uploads/Product-img', $productImgName, 'public');
             }
 
             $firstBrand = \App\Models\Brand::first();
@@ -317,11 +317,12 @@ public function ProductUpdate(Request $request)
             $img = $request->file('img_url');
             $img_name = time() . '-' . $user_id . '-' . $img->getClientOriginalName();
             $img_url = "uploads/Product-img/{$img_name}";
-            $img->move(public_path('uploads/Product-img'), $img_name);
+            $img->storeAs('uploads/Product-img', $img_name, 'public');
 
             // Remove old image if exists
-            if ($product->img_url && file_exists(public_path($product->img_url))) {
-                @unlink(public_path($product->img_url));
+            if ($product->img_url) {
+                $oldPath = preg_replace('/^(\/?storage\/|\/)/', '', $product->img_url);
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
             }
 
             $product->img_url = $img_url;
@@ -356,16 +357,8 @@ public function ProductDelete(Request $request)
 
         // Delete associated image file if it exists
         if ($product->img_url) {
-            $filePath = public_path($product->img_url);
-
-            if (file_exists($filePath)) {
-                if (!unlink($filePath)) {
-                    return response()->json([
-                        'status' => 'fail',
-                        'message' => 'Failed to delete the product image.'
-                    ]);
-                }
-            }
+            $oldPath = preg_replace('/^(\/?storage\/|\/)/', '', $product->img_url);
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
         }
         // Delete the product record
         $product->delete();

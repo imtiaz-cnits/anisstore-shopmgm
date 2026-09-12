@@ -1,4 +1,4 @@
-@extends('layout.dashboard-sidenav')
+@extends('layouts.dashboard-sidenav')
 @section('title','Investor Info Page')
 @section('content')
     @include('components.back-end.investment.investor-info.investor-info-list')

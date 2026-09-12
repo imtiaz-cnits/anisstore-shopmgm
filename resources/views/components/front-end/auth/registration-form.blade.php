@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 @section('title','Admin Login - মেসার্স আনিস ষ্টোর')
 @section('content')
 

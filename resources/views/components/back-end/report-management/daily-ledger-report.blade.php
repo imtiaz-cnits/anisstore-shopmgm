@@ -1,4 +1,4 @@
-@extends('layout.dashboard-sidenav')
+@extends('layouts.dashboard-sidenav')
 @section('title', 'Daily Income & Expense Ledger Report - মেসার্স আনিস ষ্টোর')
 @section('content')
 

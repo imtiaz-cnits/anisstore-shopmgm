@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
+    use \App\Traits\HasStorageImage;
+
     protected $fillable = [
         'supplier_id',
         'name',
@@ -18,6 +20,11 @@ class Supplier extends Model
         'status',
         'user_id'
     ];
+
+    public function getImgUrlAttribute($value)
+    {
+        return $this->formatImageUrl($value);
+    }
 
     public function products()
     {

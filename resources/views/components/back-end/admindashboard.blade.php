@@ -1,4 +1,4 @@
-@extends('layout.dashboard-sidenav')
+@extends('layouts.dashboard-sidenav')
 @section('title', 'ড্যাশবোর্ড - মেসার্স আনিস ষ্টোর')
 @section('content')
 
@@ -8,9 +8,9 @@
 <style>
   /* Modern Custom Mobile & Responsive Styling - Exact Match to Reference UI */
   :root {
-    --hishab-primary: #10b981;
-    --hishab-primary-dark: #059669;
-    --hishab-purple-gradient: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+    --hishab-primary: #8C56D4;
+    --hishab-primary-dark: #672EB0;
+    --hishab-purple-gradient: linear-gradient(135deg, #672EB0 0%, #8C56D4 100%);
     --hishab-bg-card: #ffffff;
     --hishab-pill-bg: #f8fafc;
     --hishab-border-radius: 20px;
@@ -54,10 +54,10 @@
   }
 
   .dashboard-filter-btn.active {
-    background: #10b981;
+    background: #8C56D4;
     color: #ffffff;
-    border-color: #10b981;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+    border-color: #8C56D4;
+    box-shadow: 0 4px 12px rgba(140, 86, 212, 0.25);
   }
 
   @media (max-width: 576px) {
@@ -93,7 +93,7 @@
     color: #ffffff;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 14px 35px rgba(22, 163, 74, 0.35);
+    box-shadow: 0 4px 14px rgba(140, 86, 212, 0.16);
     margin-bottom: 20px;
   }
 
@@ -132,7 +132,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   }
 
   .subcard-item {
@@ -213,7 +213,7 @@
     position: absolute;
     top: -20px;
     left: 14px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
   }
 
   .icon-due { background: #ffedd5; color: #ea580c; }
@@ -246,7 +246,7 @@
     border-radius: 18px;
     padding: 16px 20px;
     border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
     margin-bottom: 14px;
     display: flex;
     align-items: center;
@@ -297,7 +297,7 @@
   }
 
   .hishab-list-card:hover .hishab-list-arrow {
-    color: #16a34a;
+    color: #8C56D4;
     transform: translateX(4px);
   }
 
@@ -310,11 +310,11 @@
     background: #ffffff;
     height: 72px;
     padding: 0 16px;
-    z-index: 1050;
+    z-index: 1040;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.04);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
   }
@@ -338,7 +338,7 @@
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
     z-index: 1;
-    box-shadow: inset 0 3px 6px rgba(0,0,0,0.06);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
   }
 
   .btn-mobile-buy {
@@ -349,7 +349,7 @@
     padding: 10px 24px;
     border-radius: 30px;
     text-decoration: none;
-    box-shadow: 0 6px 18px rgba(139, 92, 246, 0.35);
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.18);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -361,7 +361,7 @@
   }
   .btn-mobile-buy:hover, .btn-mobile-buy:active {
     transform: scale(1.04);
-    box-shadow: 0 8px 22px rgba(139, 92, 246, 0.5);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
   }
 
   .btn-mobile-sell {
@@ -372,7 +372,7 @@
     padding: 10px 24px;
     border-radius: 30px;
     text-decoration: none;
-    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.18);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -384,7 +384,7 @@
   }
   .btn-mobile-sell:hover, .btn-mobile-sell:active {
     transform: scale(1.04);
-    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.5);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
   }
 
   .btn-mobile-plus-curved {
@@ -401,7 +401,7 @@
     justify-content: center;
     font-size: 26px;
     font-weight: 400;
-    box-shadow: 0 6px 18px rgba(139, 92, 246, 0.28);
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.15);
     text-decoration: none;
     transition: all 0.2s ease;
     cursor: pointer;
@@ -409,7 +409,7 @@
 
   .btn-mobile-plus-curved:hover, .btn-mobile-plus-curved:active {
     transform: scale(1.08);
-    box-shadow: 0 8px 22px rgba(139, 92, 246, 0.38);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.22);
   }
 
   /* Desktop spacing adjustments */
@@ -450,7 +450,7 @@
   body[light-mode="dark"] .hishab-list-info .list-val,
   body[data-layout-mode="dark"] .hishab-card-val,
   body[data-layout-mode="dark"] .hishab-list-info .list-val {
-    color: #f8fafc !important;
+    color: #F3ECFB !important;
   }
 
   body[light-mode="dark"] .hero-subcards-row,
@@ -465,7 +465,7 @@
 
   body[light-mode="dark"] .subcard-val,
   body[data-layout-mode="dark"] .subcard-val {
-    color: #f8fafc !important;
+    color: #F3ECFB !important;
   }
 
   body[light-mode="dark"] .mobile-bottom-nav-curved,
@@ -907,10 +907,10 @@
 
   .icon-sales-bg { background: #e0f2fe; color: #0284c7; }
   .icon-return-bg { background: #fee2e2; color: #dc2626; }
-  .icon-collection-bg { background: #dcfce7; color: #16a34a; }
+  .icon-collection-bg { background: #FAF7FD; color: #8C56D4; }
 
   .icon-buy-bg { background: #fef3c7; color: #d97706; }
-  .icon-buy-return-bg { background: #ecfdf5; color: #059669; }
+  .icon-buy-return-bg { background: #F3ECFB; color: #793FC5; }
   .icon-payable-bg { background: #eff6ff; color: #2563eb; }
 
   .icon-order-bg { background: #e0e7ff; color: #4f46e5; }
@@ -1227,14 +1227,14 @@
       name: 'মোট বিক্রি (Total Sales)',
       data: sales
     }];
-    let chartColors = ['#16a34a'];
+    let chartColors = ['#8C56D4'];
 
     if (isAdmin) {
       chartSeries.push({
         name: 'নিট লাভ (Net Profit)',
         data: profits
       });
-      chartColors.push('#0d9488');
+      chartColors.push('#672EB0');
     }
 
     const options = {

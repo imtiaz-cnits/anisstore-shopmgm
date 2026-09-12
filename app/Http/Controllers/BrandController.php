@@ -37,7 +37,7 @@ class BrandController extends Controller
                 $img_url = "uploads/brand_img/{$img_name}";
 
                 // Upload File
-                $img->move(public_path('uploads/brand_img'), $img_name);
+                $img->storeAs('uploads/brand_img', $img_name, 'public');
             }
 
             // Create new brand
@@ -97,11 +97,12 @@ public function BrandUpdate(Request $request)
             $img_url = "uploads/brand_img/{$img_name}";
 
             // Upload File
-            $img->move(public_path('uploads/brand_img'), $img_name);
+            $img->storeAs('uploads/brand_img', $img_name, 'public');
 
             // Delete old image if it exists
-            if ($BrandData_Update->logo && file_exists(public_path($BrandData_Update->logo))) {
-                unlink(public_path($BrandData_Update->logo));
+            if ($BrandData_Update->logo) {
+                $oldPath = preg_replace('/^(\/?storage\/|\/)/', '', $BrandData_Update->logo);
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
             }
 
             $BrandData_Update->logo = $img_url; // Correct property to set logo
@@ -131,8 +132,9 @@ function BrandDelete(Request $request)
         }
 
         // Delete image if it exists
-        if ($brand_delete->logo && file_exists(public_path($brand_delete->logo))) {
-            unlink(public_path($brand_delete->logo));
+        if ($brand_delete->logo) {
+            $oldPath = preg_replace('/^(\/?storage\/|\/)/', '', $brand_delete->logo);
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
         }
 
         // Delete brand

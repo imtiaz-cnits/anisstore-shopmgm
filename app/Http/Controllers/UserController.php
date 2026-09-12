@@ -24,7 +24,7 @@ class UserController extends Controller
             $file_name = $img->getClientOriginalName();
             $img_name = "{$t}-{$file_name}";
             $img_url = "uploads/user-img/{$img_name}";
-            $img->move(public_path('uploads/user-img'), $img_name);
+            $img->storeAs('uploads/user-img', $img_name, 'public');
 
             $user = new User([
                 'img_url' => $img_url,
@@ -399,11 +399,12 @@ public function VerifyOTP(Request $request)
                 $img_url = "uploads/user-img/{$img_name}";
 
                 // Upload the file
-                $img->move(public_path('uploads/user-img'), $img_name);
+                $img->storeAs('uploads/user-img', $img_name, 'public');
 
                 // Delete old image if it exists
-                if ($user->img_url && file_exists(public_path($user->img_url))) {
-                    unlink(public_path($user->img_url));
+                if ($user->img_url) {
+                    $oldPath = preg_replace('/^(\/?storage\/|\/)/', '', $user->img_url);
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
                 }
 
                 $user->img_url = $img_url; // Correct property to set img_url
@@ -489,7 +490,7 @@ public function VerifyOTP(Request $request)
                 $file_name = $img->getClientOriginalName();
                 $img_name = "{$t}-{$file_name}";
                 $img_url = "uploads/user-img/{$img_name}";
-                $img->move(public_path('uploads/user-img'), $img_name);
+                $img->storeAs('uploads/user-img', $img_name, 'public');
             }
 
             $permissionsJson = $request->input('permissions');

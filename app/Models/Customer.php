@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Customer extends Model
 {
-    use HasFactory;
+    use HasFactory, \App\Traits\HasStorageImage;
     protected $fillable = [
         'customer_id',
         'customer_name',
@@ -22,6 +22,11 @@ class Customer extends Model
         'district_id',
         'user_id'
     ];
+
+    public function getImgUrlAttribute($value)
+    {
+        return $this->formatImageUrl($value);
+    }
 
     public function paymentDetails()
     {

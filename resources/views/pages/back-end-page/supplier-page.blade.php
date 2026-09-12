@@ -1,4 +1,4 @@
-@extends('layout.dashboard-sidenav')
+@extends('layouts.dashboard-sidenav')
 @section('title','Supplier Page')
 @section('content')
     @include('components.back-end.Supplier.supplier-list')

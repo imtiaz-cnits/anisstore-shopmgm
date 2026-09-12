@@ -144,10 +144,10 @@
     body[light-mode="dark"] .expense-mobile-card {
         background-color: #1e293b !important;
         border-color: #334155 !important;
-        color: #f8fafc !important;
+        color: #F3ECFB !important;
     }
     body[light-mode="dark"] .expense-mobile-card .text-dark {
-        color: #f8fafc !important;
+        color: #F3ECFB !important;
     }
     body[light-mode="dark"] .expense-mobile-card .bg-light {
         background-color: #0f172a !important;

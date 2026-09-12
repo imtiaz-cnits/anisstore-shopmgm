@@ -254,7 +254,7 @@ public function SupplierCreate(Request $request)
             $img_url = "uploads/Supplier-images/{$img_name}";
 
             // Upload File
-            $img->move(public_path('uploads/Supplier-images'), $img_name);
+            $img->storeAs('uploads/Supplier-images', $img_name, 'public');
         }
 
         // Generate SupplierID
@@ -325,14 +325,15 @@ public function SupplierUpdate(Request $request)
             $img_url = "uploads/Supplier-images/{$img_name}";
 
             // Move the file to the desired directory
-            if ($img->move(public_path('uploads/Supplier-images/'), $img_name)) {
-                // Delete the old image if it exists
-                if ($SupplierData_Update->img_url && file_exists(public_path($SupplierData_Update->img_url))) {
-                    unlink(public_path($SupplierData_Update->img_url));
-                }
-                // Update the img_url field in the database
-                $SupplierData_Update->img_url = $img_url;
+            $img->storeAs('uploads/Supplier-images', $img_name, 'public');
+
+            // Delete the old image if it exists
+            if ($SupplierData_Update->img_url) {
+                $oldPath = preg_replace('/^(\/?storage\/|\/)/', '', $SupplierData_Update->img_url);
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
             }
+            // Update the img_url field in the database
+            $SupplierData_Update->img_url = $img_url;
         }
 
         // Save the updated supplier data
@@ -388,8 +389,9 @@ function SupplierDelete(Request $request)
             DB::table('purchases')->whereIn('id', $purchaseIds)->delete();
         }
 
-        if ($SupplierData_Delete->img_url && file_exists(public_path($SupplierData_Delete->img_url))) {
-            @unlink(public_path($SupplierData_Delete->img_url));
+        if ($SupplierData_Delete->img_url) {
+            $oldPath = preg_replace('/^(\/?storage\/|\/)/', '', $SupplierData_Delete->img_url);
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
         }
 
         Supplier::where('id', $Supplier_ID)->delete();

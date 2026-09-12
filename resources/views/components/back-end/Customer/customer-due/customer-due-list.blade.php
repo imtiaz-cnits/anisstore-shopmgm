@@ -4,12 +4,12 @@
     body[light-mode="dark"] .customer-mobile-card {
         background-color: #1e293b !important;
         border-color: #334155 !important;
-        color: #f8fafc !important;
+        color: #F3ECFB !important;
     }
 
     body[light-mode="dark"] .customer-mobile-card .text-dark,
     body[light-mode="dark"] .customer-mobile-card h6 {
-        color: #f8fafc !important;
+        color: #F3ECFB !important;
     }
 
     body[light-mode="dark"] .customer-mobile-card .bg-light {
@@ -293,7 +293,7 @@ async function getList() {
                             </div>
                         </div>
 
-                        <div class="bg-light p-2 rounded-3 my-2 border" style="border-color: #f1f5f9 !important;">
+                        <div class="bg-light p-2 rounded-3 my-2 border" style="border-color: #F3ECFB !important;">
                             <div class="d-flex align-items-center justify-content-between mb-1">
                                 <span class="text-muted small fw-bold" style="font-size: 11px;">পূর্বের বকেয়া (Prev Due):</span>
                                 <span class="fw-bold small text-dark">৳ ${previous_due.toFixed(2)}</span>

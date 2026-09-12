@@ -1,3 +1,85 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* Variable-Based Theming per rules.md */
+@layer base {
+  :root {
+    --primary-font: "Noto Sans Bengali", "Poppins", sans-serif;
+    --primary-color: #8C56D4;
+    --primary-hover: #793FC5;
+    --primary-light: #FAF7FD;
+    --primary-light-hover: #F3ECFB;
+    --primary-border: #E5D5F7;
+    --primary-focus: rgba(140, 86, 212, 0.25);
+    --accent-red: #b91c1c;
+
+    /* Full Royal Purple Shades Palette based on #8C56D4 */
+    --purple-50: #FAF7FD;
+    --purple-100: #F3ECFB;
+    --purple-200: #E5D5F7;
+    --purple-300: #D2B7F1;
+    --purple-400: #B48BE8;
+    --purple-500: #8C56D4;
+    --purple-600: #793FC5;
+    --purple-700: #672EB0;
+    --purple-800: #532391;
+    --purple-900: #3E1870;
+    --purple-950: #260B4A;
+
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --border-color: #e2e8f0;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+  }
+
+  .dark {
+    --primary-font: "Noto Sans Bengali", "Poppins", sans-serif;
+    --primary-color: #A370E8;
+    --primary-hover: #8C56D4;
+    --primary-light: rgba(140, 86, 212, 0.18);
+    --primary-light-hover: rgba(140, 86, 212, 0.25);
+    --primary-border: rgba(180, 139, 232, 0.35);
+    --primary-focus: rgba(163, 112, 232, 0.35);
+    --accent-red: #ef4444;
+
+    --bg-main: #121212;
+    --bg-card: #1e1e1e;
+    --border-color: #334155;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+  }
+
+  /* Form & Interactive Elements standardization per rules.md */
+  button, [type='button'], [type='reset'], [type='submit'], a, select {
+    cursor: pointer;
+  }
+}
+
+@theme {
+  --color-primary: var(--primary-color);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+  --color-primary-focus: var(--primary-focus);
+  --color-accent-red: var(--accent-red);
+
+  --color-purple-50: var(--purple-50);
+  --color-purple-100: var(--purple-100);
+  --color-purple-200: var(--purple-200);
+  --color-purple-300: var(--purple-300);
+  --color-purple-400: var(--purple-400);
+  --color-purple-500: var(--purple-500);
+  --color-purple-600: var(--purple-600);
+  --color-purple-700: var(--purple-700);
+  --color-purple-800: var(--purple-800);
+  --color-purple-900: var(--purple-900);
+  --color-purple-950: var(--purple-950);
+
+  --color-bg-main: var(--bg-main);
+  --color-bg-card: var(--bg-card);
+  --color-border-color: var(--border-color);
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+
+  --font-primary: var(--primary-font);
+}
+

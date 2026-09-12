@@ -7,10 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- App favicon -->
-  <link rel="shortcut icon" href="{{asset('back-end/assets/icons/favicon.png')}}" type="image/x-icon" />
+  <link rel="icon" type="image/png" href="{{ asset('back-end/assets/img/anis-store-icon.png') }}" />
+  <link rel="shortcut icon" type="image/png" href="{{ asset('back-end/assets/img/anis-store-icon.png') }}" />
+  <link rel="apple-touch-icon" href="{{ asset('back-end/assets/img/anis-store-icon.png') }}" />
 
   <!-- Bootstrap Css -->
-  <link href="{{asset('back-end/assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+  <link href="{{asset('back-end/assets/css/vendor/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
 
   <!-- Fontawesome link -->
   <link href="{{asset('back-end/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
@@ -1545,10 +1547,10 @@
 
   <!-- JAVASCRIPT -->
 
-  <script src="{{asset('back-end/assets/js/fontawesome.js')}}"></script>
-  <script src="{{asset('back-end/assets/js/bootstrap.bundle.min.js')}}"></script>
-  <script src="{{asset('back-end/assets/js/pos-product-slider.js')}}"></script>
-  <script src="{{asset('back-end/assets/js/orderlist-table-qty.js')}}"></script>
+  <script src="{{asset('back-end/assets/js/vendor/fontawesome.js')}}"></script>
+  <script src="{{asset('back-end/assets/js/vendor/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{asset('back-end/assets/js/pos/pos-product-slider.js')}}"></script>
+  <script src="{{asset('back-end/assets/js/pos/orderlist-table-qty.js')}}"></script>
   <script src="{{asset('back-end/assets/js/finance-popup-modal.js')}}"></script>
   <script src="{{asset('back-end/assets/js/full-screen-toggle.js')}}"></script>
   <script src="{{asset('back-end/assets/js/app.js')}}"></script>

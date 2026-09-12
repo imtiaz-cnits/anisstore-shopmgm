@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, \App\Traits\HasStorageImage;
 
     protected $fillable = [
         'img_url',
@@ -23,6 +23,11 @@ class Product extends Model
         'unit_id',
         'user_id'
     ];
+
+    public function getImgUrlAttribute($value)
+    {
+        return $this->formatImageUrl($value);
+    }
     public function unit()
     {
         return $this->belongsTo(Unit::class, 'unit_id');

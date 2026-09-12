@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="{{ asset('back-end/assets/css/toastify.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('back-end/assets/css/vendor/toastify.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('back-end/assets/css/progress.css') }}" rel="stylesheet" />
-    <link href="{{ asset('back-end/assets/css/animate.min.css') }}" rel="stylesheet" />
-    <script src="{{ asset('back-end/assets/js/toastify-js.js') }}"></script>
-    <script src="{{ asset('back-end/assets/js/axios.min.js') }}"></script>
+    <link href="{{ asset('back-end/assets/css/vendor/animate.min.css') }}" rel="stylesheet" />
+    <script src="{{ asset('back-end/assets/js/vendor/toastify-js.js') }}"></script>
+    <script src="{{ asset('back-end/assets/js/vendor/axios.min.js') }}"></script>
     <script src="{{ asset('back-end/assets/js/config.js') }}"></script>
 </head>
 <body>

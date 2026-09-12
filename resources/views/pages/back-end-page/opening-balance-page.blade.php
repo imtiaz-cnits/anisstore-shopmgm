@@ -1,4 +1,4 @@
-@extends('layout.dashboard-sidenav')
+@extends('layouts.dashboard-sidenav')
 @section('title','Opening Balance Page')
 @section('content')
     @include('components.back-end.opening-balance.opening-balance-list')

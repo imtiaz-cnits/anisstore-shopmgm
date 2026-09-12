@@ -215,7 +215,7 @@ public function CustomerCreate(Request $request)
             $productImg = $request->file('img');
             $productImgName = time() . '-' . $user_id . '-' . $productImg->getClientOriginalName();
             $productImgPath = "uploads/cust-img/{$productImgName}";
-            $productImg->move(public_path('uploads/cust-img'), $productImgName);
+            $productImg->storeAs('uploads/cust-img', $productImgName, 'public');
         }
 
         // Create the CustomerData
@@ -306,11 +306,12 @@ public function CustomerUpdate(Request $request)
             $img_url = "uploads/cust-img/{$img_name}";
 
             // Upload File
-            $img->move(public_path('uploads/cust-img'), $img_name);
+            $img->storeAs('uploads/cust-img', $img_name, 'public');
 
             // Delete old image if it exists
-            if ($CustomerData_Update->img_url && file_exists(public_path($CustomerData_Update->img_url))) {
-                unlink(public_path($CustomerData_Update->img_url));
+            if ($CustomerData_Update->img_url) {
+                $oldPath = preg_replace('/^(\/?storage\/|\/)/', '', $CustomerData_Update->img_url);
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
             }
 
             $CustomerData_Update->img_url = $img_url; // Correct property to set img_url
@@ -375,8 +376,9 @@ public function CustomerDelete(Request $request)
         }
 
         // 4. Delete customer image if it exists
-        if ($customer_delete->img_url && file_exists(public_path($customer_delete->img_url))) {
-            @unlink(public_path($customer_delete->img_url));
+        if ($customer_delete->img_url) {
+            $oldPath = preg_replace('/^(\/?storage\/|\/)/', '', $customer_delete->img_url);
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
         }
 
         // 5. Delete customer record

@@ -3,8 +3,12 @@
 /public/build
 /public/hot
 /public/storage
+/public/uploads
 /storage/*.key
 /storage/pail
+/storage/app/backups/*
+!/storage/app/backups/.gitignore
+*.sql
 /vendor
 .env
 .env.backup
@@ -21,3 +25,4 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
