@@ -163,19 +163,28 @@
       }
 
       .vertical-menu #sidebar-slider-wrapper {
-        flex: 1 1 0 !important;
+        flex: 1 1 0% !important;
         min-height: 0 !important;
-        height: auto !important;
+        height: 100% !important;
         max-height: none !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
+        position: relative !important;
+        overflow: hidden !important;
+        width: 100% !important;
       }
 
       .vertical-menu #sidebar-main-panel,
       .vertical-menu .sidebar-submenu-panel {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
         height: 100% !important;
         overflow-y: auto !important;
         overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        box-sizing: border-box !important;
       }
 
       /* Fixed bottom logout button with even, balanced bottom spacing on mobile */
@@ -762,6 +771,22 @@
       overflow: hidden !important;
     }
 
+    body:not([data-sidebar-size="sm"]) .vertical-menu #sidebar-main-panel,
+    body:not([data-sidebar-size="sm"]) .vertical-menu .sidebar-submenu-panel {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      -webkit-overflow-scrolling: touch !important;
+      box-sizing: border-box !important;
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, visibility 0.28s !important;
+    }
+
     .vertical-menu .sidebar-panel-scroll {
       scrollbar-width: thin !important;
       scrollbar-color: rgba(255, 255, 255, 0.2) transparent !important;
@@ -784,22 +809,34 @@
       background: rgba(255, 255, 255, 0.45) !important;
     }
 
-    /* Strict Transitions for sliding panels */
-    #sidebar-main-panel.-translate-x-full {
-      transform: translateX(-100%) !important;
-      pointer-events: none !important;
-    }
+    /* Strict Transitions & Visibility for sliding panels */
     #sidebar-main-panel.translate-x-0 {
       transform: translateX(0) !important;
+      opacity: 1 !important;
+      visibility: visible !important;
       pointer-events: auto !important;
+      z-index: 10 !important;
+    }
+    #sidebar-main-panel.-translate-x-full {
+      transform: translateX(-100%) !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      z-index: 1 !important;
     }
     .sidebar-submenu-panel.translate-x-full {
       transform: translateX(100%) !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
       pointer-events: none !important;
+      z-index: 1 !important;
     }
     .sidebar-submenu-panel.translate-x-0 {
       transform: translateX(0) !important;
+      opacity: 1 !important;
+      visibility: visible !important;
       pointer-events: auto !important;
+      z-index: 20 !important;
     }
 
     /* Default (Expanded) rules for flyouts and tooltips */
@@ -893,9 +930,12 @@
       height: 0 !important;
     }
 
-    /* Sm mode: Active submenu panel stays open and shows its menu items */
+    /* Sm mode: Active submenu panel stays open and shows its menu items with perfect vertical & horizontal alignment */
     body[data-sidebar-size="sm"] .sidebar-submenu-panel.translate-x-0 {
-      display: block !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
       transform: none !important;
       translate: 0 0 !important;
       --tw-translate-x: 0px !important;
@@ -903,9 +943,12 @@
       right: 0 !important;
       pointer-events: auto !important;
       width: 64px !important;
+      max-width: 64px !important;
       opacity: 1 !important;
       visibility: visible !important;
-      padding: 6px 0 12px 0 !important;
+      padding: 8px 0 16px 0 !important;
+      box-sizing: border-box !important;
+      overflow-x: hidden !important;
     }
 
     body[data-sidebar-size="sm"] .sidebar-submenu-panel.translate-x-full {
@@ -922,8 +965,9 @@
     body[data-sidebar-size="sm"] .sidebar-back-wrapper {
       display: flex !important;
       justify-content: center !important;
+      align-items: center !important;
       width: 100% !important;
-      margin: 4px 0 8px 0 !important;
+      margin: 0 0 10px 0 !important;
       padding: 0 !important;
       background: transparent !important;
       background-color: transparent !important;
@@ -935,6 +979,8 @@
       height: 36px !important;
       min-width: 36px !important;
       max-width: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
       padding: 0 !important;
       margin: 0 auto !important;
       border-radius: 8px !important;
@@ -963,11 +1009,16 @@
     body[data-sidebar-size="sm"] .sidebar-submenu-panel .sidebar-back-btn i,
     body[data-sidebar-size="sm"] .sidebar-submenu-panel button.sidebar-back-btn i {
       margin: 0 auto !important;
+      padding: 0 !important;
       width: 36px !important;
       height: 36px !important;
-      line-height: 36px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      line-height: 1 !important;
       text-align: center !important;
       font-size: 14px !important;
+      vertical-align: middle !important;
       color: #ffffff !important;
     }
 
@@ -975,10 +1026,12 @@
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
+      justify-content: flex-start !important;
       width: 100% !important;
       padding: 0 !important;
       margin: 0 !important;
-      gap: 4px !important;
+      gap: 6px !important;
+      list-style: none !important;
     }
 
     body[data-sidebar-size="sm"] .sidebar-submenu-panel li {
@@ -986,16 +1039,34 @@
       justify-content: center !important;
       align-items: center !important;
       width: 100% !important;
-      margin: 2px 0 !important;
+      margin: 0 !important;
       padding: 0 !important;
     }
 
-    body[data-sidebar-size="sm"] .sidebar-submenu-panel a {
+    /* Sm mode submenu links & buttons: absolute geometric center override */
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a,
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a:link,
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a:visited,
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a:hover,
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a:active,
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a:focus,
+    body[data-sidebar-size="sm"] .sidebar-submenu-panel a,
+    body[data-sidebar-size="sm"] .sidebar-submenu-panel a:link,
+    body[data-sidebar-size="sm"] .sidebar-submenu-panel a:visited,
+    body[data-sidebar-size="sm"] .sidebar-submenu-panel a:hover,
+    body[data-sidebar-size="sm"] .sidebar-submenu-panel a:active,
+    body[data-sidebar-size="sm"] .sidebar-submenu-panel a:focus {
       width: 36px !important;
       height: 36px !important;
       min-width: 36px !important;
       max-width: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
       padding: 0 !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
       margin: 0 auto !important;
       border-radius: 8px !important;
       display: flex !important;
@@ -1004,9 +1075,14 @@
       box-sizing: border-box !important;
       border: 1.5px solid transparent !important;
       color: #FAF7FD !important;
+      gap: 0 !important;
+      text-align: center !important;
+      position: relative !important;
+      overflow: hidden !important;
       transition: all 0.2s ease !important;
     }
 
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a:hover,
     body[data-sidebar-size="sm"] .sidebar-submenu-panel a:hover {
       background: rgba(255, 255, 255, 0.15) !important;
       border-color: rgba(255, 255, 255, 0.25) !important;
@@ -1014,6 +1090,7 @@
       color: #ffffff !important;
     }
 
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a.active-submenu-link,
     body[data-sidebar-size="sm"] .sidebar-submenu-panel a.active-submenu-link {
       background: linear-gradient(135deg, #8C56D4 0%, #672EB0 100%) !important;
       border: 1.5px solid #B48BE8 !important;
@@ -1021,21 +1098,50 @@
       color: #ffffff !important;
     }
 
-    body[data-sidebar-size="sm"] .sidebar-submenu-panel a i {
+    /* Submenu Icons: dead-center inside the 36px box, zero offset */
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a i,
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a:link i,
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a:visited i,
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a:hover i,
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a:active i,
+    body[data-sidebar-size="sm"] .sidebar-submenu-panel a i,
+    body[data-sidebar-size="sm"] .sidebar-submenu-panel a:link i,
+    body[data-sidebar-size="sm"] .sidebar-submenu-panel a:visited i,
+    body[data-sidebar-size="sm"] .sidebar-submenu-panel a:hover i,
+    body[data-sidebar-size="sm"] .sidebar-submenu-panel a:active i {
       margin: 0 auto !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      padding: 0 !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
       width: 36px !important;
       height: 36px !important;
-      line-height: 36px !important;
+      min-width: 36px !important;
+      max-width: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
       text-align: center !important;
       font-size: 14.5px !important;
+      line-height: 1 !important;
+      vertical-align: middle !important;
       color: #D2B7F1 !important;
+      box-sizing: border-box !important;
+      float: none !important;
+      position: static !important;
+      transform: none !important;
       transition: all 0.2s ease !important;
     }
 
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a.active-submenu-link i,
     body[data-sidebar-size="sm"] .sidebar-submenu-panel a.active-submenu-link i,
+    body[data-sidebar-size="sm"] .vertical-menu .sidebar-submenu-panel a:hover i,
     body[data-sidebar-size="sm"] .sidebar-submenu-panel a:hover i {
       color: #ffffff !important;
-      transform: scale(1.12);
+      transform: scale(1.1) !important;
     }
 
     body[data-sidebar-size="sm"] .vertical-menu .sidebar-bottom-logout {
@@ -1149,11 +1255,20 @@
     body[data-sidebar-size="sm"] .sidebar-link i,
     body[data-sidebar-size="sm"] .sidebar-drilldown-trigger i {
       margin: 0 auto !important;
+      padding: 0 !important;
       width: 36px !important;
       height: 36px !important;
-      line-height: 36px !important;
+      min-width: 36px !important;
+      max-width: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      line-height: 1 !important;
       text-align: center !important;
       font-size: 14.5px !important;
+      vertical-align: middle !important;
     }
 
     body[data-sidebar-size="sm"] .sidebar-drilldown-trigger > div {
@@ -1437,6 +1552,53 @@
       gap: 3px !important;
       padding: 4px 0 0 0 !important;
       margin: 0 !important;
+    }
+
+    /* Flyout Header & Menu Title - Pure Crisp White Text on Hover */
+    .sidebar-flyout-header,
+    .collapsed-flyout-portal .sidebar-flyout-header,
+    #collapsed-flyout-portal .sidebar-flyout-header {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding: 6px 10px 8px 10px !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+      margin-bottom: 6px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .sidebar-flyout-header,
+    .sidebar-flyout-header *,
+    .sidebar-flyout-header span,
+    .collapsed-flyout-portal .sidebar-flyout-header,
+    .collapsed-flyout-portal .sidebar-flyout-header *,
+    .collapsed-flyout-portal .sidebar-flyout-header span,
+    #collapsed-flyout-portal .sidebar-flyout-header,
+    #collapsed-flyout-portal .sidebar-flyout-header *,
+    #collapsed-flyout-portal .sidebar-flyout-header span {
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+
+    .sidebar-flyout-header span,
+    .collapsed-flyout-portal .sidebar-flyout-header span,
+    #collapsed-flyout-portal .sidebar-flyout-header span {
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.3px !important;
+    }
+
+    .sidebar-flyout-header span.w-1\.5,
+    .collapsed-flyout-portal .sidebar-flyout-header span.w-1\.5,
+    #collapsed-flyout-portal .sidebar-flyout-header span.w-1\.5 {
+      background-color: #ffffff !important;
+      box-shadow: 0 0 6px #ffffff !important;
+      width: 6px !important;
+      height: 6px !important;
+      border-radius: 9999px !important;
+      display: inline-block !important;
+      flex-shrink: 0 !important;
     }
 
     /* Flyout Links - styled identically to sidebar menu with smooth hover and active */
@@ -2528,12 +2690,12 @@
             </button>
             <!-- Collapsed Flyout Popover -->
             <div class="sidebar-flyout">
-              <div class="sidebar-flyout-header flex items-center justify-between px-3 py-2 border-b border-purple-400/25 mb-1.5">
-                <span class="text-[11px] font-bold tracking-wider text-purple-200 uppercase flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#8C56D4] shadow-[0_0_6px_#8C56D4]"></span>
+              <div class="sidebar-flyout-header flex items-center justify-between px-3 py-2 border-b border-purple-400/25 mb-1.5" style="border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;">
+                <span class="text-[11px] font-bold tracking-wider text-white uppercase flex items-center gap-1.5" style="color: #ffffff !important;">
+                  <span class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#ffffff]" style="background-color: #ffffff !important; box-shadow: 0 0 6px #ffffff !important;"></span>
                   প্রোডাক্ট
                 </span>
-                <span class="text-[10px] font-medium text-purple-200/80">মেনু</span>
+                <span class="text-[10px] font-medium text-white/90" style="color: rgba(255, 255, 255, 0.9) !important;">মেনু</span>
               </div>
               <ul class="py-0.5 px-1 space-y-0.5">
                 <li><a href="{{ url('admin-dashboard-product') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-product') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-list-ul text-[10px] text-purple-200/80 w-4 text-center"></i><span>প্রোডাক্ট তালিকা</span></a></li>
@@ -2556,12 +2718,12 @@
             </button>
             <!-- Collapsed Flyout Popover -->
             <div class="sidebar-flyout">
-              <div class="sidebar-flyout-header flex items-center justify-between px-3 py-2 border-b border-purple-400/25 mb-1.5">
-                <span class="text-[11px] font-bold tracking-wider text-purple-200 uppercase flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#8C56D4] shadow-[0_0_6px_#8C56D4]"></span>
+              <div class="sidebar-flyout-header flex items-center justify-between px-3 py-2 border-b border-purple-400/25 mb-1.5" style="border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;">
+                <span class="text-[11px] font-bold tracking-wider text-white uppercase flex items-center gap-1.5" style="color: #ffffff !important;">
+                  <span class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#ffffff]" style="background-color: #ffffff !important; box-shadow: 0 0 6px #ffffff !important;"></span>
                   সাপ্লায়ার
                 </span>
-                <span class="text-[10px] font-medium text-purple-200/80">মেনু</span>
+                <span class="text-[10px] font-medium text-white/90" style="color: rgba(255, 255, 255, 0.9) !important;">মেনু</span>
               </div>
               <ul class="py-0.5 px-1 space-y-0.5">
                 <li><a href="{{ url('admin-dashboard-supplier') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-supplier') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-truck text-[10px] text-purple-200/80 w-4 text-center"></i><span>সাপ্লায়ার তালিকা</span></a></li>
@@ -2584,12 +2746,12 @@
             </button>
             <!-- Collapsed Flyout Popover -->
             <div class="sidebar-flyout">
-              <div class="sidebar-flyout-header flex items-center justify-between px-3 py-2 border-b border-purple-400/25 mb-1.5">
-                <span class="text-[11px] font-bold tracking-wider text-purple-200 uppercase flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#8C56D4] shadow-[0_0_6px_#8C56D4]"></span>
+              <div class="sidebar-flyout-header flex items-center justify-between px-3 py-2 border-b border-purple-400/25 mb-1.5" style="border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;">
+                <span class="text-[11px] font-bold tracking-wider text-white uppercase flex items-center gap-1.5" style="color: #ffffff !important;">
+                  <span class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#ffffff]" style="background-color: #ffffff !important; box-shadow: 0 0 6px #ffffff !important;"></span>
                   ক্রয় (পারচেজ)
                 </span>
-                <span class="text-[10px] font-medium text-purple-200/80">মেনু</span>
+                <span class="text-[10px] font-medium text-white/90" style="color: rgba(255, 255, 255, 0.9) !important;">মেনু</span>
               </div>
               <ul class="py-0.5 px-1 space-y-0.5">
                 <li><a href="{{ url('admin-dashboard-Purchase') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-Purchase*') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-cart-arrow-down text-[10px] text-purple-200/80 w-4 text-center"></i><span>ক্রয়ের তালিকা</span></a></li>
@@ -2610,12 +2772,12 @@
             </button>
             <!-- Collapsed Flyout Popover -->
             <div class="sidebar-flyout">
-              <div class="sidebar-flyout-header flex items-center justify-between px-3 py-2 border-b border-purple-400/25 mb-1.5">
-                <span class="text-[11px] font-bold tracking-wider text-purple-200 uppercase flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#8C56D4] shadow-[0_0_6px_#8C56D4]"></span>
+              <div class="sidebar-flyout-header flex items-center justify-between px-3 py-2 border-b border-purple-400/25 mb-1.5" style="border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;">
+                <span class="text-[11px] font-bold tracking-wider text-white uppercase flex items-center gap-1.5" style="color: #ffffff !important;">
+                  <span class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#ffffff]" style="background-color: #ffffff !important; box-shadow: 0 0 6px #ffffff !important;"></span>
                   কাস্টমার
                 </span>
-                <span class="text-[10px] font-medium text-purple-200/80">মেনু</span>
+                <span class="text-[10px] font-medium text-white/90" style="color: rgba(255, 255, 255, 0.9) !important;">মেনু</span>
               </div>
               <ul class="py-0.5 px-1 space-y-0.5">
                 <li><a href="{{ url('admin-dashboard-customer') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-customer') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-address-book text-[10px] text-purple-200/80 w-4 text-center"></i><span>কাস্টমার তালিকা</span></a></li>
@@ -2665,12 +2827,12 @@
             </button>
             <!-- Collapsed Flyout Popover -->
             <div class="sidebar-flyout !w-64">
-              <div class="sidebar-flyout-header flex items-center justify-between px-3 py-2 border-b border-purple-400/25 mb-1.5">
-                <span class="text-[11px] font-bold tracking-wider text-purple-200 uppercase flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#8C56D4] shadow-[0_0_6px_#8C56D4]"></span>
+              <div class="sidebar-flyout-header flex items-center justify-between px-3 py-2 border-b border-purple-400/25 mb-1.5" style="border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;">
+                <span class="text-[11px] font-bold tracking-wider text-white uppercase flex items-center gap-1.5" style="color: #ffffff !important;">
+                  <span class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#ffffff]" style="background-color: #ffffff !important; box-shadow: 0 0 6px #ffffff !important;"></span>
                   রিপোর্ট
                 </span>
-                <span class="text-[10px] font-medium text-purple-200/80">মেনু</span>
+                <span class="text-[10px] font-medium text-white/90" style="color: rgba(255, 255, 255, 0.9) !important;">মেনু</span>
               </div>
               <ul class="py-0.5 px-1 space-y-0.5">
                 <li><a href="{{ url('admin-dashboard-daily-ledger-report') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-daily-ledger-report') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-book-bookmark text-[10px] text-purple-200/80 w-4 text-center"></i><span>দৈনিক আয়-ব্যয় লেজার</span></a></li>
@@ -2695,12 +2857,12 @@
             </button>
             <!-- Collapsed Flyout Popover -->
             <div class="sidebar-flyout">
-              <div class="sidebar-flyout-header flex items-center justify-between px-3 py-2 border-b border-purple-400/25 mb-1.5">
-                <span class="text-[11px] font-bold tracking-wider text-purple-200 uppercase flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#8C56D4] shadow-[0_0_6px_#8C56D4]"></span>
+              <div class="sidebar-flyout-header flex items-center justify-between px-3 py-2 border-b border-purple-400/25 mb-1.5" style="border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;">
+                <span class="text-[11px] font-bold tracking-wider text-white uppercase flex items-center gap-1.5" style="color: #ffffff !important;">
+                  <span class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#ffffff]" style="background-color: #ffffff !important; box-shadow: 0 0 6px #ffffff !important;"></span>
                   সেটিং
                 </span>
-                <span class="text-[10px] font-medium text-purple-200/80">মেনু</span>
+                <span class="text-[10px] font-medium text-white/90" style="color: rgba(255, 255, 255, 0.9) !important;">মেনু</span>
               </div>
               <ul class="py-0.5 px-1 space-y-0.5">
                 <li><a href="{{ url('admin-dashboard-user-role') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-user-role*') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-user-shield text-[10px] text-purple-200/80 w-4 text-center"></i><span>রোল ও ইউজার</span></a></li>
@@ -2713,7 +2875,7 @@
       </div>
 
       <!-- Panel 2: Product Submenu Panel -->
-      <div id="submenu-panel-product" class="sidebar-submenu-panel sidebar-panel-scroll absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out py-2 px-3 {{ $activeParent === 'product' ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none' }}" data-parent-id="product" data-perm="product">
+      <div id="submenu-panel-product" class="sidebar-submenu-panel sidebar-panel-scroll absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out py-2 px-3 {{ $activeParent === 'product' ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none' }}" data-parent-id="product">
         <div class="sidebar-back-wrapper relative group mb-2">
           <button type="button" class="sidebar-back-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-200" data-target="main">
             <i class="fa-solid fa-chevron-left text-xs text-purple-200"></i>
@@ -2747,7 +2909,7 @@
       </div>
 
       <!-- Panel 3: Supplier Submenu Panel -->
-      <div id="submenu-panel-supplier" class="sidebar-submenu-panel sidebar-panel-scroll absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out py-2 px-3 {{ $activeParent === 'supplier' ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none' }}" data-parent-id="supplier" data-perm="purchase">
+      <div id="submenu-panel-supplier" class="sidebar-submenu-panel sidebar-panel-scroll absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out py-2 px-3 {{ $activeParent === 'supplier' ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none' }}" data-parent-id="supplier">
         <div class="sidebar-back-wrapper relative group mb-2">
           <button type="button" class="sidebar-back-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-200" data-target="main">
             <i class="fa-solid fa-chevron-left text-xs text-purple-200"></i>
@@ -2781,7 +2943,7 @@
       </div>
 
       <!-- Panel 4: Purchase Submenu Panel -->
-      <div id="submenu-panel-purchase" class="sidebar-submenu-panel sidebar-panel-scroll absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out py-2 px-3 {{ $activeParent === 'purchase' ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none' }}" data-parent-id="purchase" data-perm="purchase">
+      <div id="submenu-panel-purchase" class="sidebar-submenu-panel sidebar-panel-scroll absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out py-2 px-3 {{ $activeParent === 'purchase' ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none' }}" data-parent-id="purchase">
         <div class="sidebar-back-wrapper relative group mb-2">
           <button type="button" class="sidebar-back-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-200" data-target="main">
             <i class="fa-solid fa-chevron-left text-xs text-purple-200"></i>
@@ -2801,7 +2963,7 @@
       </div>
 
       <!-- Panel 5: Customer Submenu Panel -->
-      <div id="submenu-panel-customer" class="sidebar-submenu-panel sidebar-panel-scroll absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out py-2 px-3 {{ $activeParent === 'customer' ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none' }}" data-parent-id="customer" data-perm="customer">
+      <div id="submenu-panel-customer" class="sidebar-submenu-panel sidebar-panel-scroll absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out py-2 px-3 {{ $activeParent === 'customer' ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none' }}" data-parent-id="customer">
         <div class="sidebar-back-wrapper relative group mb-2">
           <button type="button" class="sidebar-back-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-200" data-target="main">
             <i class="fa-solid fa-chevron-left text-xs text-purple-200"></i>
@@ -2835,7 +2997,7 @@
       </div>
 
       <!-- Panel 7: Report Submenu Panel -->
-      <div id="submenu-panel-report" class="sidebar-submenu-panel sidebar-panel-scroll absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out py-2 px-3 {{ $activeParent === 'report' ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none' }}" data-parent-id="report" data-perm="report">
+      <div id="submenu-panel-report" class="sidebar-submenu-panel sidebar-panel-scroll absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out py-2 px-3 {{ $activeParent === 'report' ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none' }}" data-parent-id="report">
         <div class="sidebar-back-wrapper relative group mb-2">
           <button type="button" class="sidebar-back-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-200" data-target="main">
             <i class="fa-solid fa-chevron-left text-xs text-purple-200"></i>
@@ -2967,6 +3129,7 @@
         mainPanel.classList.remove('translate-x-0');
         mainPanel.classList.add('-translate-x-full', 'pointer-events-none');
 
+        targetPanel.scrollTop = 0;
         targetPanel.classList.remove('translate-x-full', 'pointer-events-none');
         targetPanel.classList.add('translate-x-0', 'pointer-events-auto');
       };
@@ -2981,8 +3144,9 @@
           p.classList.add('translate-x-full', 'pointer-events-none');
         });
 
+        mainPanel.scrollTop = 0;
         mainPanel.classList.remove('-translate-x-full', 'pointer-events-none');
-        mainPanel.classList.add('translate-x-0');
+        mainPanel.classList.add('translate-x-0', 'pointer-events-auto');
       };
 
       function initSidebarInteractions() {

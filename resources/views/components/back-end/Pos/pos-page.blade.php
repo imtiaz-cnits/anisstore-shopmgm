@@ -313,38 +313,65 @@
         }
 
         /* Dark Mode for Flatpickr */
-        body[light-mode="dark"] .flatpickr-calendar {
+        body[light-mode="dark"] .flatpickr-calendar,
+        html[light-mode="dark"] .flatpickr-calendar {
             background: #1e293b !important;
             border-color: #8C56D4 !important;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55) !important;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6) !important;
+        }
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-months,
+        html[light-mode="dark"] .flatpickr-calendar .flatpickr-months {
+            background-color: #672EB0 !important;
+        }
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-month,
+        html[light-mode="dark"] .flatpickr-calendar .flatpickr-month {
+            background-color: #672EB0 !important;
+        }
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-weekdays,
+        html[light-mode="dark"] .flatpickr-calendar .flatpickr-weekdays {
+            background-color: #532391 !important;
         }
         body[light-mode="dark"] .flatpickr-calendar .flatpickr-days,
-        body[light-mode="dark"] .flatpickr-calendar .dayContainer {
+        body[light-mode="dark"] .flatpickr-calendar .dayContainer,
+        html[light-mode="dark"] .flatpickr-calendar .flatpickr-days,
+        html[light-mode="dark"] .flatpickr-calendar .dayContainer {
             background: #1e293b !important;
         }
-        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day {
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day,
+        html[light-mode="dark"] .flatpickr-calendar .flatpickr-day {
             background-color: #1e293b !important;
             color: #f8fafc !important;
             border-color: transparent !important;
         }
-        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day:hover {
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day:hover,
+        html[light-mode="dark"] .flatpickr-calendar .flatpickr-day:hover {
             background-color: #3b1d6e !important;
             color: #D2B7F1 !important;
             border-color: #793FC5 !important;
         }
         body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.selected,
-        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.selected:hover {
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.selected:hover,
+        html[light-mode="dark"] .flatpickr-calendar .flatpickr-day.selected,
+        html[light-mode="dark"] .flatpickr-calendar .flatpickr-day.selected:hover {
             background-color: #8C56D4 !important;
             border-color: #8C56D4 !important;
             color: #ffffff !important;
         }
         body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.prevMonthDay,
-        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.nextMonthDay {
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.nextMonthDay,
+        html[light-mode="dark"] .flatpickr-calendar .flatpickr-day.prevMonthDay,
+        html[light-mode="dark"] .flatpickr-calendar .flatpickr-day.nextMonthDay {
             color: #64748b !important;
             background: #1e293b !important;
         }
-        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.today {
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.today,
+        html[light-mode="dark"] .flatpickr-calendar .flatpickr-day.today {
             border-color: #8C56D4 !important;
+        }
+        body[light-mode="dark"] #CustomerDate {
+            background: #0f172a !important;
+            border-color: #334155 !important;
+            color: #f8fafc !important;
         }
 
         /* Mobile View: Center the calendar popup so it never overflows off-screen */
@@ -645,7 +672,7 @@
                 width: 100% !important;
                 max-width: 100% !important;
                 margin: 0 !important;
-                padding: 0 0 85px 0 !important;
+                padding: 0 0 115px 0 !important;
                 box-sizing: border-box !important;
                 position: relative !important;
                 box-shadow: none !important;
@@ -1665,7 +1692,61 @@
             background: #793FC5 !important;
         }
 
+        /* Floating Action Button: "ইনভয়েস দেখুন" (Above sticky save button on right side) */
+        .pos-floating-invoice-btn {
+            position: fixed;
+            bottom: 64px;
+            right: 16px;
+            z-index: 1045;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            background: linear-gradient(135deg, #8C56D4 0%, #7038B8 100%);
+            color: #ffffff !important;
+            padding: 7px 15px;
+            border-radius: 50px;
+            font-size: 13.5px;
+            font-weight: 700;
+            font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;
+            text-decoration: none !important;
+            box-shadow: 0 4px 16px rgba(140, 86, 212, 0.42), 0 2px 6px rgba(0, 0, 0, 0.12);
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            cursor: pointer;
+        }
+        .pos-floating-invoice-btn i {
+            font-size: 14px;
+            color: #F3ECFB;
+            transition: transform 0.2s ease;
+        }
+        .pos-floating-invoice-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(140, 86, 212, 0.52), 0 3px 8px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #9865DC 0%, #793FC5 100%);
+            color: #ffffff !important;
+        }
+        .pos-floating-invoice-btn:hover i {
+            transform: scale(1.15) rotate(-6deg);
+        }
+        .pos-floating-invoice-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+        @media (min-width: 992px) {
+            .pos-floating-invoice-btn {
+                display: none !important;
+            }
+        }
+
         /* Dark Mode Overrides (rules.md strictly) */
+        body[light-mode="dark"] .pos-floating-invoice-btn {
+            background: linear-gradient(135deg, #8C56D4 0%, #5B289C 100%) !important;
+            color: #ffffff !important;
+            border-color: rgba(210, 183, 241, 0.45) !important;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(140, 86, 212, 0.35) !important;
+        }
         body[light-mode="dark"] .pos-mobile-wrapper {
             background: #121212 !important;
             color: #f1f5f9 !important;
@@ -1759,6 +1840,149 @@
         body[light-mode="dark"] .pos-mobile-sticky-footer {
             background: #1e293b !important;
             border-top: 1px solid #334155 !important;
+        }
+
+        /* =========================================================
+           Fullscreen Slide-Up Modals (নতুন পার্টি & নতুন পণ্য) Dark Mode
+           Strictly follows rules.md (Surface #121212 / Card #1e293b / Border #334155 / Text #f8fafc / Brand #8C56D4)
+           ========================================================= */
+        body[light-mode="dark"] .pos-fullscreen-sheet .modal-content,
+        html[light-mode="dark"] .pos-fullscreen-sheet .modal-content {
+            background: #121212 !important;
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .pos-fullscreen-sheet .modal-content > div,
+        html[light-mode="dark"] .pos-fullscreen-sheet .modal-content > div {
+            background-color: transparent !important;
+        }
+        body[light-mode="dark"] .pos-fullscreen-sheet .pos-outlined-field label,
+        html[light-mode="dark"] .pos-fullscreen-sheet .pos-outlined-field label {
+            background: #121212 !important;
+            color: #D2B7F1 !important;
+        }
+        body[light-mode="dark"] .pos-fullscreen-sheet .pos-outlined-field:focus-within label,
+        html[light-mode="dark"] .pos-fullscreen-sheet .pos-outlined-field:focus-within label {
+            color: #B48BE8 !important;
+        }
+        body[light-mode="dark"] .pos-fullscreen-sheet .pos-outlined-input,
+        html[light-mode="dark"] .pos-fullscreen-sheet .pos-outlined-input {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .pos-fullscreen-sheet .pos-outlined-input:focus,
+        html[light-mode="dark"] .pos-fullscreen-sheet .pos-outlined-input:focus {
+            background: #1e293b !important;
+            border-color: #8C56D4 !important;
+            box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.25) !important;
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .pos-fullscreen-sheet .pos-outlined-field i,
+        html[light-mode="dark"] .pos-fullscreen-sheet .pos-outlined-field i {
+            color: #94a3b8 !important;
+        }
+        body[light-mode="dark"] .pos-fullscreen-sheet .pos-outlined-field .fa-calendar-days,
+        html[light-mode="dark"] .pos-fullscreen-sheet .pos-outlined-field .fa-calendar-days {
+            color: #D2B7F1 !important;
+        }
+        body[light-mode="dark"] .pos-fullscreen-sheet .text-dark,
+        html[light-mode="dark"] .pos-fullscreen-sheet .text-dark {
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .pos-fullscreen-sheet .text-muted,
+        html[light-mode="dark"] .pos-fullscreen-sheet .text-muted {
+            color: #94a3b8 !important;
+        }
+        body[light-mode="dark"] .pos-fullscreen-sheet .pos-modal-sticky-footer,
+        html[light-mode="dark"] .pos-fullscreen-sheet .pos-modal-sticky-footer {
+            background: #1e293b !important;
+            border-top: 1px solid #334155 !important;
+        }
+
+        /* Dashed Photo Upload Box Dark Mode */
+        body[light-mode="dark"] .pos-dashed-upload-box,
+        html[light-mode="dark"] .pos-dashed-upload-box {
+            background: #1e293b !important;
+            border: 1.5px dashed #532391 !important;
+        }
+        body[light-mode="dark"] .pos-dashed-upload-box:hover,
+        html[light-mode="dark"] .pos-dashed-upload-box:hover {
+            background: #260B4A !important;
+            border-color: #8C56D4 !important;
+        }
+        body[light-mode="dark"] .pos-dashed-upload-box i,
+        html[light-mode="dark"] .pos-dashed-upload-box i {
+            color: #B48BE8 !important;
+        }
+        body[light-mode="dark"] .pos-dashed-upload-box .text-muted,
+        html[light-mode="dark"] .pos-dashed-upload-box .text-muted {
+            color: #D2B7F1 !important;
+        }
+
+        /* Bottom Sheets (Customer & Product Search) Dark Mode */
+        body[light-mode="dark"] .bottom-sheet .modal-content,
+        html[light-mode="dark"] .bottom-sheet .modal-content {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .bottom-sheet .border-bottom,
+        html[light-mode="dark"] .bottom-sheet .border-bottom {
+            border-color: #334155 !important;
+        }
+        body[light-mode="dark"] .bottom-sheet .pos-sheet-search-wrap,
+        html[light-mode="dark"] .bottom-sheet .pos-sheet-search-wrap {
+            background: #0f172a !important;
+            border-color: #334155 !important;
+        }
+        body[light-mode="dark"] .bottom-sheet .pos-sheet-search-wrap input,
+        html[light-mode="dark"] .bottom-sheet .pos-sheet-search-wrap input {
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .bottom-sheet .pos-sheet-search-wrap input::placeholder,
+        html[light-mode="dark"] .bottom-sheet .pos-sheet-search-wrap input::placeholder {
+            color: #94a3b8 !important;
+        }
+        body[light-mode="dark"] .customer-search-item,
+        html[light-mode="dark"] .customer-search-item,
+        body[light-mode="dark"] .product-search-item,
+        html[light-mode="dark"] .product-search-item {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .customer-search-item:hover,
+        html[light-mode="dark"] .customer-search-item:hover,
+        body[light-mode="dark"] .product-search-item:hover,
+        html[light-mode="dark"] .product-search-item:hover {
+            background: #261343 !important;
+        }
+        body[light-mode="dark"] .product-search-item .text-dark,
+        html[light-mode="dark"] .product-search-item .text-dark {
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .product-search-item .text-muted,
+        html[light-mode="dark"] .product-search-item .text-muted {
+            color: #94a3b8 !important;
+        }
+        body[light-mode="dark"] #mobileCustomerModalList .bg-white,
+        html[light-mode="dark"] #mobileCustomerModalList .bg-white {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] #mobileCustomerModalList .bg-white:hover,
+        html[light-mode="dark"] #mobileCustomerModalList .bg-white:hover {
+            background-color: #261343 !important;
+        }
+        body[light-mode="dark"] #mobileCustomerModalList .text-dark,
+        html[light-mode="dark"] #mobileCustomerModalList .text-dark {
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] #mobileCustomerModalList .badge.bg-light,
+        html[light-mode="dark"] #mobileCustomerModalList .badge.bg-light {
+            background-color: #334155 !important;
+            color: #D2B7F1 !important;
+            border-color: #475569 !important;
         }
     </style>
 
@@ -1927,6 +2151,11 @@
             </div>
         </div>
 
+        <!-- Floating Button: "ইনভয়েস দেখুন" (Placed above the sticky save button on the right side) -->
+        <a href="{{ url('admin-dashboard-invoice') }}" class="pos-floating-invoice-btn" id="btnFloatingViewInvoice" title="ইনভয়েস তালিকা দেখুন">
+            <span>ইনভয়েস দেখুন</span>
+        </a>
+
         <!-- 9. Fixed Sticky Bottom Action Button ("সেভ করুন") -->
         <div class="pos-mobile-sticky-footer">
             <button type="button" onclick="SavePaymentInfo(event)" class="btn-mobile-save-invoice">
@@ -2002,23 +2231,26 @@
     <div class="modal fade pos-fullscreen-sheet" id="modalMobileNewCustomer" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
-                <!-- Header -->
-                <div class="d-flex align-items-center px-3 py-3" style="background: #8C56D4; color: #ffffff; flex-shrink: 0;">
-                    <button type="button" class="border-0 bg-transparent text-white p-0 fs-5 me-3 cursor-pointer" onclick="closeMobileNewCustomerModal()">
+                <!-- Header (Matches Image 2 & Image 5: Back on left, Centered title, Check sign on right) -->
+                <div class="d-flex align-items-center justify-content-between px-3 py-3" style="background: #8C56D4; color: #ffffff; flex-shrink: 0;">
+                    <button type="button" class="border-0 bg-transparent text-white p-0 fs-5 cursor-pointer d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" onclick="closeMobileNewCustomerModal()" title="পেছনে যান">
                         <i class="fa-solid fa-arrow-left"></i>
                     </button>
-                    <h5 class="fw-bold m-0 text-white" style="font-size: 17px;">নতুন পার্টি</h5>
+                    <h5 class="fw-bold m-0 text-white text-center flex-grow-1" style="font-size: 17px;">নতুন পার্টি</h5>
+                    <button type="button" class="border-0 bg-transparent text-white p-0 fs-5 cursor-pointer d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" onclick="submitMobileNewCustomer()" title="সেভ করুন">
+                        <i class="fa-solid fa-check"></i>
+                    </button>
                 </div>
 
                 <!-- Scrollable Body -->
                 <div class="p-3" style="flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;">
                     <!-- Radio Toggle: কাস্টমার / সাপ্লায়ার -->
                     <div class="d-flex align-items-center gap-4 mb-4 mt-1 px-1">
-                        <label class="d-flex align-items-center gap-2 cursor-pointer fw-semibold text-dark m-0" style="font-size: 14.5px;">
+                        <label class="d-flex align-items-center gap-2 cursor-pointer fw-semibold text-dark m-0" id="lblRadioCustWrap" style="font-size: 14.5px;">
                             <input type="radio" name="mobilePartyTypeRadio" value="customer" checked onchange="onMobilePartyTypeChange('customer')" style="accent-color: #8C56D4; width: 18px; height: 18px;" />
                             <span>কাস্টমার</span>
                         </label>
-                        <label class="d-flex align-items-center gap-2 cursor-pointer fw-semibold text-muted m-0" style="font-size: 14.5px;">
+                        <label class="d-flex align-items-center gap-2 cursor-pointer fw-semibold text-muted m-0" id="lblRadioSuppWrap" style="font-size: 14.5px;">
                             <input type="radio" name="mobilePartyTypeRadio" value="supplier" onchange="onMobilePartyTypeChange('supplier')" style="accent-color: #8C56D4; width: 18px; height: 18px;" />
                             <span>সাপ্লায়ার</span>
                         </label>
@@ -2060,7 +2292,7 @@
                     <div class="pos-outlined-field">
                         <label id="lblMobileNewPartyDueDate">পাওনার তারিখ</label>
                         <input type="text" id="mobileNewCustDueDate" class="pos-outlined-input pe-5" readonly value="{{ str_replace(['0','1','2','3','4','5','6','7','8','9'], ['০','১','২','৩','৪','৫','৬','৭','৮','৯'], date('d/m/Y')) }}" style="cursor: pointer;" />
-                        <i class="fa-regular fa-calendar-days" style="position: absolute; right: 14px; top: 16px; color: #8C56D4; font-size: 16px; cursor: pointer;"></i>
+                        <i class="fa-regular fa-calendar-days" style="position: absolute; right: 14px; top: 16px; color: #8C56D4; font-size: 16px; pointer-events: none;"></i>
                     </div>
 
                     <!-- 7. Upload Photo Box -->
@@ -2090,13 +2322,13 @@
     <div class="modal fade pos-fullscreen-sheet" id="modalMobileNewProduct" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
-                <!-- Header -->
+                <!-- Header (Matches Image 5: Back on left, Centered title, Check sign on right) -->
                 <div class="d-flex align-items-center justify-content-between px-3 py-3" style="background: #8C56D4; color: #ffffff; flex-shrink: 0;">
-                    <button type="button" class="border-0 bg-transparent text-white p-0 fs-5 cursor-pointer" onclick="closeMobileNewProductModal()">
+                    <button type="button" class="border-0 bg-transparent text-white p-0 fs-5 cursor-pointer d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" onclick="closeMobileNewProductModal()" title="পেছনে যান">
                         <i class="fa-solid fa-arrow-left"></i>
                     </button>
-                    <h5 class="fw-bold m-0 text-white" style="font-size: 17px;">নতুন পণ্য</h5>
-                    <button type="button" class="border-0 bg-transparent text-white p-0 fs-5 cursor-pointer" onclick="submitMobileNewProduct()" title="সেভ করুন">
+                    <h5 class="fw-bold m-0 text-white text-center flex-grow-1" style="font-size: 17px;">নতুন পণ্য</h5>
+                    <button type="button" class="border-0 bg-transparent text-white p-0 fs-5 cursor-pointer d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" onclick="submitMobileNewProduct()" title="সেভ করুন">
                         <i class="fa-solid fa-check"></i>
                     </button>
                 </div>
@@ -2105,12 +2337,12 @@
                 <div class="p-3" style="flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;">
                     <!-- Radio Toggle: পণ্য / সার্ভিস -->
                     <div class="d-flex align-items-center gap-4 mb-4 mt-1 px-1">
-                        <label class="d-flex align-items-center gap-2 cursor-pointer fw-semibold text-dark m-0" style="font-size: 14.5px;">
-                            <input type="radio" name="mobileProductTypeRadio" value="product" checked style="accent-color: #8C56D4; width: 18px; height: 18px;" />
+                        <label class="d-flex align-items-center gap-2 cursor-pointer fw-semibold text-dark m-0" id="lblRadioProdWrap" style="font-size: 14.5px;">
+                            <input type="radio" name="mobileProductTypeRadio" value="product" checked onchange="onMobileProductTypeChange('product')" style="accent-color: #8C56D4; width: 18px; height: 18px;" />
                             <span>পণ্য</span>
                         </label>
-                        <label class="d-flex align-items-center gap-2 cursor-pointer fw-semibold text-muted m-0" style="font-size: 14.5px;">
-                            <input type="radio" name="mobileProductTypeRadio" value="service" style="accent-color: #8C56D4; width: 18px; height: 18px;" />
+                        <label class="d-flex align-items-center gap-2 cursor-pointer fw-semibold text-muted m-0" id="lblRadioServWrap" style="font-size: 14.5px;">
+                            <input type="radio" name="mobileProductTypeRadio" value="service" onchange="onMobileProductTypeChange('service')" style="accent-color: #8C56D4; width: 18px; height: 18px;" />
                             <span>সার্ভিস</span>
                         </label>
                     </div>
@@ -2481,9 +2713,14 @@
 
                         <!-- Col 2: Invoice Date -->
                         <div class="col-md-5 col-12">
-                            <div class="d-flex align-items-center gap-1">
+                            <div class="d-flex align-items-center gap-1 position-relative">
                                 <span class="text-muted small text-nowrap fw-bold" style="font-size: 11px;">তারিখ:</span>
-                                <input type="date" id="CustomerDate" class="form-control form-control-sm py-0 px-2 fw-bold" style="height: 32px; font-size: 12px; border-radius: 8px; background: #f8fafc;" />
+                                <div class="position-relative flex-grow-1" id="desktopDateClickWrap" style="cursor: pointer;">
+                                    <input type="text" id="CustomerDate" readonly class="form-control form-control-sm py-0 px-2 fw-bold" style="height: 32px; font-size: 12px; border-radius: 8px; background: #f8fafc; cursor: pointer; padding-right: 28px !important;" />
+                                    <span class="position-absolute end-0 top-50 translate-middle-y me-2" style="pointer-events: none; color: #8C56D4; font-size: 13px;">
+                                        <i class="fa-regular fa-calendar-days"></i>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -5056,15 +5293,21 @@ function onMobilePartyTypeChange(type) {
     const dueLabel = document.getElementById("lblMobileNewPartyDue");
     const dueDateLabel = document.getElementById("lblMobileNewPartyDueDate");
     const photoPhText = document.querySelector("#mobileNewCustPhotoPlaceholder .fw-semibold");
+    const custWrap = document.getElementById("lblRadioCustWrap");
+    const suppWrap = document.getElementById("lblRadioSuppWrap");
 
     if (type === 'supplier') {
         if (dueLabel) dueLabel.innerText = "আগের দেনা";
         if (dueDateLabel) dueDateLabel.innerText = "দেনার তারিখ";
         if (photoPhText) photoPhText.innerText = "সাপ্লায়ারের ছবি আপলোড করুন";
+        if (suppWrap) { suppWrap.classList.remove('text-muted'); suppWrap.classList.add('text-dark'); }
+        if (custWrap) { custWrap.classList.remove('text-dark'); custWrap.classList.add('text-muted'); }
     } else {
         if (dueLabel) dueLabel.innerText = "আমার পাওনা";
         if (dueDateLabel) dueDateLabel.innerText = "পাওনার তারিখ";
         if (photoPhText) photoPhText.innerText = "পার্টির ছবি আপলোড করুন";
+        if (custWrap) { custWrap.classList.remove('text-muted'); custWrap.classList.add('text-dark'); }
+        if (suppWrap) { suppWrap.classList.remove('text-dark'); suppWrap.classList.add('text-muted'); }
     }
 }
 window.onMobilePartyTypeChange = onMobilePartyTypeChange;
@@ -5354,6 +5597,19 @@ async function submitMobileNewCustomer() {
 // -------------------------------------------------------------
 // Mobile New Product ("নতুন পণ্য" - Matches Image 5) Logic
 // -------------------------------------------------------------
+function onMobileProductTypeChange(type) {
+    const prodWrap = document.getElementById("lblRadioProdWrap");
+    const servWrap = document.getElementById("lblRadioServWrap");
+    if (type === 'service') {
+        if (servWrap) { servWrap.classList.remove('text-muted'); servWrap.classList.add('text-dark'); }
+        if (prodWrap) { prodWrap.classList.remove('text-dark'); prodWrap.classList.add('text-muted'); }
+    } else {
+        if (prodWrap) { prodWrap.classList.remove('text-muted'); prodWrap.classList.add('text-dark'); }
+        if (servWrap) { servWrap.classList.remove('text-dark'); servWrap.classList.add('text-muted'); }
+    }
+}
+window.onMobileProductTypeChange = onMobileProductTypeChange;
+
 function openMobileNewProductModal() {
     hideMobileModal("mobileProductSearchModal");
     const modalEl = document.getElementById("modalMobileNewProduct");
@@ -5363,6 +5619,11 @@ function openMobileNewProductModal() {
     }
     const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
     bsModal.show();
+
+    // Reset Radio to Product and labels
+    const prodRadio = document.querySelector('input[name="mobileProductTypeRadio"][value="product"]');
+    if (prodRadio) prodRadio.checked = true;
+    onMobileProductTypeChange('product');
 
     // Reset Form Fields
     const nameEl = document.getElementById("mobileNewProdName");
@@ -6988,7 +7249,12 @@ try { ProductBrandData(); } catch(e) { console.error("ProductBrandData init erro
 
                             const stdDate = `${year}-${month}-${day}`;
                             const desktopDate = document.getElementById('CustomerDate');
-                            if (desktopDate) desktopDate.value = stdDate;
+                            if (desktopDate) {
+                                desktopDate.value = stdDate;
+                                if (desktopDatePickerInstance) {
+                                    desktopDatePickerInstance.setDate(stdDate, false);
+                                }
+                            }
                             const mobileCustDate = document.getElementById('mobileCustomerDate');
                             if (mobileCustDate) mobileCustDate.value = stdDate;
                         }
@@ -7016,6 +7282,93 @@ try { ProductBrandData(); } catch(e) { console.error("ProductBrandData init erro
             }
         }
         window.initMobileDatePicker = initMobileDatePicker;
+
+        let desktopDatePickerInstance = null;
+
+        function initDesktopDatePicker() {
+            const custDateInput = document.getElementById('CustomerDate');
+            if (!custDateInput) return;
+
+            if (typeof flatpickr === 'undefined') {
+                setTimeout(initDesktopDatePicker, 100);
+                return;
+            }
+
+            if (desktopDatePickerInstance) return;
+
+            try {
+                desktopDatePickerInstance = flatpickr(custDateInput, {
+                    dateFormat: "Y-m-d",
+                    defaultDate: new Date(),
+                    disableMobile: true,
+                    monthSelectorType: "static", // Static header with prev/next buttons (no dropdown)
+                    clickOpens: true,
+                    allowInput: false,
+                    parseDate: function(dateStr, format) {
+                        if (!dateStr) return new Date();
+                        if (dateStr instanceof Date) return dateStr;
+                        const engStr = typeof banglaToEngNum === 'function' ? banglaToEngNum(String(dateStr)) : String(dateStr);
+                        const parts = engStr.replace(/[^\d\/\-\.]/g, '').split(/[\/\-\.]/);
+                        if (parts.length === 3) {
+                            if (parts[0].length === 4) {
+                                return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+                            } else {
+                                return new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+                            }
+                        }
+                        const d = new Date(engStr);
+                        return isNaN(d.getTime()) ? new Date() : d;
+                    },
+                    formatDate: function(date, format) {
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const year = date.getFullYear();
+                        return `${year}-${month}-${day}`;
+                    },
+                    onChange: function(selectedDates, dateStr) {
+                        if (selectedDates && selectedDates.length > 0) {
+                            const d = selectedDates[0];
+                            const day = String(d.getDate()).padStart(2, '0');
+                            const month = String(d.getMonth() + 1).padStart(2, '0');
+                            const year = d.getFullYear();
+                            const stdDate = `${year}-${month}-${day}`;
+                            custDateInput.value = stdDate;
+
+                            // Sync to mobile inputs
+                            const mobileCustDate = document.getElementById('mobileCustomerDate');
+                            if (mobileCustDate) mobileCustDate.value = stdDate;
+
+                            const formattedBng = typeof engToBanglaNum === 'function' ? engToBanglaNum(`${day}/${month}/${year}`) : `${day}/${month}/${year}`;
+                            const mobileDateInput = document.getElementById('mobileInvoiceDateInput');
+                            if (mobileDateInput) mobileDateInput.value = formattedBng;
+
+                            const mobileDateHidden = document.getElementById('mobileInvoiceDate');
+                            if (mobileDateHidden) mobileDateHidden.value = `${day}/${month}/${year}`;
+
+                            if (mobileDatePickerInstance) {
+                                mobileDatePickerInstance.setDate(stdDate, false);
+                            }
+                        }
+                    }
+                });
+
+                const now = new Date();
+                const curDay = String(now.getDate()).padStart(2, '0');
+                const curMonth = String(now.getMonth() + 1).padStart(2, '0');
+                const curYear = now.getFullYear();
+                custDateInput.value = `${curYear}-${curMonth}-${curDay}`;
+
+                const desktopWrap = document.getElementById('desktopDateClickWrap');
+                if (desktopWrap) {
+                    desktopWrap.onclick = function(e) {
+                        if (desktopDatePickerInstance) desktopDatePickerInstance.open();
+                    };
+                }
+            } catch(e) {
+                console.error("Desktop Flatpickr init error:", e);
+            }
+        }
+        window.initDesktopDatePicker = initDesktopDatePicker;
 
         // Fullscreen Toggle Helper
         function initPosFullscreenToggle() {
@@ -7058,6 +7411,7 @@ try { ProductBrandData(); } catch(e) { console.error("ProductBrandData init erro
             generateDynamicInvoiceNo();
             renderMobilePaymentRows();
             initMobileDatePicker();
+            initDesktopDatePicker();
             initPosFullscreenToggle();
         });
     </script>

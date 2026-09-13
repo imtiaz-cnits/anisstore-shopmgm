@@ -45,14 +45,24 @@ This `rules.md` file contains the strict guidelines and conventions for this pro
 - **Modern Dropdowns:** Remove default browser select styles. Implement modern dropdown designs.
 - **Searchable Selects:** For category-type or long-list dropdowns, always implement a searchable filter inside the dropdown.
 - **Date Pickers:** Do not use the default browser date input. Integrate a high-quality, modern calendar/datepicker UI.
+- **Flatpickr Calendar Standardization (ক্যালেন্ডার ও তারিখ ফিল্ডের নিয়ম):**
+  - **No Default Browser Date Inputs:** কোনো অবস্থাতেই ব্রাউজারের ডিফল্ট `type="date"` ইনপুট ব্যবহার করা যাবে না। সকল তারিখ (Date) ফিল্ডে অবশ্যই কাস্টমাইজড **Flatpickr** ক্যালেন্ডার ব্যবহার করতে হবে (`disableMobile: true`)।
+  - **Month Navigation (মাস পরিবর্তন):** ক্যালেন্ডারে কোনো Month Dropdown থাকবে না (`monthSelectorType: "static"`), শুধুমাত্র Previous এবং Next অ্যারো বাটন দিয়ে মাস পরিবর্তন হবে।
+  - **Royal Purple Theme & Bengali Numerals:** ক্যালেন্ডারের হেডার ও সিলেকশন অবশ্যই রয়্যাল পার্পল কালার প্যালেট (`#8C56D4`, `#793FC5`) অনুযায়ী হবে এবং তারিখ বাংলা সংখ্যায় (০-৯) ফরম্যাটিং ও পার্সিং সঠিকভাবে সাপোর্ট করবে।
+  - **Universal Dark Mode Support:** প্রতিটি পেজের সকল ডেটপিকারে ডার্ক মোড সাপোর্ট বাধ্যতামূলক (`body[light-mode="dark"] .flatpickr-calendar`, `html[light-mode="dark"] .flatpickr-calendar`)। ডার্ক মোডে ক্যালেন্ডারের ব্যাকগ্রাউন্ড ডার্ক সারফেস (`#1e293b`), ডিপ পার্পল অ্যাকসেন্ট (`#672EB0`, `#532391`), এবং টেক্সট ক্লিয়ার হোয়াইট (`#f8fafc`) হতে হবে।
+  - **High Z-Index & Modal Compatibility:** মডাল বা পপআপের ভিতরে যেন ক্যালেন্ডার নিচে চাপা না পড়ে, তার জন্য ক্যালেন্ডার পপআপের `z-index` পর্যাপ্ত পরিমাণে হাই (`105060` / `99999`) রাখতে হবে।
 - **Numeric Input Restriction (সংখ্যা ইনপুট ফিল্ডের নিয়ম):** ইনপুট ফিল্ড সংখ্যা/নাম্বার হলে শুধুমাত্র নাম্বার বা ডিজিট টাইপ করা যাবে (English digits 0-9 and Bengali digits ০-৯, plus optional decimal point where applicable)। কোনো বর্ণমালা, অক্ষর বা চিহ্ন (letters/alphabetic characters/unwanted symbols) কোনোভাবেই টাইপ বা পেস্ট করা যাবে না। All numeric fields (e.g. price, quantity, phone number, charge, discount, amounts) must strictly enforce this rule.
 
 ## 6. Modal / Dialog Box Standardization
 - **Height & Viewport:** Modals must fit within a maximum of `100vh` (viewport height).
 - **Structure:** 
-  - The Modal Header/Heading MUST have the primary background color.
+  - The Modal Header/Heading MUST have the primary background color (`#8C56D4`).
   - The Modal Header and Footer MUST be fixed/sticky (always visible).
   - Only the internal body content area of the modal should be scrollable.
 - **Action Buttons:** 
-  - Submit/Action buttons MUST use the primary background color.
+  - Submit/Action buttons MUST use the primary brand background color (`#8C56D4`).
   - Cancel/Close buttons MUST use a Red background color.
+- **Fullscreen Slide-Up Modals (নতুন পার্টি, নতুন পণ্য ইত্যাদি):**
+  - **Topbar Layout:** হেডার বার অবশ্যই ব্র্যান্ড পার্পল (`#8C56D4`) ব্যাকগ্রাউন্ড এবং সাদা টেক্সটে হবে। বামে ব্যাক আইকন (`fa-arrow-left`), সেন্টারে টাইটেল (যেমন: "নতুন পার্টি" / "নতুন পণ্য"), এবং ডানে অ্যাকশন বাটন / সাইন আইকন (`fa-check`) থাকবে যা ফর্ম সাবমিট করবে।
+  - **Dark Mode Surface & Contrast:** ডার্ক মোডে মডাল ব্যাকগ্রাউন্ড সারফেস (`#121212`), ফর্ম কার্ড/ইনপুট ব্যাকগ্রাউন্ড (`#1e293b`), বর্ডার (`#334155`), টেক্সট (`#f8fafc`), আউটলাইন্ড ফ্লোটিং লেবেল ব্যাকগ্রাউন্ড (`#121212`) ও কালার (`#D2B7F1`), ফোকাস বর্ডার (`#8C56D4`), ফটো আপলোড বক্স (`#1e293b` ব্যাকগ্রাউন্ড এবং `#532391` ড্যাশড বর্ডার), এবং স্টিকি ফুটার (`#1e293b`) নিশ্চিত করতে হবে।
+
