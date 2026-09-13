@@ -1579,7 +1579,6 @@ body[data-layout-mode="dark"] .bg-white {
 /* Inner bg-light boxes (e.g. Monthly Summary Boxes) */
 body[light-mode="dark"] .bg-light,
 body[data-layout-mode="dark"] .bg-light,
-body[data-sidebar="dark"] .bg-light,
 body.dark-mode .bg-light,
 body[light-mode="dark"] .bg-light-subtle,
 body[data-layout-mode="dark"] .bg-light-subtle {

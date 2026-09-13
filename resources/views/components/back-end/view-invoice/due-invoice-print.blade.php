@@ -24,38 +24,80 @@
             font-size: 11px;
         }
 
-        /* Top Purple Navigation Bar (Screen Only) */
+        /* Top Purple Navigation Bar (Screen Only) - Sticky & Modern */
         .invoice-top-bar {
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-            color: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%);
+            color: #ffffff !important;
             padding: 10px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
 
         .invoice-top-bar .back-link {
-            color: #ffffff;
-            font-size: 16px;
+            color: #ffffff !important;
+            font-size: 13.5px;
+            font-weight: 600;
             text-decoration: none;
-            display: flex;
+            display: inline-flex;
             align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.18);
+            padding: 6px 14px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+            cursor: pointer !important;
+            outline: none !important;
+            border: none;
+            font-family: inherit;
+        }
+
+        .invoice-top-bar .back-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: #ffffff !important;
+            transform: translateX(-2px);
         }
 
         .invoice-top-bar .top-title {
             margin: 0;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 17px;
+            color: #ffffff !important; /* White color */
+            letter-spacing: 0.2px;
         }
 
-        /* Printable Sheet Paper Container - Styled for A5 (5.8 in x 8.3 in / 148 x 210 mm) */
+        .invoice-top-bar .print-top-btn {
+            background: rgba(255, 255, 255, 0.18);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff !important;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .invoice-top-bar .print-top-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Printable Sheet Paper Container - Styled for A4 Full Width */
         .invoice-page-container {
             background: #ffffff;
-            width: 5.8in;
-            min-height: 8.3in;
+            width: 100%;
+            max-width: 210mm;
+            min-height: 297mm;
             margin: 15px auto 70px auto;
-            padding: 5mm 6mm;
+            padding: 10mm 12mm;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             border-radius: 4px;
             box-sizing: border-box;
@@ -96,12 +138,12 @@
         }
 
         .invoice-table th {
-            background-color: #6366f1 !important;
+            background-color: #8C56D4 !important;
             color: #ffffff !important;
             font-weight: 700;
             padding: 5px 8px;
             font-size: 11px;
-            border: 1px solid #6366f1 !important;
+            border: 1px solid #8C56D4 !important;
         }
 
         .invoice-table td {
@@ -123,23 +165,24 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            z-index: 1050;
+            background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%);
+            color: #ffffff;
             padding: 10px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            z-index: 1050;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.18);
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
         }
 
         .paper-select-dropdown {
             background: rgba(255, 255, 255, 0.2);
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 8px;
-            padding: 5px 12px;
-            font-weight: 700;
-            font-size: 13px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
             outline: none;
             cursor: pointer;
         }
@@ -149,11 +192,11 @@
             background: #ffffff;
         }
 
-        /* Print Specific Styling for A5 Portrait (5.8 in x 8.3 in) */
+        /* Print Specific Styling for A4 Full Width */
         @media print {
             @page {
-                size: 5.8in 8.3in portrait;
-                margin: 4mm;
+                size: A4 portrait;
+                margin: 8mm 10mm;
             }
 
             * {
@@ -162,12 +205,12 @@
                 box-sizing: border-box !important;
             }
 
-            body {
+            html, body {
                 background: #ffffff !important;
                 padding: 0 !important;
                 margin: 0 !important;
-                width: 5.8in !important;
-                height: 8.3in !important;
+                width: 100% !important;
+                height: auto !important;
             }
 
             .no-print, .invoice-top-bar, .invoice-bottom-bar {
@@ -175,18 +218,25 @@
             }
 
             .invoice-page-container {
-                width: 5.8in !important;
-                max-width: 5.8in !important;
-                min-height: 8.3in !important;
-                margin: 0 auto !important;
-                padding: 4mm !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-height: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
                 box-shadow: none !important;
+                border: none !important;
                 border-radius: 0 !important;
             }
 
+            .invoice-table {
+                width: 100% !important;
+            }
+
             .invoice-table th {
-                background-color: #6366f1 !important;
+                background-color: #8C56D4 !important;
                 color: #ffffff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
         }
     </style>
@@ -195,12 +245,12 @@
 
     <!-- 1. Top Purple App Navigation Header (Screen Mode) -->
     <div class="invoice-top-bar no-print">
-        <a href="javascript:history.back()" class="back-link" title="ফিরে যান">
-            <i class="fa-solid fa-chevron-left me-1"></i> <span style="font-size: 14px;">পেছনে</span>
-        </a>
+        <button type="button" onclick="goBackToPreviousPage(event)" class="back-link" title="পেছনে যান">
+            <i class="fa-solid fa-arrow-left"></i> <span>পেছনে</span>
+        </button>
         <h5 class="top-title">বিক্রয় ইনভয়েস</h5>
-        <button type="button" class="btn text-white p-0" onclick="window.print()" title="ইনভয়েস প্রিন্ট করুন">
-            <i class="fa-solid fa-print fs-5"></i>
+        <button type="button" class="print-top-btn" onclick="window.print()" title="ইনভয়েস প্রিন্ট করুন">
+            <i class="fa-solid fa-print fs-6"></i>
         </button>
     </div>
 
@@ -354,23 +404,45 @@
 
     <!-- 3. Bottom Fixed Purple Action Bar (Screen Mode) -->
     <div class="invoice-bottom-bar no-print">
-        <button type="button" class="btn text-white p-0" title="শেয়ার করুন" onclick="navigator.share ? navigator.share({title: 'বিক্রয় ইনভয়েস', url: window.location.href}) : alert('শেয়ার লিংক কপি করা হয়েছে!')">
-            <i class="fa-solid fa-share-nodes fs-5"></i>
+        <button type="button" class="btn text-white p-0 d-flex align-items-center justify-content-center" title="শেয়ার করুন" onclick="navigator.share ? navigator.share({title: 'বিক্রয় ইনভয়েস', url: window.location.href}) : alert('শেয়ার লিংক কপি করা হয়েছে!')" style="width: 38px; height: 38px; background: rgba(255,255,255,0.18); border-radius: 50%; transition: all 0.2s;">
+            <i class="fa-solid fa-share-nodes fs-6"></i>
         </button>
 
         <div class="d-flex align-items-center gap-3">
             <select class="paper-select-dropdown" onchange="changePaperFormat(this.value)">
-                <option value="a5" selected>A5 (5.8 × 8.3 in)</option>
-                <option value="a4">A4 (8.3 × 11.7 in)</option>
+                <option value="a4" selected>A4 (8.3 × 11.7 in)</option>
+                <option value="a5">A5 (5.8 × 8.3 in)</option>
                 <option value="pos">80mm POS Thermal</option>
             </select>
-            <button type="button" class="btn btn-light btn-sm fw-bold px-3 py-1.5" onclick="window.print()" style="border-radius: 8px;">
-                <i class="fa-solid fa-print me-1"></i> প্রিন্ট
+            <button type="button" class="btn btn-light btn-sm fw-bold px-3 py-1.5 d-flex align-items-center gap-1.5" onclick="window.print()" style="border-radius: 8px; color: #8C56D4; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                <i class="fa-solid fa-print"></i> <span>প্রিন্ট</span>
             </button>
         </div>
     </div>
 
     <script>
+        function goBackToPreviousPage(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            // 1. If document.referrer is from our domain and not current page, go back to it
+            if (document.referrer && document.referrer.indexOf(window.location.host) !== -1 && document.referrer !== window.location.href) {
+                window.location.href = document.referrer;
+                return;
+            }
+            // 2. If browser history exists, go back with fallback
+            if (window.history && window.history.length > 1) {
+                window.history.back();
+                setTimeout(function() {
+                    window.location.href = '/admin-dashboard-invoice';
+                }, 300);
+                return;
+            }
+            // 3. Fallback directly to invoice list
+            window.location.href = '/admin-dashboard-invoice';
+        }
+
         function engToBanglaNum(str) {
             if (str === null || str === undefined) return '';
             str = String(str);
@@ -433,16 +505,19 @@
             const container = document.getElementById('printArea');
             if (fmt === 'pos') {
                 container.style.width = '80mm';
+                container.style.maxWidth = '80mm';
                 container.style.minHeight = 'auto';
                 container.style.padding = '5mm';
-            } else if (fmt === 'a4') {
-                container.style.width = '210mm';
-                container.style.minHeight = '297mm';
-                container.style.padding = '15mm';
-            } else {
+            } else if (fmt === 'a5') {
                 container.style.width = '5.8in';
+                container.style.maxWidth = '5.8in';
                 container.style.minHeight = '8.3in';
                 container.style.padding = '5mm 6mm';
+            } else {
+                container.style.width = '100%';
+                container.style.maxWidth = '210mm';
+                container.style.minHeight = '297mm';
+                container.style.padding = '10mm 12mm';
             }
         }
 
