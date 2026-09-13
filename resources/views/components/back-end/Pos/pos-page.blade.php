@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Pos</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
@@ -23,6 +23,8 @@
     <!-- CSS Link-->
     <link href="{{ asset('back-end/assets/css/pos.css') }}" id="app-style" rel="stylesheet" type="text/css" />
     <link href="{{ asset('back-end/assets/css/all-modal.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 
     <link href="{{ asset('back-end/assets/css/vendor/toastify.min.css') }}" rel="stylesheet" />
@@ -209,39 +211,165 @@
             border-color: #007bff;
         }
 
-        /* Custom styles for flatpickr (datepicker) */
+        /* Custom styles for flatpickr (datepicker) matching Royal Purple theme */
         .flatpickr-calendar {
-            border-radius: 10px;
-            border: 1px solid #008aee;
+            z-index: 99999 !important;
+            border-radius: 14px !important;
+            border: 1.5px solid #8C56D4 !important;
+            box-shadow: 0 12px 30px rgba(140, 86, 212, 0.22) !important;
+            font-family: 'Poppins', 'Noto Sans Bengali', sans-serif !important;
+            overflow: hidden !important;
+            background: #ffffff !important;
         }
 
-        .flatpickr-calendar .flatpickr-day {
-            background-color: #fff;
-            border-radius: 50%;
-            color: #333;
-        }
-
-        .flatpickr-calendar .flatpickr-day:hover {
-            background-color: #008aee;
-            color: #fff;
-        }
-
-        .flatpickr-calendar .flatpickr-day.selected {
-            background-color: #008aee;
-            color: #fff;
+        .flatpickr-calendar .flatpickr-months {
+            background-color: #8C56D4 !important;
+            border-top-left-radius: 12px !important;
+            border-top-right-radius: 12px !important;
+            padding: 4px 0 !important;
+            position: relative;
         }
 
         .flatpickr-calendar .flatpickr-month {
-            background-color: #008aee;
-            color: white;
+            background-color: #8C56D4 !important;
+            color: #ffffff !important;
+            fill: #ffffff !important;
+            height: 38px !important;
         }
 
-        .flatpickr-calendar .flatpickr-weekday {
-            color: #008aee;
+        .flatpickr-current-month {
+            padding: 4px 0 0 0 !important;
         }
 
-        .flatpickr-calendar .flatpickr-arrow {
-            color: #008aee;
+        .flatpickr-current-month .cur-month {
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            font-size: 15px !important;
+            margin-right: 4px !important;
+        }
+
+        .flatpickr-current-month .flatpickr-monthDropdown-months,
+        .flatpickr-current-month input.cur-year {
+            color: #ffffff !important;
+            font-weight: 700 !important;
+        }
+
+        .flatpickr-calendar .flatpickr-prev-month,
+        .flatpickr-calendar .flatpickr-next-month {
+            fill: #ffffff !important;
+            color: #ffffff !important;
+            padding: 6px 10px !important;
+            top: 2px !important;
+        }
+        .flatpickr-calendar .flatpickr-prev-month svg,
+        .flatpickr-calendar .flatpickr-next-month svg {
+            fill: #ffffff !important;
+            width: 14px !important;
+            height: 14px !important;
+        }
+        .flatpickr-calendar .flatpickr-prev-month:hover svg,
+        .flatpickr-calendar .flatpickr-next-month:hover svg {
+            fill: #E5D5F7 !important;
+        }
+
+        .flatpickr-calendar .flatpickr-weekdays {
+            background-color: #793FC5 !important;
+            height: 30px !important;
+        }
+
+        .flatpickr-calendar span.flatpickr-weekday {
+            color: #ffffff !important;
+            font-weight: 600 !important;
+            font-size: 12px !important;
+        }
+
+        .flatpickr-calendar .flatpickr-day {
+            background-color: #ffffff;
+            border-radius: 8px !important;
+            color: #1e293b;
+            font-weight: 500;
+        }
+
+        .flatpickr-calendar .flatpickr-day:hover {
+            background-color: #F3ECFB !important;
+            color: #8C56D4 !important;
+            border-color: #E5D5F7 !important;
+        }
+
+        .flatpickr-calendar .flatpickr-day.selected,
+        .flatpickr-calendar .flatpickr-day.selected:hover {
+            background-color: #8C56D4 !important;
+            border-color: #8C56D4 !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+        }
+
+        .flatpickr-calendar .flatpickr-day.today {
+            border-color: #8C56D4 !important;
+        }
+
+        .flatpickr-calendar .flatpickr-arrow svg {
+            fill: #ffffff !important;
+        }
+
+        /* Dark Mode for Flatpickr */
+        body[light-mode="dark"] .flatpickr-calendar {
+            background: #1e293b !important;
+            border-color: #8C56D4 !important;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55) !important;
+        }
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-days,
+        body[light-mode="dark"] .flatpickr-calendar .dayContainer {
+            background: #1e293b !important;
+        }
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day {
+            background-color: #1e293b !important;
+            color: #f8fafc !important;
+            border-color: transparent !important;
+        }
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day:hover {
+            background-color: #3b1d6e !important;
+            color: #D2B7F1 !important;
+            border-color: #793FC5 !important;
+        }
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.selected,
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.selected:hover {
+            background-color: #8C56D4 !important;
+            border-color: #8C56D4 !important;
+            color: #ffffff !important;
+        }
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.prevMonthDay,
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.nextMonthDay {
+            color: #64748b !important;
+            background: #1e293b !important;
+        }
+        body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.today {
+            border-color: #8C56D4 !important;
+        }
+
+        /* Mobile View: Center the calendar popup so it never overflows off-screen */
+        @media (max-width: 991.98px) {
+            .flatpickr-calendar {
+                max-width: calc(100vw - 20px) !important;
+            }
+            .flatpickr-calendar.open,
+            .flatpickr-calendar.animate.open {
+                position: fixed !important;
+                top: 85px !important;
+                left: 50% !important;
+                right: auto !important;
+                bottom: auto !important;
+                transform: translateX(-50%) !important;
+                z-index: 105060 !important;
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35) !important;
+                display: inline-block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+            .flatpickr-calendar:before,
+            .flatpickr-calendar:after {
+                display: none !important;
+            }
         }
 
         .search-wraper {
@@ -493,30 +621,34 @@
                 }
             }
 
-        /* Mobile POS Page Responsive Styling - Exact Parity with Reference Screenshot */
-        @media (max-width: 991px) {
+        /* Mobile & Tablet POS Page Responsive Styling - Full Width, No Side Gaps */
+        @media (max-width: 991.98px) {
             #pos-main {
                 display: none !important;
             }
             html, body {
-                background: #F3ECFB !important;
+                background: #ffffff !important;
                 margin: 0 !important;
                 padding: 0 !important;
                 width: 100% !important;
                 min-width: 100% !important;
                 max-width: 100% !important;
-                overflow-x: hidden !important;
+                overflow-x: clip !important;
+            }
+            body[light-mode="dark"] {
+                background: #121212 !important;
             }
             .pos-mobile-wrapper {
                 display: block !important;
-                background: #F3ECFB !important;
+                background: #ffffff !important;
                 min-height: 100vh !important;
                 width: 100% !important;
-                min-width: 100% !important;
                 max-width: 100% !important;
                 margin: 0 !important;
-                padding: 0 0 90px 0 !important;
+                padding: 0 0 85px 0 !important;
                 box-sizing: border-box !important;
+                position: relative !important;
+                box-shadow: none !important;
             }
         }
 
@@ -532,18 +664,22 @@
             }
         }
 
-        /* Mobile Top Purple Header */
+        /* 1. Mobile Top Purple Header (Sticky Fixed) */
         .pos-mobile-header {
-            background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+            background: #8C56D4;
             color: #ffffff;
-            padding: 12px 16px;
+            padding: 8px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            position: sticky;
-            top: 0;
+            position: sticky !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
             z-index: 1040;
-            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.25);
+            box-shadow: 0 2px 10px rgba(140, 86, 212, 0.25);
+            height: 52px;
+            box-sizing: border-box;
         }
 
         .pos-mobile-back-btn {
@@ -555,428 +691,872 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.2s ease;
+        }
+        .pos-mobile-back-btn:hover {
+            transform: scale(1.1);
         }
 
         .pos-mobile-title {
             font-size: 17px;
-            font-weight: 800;
+            font-weight: 700;
             margin: 0;
+            color: #ffffff !important;
+            white-space: nowrap;
         }
 
+        /* Cash / Credit Segmented Pill Toggle */
         .pos-mobile-type-toggle {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
             border-radius: 20px;
             padding: 2px;
             display: flex;
             align-items: center;
+            gap: 2px;
         }
 
         .pos-mobile-type-toggle .type-btn {
             border: none;
             background: transparent;
             color: #ffffff;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 14px;
             border-radius: 16px;
             transition: all 0.2s ease;
+            cursor: pointer;
         }
 
         .pos-mobile-type-toggle .type-btn.active {
             background: #ffffff;
-            color: #15803d;
-            font-weight: 800;
+            color: #8C56D4;
+            font-weight: 700;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
         }
 
-        /* Sub-header Date & Invoice Bar */
+        /* 2. Sub-header Date & Invoice Bar */
         .pos-mobile-subhead {
             background: #ffffff;
             padding: 10px 16px;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 12px;
-            color: #475569;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 12.5px;
+            color: #64748b;
         }
 
-        .pos-mobile-subhead .subhead-label {
+        .subhead-val {
+            color: #1e293b;
             font-weight: 600;
         }
 
-        /* Outlined Legend Field Box */
-        .pos-mobile-field-group {
+        /* 3. Customer Selection Box - Rounded with Lateral Gaps */
+        .pos-mobile-customer-box {
             background: #ffffff;
-            border: 1.5px solid #cbd5e1;
-            border-radius: 14px;
-            padding: 12px 14px;
-            margin: 12px 14px;
-            position: relative;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 10px !important;
+            padding: 11px 14px;
+            margin: 12px 16px 10px 16px !important;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-
-        .pos-mobile-field-group .field-group-label {
-            position: absolute;
-            top: -10px;
-            left: 14px;
-            background: #ffffff;
-            padding: 0 6px;
-            font-size: 11px;
-            font-weight: 700;
+        .pos-mobile-customer-box:hover {
+            border-color: #8C56D4;
+        }
+        .customer-placeholder {
+            font-size: 14px;
+            font-weight: 500;
             color: #64748b;
         }
-
-        .btn-info-icon {
-            border: none;
-            background: transparent;
-            color: #94a3b8;
-            font-size: 16px;
-            padding: 0;
-        }
-
-        /* Mobile Selected Customer Info Details Card */
-        .pos-mobile-customer-details-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 12px 14px;
-            margin: 0 14px 12px 14px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-        }
-
-        .info-badge-box {
-            display: flex;
-            align-items: center;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #ffffff;
-            height: 34px;
-        }
-
-        .info-badge-label {
-            background: #f8fafc;
-            color: #64748b;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 0 8px;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            border-right: 1px solid #e2e8f0;
-            white-space: nowrap;
-        }
-
-        .info-badge-val {
-            font-size: 12px;
+        .customer-selected-name {
+            font-size: 14px;
             font-weight: 700;
             color: #0f172a;
-            padding: 0 8px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        }
+        .customer-info-icon {
+            color: #94a3b8;
+            font-size: 16px;
         }
 
-        .info-badge-box.due-box {
-            border-color: #fecaca;
-            background: #fff5f5;
+        /* 4. "আইটেম যোগ করুন (না দিলেও হবে)" Banner Button - Rounded with Lateral Gaps */
+        .pos-mobile-item-section {
+            margin: 0 16px 14px 16px !important;
+        }
+        .btn-add-item-banner {
+            background: #F3ECFB;
+            color: #8C56D4;
+            border: none;
+            border-radius: 10px !important;
+            width: 100%;
+            padding: 11px 14px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-add-item-banner:hover {
+            background: #EDE4F9;
+            color: #793FC5;
+        }
+        .btn-add-item-banner i {
+            font-size: 18px;
         }
 
-        .info-badge-label.due-label {
-            background: #fee2e2;
-            color: #dc2626;
-            border-right-color: #fecaca;
-        }
-
-        /* Added Products Mobile Card List */
-        .pos-mobile-cart-card {
-            background: #ffffff;
-            margin: 0 14px 12px 14px;
-            border-radius: 16px;
-            padding: 14px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-            border: 1px solid #e2e8f0;
-        }
-
-        .mobile-cart-item {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 10px;
-        }
-
-        .mobile-cart-item-header {
+        /* Mobile Cart Item Row */
+        .mobile-cart-item-row {
+            background: #FAF7FD;
+            border: 1px solid #E5D5F7;
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin-top: 8px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 6px;
         }
-
-        .mobile-cart-item-name {
-            font-size: 14px;
-            font-weight: 700;
+        .mobile-cart-item-row .item-title {
+            font-size: 13.5px;
+            font-weight: 600;
             color: #1e293b;
         }
-
-        .btn-remove-item {
+        .mobile-cart-item-row .item-sub {
+            font-size: 12px;
+            color: #64748b;
+        }
+        .mobile-cart-item-row .item-del-btn {
             border: none;
             background: transparent;
             color: #ef4444;
             font-size: 16px;
+            padding: 4px;
+            cursor: pointer;
         }
 
-        .mobile-cart-item-price-calc {
-            font-size: 12px;
-            color: #64748b;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .mobile-cart-item-subtotal {
-            font-size: 13px;
-            font-weight: 700;
-            color: #0f172a;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-top: 1px dashed #cbd5e1;
-            padding-top: 6px;
-            margin-top: 6px;
-        }
-
-        .mobile-cart-summary {
-            background: #f1f5f9;
-            border-radius: 12px;
-            padding: 10px 14px;
-            margin-top: 12px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .btn-add-item-mobile {
-            background: #dcfce7;
-            color: #15803d;
-            border: none;
-            border-radius: 12px;
-            padding: 12px;
-            width: 100%;
-            font-weight: 700;
-            font-size: 13px;
-            margin-top: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Financial Summary Panel */
+        /* 5. Pricing / Calculation Table Rows (4 Rows matching reference screenshot) */
         .pos-mobile-calc-card {
-            background: #ffffff;
-            margin: 0 14px 12px 14px;
-            border-radius: 16px;
-            padding: 14px;
-            border: 1px solid #e2e8f0;
+            background: #FAF7FD !important;
+            border: 1px solid #E5D5F7 !important;
+            border-radius: 12px !important;
+            margin: 0 16px 14px 16px;
+            padding: 10px 12px !important;
+            box-shadow: 0 1px 4px rgba(140, 86, 212, 0.04);
         }
 
-        .calc-row {
+        .calc-table-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .calc-table-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 10px;
+            position: relative;
         }
 
-        .calc-row:last-child {
-            margin-bottom: 0;
+        .calc-row-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+            width: 110px;
+            flex-shrink: 0;
         }
 
-        .calc-label {
+        .calc-row-sym {
+            font-size: 15px;
+            font-weight: 600;
+            color: #475569;
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .calc-input-wrapper {
+            flex: 1;
+            position: relative;
+            max-width: 220px;
+            margin-left: auto;
+        }
+
+        .calc-box-input {
+            width: 100%;
+            height: 38px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 0 12px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #0f172a;
+            outline: none;
+            background: #ffffff;
+            text-align: left;
+            transition: border-color 0.2s ease;
+        }
+        .calc-box-input:focus {
+            border-color: #8C56D4;
+        }
+        .calc-box-input.has-error-border {
+            border: 1.5px solid #ef4444 !important;
+        }
+
+        .calc-error-hint {
+            display: block;
+            color: #ef4444;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 3px;
+            text-align: right;
+        }
+
+        /* 6. Payment Method Section */
+        .pos-mobile-payment-section {
+            margin: 0 16px 14px 16px;
+        }
+
+        .payment-section-header {
             font-size: 14px;
             font-weight: 700;
-            color: #475569;
-        }
-
-        .calc-input-wrap {
+            color: #334155;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            padding: 4px 10px;
-            background: #ffffff;
-            width: 150px;
-        }
-
-        .currency-sym {
-            font-size: 14px;
-            font-weight: 700;
-            color: #64748b;
-            margin-right: 6px;
-        }
-
-        .calc-input {
-            border: none;
-            outline: none;
-            width: 100%;
-            text-align: right;
-            font-size: 15px;
-            font-weight: 700;
-            color: #0f172a;
-            background: transparent;
-        }
-
-        /* Payment Method Section - Exact Reference Parity */
-        .pos-mobile-payment-card {
-            background: #ffffff;
-            margin: 0 14px 14px 14px;
-            border-radius: 16px;
-            padding: 14px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .payment-card-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #1e293b;
         }
 
         .pos-mobile-payment-card-box {
             background: #ffffff;
-            border: 1.5px solid #cbd5e1;
-            border-radius: 14px;
+            border: 1.5px solid #E5D5F7;
+            border-radius: 12px;
             padding: 12px;
             margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 2px 6px rgba(140, 86, 212, 0.04);
             transition: all 0.2s ease;
         }
+        .pos-mobile-payment-card-box:focus-within {
+            border-color: #8C56D4;
+            box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.12);
+        }
 
-        .payment-select-group {
+        .payment-top-select-row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
             gap: 10px;
             margin-bottom: 10px;
         }
 
-        .payment-method-select {
-            appearance: none;
-            -webkit-appearance: none;
-            background: #ffffff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%3c6366f1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") no-repeat right 12px center/12px 12px;
-            border: 1.5px solid #cbd5e1;
-            border-radius: 10px;
-            padding: 8px 36px 8px 12px;
-            font-size: 14px;
-            font-weight: 700;
-            color: #1e293b;
-            width: 100%;
-            height: 42px;
-            outline: none;
+        .payment-method-custom-btn {
+            border: 1.5px solid #E5D5F7 !important;
+            border-radius: 10px !important;
+            background: #ffffff !important;
+            height: 42px !important;
+            padding: 0 12px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            width: 100% !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            outline: none !important;
         }
-
-        .payment-method-select:focus {
-            border-color: #16a34a;
+        .payment-method-custom-btn:hover,
+        .payment-method-custom-btn:focus,
+        .payment-method-custom-btn:active,
+        .payment-method-custom-btn.show,
+        .payment-method-custom-btn[aria-expanded="true"],
+        .dropdown.show > .payment-method-custom-btn {
+            border: 1.5px solid #8C56D4 !important;
+            background: #ffffff !important;
+            box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.18) !important;
+            outline: none !important;
         }
 
         .btn-delete-payment-line {
             border: none;
             background: transparent;
-            color: #fca5a5;
+            color: #cbd5e1;
             font-size: 18px;
             padding: 4px;
-            line-height: 1;
+            cursor: pointer;
             transition: color 0.2s ease;
         }
-
         .btn-delete-payment-line:hover {
             color: #ef4444;
         }
 
-        .payment-amount-input-wrap {
+        .payment-bottom-amount-row {
             display: flex;
             align-items: center;
-            border: 1.5px solid #cbd5e1;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #ffffff;
-            height: 42px;
+            gap: 8px;
         }
 
-        .payment-amount-input-wrap .currency-prefix {
-            background: #f1f5f9;
-            color: #475569;
-            font-size: 15px;
+        .payment-amount-input-box {
+            display: flex;
+            align-items: center;
+            border: 1.5px solid #E5D5F7;
+            border-radius: 10px;
+            overflow: hidden;
+            flex: 1;
+            height: 42px;
+            background: #ffffff;
+            transition: border-color 0.2s ease;
+        }
+        .payment-amount-input-box:focus-within {
+            border-color: #8C56D4;
+        }
+
+        .payment-amount-input-box .currency-tag {
+            background: #F3ECFB;
+            color: #8C56D4;
+            font-size: 16px;
             font-weight: 700;
             padding: 0 14px;
             height: 100%;
             display: flex;
             align-items: center;
-            border-right: 1.5px solid #cbd5e1;
+            border-right: 1.5px solid #E5D5F7;
             flex-shrink: 0;
         }
 
-        .payment-amount-input-wrap input {
+        .payment-amount-input-box input {
             border: none;
             outline: none;
             width: 100%;
             padding: 0 12px;
             font-size: 15px;
-            font-weight: 700;
+            font-weight: 600;
             color: #0f172a;
             background: transparent;
         }
 
-        .payment-extra-input {
-            border: 1.5px solid #cbd5e1;
-            border-radius: 10px;
-            padding: 8px 12px;
-            font-size: 13px;
-            color: #334155;
-            width: 100%;
-            height: 40px;
-            margin-top: 8px;
-            background: #ffffff;
-            outline: none;
+        /* Transaction ID & Phone fields design */
+        .payment-extra-fields-wrap {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #E5D5F7;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .payment-extra-input::placeholder {
-            color: #94a3b8;
-            font-weight: 400;
+        .payment-extra-input-row {
+            position: relative;
         }
 
-        .btn-add-payment-line {
-            border: none;
-            background: transparent;
-            color: #16a34a;
-            font-size: 22px;
-            font-weight: 700;
-            padding: 0 14px;
-            height: 100%;
+        .extra-icon-addon {
+            background: #F3ECFB !important;
+            border: 1.5px solid #E5D5F7 !important;
+            border-right: none !important;
+            color: #8C56D4 !important;
+            font-size: 13px !important;
+            border-top-left-radius: 8px !important;
+            border-bottom-left-radius: 8px !important;
+            padding: 0 10px !important;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            flex-shrink: 0;
-            border-left: 1px solid #e2e8f0;
         }
 
-        .btn-add-payment-line:hover {
-            background: #dcfce7;
+        .payment-extra-input {
+            border: 1.5px solid #E5D5F7 !important;
+            border-left: none !important;
+            border-top-right-radius: 8px !important;
+            border-bottom-right-radius: 8px !important;
+            height: 38px !important;
+            font-size: 13px !important;
+            color: #1e293b !important;
+            background: #ffffff !important;
+            box-shadow: none !important;
+            outline: none !important;
+            width: 100%;
+            padding: 0 10px;
+        }
+        .payment-extra-input:focus {
+            border-color: #8C56D4 !important;
+            box-shadow: none !important;
+        }
+        .input-group:focus-within .extra-icon-addon {
+            border-color: #8C56D4 !important;
         }
 
-        /* Mobile Note & Image Upload Card Styling - Exact Reference Parity */
-        .pos-mobile-note-image-card {
-            background: #ffffff;
-            margin: 0 14px 14px 14px;
-            border-radius: 16px;
-            padding: 14px;
-            border: 1px solid #e2e8f0;
+        .dropdown-category-header {
+            background: #F3ECFB !important;
+            border: 1px solid #E5D5F7 !important;
+            border-radius: 8px !important;
+            padding: 6px 10px !important;
+            margin: 6px 4px 4px 4px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
         }
 
-        .note-textarea-wrap {
-            border: 1.5px solid #cbd5e1;
+        .dropdown-category-title {
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            color: #8C56D4 !important;
+            letter-spacing: 0.3px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        .btn-add-payment-opt {
+            border: none !important;
+            background: #8C56D4 !important;
+            color: #ffffff !important;
+            width: 22px !important;
+            height: 22px !important;
+            border-radius: 6px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 11px !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            padding: 0 !important;
+        }
+        .btn-add-payment-opt:hover {
+            background: #793FC5 !important;
+            transform: scale(1.15) !important;
+            color: #ffffff !important;
+        }
+
+        /* Theme Toggle Button (Desktop & Mobile) - Exact Match with Dashboard Topbar */
+        .pos-theme-toggle-btn {
+            width: 30px !important;
+            height: 30px !important;
+            min-width: 30px !important;
+            min-height: 30px !important;
+            border-radius: 8px !important;
+            background: #F3ECFB !important;
+            border: 1px solid #E5D5F7 !important;
+            color: #334155 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            box-shadow: none !important;
+        }
+        .pos-theme-toggle-btn:hover {
+            background: #E5D5F7 !important;
+            color: #8C56D4 !important;
+        }
+        .pos-theme-toggle-btn .icon-moon {
+            display: inline-block !important;
+            font-size: 13.5px !important;
+            color: #8C56D4 !important;
+        }
+        .pos-theme-toggle-btn .icon-sun {
+            display: none !important;
+            font-size: 13.5px !important;
+            color: #eab308 !important;
+        }
+
+        /* Mobile topbar variant on purple header */
+        .pos-mobile-dark-btn {
+            background: rgba(255, 255, 255, 0.22) !important;
+            border: 1px solid rgba(255, 255, 255, 0.4) !important;
+            border-radius: 20px !important;
+            width: 30px !important;
+            height: 30px !important;
+            min-width: 30px !important;
+            min-height: 30px !important;
+        }
+        .pos-mobile-dark-btn .icon-moon {
+            color: #ffffff !important;
+        }
+        .pos-mobile-dark-btn .icon-sun {
+            color: #fde047 !important;
+        }
+        .pos-mobile-dark-btn:hover {
+            background: rgba(255, 255, 255, 0.35) !important;
+        }
+
+        body[light-mode="dark"] .pos-theme-toggle-btn .icon-moon,
+        html[light-mode="dark"] .pos-theme-toggle-btn .icon-moon {
+            display: none !important;
+        }
+        body[light-mode="dark"] .pos-theme-toggle-btn .icon-sun,
+        html[light-mode="dark"] .pos-theme-toggle-btn .icon-sun {
+            display: inline-block !important;
+        }
+        body[light-mode="dark"] .pos-theme-toggle-btn:not(.pos-mobile-dark-btn) {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+        }
+
+        /* Fullscreen Button Styles (Exact Match with Dashboard Topbar) */
+        .pos-fullscreen-btn {
+            width: 30px !important;
+            height: 30px !important;
+            min-width: 30px !important;
+            min-height: 30px !important;
+            border-radius: 8px !important;
+            background: #F3ECFB !important;
+            border: 1px solid #E5D5F7 !important;
+            color: #8C56D4 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            box-shadow: none !important;
+        }
+        .pos-fullscreen-btn:hover {
+            background: #E5D5F7 !important;
+            color: #793FC5 !important;
+        }
+        .pos-fullscreen-btn svg {
+            width: 14px !important;
+            height: 14px !important;
+            display: block !important;
+            stroke: currentColor !important;
+        }
+        .pos-fullscreen-btn .icon-fullscreen-enter {
+            display: inline-block !important;
+        }
+        .pos-fullscreen-btn .icon-fullscreen-leave {
+            display: none !important;
+        }
+        .pos-fullscreen-btn.on .icon-fullscreen-enter {
+            display: none !important;
+        }
+        .pos-fullscreen-btn.on .icon-fullscreen-leave {
+            display: inline-block !important;
+        }
+        body[light-mode="dark"] .pos-fullscreen-btn {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            color: #D2B7F1 !important;
+        }
+
+        /* Custom Form Modals (Bank & Mobile Banking Dialogs matching design) */
+        .pos-custom-form-modal {
+            border-radius: 16px !important;
+            border: 1px solid #E5D5F7 !important;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18) !important;
+            background: #ffffff !important;
+            overflow: visible !important;
+        }
+        .pos-modal-title {
+            color: #1e293b;
+            font-size: 16.5px;
+            font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;
+        }
+        .pos-outlined-field {
+            position: relative;
+            margin-bottom: 18px;
+        }
+        /* Global Modal & Backdrop z-index standardization */
+        .modal {
+            z-index: 105050 !important;
+        }
+        .modal-backdrop.pos-root-backdrop,
+        .modal-backdrop.show {
+            z-index: 105040 !important;
+        }
+        /* Root Fullscreen Modal Dialogs (Centered, on top of everything) */
+        .pos-root-modal {
+            z-index: 105050 !important;
+            padding-left: 0 !important;
+        }
+        .pos-root-modal.show {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        .pos-root-modal .modal-dialog {
+            max-width: 360px !important;
+            width: 90% !important;
+            margin: auto !important;
+            min-height: auto !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        /* Bottom Sheet Modals (Customer & Product Search Sheets) - 100% Full Width */
+        .bottom-sheet.modal {
+            z-index: 105050 !important;
+            padding: 0 !important;
+        }
+        .bottom-sheet .modal-dialog {
+            position: fixed !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            max-height: 85vh !important;
+            max-height: 85dvh !important;
+            height: auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+            transform: translateY(100%);
+            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        .bottom-sheet.show .modal-dialog {
+            transform: translateY(0) !important;
+        }
+        .bottom-sheet .modal-content {
+            border-top-left-radius: 24px !important;
+            border-top-right-radius: 24px !important;
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+            border: none !important;
+            box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.28) !important;
+            background: #ffffff !important;
+            max-height: 85vh !important;
+            max-height: 85dvh !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+            width: 100% !important;
+        }
+
+        /* Fullscreen Slide-Up Modals (নতুন পার্টি & নতুন পণ্য Forms) - 100% Full Width */
+        .pos-fullscreen-sheet.modal {
+            z-index: 105055 !important;
+            padding: 0 !important;
+        }
+        .pos-fullscreen-sheet .modal-dialog {
+            position: fixed !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 100% !important;
+            height: 100dvh !important;
+            max-height: 100% !important;
+            max-height: 100dvh !important;
+            display: flex !important;
+            flex-direction: column !important;
+            transform: translateY(100%);
+            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        .pos-fullscreen-sheet.show .modal-dialog {
+            transform: translateY(0) !important;
+        }
+        .pos-fullscreen-sheet .modal-content {
+            border-radius: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+            background: #ffffff !important;
+            height: 100% !important;
+            max-height: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+            width: 100% !important;
+        }
+
+        /* Dashed upload box */
+        .pos-dashed-upload-box {
+            border: 1.5px dashed #D2B7F1;
             border-radius: 14px;
-            padding: 10px;
-            background: #ffffff;
-            height: 100px;
+            background: #FAF7FD;
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .pos-dashed-upload-box:hover {
+            background: #F3ECFB;
+            border-color: #8C56D4;
+        }
+        .product-search-item {
+            border-color: #f1f5f9 !important;
+        }
+        .product-search-item:hover {
+            background: #FAF7FD !important;
         }
 
-        .note-textarea {
+        /* Keyboard height adaptation */
+        @media (max-height: 600px) {
+            .bottom-sheet .modal-dialog {
+                max-height: 98vh !important;
+            }
+            .bottom-sheet .modal-content {
+                max-height: 98vh !important;
+            }
+        }
+        .pos-custom-form-modal {
+            width: 100% !important;
+            border-radius: 16px !important;
+            border: 1px solid #E5D5F7 !important;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28) !important;
+            background: #ffffff !important;
+            overflow: visible !important;
+        }
+        .pos-modal-title {
+            color: #1e293b;
+            font-size: 16.5px;
+            font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;
+        }
+        .pos-outlined-field {
+            position: relative;
+            margin-bottom: 18px;
+        }
+        .pos-outlined-field label {
+            position: absolute;
+            top: -8.5px;
+            left: 12px;
+            background: #ffffff;
+            padding: 0 6px;
+            font-size: 11.5px;
+            color: #64748b;
+            font-weight: 600;
+            z-index: 2;
+            pointer-events: none;
+            line-height: 1;
+            border-radius: 2px;
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+        .pos-outlined-input {
+            width: 100%;
+            height: 48px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-size: 14.5px;
+            color: #1e293b;
+            background: #ffffff;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;
+        }
+        .pos-outlined-input:focus {
+            border-color: #8C56D4;
+            box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.18);
+        }
+        .pos-modal-btn-cancel {
+            color: #ef4444 !important;
+            font-size: 14.5px;
+            font-weight: 600;
+            background: transparent !important;
+            cursor: pointer;
+            border: none !important;
+            transition: color 0.2s, opacity 0.2s;
+        }
+        .pos-modal-btn-cancel:hover {
+            color: #dc2626 !important;
+            opacity: 0.9;
+        }
+        .pos-modal-btn-submit {
+            color: #8C56D4 !important;
+            font-size: 14.5px;
+            font-weight: 700;
+            background: transparent !important;
+            cursor: pointer;
+            border: none !important;
+            transition: color 0.2s;
+        }
+        .pos-modal-btn-submit:hover {
+            color: #793FC5 !important;
+        }
+
+        /* Dark Mode for Custom Form Modals */
+        body[light-mode="dark"] .pos-custom-form-modal {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6) !important;
+        }
+        body[light-mode="dark"] .pos-modal-title {
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .pos-outlined-field label {
+            background: #1e293b !important;
+            color: #94a3b8 !important;
+        }
+        body[light-mode="dark"] .pos-outlined-input {
+            background: #0f172a !important;
+            border-color: #334155 !important;
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .pos-outlined-input:focus {
+            border-color: #8C56D4 !important;
+            box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.3) !important;
+        }
+        body[light-mode="dark"] .pos-modal-btn-cancel {
+            color: #f87171 !important;
+        }
+        body[light-mode="dark"] .pos-modal-btn-submit {
+            color: #D2B7F1 !important;
+        }
+
+        .btn-plus-payment-method {
+            border: none;
+            background: transparent;
+            color: #8C56D4;
+            font-size: 22px;
+            padding: 0 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+        }
+        .btn-plus-payment-method:hover {
+            transform: scale(1.15);
+            color: #793FC5;
+        }
+
+        /* 7. Checkbox: লেনদেনের মেসেজ পাঠান */
+        .pos-mobile-sms-row {
+            margin: 0 16px 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 12px;
+        }
+        .sms-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+            cursor: pointer;
+            margin: 0;
+        }
+        .custom-sms-checkbox {
+            width: 19px;
+            height: 19px;
+            border: 1.5px solid #94a3b8;
+            border-radius: 4px;
+            cursor: pointer;
+            accent-color: #8C56D4;
+        }
+
+        /* 8. Bottom Dual Box: Note Textarea & Image Upload */
+        .pos-mobile-bottom-dual-grid {
+            margin: 0 16px 18px 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .bottom-dual-box {
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            height: 100px;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bottom-dual-box.note-box {
+            padding: 10px 12px;
+        }
+
+        .bottom-dual-box .note-input {
             border: none;
             outline: none;
             width: 100%;
@@ -986,63 +1566,199 @@
             color: #334155;
             background: transparent;
         }
-
-        .note-textarea::placeholder {
+        .bottom-dual-box .note-input::placeholder {
             color: #94a3b8;
-            font-size: 13px;
         }
 
-        .image-upload-box {
-            border: 1.5px solid #cbd5e1;
-            border-radius: 14px;
-            height: 100px;
-            background: #ffffff;
+        .bottom-dual-box.image-box {
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
             transition: border-color 0.2s ease;
         }
-
-        .image-upload-box:hover {
-            border-color: #16a34a;
+        .bottom-dual-box.image-box:hover {
+            border-color: #8C56D4;
         }
 
-        .upload-icon-circle {
-            color: #16a34a;
-            font-size: 20px;
+        .upload-placeholder-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .placeholder-landscape-svg {
-            width: 46px;
-            height: 38px;
+        .upload-plus-circle {
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            color: #8C56D4;
+            font-size: 18px;
         }
 
-        /* Fixed Sticky Save Button */
+        .placeholder-art-svg {
+            width: 58px;
+            height: 48px;
+            opacity: 0.85;
+        }
+
+        /* 9. Fixed Sticky Bottom Action Button ("সেভ করুন") - Full Width & Identical Height Everywhere */
         .pos-mobile-sticky-footer {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 50px !important;
             background: #ffffff;
-            padding: 12px 16px 16px 16px;
-            box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.1);
+            padding: 0 !important;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
             z-index: 1050;
+            display: flex;
+            align-items: center;
         }
 
-        .btn-mobile-save-invoice {
-            background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
-            color: #ffffff;
-            border: none;
-            border-radius: 14px;
-            padding: 14px;
-            width: 100%;
-            font-weight: 800;
-            font-size: 17px;
+        .pos-modal-sticky-footer {
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 50px !important;
+            background: #ffffff;
+            padding: 0 !important;
+            margin: 0 !important;
+            box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+            z-index: 1050;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-mobile-save-invoice,
+        .pos-btn-save-full {
+            background: #8C56D4 !important;
+            color: #ffffff !important;
+            border: none !important;
+            border-radius: 0 !important;
+            height: 50px !important;
+            min-height: 50px !important;
+            max-height: 50px !important;
+            width: 100% !important;
+            font-weight: 700 !important;
+            font-size: 16.5px !important;
             letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.35);
+            cursor: pointer;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            transition: background 0.2s ease;
+        }
+        .btn-mobile-save-invoice:hover,
+        .pos-btn-save-full:hover {
+            background: #793FC5 !important;
+        }
+
+        /* Dark Mode Overrides (rules.md strictly) */
+        body[light-mode="dark"] .pos-mobile-wrapper {
+            background: #121212 !important;
+            color: #f1f5f9 !important;
+        }
+        body[light-mode="dark"] .pos-mobile-subhead {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            color: #94a3b8 !important;
+        }
+        body[light-mode="dark"] .subhead-val,
+        body[light-mode="dark"] #mobileInvoiceDateInput {
+            color: #f1f5f9 !important;
+        }
+        body[light-mode="dark"] .pos-mobile-customer-box,
+        body[light-mode="dark"] .pos-mobile-calc-card,
+        body[light-mode="dark"] .pos-mobile-payment-card-box,
+        body[light-mode="dark"] .bottom-dual-box {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            color: #f1f5f9 !important;
+        }
+        body[light-mode="dark"] .dropdown-category-header {
+            background: #261343 !important;
+            border-color: #334155 !important;
+        }
+        body[light-mode="dark"] .dropdown-category-title {
+            color: #D2B7F1 !important;
+        }
+        body[light-mode="dark"] .customer-placeholder {
+            color: #94a3b8 !important;
+        }
+        body[light-mode="dark"] .customer-selected-name {
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .btn-add-item-banner {
+            background: rgba(140, 86, 212, 0.2) !important;
+            color: #D2B7F1 !important;
+        }
+        body[light-mode="dark"] .calc-row-title,
+        body[light-mode="dark"] .calc-row-sym,
+        body[light-mode="dark"] .payment-section-header,
+        body[light-mode="dark"] .sms-label {
+            color: #f1f5f9 !important;
+        }
+        body[light-mode="dark"] .calc-box-input,
+        body[light-mode="dark"] .payment-method-custom-btn,
+        body[light-mode="dark"] .payment-amount-input-box {
+            background: #0f172a !important;
+            border-color: #334155 !important;
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .payment-amount-input-box .currency-tag {
+            background: #261343 !important;
+            border-color: #334155 !important;
+            color: #D2B7F1 !important;
+        }
+        body[light-mode="dark"] .payment-extra-fields-wrap {
+            border-top-color: #334155 !important;
+        }
+        body[light-mode="dark"] .extra-icon-addon {
+            background: #261343 !important;
+            border-color: #334155 !important;
+            color: #D2B7F1 !important;
+        }
+        body[light-mode="dark"] .payment-extra-input {
+            background: #0f172a !important;
+            border-color: #334155 !important;
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .btn-add-payment-opt {
+            background: #261343 !important;
+            color: #D2B7F1 !important;
+        }
+        body[light-mode="dark"] .dropdown-header-custom {
+            background: #1e293b !important;
+            color: #94a3b8 !important;
+        }
+        body[light-mode="dark"] .dropdown-menu {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        body[light-mode="dark"] .dropdown-item {
+            color: #f1f5f9 !important;
+        }
+        body[light-mode="dark"] .dropdown-item:hover {
+            background: #334155 !important;
+        }
+        body[light-mode="dark"] .bottom-dual-box .note-input {
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .pos-mobile-sticky-footer {
+            background: #1e293b !important;
+            border-top: 1px solid #334155 !important;
         }
     </style>
 
@@ -1058,165 +1774,160 @@
 <body>
     <!-- MOBILE EXCLUSIVE POS UI CONTAINER (Active on screens < 992px) -->
     <div class="pos-mobile-wrapper">
-        <!-- 1. Mobile Top Purple Header -->
+        <!-- 1. Mobile Top Purple Header (Sticky Fixed) -->
         <div class="pos-mobile-header">
-            <a href="{{ url('admin-dashboard') }}" class="pos-mobile-back-btn">
-                <i class="fa-solid fa-chevron-left"></i>
-            </a>
-            <h5 class="pos-mobile-title">নতুন বিক্রয়</h5>
+            <div class="d-flex align-items-center gap-2">
+                <a href="{{ url('admin-dashboard') }}" class="pos-mobile-back-btn">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <h5 class="pos-mobile-title">নতুন বিক্রয়</h5>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <!-- Theme Toggle Button (Moon / Sun) -->
+                <button type="button" class="pos-theme-toggle-btn pos-mobile-dark-btn" aria-label="Toggle Light/Dark Mode"
+                    onclick="toggle_light_mode()" title="Toggle Light/Dark Theme">
+                    <i class="fa-regular fa-moon icon-moon"></i>
+                    <i class="fa-regular fa-sun icon-sun"></i>
+                </button>
+                <!-- Segmented Pill Toggle: Cash / Credit -->
+                <div class="pos-mobile-type-toggle">
+                    <button type="button" class="type-btn active" id="mobileTypeCashBtn" onclick="switchMobileSaleType('Cash')">Cash</button>
+                    <button type="button" class="type-btn" id="mobileTypeCreditBtn" onclick="switchMobileSaleType('Credit')">Credit</button>
+                </div>
+            </div>
         </div>
 
         <!-- 2. Mobile Sub-Header Info Bar -->
         <div class="pos-mobile-subhead">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-                <span class="subhead-label">ইনভয়েস নম্বর : <span id="mobileInvoiceNo"></span></span>
-                <span class="subhead-label">ইনভয়েস তারিখ : <span id="mobileInvoiceDate">{{ date('d/m/Y') }}</span> 📅</span>
-            </div>
-            <div class="text-end fw-bold text-dark" style="font-size: 13px;">
-                মোট : <span id="mobileHeaderTotal" class="text-primary fw-extrabold">৳ ০.০০</span>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="subhead-left">
+                    <span class="subhead-label text-muted">ইনভয়েস নম্বর : </span>
+                    <span id="mobileInvoiceNo" class="subhead-val"></span>
+                </div>
+                <div class="subhead-right d-flex align-items-center" id="mobileDateClickWrap" onclick="openInvoiceDatePicker(event)" style="cursor: pointer;" title="তারিখ পরিবর্তন করতে ক্লিক করুন">
+                    <span class="subhead-label text-muted flex-shrink-0">ইনভয়েস তারিখ :&nbsp;</span>
+                    <input type="text" id="mobileInvoiceDateInput" readonly value="{{ str_replace(['0','1','2','3','4','5','6','7','8','9'], ['০','১','২','৩','৪','৫','৬','৭','৮','৯'], date('d/m/Y')) }}" class="subhead-date-input" onclick="openInvoiceDatePicker(event)" style="border: none !important; background: transparent !important; outline: none !important; box-shadow: none !important; font-size: 13px !important; font-weight: 700 !important; color: #1e293b; width: 95px; padding: 0 2px; cursor: pointer; text-align: center;" />
+                    <span class="calendar-btn-icon ms-1" onclick="openInvoiceDatePicker(event)" style="color: #8C56D4; cursor: pointer; font-size: 14px;">
+                        <i class="fa-regular fa-calendar-days"></i>
+                    </span>
+                    <input type="hidden" id="mobileInvoiceDate" value="{{ date('d/m/Y') }}" />
+                </div>
             </div>
         </div>
 
-        <!-- 3. Customer Field Group ("কাস্টমার যোগ করুন") -->
-        <div class="pos-mobile-field-group">
-            <label class="field-group-label">কাস্টমার যোগ করুন</label>
+        <!-- 3. Customer Selection Box ("কাস্টমার যোগ করুন") -->
+        <div class="pos-mobile-customer-box" onclick="openMobileCustomerSearchModal()">
             <div class="d-flex align-items-center justify-content-between">
-                <div class="flex-grow-1" id="mobileCustomerSelectBox" onclick="openMobileCustomerSearchModal()" style="cursor: pointer;">
-                    <div id="mobileCustomerNameDisplay" class="fw-bold text-dark" style="font-size: 15px;">কাস্টমার সিলেক্ট করুন</div>
-                    <div id="mobileCustomerSubDisplay" class="small text-muted mt-1 d-none" style="font-size: 12px; line-height: 1.3;"></div>
-                </div>
-                <button type="button" class="btn-info-icon ms-2" onclick="openMobileCustomerSearchModal()">
-                    <i class="fa-solid fa-circle-info"></i>
-                </button>
+                <span id="mobileCustomerPlaceholder" class="customer-placeholder">কাস্টমার যোগ করুন</span>
+                <i class="fa-solid fa-circle-info customer-info-icon"></i>
             </div>
+            <input type="hidden" id="mobileCustomerDate" value="{{ date('Y-m-d') }}" />
         </div>
 
-        <input type="hidden" id="mobileCustomerDate" value="{{ date('Y-m-d') }}" />
-
-        <!-- 4. Added Products Mobile Card List -->
-        <div class="pos-mobile-cart-card">
-            <div id="mobileCartItemsList">
-                <!-- Dynamically populated mobile cart items -->
-                <div class="text-center py-4 text-muted" id="mobileCartEmptyMsg">
-                    <i class="fa-solid fa-cart-shopping fs-3 mb-2 text-secondary"></i>
-                    <p class="mb-0 small">এখনও কোনো আইটেম যোগ করা হয়নি</p>
-                </div>
-            </div>
-
-            <!-- Mobile Cart Summary Row -->
-            <div class="mobile-cart-summary">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span>মোট পরিমাণ <strong id="mobileTotalQty">০</strong></span>
-                    <span>মোট মূল্য <strong id="mobileTotalPrice" class="text-primary">৳ ০.০০</strong></span>
-                </div>
-            </div>
-
-            <!-- Item Add Button -->
-            <button type="button" class="btn-add-item-mobile" onclick="openMobileProductSearchModal()">
-                <i class="fa-solid fa-circle-plus text-primary me-1"></i> আইটেম যোগ করুন
+        <!-- 4. "আইটেম যোগ করুন (না দিলেও হবে)" Banner & Cart List -->
+        <div class="pos-mobile-item-section">
+            <button type="button" class="btn-add-item-banner" onclick="openMobileProductSearchModal()">
+                <i class="fa-solid fa-circle-plus"></i>
+                <span>আইটেম যোগ করুন (না দিলেও হবে)</span>
             </button>
+            <!-- Added Products List if items are selected -->
+            <div id="mobileCartItemsList">
+                <!-- Dynamically populated cart items or empty -->
+            </div>
         </div>
 
-        <!-- 5. Financial Calculations Summary Panel -->
+        <!-- 5. Financial Calculations Summary Panel (4 Rows matching reference screenshot) -->
         <div class="pos-mobile-calc-card">
-            <div class="calc-row">
-                <span class="calc-label">মোট মূল্য</span>
-                <div class="calc-input-wrap">
-                    <span class="currency-sym">৳</span>
-                    <input type="text" readonly id="mobileGrossTotal" value="0.00" class="calc-input" />
+            <!-- Row 1: মোট মূল্য -->
+            <div class="calc-table-row">
+                <span class="calc-row-title">মোট মূল্য</span>
+                <span class="calc-row-sym">৳</span>
+                <div class="calc-input-wrapper">
+                    <input type="text" inputmode="decimal" id="mobileGrossTotal" value="" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this); onManualGrossChange(this.value);" class="calc-box-input" placeholder="০.০০" />
+                    <span class="calc-error-hint" id="grossTotalErrorHint" style="display: none;">মোট মূল্য অবশ্যই দিতে হবে</span>
                 </div>
             </div>
-            <div class="calc-row">
-                <span class="calc-label">ডিসকাউন্ট</span>
-                <div class="calc-input-wrap">
-                    <span class="currency-sym">৳</span>
-                    <input type="text" inputmode="decimal" id="mobileDiscountInput" oninput="enforceBanglaNumberInput(this); syncMobileCalcInputs()" placeholder="" class="calc-input" />
+
+            <!-- Row 2: ডেলিভারি চার্জ -->
+            <div class="calc-table-row">
+                <span class="calc-row-title">ডেলিভারি চার্জ</span>
+                <span class="calc-row-sym">৳</span>
+                <div class="calc-input-wrapper">
+                    <input type="text" inputmode="decimal" id="mobileDeliveryCharge" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this); syncMobileCalcInputs()" placeholder="" class="calc-box-input" />
                 </div>
             </div>
-            <div class="calc-row">
-                <span class="calc-label">ডেলিভারি চার্জ</span>
-                <div class="calc-input-wrap">
-                    <span class="currency-sym">৳</span>
-                    <input type="text" inputmode="decimal" id="mobileDeliveryCharge" oninput="enforceBanglaNumberInput(this); syncMobileCalcInputs()" placeholder="" class="calc-input" />
+
+            <!-- Row 3: সর্বমোট মূল্য -->
+            <div class="calc-table-row">
+                <span class="calc-row-title fw-bold">সর্বমোট মূল্য</span>
+                <span class="calc-row-sym">৳</span>
+                <div class="calc-input-wrapper">
+                    <input type="text" readonly id="mobileNetTotal" value="" class="calc-box-input fw-bold" />
                 </div>
             </div>
-            <div class="calc-row">
-                <span class="calc-label">সর্বমোট মূল্য</span>
-                <div class="calc-input-wrap">
-                    <span class="currency-sym">৳</span>
-                    <input type="text" readonly id="mobileNetTotal" value="0.00" class="calc-input fw-bold" />
+
+            <!-- Row 4: পেলাম -->
+            <div class="calc-table-row">
+                <span class="calc-row-title fw-bold">পেলাম</span>
+                <span class="calc-row-sym">৳</span>
+                <div class="calc-input-wrapper">
+                    <input type="text" inputmode="decimal" id="mobilePaidInput" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this); syncMobileCalcInputs()" placeholder="" class="calc-box-input" />
                 </div>
             </div>
-            <div class="calc-row">
-                <span class="calc-label">পেলাম</span>
-                <div class="calc-input-wrap">
-                    <span class="currency-sym">৳</span>
-                    <input type="text" inputmode="decimal" id="mobilePaidInput" oninput="enforceBanglaNumberInput(this); syncMobileCalcInputs()" placeholder="" class="calc-input" />
-                </div>
-            </div>
-            <div class="calc-row">
-                <span class="calc-label">বাকি</span>
-                <div class="calc-input-wrap">
-                    <span class="currency-sym">৳</span>
-                    <input type="text" readonly id="mobileDueInput" value="0.00" class="calc-input text-danger fw-bold" />
-                </div>
-            </div>
+
+            <!-- Hidden inputs to maintain compatibility with existing calculation functions -->
+            <input type="hidden" id="mobileDiscountInput" value="" />
+            <input type="hidden" id="mobileDueInput" value="" />
         </div>
 
-        <!-- 6. Payment Method Section (Exact Parity with Reference Screenshot) -->
-        <div class="pos-mobile-payment-card">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-                <span class="payment-card-title">
-                    পেমেন্টের মাধ্যম <i class="fa-solid fa-circle-info text-muted ms-1" style="font-size: 13px;" title="পেমেন্টের একাধিক মাধ্যম নির্বাচন করতে পারেন"></i>
-                </span>
+        <!-- 6. Payment Method Section -->
+        <div class="pos-mobile-payment-section">
+            <div class="payment-section-header">
+                <span>পেমেন্টের মাধ্যম</span>
+                <i class="fa-solid fa-circle-info text-muted ms-1" style="font-size: 13px;"></i>
             </div>
 
             <!-- Dynamic Payment Rows Container -->
             <div id="mobilePaymentRowsContainer">
-                <!-- Dynamically rendered payment cards -->
+                <!-- Dynamically rendered payment card boxes -->
             </div>
         </div>
 
-        <!-- 6.5. Additional Note & Document Image Upload Section (Exact Parity with Highlighted Screenshot) -->
-        <div class="pos-mobile-note-image-card">
-            <!-- Send Due SMS Checkbox Row -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <label class="form-check-label d-flex align-items-center gap-2 fw-bold text-dark cursor-pointer m-0" style="font-size: 14px;">
-                    <span>বাকির মেসেজ পাঠান</span>
-                    <input type="checkbox" id="chkSendCreditSms" class="form-check-input m-0" style="width: 18px; height: 18px; border-radius: 4px;" />
-                </label>
+        <!-- 7. Checkbox: লেনদেনের মেসেজ পাঠান -->
+        <div class="pos-mobile-sms-row">
+            <label class="sms-label" for="chkSendTransactionSms">
+                <span>লেনদেনের মেসেজ পাঠান</span>
+                <input type="checkbox" id="chkSendTransactionSms" class="custom-sms-checkbox" />
+            </label>
+            <!-- Hidden alias for previous chkSendCreditSms -->
+            <input type="checkbox" id="chkSendCreditSms" class="d-none" />
+        </div>
+
+        <!-- 8. Bottom Dual Box: Note Textarea & Image Upload -->
+        <div class="pos-mobile-bottom-dual-grid">
+            <!-- Left Box: বর্ণনা (০/২৫০) -->
+            <div class="bottom-dual-box note-box">
+                <textarea id="mobileOrderNote" maxlength="250" placeholder="বর্ণনা (০/২৫০)" class="note-input" oninput="updateMobileNoteCharCount(this); syncMobileNoteToDesktop(this.value)"></textarea>
             </div>
 
-            <!-- Note Textarea & Image Upload Dual Box Row -->
-            <div class="row g-2">
-                <!-- Left Box: Description (0/250) Textarea -->
-                <div class="col-8">
-                    <div class="note-textarea-wrap">
-                        <textarea id="mobileOrderNote" maxlength="250" placeholder="বর্ণনা (০/২৫০)" class="note-textarea" oninput="updateMobileNoteCharCount(this); syncMobileNoteToDesktop(this.value)"></textarea>
+            <!-- Right Box: Image Upload Box with '+' Preview Icon -->
+            <div class="bottom-dual-box image-box" onclick="triggerMobileDocumentUpload()">
+                <input type="file" id="mobileDocumentImage" accept="image/*" class="d-none" onchange="previewMobileDocumentImage(this)" />
+                <div id="mobileImagePlaceholder" class="upload-placeholder-content">
+                    <div class="upload-plus-circle">
+                        <i class="fa-solid fa-circle-plus"></i>
                     </div>
+                    <svg class="placeholder-art-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="#B48BE8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="8.5" cy="8.5" r="1.5" fill="#D2B7F1"/>
+                        <path d="M21 15L16 10L5 21" stroke="#B48BE8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </div>
-
-                <!-- Right Box: Image Upload Box with '+' Preview Icon -->
-                <div class="col-4">
-                    <div class="image-upload-box" onclick="triggerMobileDocumentUpload()">
-                        <input type="file" id="mobileDocumentImage" accept="image/*" class="d-none" onchange="previewMobileDocumentImage(this)" />
-                        <div id="mobileImagePlaceholder" class="d-flex flex-column align-items-center justify-content-center text-center h-100">
-                            <div class="upload-icon-circle mb-1">
-                                <i class="fa-solid fa-circle-plus"></i>
-                            </div>
-                            <svg class="placeholder-landscape-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <circle cx="8.5" cy="8.5" r="1.5" fill="#cbd5e1"/>
-                                <path d="M21 15L16 10L5 21" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <img id="mobileImagePreview" src="" alt="Preview" class="d-none w-100 h-100 object-fit-cover rounded-3" />
-                    </div>
-                </div>
+                <img id="mobileImagePreview" src="" alt="Preview" class="d-none w-100 h-100 object-fit-cover rounded-3" />
             </div>
         </div>
 
-        <!-- 7. Fixed Sticky Bottom Action Button -->
+        <!-- 9. Fixed Sticky Bottom Action Button ("সেভ করুন") -->
         <div class="pos-mobile-sticky-footer">
             <button type="button" onclick="SavePaymentInfo(event)" class="btn-mobile-save-invoice">
                 সেভ করুন
@@ -1224,77 +1935,248 @@
         </div>
     </div>
 
-    <!-- Mobile Customer Search & Listing Bottom Sheet Modal (Exact Screenshot Parity) -->
+    <!-- Mobile Customer Search & Listing Bottom Sheet Modal -->
     <div class="modal fade bottom-sheet" id="mobileCustomerSearchModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content border-0 p-3" style="border-top-left-radius: 28px; border-top-right-radius: 28px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2);">
-                <div class="quick-modal-handle"></div>
-
-                <!-- Top Search Input with Embedded Plus Icon -->
-                <div class="d-flex align-items-center gap-2 mb-3">
-                    <div class="position-relative flex-grow-1 d-flex align-items-center bg-light rounded-pill px-3 py-1" style="border: 1px solid #e2e8f0; height: 48px;">
-                        <i class="fa-solid fa-magnifying-glass text-muted me-2 fs-5"></i>
-                        <input type="text" id="mobileCustomerSearchInput" oninput="filterMobileCustomers(this.value)" class="border-0 bg-transparent flex-grow-1 outline-none fw-bold" placeholder="কাস্টমার খুঁজুন..." style="font-size: 15px; color: #1e293b;" />
+        <div class="modal-dialog">
+            <div class="modal-content border-0">
+                <!-- Top Search Input Bar with Embedded Plus Icon (Matches Image 3) -->
+                <div class="d-flex align-items-center gap-2 p-3 pb-2 border-bottom">
+                    <div class="pos-sheet-search-wrap d-flex align-items-center flex-grow-1 px-3 py-1 rounded-pill" style="background: #f1f5f9; border: 1.5px solid #e2e8f0; height: 44px;">
+                        <i class="fa-solid fa-magnifying-glass me-2" style="color: #8C56D4; font-size: 15px;"></i>
+                        <input type="text" id="mobileCustomerSearchInput" oninput="filterMobileCustomers(this.value)" class="border-0 bg-transparent flex-grow-1 outline-none fw-semibold p-0" placeholder="কাস্টমার খুঁজুন..." style="font-size: 14.5px; color: #1e293b;" autocomplete="off" />
                     </div>
-                    <button type="button" class="btn btn-light rounded-circle shadow-xs d-flex align-items-center justify-content-center flex-shrink-0" onclick="openCreateCustomerModalFromMobile()" style="width: 48px; height: 48px; border: 1px solid #e2e8f0; color: #16a34a; background: #ffffff;">
-                        <i class="fa-solid fa-plus fs-4"></i>
-                    </button>
-                </div>
-
-                <!-- Customer List Container -->
-                <div id="mobileCustomerModalList" style="max-height: 380px; overflow-y: auto;">
-                    <!-- Dynamically populated customer list -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mobile Product Search Bottom Sheet Modal (Exact Screenshot Parity with Add Button Fix) -->
-    <div class="modal fade bottom-sheet" id="mobileProductSearchModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content border-0 p-3" style="border-top-left-radius: 28px; border-top-right-radius: 28px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2);">
-                <div class="quick-modal-handle"></div>
-
-                <!-- Modal Title & Add Product Header Button -->
-                <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
-                    <h6 class="fw-extrabold text-dark m-0 d-flex align-items-center gap-2" style="font-size: 15px;">
-                        <i class="fa-solid fa-boxes-stacked text-success"></i>
-                        <span>প্রোডাক্ট সিলেক্ট করুন</span>
-                    </h6>
-                    <button type="button" class="btn btn-sm btn-success rounded-pill px-3 py-1.5 fw-bold shadow-xs d-flex align-items-center gap-1" onclick="openCreateProductModalFromMobile()" style="font-size: 12px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;">
-                        <i class="fa-solid fa-plus"></i>
-                        <span>নতুন প্রোডাক্ট</span>
-                    </button>
-                </div>
-
-                <!-- Top Search Input with Embedded Barcode & Plus Icons -->
-                <div class="d-flex align-items-center gap-2 mb-3">
-                    <div class="position-relative flex-grow-1 d-flex align-items-center bg-light rounded-pill px-3 py-1" style="border: 1px solid #cbd5e1; height: 42px; min-width: 0;">
-                        <i class="fa-solid fa-magnifying-glass text-muted me-2 fs-6 flex-shrink-0"></i>
-                        <input type="text" id="mobileModalSearchInput" oninput="filterMobileProducts(this.value)" class="border-0 bg-transparent flex-grow-1 outline-none fw-bold p-0" placeholder="সার্চ করুন..." style="font-size: 14px; color: #1e293b; min-width: 0;" />
-                    </div>
-                    <button type="button" class="btn btn-light rounded-circle shadow-xs d-flex align-items-center justify-content-center flex-shrink-0 p-0" onclick="openCameraScanner()" style="width: 38px; height: 38px; border: 1px solid #cbd5e1; color: #16a34a; background: #ffffff;" title="বারকোড স্ক্যানার">
-                        <i class="fa-solid fa-qrcode fs-6"></i>
-                    </button>
-                    <button type="button" class="btn btn-success rounded-circle shadow-sm d-flex align-items-center justify-content-center flex-shrink-0 p-0" onclick="openCreateProductModalFromMobile()" style="width: 38px; height: 38px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none; color: #ffffff;" title="নতুন প্রোডাক্ট তৈরি করুন">
+                    <button type="button" class="btn rounded-circle shadow-xs d-flex align-items-center justify-content-center flex-shrink-0" onclick="openMobileNewCustomerModal()" style="width: 42px; height: 42px; border: 1.5px solid #E5D5F7; color: #8C56D4; background: #FAF7FD;" title="নতুন কাস্টমার যোগ করুন">
                         <i class="fa-solid fa-plus fs-5"></i>
                     </button>
                 </div>
 
-                <!-- Product List Container -->
-                <div id="mobileProductsGrid" style="max-height: 380px; overflow-y: auto;">
-                    <!-- Dynamically populated product items -->
+                <!-- Customer List Container -->
+                <div id="mobileCustomerModalList" class="p-2" style="flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 120px;">
+                    <!-- Dynamically populated customer list -->
+                </div>
+
+                <!-- Fixed Sticky Footer Button: সেভ করুন (Full Width, Sticky above Keyboard) -->
+                <div class="pos-modal-sticky-footer">
+                    <button type="button" class="pos-btn-save-full" onclick="closeMobileCustomerSearchModal()">
+                        সেভ করুন
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Mobile "নতুন আইটেম লাইন" Form Bottom Sheet Modal (100% User Screenshot Replica) -->
+    <!-- Mobile Product Search Bottom Sheet Modal (100% Matches Image 1 & 4) -->
+    <div class="modal fade bottom-sheet" id="mobileProductSearchModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border-0">
+                <!-- Top Search Bar with QR and Plus Icon (Exact Match for Image 1 & 4) -->
+                <div class="d-flex align-items-center gap-2.5 p-3 pb-2 border-bottom">
+                    <div class="pos-sheet-search-wrap d-flex align-items-center flex-grow-1 px-3 py-1 rounded-pill" style="background: #f1f5f9; border: 1.5px solid #e2e8f0; height: 44px;">
+                        <i class="fa-solid fa-magnifying-glass me-2" style="color: #8C56D4; font-size: 15px;"></i>
+                        <input type="text" id="mobileModalSearchInput" oninput="filterMobileProducts(this.value)" class="border-0 bg-transparent flex-grow-1 outline-none fw-semibold p-0" placeholder="সার্চ করুন" style="font-size: 14.5px; color: #1e293b;" autocomplete="off" />
+                    </div>
+                    <button type="button" class="btn p-0 border-0 d-flex align-items-center justify-content-center flex-shrink-0" onclick="openCameraScanner()" style="color: #8C56D4; width: 36px; height: 36px; font-size: 19px;" title="বারকোড স্ক্যানার">
+                        <i class="fa-solid fa-qrcode"></i>
+                    </button>
+                    <button type="button" class="btn p-0 border-0 d-flex align-items-center justify-content-center flex-shrink-0" onclick="openMobileNewProductModal()" style="color: #8C56D4; width: 36px; height: 36px; font-size: 22px;" title="নতুন প্রোডাক্ট যোগ করুন">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+
+                <!-- Product List Container -->
+                <div id="mobileProductsGrid" style="flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 120px;">
+                    <!-- Dynamically populated product items matching Image 1 & 4 -->
+                </div>
+
+                <!-- Fixed Sticky Footer Button: সেভ করুন (Full Width, Sticky above Keyboard) -->
+                <div class="pos-modal-sticky-footer">
+                    <button type="button" class="pos-btn-save-full" onclick="closeMobileProductSearchModal()">
+                        সেভ করুন
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: নতুন পার্টি (Add New Customer - 100% Matches Image 2) -->
+    <div class="modal fade pos-fullscreen-sheet" id="modalMobileNewCustomer" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="d-flex align-items-center px-3 py-3" style="background: #8C56D4; color: #ffffff; flex-shrink: 0;">
+                    <button type="button" class="border-0 bg-transparent text-white p-0 fs-5 me-3 cursor-pointer" onclick="closeMobileNewCustomerModal()">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <h5 class="fw-bold m-0 text-white" style="font-size: 17px;">নতুন পার্টি</h5>
+                </div>
+
+                <!-- Scrollable Body -->
+                <div class="p-3" style="flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;">
+                    <!-- Radio Toggle: কাস্টমার / সাপ্লায়ার -->
+                    <div class="d-flex align-items-center gap-4 mb-4 mt-1 px-1">
+                        <label class="d-flex align-items-center gap-2 cursor-pointer fw-semibold text-dark m-0" style="font-size: 14.5px;">
+                            <input type="radio" name="mobilePartyTypeRadio" value="customer" checked onchange="onMobilePartyTypeChange('customer')" style="accent-color: #8C56D4; width: 18px; height: 18px;" />
+                            <span>কাস্টমার</span>
+                        </label>
+                        <label class="d-flex align-items-center gap-2 cursor-pointer fw-semibold text-muted m-0" style="font-size: 14.5px;">
+                            <input type="radio" name="mobilePartyTypeRadio" value="supplier" onchange="onMobilePartyTypeChange('supplier')" style="accent-color: #8C56D4; width: 18px; height: 18px;" />
+                            <span>সাপ্লায়ার</span>
+                        </label>
+                    </div>
+
+                    <!-- 1. নাম -->
+                    <div class="pos-outlined-field">
+                        <label>নাম</label>
+                        <input type="text" id="mobileNewCustName" class="pos-outlined-input pe-5" placeholder="" autocomplete="off" />
+                        <i class="fa-regular fa-address-card" style="position: absolute; right: 14px; top: 15px; color: #64748b; font-size: 16px; pointer-events: none;"></i>
+                    </div>
+
+                    <!-- 2. ফোন নম্বর -->
+                    <div class="pos-outlined-field">
+                        <label>ফোন নম্বর</label>
+                        <input type="tel" id="mobileNewCustMobile" class="pos-outlined-input" inputmode="tel" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, false)" placeholder="" autocomplete="off" />
+                    </div>
+
+                    <!-- 3. ইমেইল -->
+                    <div class="pos-outlined-field">
+                        <label>ইমেইল</label>
+                        <input type="email" id="mobileNewCustEmail" class="pos-outlined-input" placeholder="" autocomplete="off" />
+                    </div>
+
+                    <!-- 4. ঠিকানা -->
+                    <div class="pos-outlined-field">
+                        <label>ঠিকানা</label>
+                        <textarea id="mobileNewCustAddress" class="pos-outlined-input" style="height: 100px; padding-top: 12px; resize: none;" placeholder=""></textarea>
+                    </div>
+
+                    <!-- 5. আমার পাওনা / আগের দেনা -->
+                    <div class="pos-outlined-field">
+                        <label id="lblMobileNewPartyDue">আমার পাওনা</label>
+                        <input type="text" id="mobileNewCustDue" class="pos-outlined-input pe-5" value="0" inputmode="decimal" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, true)" autocomplete="off" />
+                        <i class="fa-solid fa-circle-info" style="position: absolute; right: 14px; top: 16px; color: #94a3b8; font-size: 14px; pointer-events: none;"></i>
+                    </div>
+
+                    <!-- 6. পাওনার তারিখ / দেনার তারিখ -->
+                    <div class="pos-outlined-field">
+                        <label id="lblMobileNewPartyDueDate">পাওনার তারিখ</label>
+                        <input type="text" id="mobileNewCustDueDate" class="pos-outlined-input pe-5" readonly value="{{ str_replace(['0','1','2','3','4','5','6','7','8','9'], ['০','১','২','৩','৪','৫','৬','৭','৮','৯'], date('d/m/Y')) }}" style="cursor: pointer;" />
+                        <i class="fa-regular fa-calendar-days" style="position: absolute; right: 14px; top: 16px; color: #8C56D4; font-size: 16px; cursor: pointer;"></i>
+                    </div>
+
+                    <!-- 7. Upload Photo Box -->
+                    <div class="mb-3">
+                        <div class="pos-dashed-upload-box" onclick="triggerMobileNewCustPhotoUpload()">
+                            <input type="file" id="mobileNewCustPhoto" accept="image/*" class="d-none" onchange="previewMobileNewCustPhoto(this)" />
+                            <div id="mobileNewCustPhotoPlaceholder">
+                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 38px; color: #8C56D4;"></i>
+                                <div class="fw-semibold text-muted mt-2" style="font-size: 13.5px;">পার্টির ছবি আপলোড করুন</div>
+                            </div>
+                            <img id="mobileNewCustPhotoPreview" src="" alt="Preview" class="d-none w-100 rounded-3" style="max-height: 140px; object-fit: cover;" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fixed Sticky Footer Button: সেভ করুন -->
+                <div class="pos-modal-sticky-footer">
+                    <button type="button" class="pos-btn-save-full" onclick="submitMobileNewCustomer()">
+                        সেভ করুন
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: নতুন পণ্য (Add New Product - 100% Matches Image 5) -->
+    <div class="modal fade pos-fullscreen-sheet" id="modalMobileNewProduct" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="d-flex align-items-center justify-content-between px-3 py-3" style="background: #8C56D4; color: #ffffff; flex-shrink: 0;">
+                    <button type="button" class="border-0 bg-transparent text-white p-0 fs-5 cursor-pointer" onclick="closeMobileNewProductModal()">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <h5 class="fw-bold m-0 text-white" style="font-size: 17px;">নতুন পণ্য</h5>
+                    <button type="button" class="border-0 bg-transparent text-white p-0 fs-5 cursor-pointer" onclick="submitMobileNewProduct()" title="সেভ করুন">
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                </div>
+
+                <!-- Scrollable Body -->
+                <div class="p-3" style="flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;">
+                    <!-- Radio Toggle: পণ্য / সার্ভিস -->
+                    <div class="d-flex align-items-center gap-4 mb-4 mt-1 px-1">
+                        <label class="d-flex align-items-center gap-2 cursor-pointer fw-semibold text-dark m-0" style="font-size: 14.5px;">
+                            <input type="radio" name="mobileProductTypeRadio" value="product" checked style="accent-color: #8C56D4; width: 18px; height: 18px;" />
+                            <span>পণ্য</span>
+                        </label>
+                        <label class="d-flex align-items-center gap-2 cursor-pointer fw-semibold text-muted m-0" style="font-size: 14.5px;">
+                            <input type="radio" name="mobileProductTypeRadio" value="service" style="accent-color: #8C56D4; width: 18px; height: 18px;" />
+                            <span>সার্ভিস</span>
+                        </label>
+                    </div>
+
+                    <!-- 1. নাম -->
+                    <div class="pos-outlined-field">
+                        <label>নাম</label>
+                        <input type="text" id="mobileNewProdName" class="pos-outlined-input" placeholder="" autocomplete="off" />
+                    </div>
+
+                    <!-- 2. কোড -->
+                    <div class="pos-outlined-field">
+                        <label>কোড</label>
+                        <input type="text" id="mobileNewProdCode" class="pos-outlined-input" placeholder="" autocomplete="off" />
+                    </div>
+
+                    <!-- 3. ক্রয় মূল্য -->
+                    <div class="pos-outlined-field">
+                        <label>ক্রয় মূল্য</label>
+                        <input type="text" id="mobileNewProdCost" class="pos-outlined-input pe-5" value="0.00" inputmode="decimal" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, true)" autocomplete="off" />
+                        <i class="fa-solid fa-circle-info" style="position: absolute; right: 14px; top: 16px; color: #94a3b8; font-size: 14px; pointer-events: none;"></i>
+                    </div>
+
+                    <!-- 4. বিক্রয় মূল্য -->
+                    <div class="pos-outlined-field">
+                        <label>বিক্রয় মূল্য</label>
+                        <input type="text" id="mobileNewProdSell" class="pos-outlined-input pe-5" value="0.00" inputmode="decimal" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, true)" autocomplete="off" />
+                        <i class="fa-solid fa-circle-info" style="position: absolute; right: 14px; top: 16px; color: #94a3b8; font-size: 14px; pointer-events: none;"></i>
+                    </div>
+
+                    <!-- 5. আগের মজুদ -->
+                    <div class="pos-outlined-field">
+                        <label>আগের মজুদ</label>
+                        <input type="text" id="mobileNewProdStock" class="pos-outlined-input pe-5" value="0" inputmode="numeric" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, false)" autocomplete="off" />
+                        <i class="fa-solid fa-circle-info" style="position: absolute; right: 14px; top: 16px; color: #94a3b8; font-size: 14px; pointer-events: none;"></i>
+                    </div>
+
+                    <!-- 6. Upload Photo Box -->
+                    <div class="mb-3">
+                        <div class="pos-dashed-upload-box" onclick="triggerMobileNewProdPhotoUpload()">
+                            <input type="file" id="mobileNewProdPhoto" accept="image/*" class="d-none" onchange="previewMobileNewProdPhoto(this)" />
+                            <div id="mobileNewProdPhotoPlaceholder">
+                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 38px; color: #8C56D4;"></i>
+                                <div class="fw-semibold text-muted mt-2" style="font-size: 13.5px;">পণ্যের ছবি আপলোড করুন</div>
+                            </div>
+                            <img id="mobileNewProdPhotoPreview" src="" alt="Preview" class="d-none w-100 rounded-3" style="max-height: 140px; object-fit: cover;" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fixed Sticky Footer Button: সেভ করুন -->
+                <div class="pos-modal-sticky-footer">
+                    <button type="button" class="pos-btn-save-full" onclick="submitMobileNewProduct()">
+                        সেভ করুন
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile "নতুন আইটেম লাইন" Form Bottom Sheet Modal -->
     <div class="modal fade bottom-sheet" id="mobileItemLineModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content border-0 p-0" style="border-top-left-radius: 28px; border-top-right-radius: 28px; box-shadow: 0 -10px 40px rgba(0,0,0,0.25); overflow: hidden;">
-                <!-- Green Header Bar -->
-                <div class="d-flex align-items-center justify-content-between px-3 py-3" style="background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); color: white;">
+                <!-- Header Bar -->
+                <div class="d-flex align-items-center justify-content-between px-3 py-3" style="background: #8C56D4; color: white;">
                     <button type="button" class="border-0 bg-transparent text-white p-0 fs-5" data-bs-dismiss="modal">
                         <i class="fa-solid fa-chevron-left"></i>
                     </button>
@@ -1323,29 +2205,86 @@
                     </div>
 
                     <!-- Sub-Total & Total Price Summary Card -->
-                    <div class="p-3 mb-4 rounded-3" style="background: #f8fafc; border: 1px solid #e2e8f0;">
-                        <div class="d-flex justify-content-between align-items-center pb-2 mb-2" style="border-bottom: 1px dashed #cbd5e1;">
+                    <div class="p-3 mb-4 rounded-3" style="background: #FAF7FD; border: 1px solid #E5D5F7;">
+                        <div class="d-flex justify-content-between align-items-center pb-2 mb-2" style="border-bottom: 1px dashed #D2B7F1;">
                             <span class="text-muted" style="font-size: 13px;">সাব টোটাল</span>
                             <span id="itemLineBreakdownText" class="fw-bold text-dark" style="font-size: 13px;">১.০০ X ৳ ২২০.০০ = ৳ ২২০.০০</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="fw-bold text-dark" style="font-size: 14px;">মোট মূল্য</span>
-                            <span id="itemLineTotalText" class="fw-extrabold text-dark" style="font-size: 15px;">৳ ২২০.০০</span>
+                            <span id="itemLineTotalText" class="fw-extrabold text-dark" style="font-size: 15px; color: #8C56D4 !important;">৳ ২২০.০০</span>
                         </div>
                     </div>
 
                     <!-- Action Buttons: বাতিল & ঠিক আছে -->
                     <div class="row g-2">
                         <div class="col-6">
-                            <button type="button" data-bs-dismiss="modal" class="btn btn-outline-success w-100 py-2.5 fw-bold" style="border-radius: 12px; border: 1.5px solid #16a34a; color: #15803d; font-size: 15px; background: #ffffff;">
+                            <button type="button" data-bs-dismiss="modal" class="btn w-100 py-2.5 fw-bold" style="border-radius: 12px; border: 1.5px solid #8C56D4; color: #8C56D4; font-size: 15px; background: #ffffff;">
                                 বাতিল
                             </button>
                         </div>
                         <div class="col-6">
-                            <button type="button" onclick="confirmAddItemLineToCart()" class="btn btn-success w-100 py-2.5 fw-bold" style="border-radius: 12px; background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); border: none; color: #ffffff; font-size: 15px;">
+                            <button type="button" onclick="confirmAddItemLineToCart()" class="btn w-100 py-2.5 fw-bold text-white" style="border-radius: 12px; background: #8C56D4; border: none; font-size: 15px;">
                                 ঠিক আছে
                             </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 1: নতুন ব্যাংক (Exact Design Matching Screenshot) -->
+    <div class="modal fade pos-root-modal" id="modalAddBank" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content pos-custom-form-modal p-0">
+                <div class="modal-body p-4">
+                    <h5 class="fw-bold mb-4 pos-modal-title">নতুন ব্যাংক</h5>
+                    
+                    <div class="pos-outlined-field">
+                        <label>ব্যাংকের নাম</label>
+                        <input type="text" id="bankModalName" class="pos-outlined-input" placeholder="" autocomplete="off" />
+                    </div>
+                    
+                    <div class="pos-outlined-field">
+                        <label>অ্যাকাউন্টের নাম</label>
+                        <input type="text" id="bankModalAccName" class="pos-outlined-input" placeholder="" autocomplete="off" />
+                    </div>
+                    
+                    <div class="pos-outlined-field">
+                        <label>অ্যাকাউন্ট নম্বর</label>
+                        <input type="text" id="bankModalAccNo" class="pos-outlined-input" placeholder="" autocomplete="off" />
+                    </div>
+                    
+                    <div class="pos-outlined-field mb-2">
+                        <label>প্রারম্ভিক ব্যালেন্স</label>
+                        <input type="text" id="bankModalBalance" class="pos-outlined-input" value="0" inputmode="decimal" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this)" autocomplete="off" />
+                    </div>
+                    
+                    <div class="d-flex justify-content-end align-items-center gap-4 mt-4 pt-1">
+                        <button type="button" class="btn p-0 border-0 fw-semibold pos-modal-btn-cancel" data-bs-dismiss="modal">বাতিল</button>
+                        <button type="button" class="btn p-0 border-0 fw-bold pos-modal-btn-submit" onclick="submitAddBankModal()">যোগ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: মোবাইল ব্যাংকিং যোগ করুন (Exact Design Matching Screenshot) -->
+    <div class="modal fade pos-root-modal" id="modalAddMobileBanking" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content pos-custom-form-modal p-0">
+                <div class="modal-body p-4">
+                    <h6 class="fw-bold mb-4 pos-modal-title">মোবাইল ব্যাংকিং যোগ করুন</h6>
+                    
+                    <div class="pos-outlined-field mb-2">
+                        <label>মোবাইল ব্যাংকিং এর নাম</label>
+                        <input type="text" id="mobileBankingModalName" class="pos-outlined-input" placeholder="" autocomplete="off" />
+                    </div>
+                    
+                    <div class="d-flex justify-content-end align-items-center gap-4 mt-4 pt-1">
+                        <button type="button" class="btn p-0 border-0 fw-semibold pos-modal-btn-cancel" data-bs-dismiss="modal">বাতিল</button>
+                        <button type="button" class="btn p-0 border-0 fw-bold pos-modal-btn-submit" onclick="submitAddMobileBankingModal()">যোগ</button>
                     </div>
                 </div>
             </div>
@@ -1357,50 +2296,42 @@
         <nav id="navbar" class="mb-2">
             <div class="nav-wrapper py-1 px-2 px-md-3 d-flex align-items-center justify-content-between gap-1 gap-md-2" style="min-height: 42px; border-radius: 12px; flex-wrap: nowrap;">
                 <div class="nav_back_btn p-0 d-flex align-items-center flex-shrink-0">
-                    <a href="{{ url('admin-dashboard') }}" class="btn btn-sm btn-outline-success fw-bold d-inline-flex align-items-center gap-1 py-1 px-2 shadow-sm" style="border-radius: 20px; font-size: 11px; background: #f0fdf4; border-color: #bbf7d0; height: 30px;">
-                        <i class="fa-solid fa-arrow-left text-success" style="font-size: 11px;"></i>
-                        <span class="nav_back_text text-success m-0 p-0 fw-bold d-none d-sm-inline" style="font-size: 11px;">Back to Dashboard</span>
-                        <span class="nav_back_text text-success m-0 p-0 fw-bold d-inline d-sm-none" style="font-size: 11px;">Back</span>
+                    <a href="{{ url('admin-dashboard') }}" class="btn btn-sm fw-bold d-inline-flex align-items-center gap-1.5 py-1 px-2.5 shadow-sm" style="border-radius: 20px; font-size: 11.5px; background: #F3ECFB; border: 1.5px solid #E5D5F7; color: #8C56D4; height: 32px;">
+                        <i class="fa-solid fa-arrow-left" style="font-size: 11px; color: #8C56D4;"></i>
+                        <span class="nav_back_text m-0 p-0 fw-bold d-none d-sm-inline" style="font-size: 11.5px; color: #8C56D4;">ড্যাশবোর্ডে ফিরে যান</span>
+                        <span class="nav_back_text m-0 p-0 fw-bold d-inline d-sm-none" style="font-size: 11.5px; color: #8C56D4;">ফিরে যান</span>
                     </a>
                 </div>
 
-                <a href="{{ url('admin-dashboard') }}" class="store-brand-header d-flex align-items-center gap-1 gap-md-2 px-2 px-md-3 py-1 bg-white border border-success-subtle rounded-pill shadow-sm overflow-hidden text-decoration-none">
+                <a href="{{ url('admin-dashboard') }}" class="store-brand-header d-flex align-items-center gap-1 gap-md-2 px-2.5 px-md-3 py-1 bg-white shadow-sm overflow-hidden text-decoration-none" style="border: 1.5px solid #E5D5F7; border-radius: 50rem;">
                     <img src="{{ asset('back-end/assets/img/anis-store-logo.png') }}" alt="AS Logo" style="height: 24px; width: auto; object-fit: contain; flex-shrink: 0;" />
-                    <h5 class="fw-extrabold text-success m-0 p-0 d-flex align-items-center gap-1 text-truncate" style="font-size: 13px; font-family: 'Noto Sans Bengali', sans-serif; font-weight: 800;">
+                    <h5 class="fw-extrabold m-0 p-0 d-flex align-items-center gap-1 text-truncate" style="color: #8C56D4; font-size: 13px; font-family: 'Noto Sans Bengali', sans-serif; font-weight: 800;">
                         <span class="text-truncate">মেসার্স আনিস ষ্টোর</span>
-                        <span class="badge bg-success text-white fw-bold px-1.5 py-0.5 d-none d-md-inline" style="font-size: 9px; border-radius: 8px; font-family: 'Poppins', sans-serif;">POS</span>
+                        <span class="badge text-white fw-bold px-1.5 py-0.5 d-none d-md-inline" style="background: #8C56D4; font-size: 9px; border-radius: 8px; font-family: 'Poppins', sans-serif;">POS</span>
                     </h5>
                 </a>
 
-                <div class="profile d-flex align-items-center gap-1 gap-md-2 flex-shrink-0">
-                    <button class="light-mode-button" aria-label="Toggle Light Mode"
-                        onclick="toggle_light_mode()" style="height: 24px; width: 38px;">
-                        <span style="height: 18px; width: 36px; top: 3px;"></span>
-                        <span style="height: 14px; width: 14px; top: 5px;"></span>
+                <div class="profile d-flex align-items-center gap-1.5 gap-md-2 flex-shrink-0">
+                    <!-- Light / Dark Theme Toggle Button (Exact Match with Dashboard) -->
+                    <button type="button" class="pos-theme-toggle-btn" aria-label="Toggle Light/Dark Mode"
+                        onclick="toggle_light_mode()" title="Toggle Light/Dark Theme">
+                        <i class="fa-regular fa-moon icon-moon"></i>
+                        <i class="fa-regular fa-sun icon-sun"></i>
                     </button>
 
-                    <div class="fullscreen">
-                        <button class="js-toggle-fullscreen-btn toggle-fullscreen-btn"
-                            aria-label="Enter fullscreen mode" hidden>
-                            <svg width="22" height="22" class="toggle-fullscreen-svg" viewBox="0 0 30 30"
-                                fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g class="icon-fullscreen-enter">
-                                    <path
-                                        d="M2 7.5H0V3C0 2.20435 0.31607 1.44129 0.87868 0.87868C1.44129 0.31607 2.20435 0 3 0H7.5V2H2V7.5Z"
-                                        fill="#192045" />
-                                    <path
-                                        d="M30 7.5H28V2H22.5V0H27C27.7956 0 28.5587 0.31607 29.1213 0.87868C29.6839 1.44129 30 2.20435 30 3V7.5Z"
-                                        fill="#192045" />
-                                    <path
-                                        d="M7.5 30H3C2.20435 30 1.44129 29.6839 0.87868 29.1213C0.31607 28.5587 0 27.7956 0 27V22.5H2V28H7.5V30Z"
-                                        fill="#192045" />
-                                    <path
-                                        d="M27 30H22.5V28H28V22.5H30V27C30 27.7956 29.6839 28.5587 29.1213 29.1213C28.5587 29.6839 27.7956 30 27 30Z"
-                                        fill="#192045" />
-                                </g>
+                    <!-- Fullscreen Toggle Button (Exact Match with Dashboard Topbar) -->
+                    <div class="fullscreen d-flex align-items-center">
+                        <button type="button" class="js-toggle-fullscreen-btn pos-fullscreen-btn"
+                            aria-label="Enter fullscreen mode" title="Fullscreen Mode">
+                            <svg class="icon-fullscreen-enter" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                            </svg>
+                            <svg class="icon-fullscreen-leave" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/>
                             </svg>
                         </button>
                     </div>
+
                     <div class="dropdown d-inline-block">
                         <button type="button" class="btn header-item user p-0 border-0 d-flex align-items-center justify-content-center"
                             id="page-header-user-dropdown-v" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -1431,12 +2362,12 @@
         <!-- Navbar End -->
 
         <!-- 2. Compact Sleek Logo Navbar Header (Point of Sale Bar) -->
-        <div class="d-flex align-items-center justify-content-between p-2 mb-2 bg-white border border-success-subtle shadow-sm" style="border-radius: 12px; border-left: 4px solid #16a34a !important;">
+        <div class="d-flex align-items-center justify-content-between p-2 mb-2 bg-white shadow-sm" style="border-radius: 12px; border: 1px solid #E5D5F7; border-left: 4px solid #8C56D4 !important;">
             <div class="d-flex align-items-center gap-2">
                 <img src="{{ asset('back-end/assets/img/anis-store-logo.png') }}" alt="Anis Store Logo" style="max-height: 38px; width: auto; object-fit: contain;" />
             </div>
             <div class="text-end">
-                <span class="badge bg-success-subtle text-success border border-success fw-bold px-3 py-1" style="font-size: 12px; border-radius: 20px;">
+                <span class="badge fw-bold px-3 py-1.5" style="background: #F3ECFB; color: #8C56D4; border: 1px solid #8C56D4; font-size: 12px; border-radius: 20px;">
                     <i class="fa-solid fa-store me-1"></i> Point of Sale
                 </span>
             </div>
@@ -1445,7 +2376,7 @@
         <div class="row">
             <div class="col-lg-6 pos-products-col" id="posProductsCol">
                 <!-- Barcode Search & Camera Scan for Product List View -->
-                <div class="mb-2 p-2 bg-white border shadow-sm" style="border-radius: 12px; border-color: #e2e8f0 !important;">
+                <div class="mb-2 p-2 bg-white border shadow-sm" style="border-radius: 12px; border-color: #E5D5F7 !important;">
                     <div class="searchbar d-flex align-items-center gap-2 w-100">
                         <div class="flex-grow-1 mb-0 position-relative d-flex align-items-center">
                             <input type="text" id="productCodeSearch"
@@ -1464,11 +2395,11 @@
                             </a>
                             <div id="productCodeSearchSuggestions" class="pos-search-suggestions position-absolute start-0 end-0 bg-white border shadow-lg rounded-3 d-none" style="top: 100%; margin-top: 6px; z-index: 1050; max-height: 320px; overflow-y: auto;"></div>
                         </div>
-                        <button type="button" class="btn btn-primary fw-bold text-nowrap d-inline-flex align-items-center justify-content-center gap-2 shadow-sm px-3 m-0" onclick="openCameraScanner()" style="border-radius: 10px; height: 42px; background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); border: none; flex-shrink: 0;">
+                        <button type="button" class="btn fw-bold text-nowrap d-inline-flex align-items-center justify-content-center gap-2 shadow-sm px-3 m-0 text-white" onclick="openCameraScanner()" style="border-radius: 10px; height: 42px; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); border: none; flex-shrink: 0;">
                             <i class="fa-solid fa-camera fs-6"></i>
                             <span class="d-none d-sm-inline">ক্যামেরা স্ক্যান</span>
                         </button>
-                        <button type="button" class="btn btn-success fw-bold text-nowrap d-inline-flex align-items-center justify-content-center gap-2 shadow-sm px-3 m-0" onclick="openPosAddProductModal()" style="border-radius: 10px; height: 42px; background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); border: none; flex-shrink: 0;">
+                        <button type="button" class="btn fw-bold text-nowrap d-inline-flex align-items-center justify-content-center gap-2 shadow-sm px-3 m-0 text-white" onclick="openPosAddProductModal()" style="border-radius: 10px; height: 42px; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); border: none; flex-shrink: 0;">
                             <i class="fa-solid fa-plus fs-6"></i>
                             <span class="d-none d-sm-inline">নতুন প্রোডাক্ট</span>
                         </button>
@@ -1542,7 +2473,7 @@
                                         <div id="CustomerSelectData"></div>
                                     </div>
                                 </div>
-                                <button id="openPosCustomerModalBtn" onclick="openPosCustomerModal()" type="button" class="btn btn-sm btn-success text-nowrap fw-bold px-3" style="height: 32px; font-size: 12px; border-radius: 8px;">
+                                <button id="openPosCustomerModalBtn" onclick="openPosCustomerModal()" type="button" class="btn btn-sm text-nowrap fw-bold px-3 text-white" style="height: 32px; font-size: 12px; border-radius: 8px; background: #8C56D4; border: 1px solid #8C56D4;">
                                     + New
                                 </button>
                             </div>
@@ -1588,7 +2519,7 @@
                 </div>
 
                 <!-- Camera Scan & Barcode Search Bar (Only shown on Mobile/Tablet view < 992px) -->
-                <div class="d-block d-lg-none mb-2 p-2 bg-white border shadow-sm" style="border-radius: 12px; border-color: #e2e8f0 !important;">
+                <div class="d-block d-lg-none mb-2 p-2 bg-white border shadow-sm" style="border-radius: 12px; border-color: #E5D5F7 !important;">
                     <div class="searchbar d-flex align-items-center gap-2 w-100">
                         <div class="flex-grow-1 mb-0 position-relative d-flex align-items-center">
                             <input type="text" id="productCodeSearchCart"
@@ -1606,11 +2537,11 @@
                             </a>
                             <div id="productCodeSearchCartSuggestions" class="pos-search-suggestions position-absolute start-0 end-0 bg-white border shadow-lg rounded-3 d-none" style="top: 100%; margin-top: 6px; z-index: 1050; max-height: 320px; overflow-y: auto;"></div>
                         </div>
-                        <button type="button" class="btn btn-primary fw-bold text-nowrap d-inline-flex align-items-center justify-content-center gap-2 shadow-sm px-3 m-0" onclick="openCameraScanner()" style="border-radius: 10px; height: 42px; background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); border: none; flex-shrink: 0;">
+                        <button type="button" class="btn fw-bold text-nowrap d-inline-flex align-items-center justify-content-center gap-2 shadow-sm px-3 m-0 text-white" onclick="openCameraScanner()" style="border-radius: 10px; height: 42px; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); border: none; flex-shrink: 0;">
                             <i class="fa-solid fa-camera fs-6"></i>
                             <span class="d-none d-sm-inline">ক্যামেরা স্ক্যান</span>
                         </button>
-                        <button type="button" class="btn btn-success fw-bold text-nowrap d-inline-flex align-items-center justify-content-center gap-2 shadow-sm px-3 m-0" onclick="openPosAddProductModal()" style="border-radius: 10px; height: 42px; background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); border: none; flex-shrink: 0;">
+                        <button type="button" class="btn fw-bold text-nowrap d-inline-flex align-items-center justify-content-center gap-2 shadow-sm px-3 m-0 text-white" onclick="openPosAddProductModal()" style="border-radius: 10px; height: 42px; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); border: none; flex-shrink: 0;">
                             <i class="fa-solid fa-plus fs-6"></i>
                             <span class="d-none d-sm-inline">নতুন প্রোডাক্ট</span>
                         </button>
@@ -1783,7 +2714,7 @@
 
                         
                 <!-- Trending POS Bottom Action Bar -->
-                <div class="pos-bottom-trending-bar mt-3 p-3 bg-white border border-success-subtle shadow-sm" style="border-radius: 14px; background: #ffffff;">
+                <div class="pos-bottom-trending-bar mt-3 p-3 bg-white shadow-sm" style="border-radius: 14px; background: #ffffff; border: 1px solid #E5D5F7;">
                     <div class="row g-2 align-items-center">
                         <!-- Box 1: Hold Invoice Button & Held Counter -->
                         <div class="col-md-4 col-6">
@@ -1800,15 +2731,15 @@
 
                         <!-- Box 2: Big Sub-Total / Net Payable Card -->
                         <div class="col-md-4 col-6">
-                            <div class="p-2 text-center border border-success-subtle bg-success-subtle rounded-3 shadow-xs" style="border-radius: 10px; background-color: #f0fdf4 !important; border-color: #bbf7d0 !important;">
+                            <div class="p-2 text-center rounded-3 shadow-xs" style="border-radius: 10px; background-color: #FAF7FD !important; border: 1.5px solid #E5D5F7 !important;">
                                 <span class="text-muted d-block small fw-bold text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">মোট বিল (Sub-Total)</span>
-                                <span id="bigSubTotalDisplay" class="fw-bolder text-success" style="font-size: 22px; line-height: 1.2;">৳ 0.00</span>
+                                <span id="bigSubTotalDisplay" class="fw-bolder" style="color: #8C56D4; font-size: 22px; line-height: 1.2;">৳ 0.00</span>
                             </div>
                         </div>
 
                         <!-- Box 3: Pay / Submit Order Button -->
                         <div class="col-md-4 col-12">
-                            <button type="submit" onclick="SavePaymentInfo(event)" class="btn btn-success w-100 py-3 fw-bold text-white shadow" style="border-radius: 10px; background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); border: none; font-size: 15px; letter-spacing: 0.5px;">
+                            <button type="submit" onclick="SavePaymentInfo(event)" class="btn w-100 py-3 fw-bold text-white shadow" style="border-radius: 10px; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); border: none; font-size: 15px; letter-spacing: 0.5px;">
                                 <i class="fa-solid fa-paper-plane me-1"></i> সাবমিট অর্ডার
                             </button>
                         </div>
@@ -1821,15 +2752,15 @@
             <div class="p-2 bg-dark text-white rounded-4 shadow-lg border border-secondary d-flex align-items-center justify-content-between" style="backdrop-filter: blur(14px); background: rgba(15, 23, 42, 0.95) !important;">
                 <div class="d-flex align-items-center gap-2 ps-2">
                     <div class="position-relative">
-                        <i class="fa-solid fa-cart-shopping fs-4 text-success"></i>
+                        <i class="fa-solid fa-cart-shopping fs-4" style="color: #8C56D4;"></i>
                         <span id="mobileCartBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">0</span>
                     </div>
                     <div>
                         <span class="d-block text-muted" style="font-size: 10px; line-height: 1;">মোট আইটেম</span>
-                        <span id="mobileCartTotal" class="fw-bold text-success" style="font-size: 15px;">৳ 0.00</span>
+                        <span id="mobileCartTotal" class="fw-bold" style="color: #8C56D4; font-size: 15px;">৳ 0.00</span>
                     </div>
                 </div>
-                <button type="button" onclick="switchMobilePosTab('cart')" class="btn btn-success fw-bold px-3 py-2 text-nowrap d-flex align-items-center gap-1" style="border-radius: 12px; font-size: 13px; background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); border: none;">
+                <button type="button" onclick="switchMobilePosTab('cart')" class="btn fw-bold px-3 py-2 text-nowrap d-flex align-items-center gap-1 text-white" style="border-radius: 12px; font-size: 13px; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); border: none;">
                     <span>কার্ট দেখুন</span>
                     <i class="fa-solid fa-chevron-right small"></i>
                 </button>
@@ -3544,58 +4475,60 @@ function calculateDuePayment() {
 // Render Mobile Cart List items matching screenshot
 function renderMobileCart() {
     const container = document.getElementById("mobileCartItemsList");
+    const grossInput = document.getElementById("mobileGrossTotal");
+    const errHint = document.getElementById("grossTotalErrorHint");
+
     if (!container) return;
 
     if (!cartItems || cartItems.length === 0) {
-        container.innerHTML = `
-            <div class="text-center py-4 text-muted" id="mobileCartEmptyMsg">
-                <i class="fa-solid fa-cart-shopping fs-3 mb-2 text-secondary"></i>
-                <p class="mb-0 small">এখনও কোনো আইটেম যোগ করা হয়নি</p>
-            </div>
-        `;
-        if (document.getElementById("mobileTotalQty")) document.getElementById("mobileTotalQty").innerText = "০";
-        if (document.getElementById("mobileTotalPrice")) document.getElementById("mobileTotalPrice").innerText = "৳ ০.০০";
-        if (document.getElementById("mobileTotalProfit")) document.getElementById("mobileTotalProfit").innerText = "৳ ০.০০";
-        if (document.getElementById("mobileGrossTotal")) document.getElementById("mobileGrossTotal").value = engToBanglaNum("0.00");
-        if (document.getElementById("mobileHeaderTotal")) document.getElementById("mobileHeaderTotal").innerText = "৳ ০.০০";
+        container.innerHTML = "";
+        if (grossInput && (!grossInput.value || parseBanglaFloat(grossInput.value) === 0)) {
+            grossInput.value = "";
+            grossInput.classList.add("has-error-border");
+            if (errHint) errHint.style.display = "block";
+        }
         return;
     }
 
+    // Has cart items:
+    if (grossInput) {
+        grossInput.value = engToBanglaNum(subTotal.toFixed(2));
+        grossInput.classList.remove("has-error-border");
+        if (errHint) errHint.style.display = "none";
+    }
+
     container.innerHTML = "";
-    let totalQty = 0;
-    let totalProfit = 0;
-
     cartItems.forEach((item, index) => {
-        totalQty += item.quantity;
-        const profit = ((item.sellingPrice || 0) - (item.cost_price || 0)) * item.quantity;
-        if (profit > 0) totalProfit += profit;
-
-        const rowHtml = `
-            <div class="mobile-cart-item" style="cursor: pointer;" onclick="openMobileItemLineForm(${item.id})">
-                <div class="mobile-cart-item-header">
-                    <span class="mobile-cart-item-name">${item.product_name}</span>
-                    <button type="button" class="btn-remove-item" onclick="event.stopPropagation(); removeProduct(${item.id});" title="বাদ দিন">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
+        const itemHtml = `
+            <div class="mobile-cart-item-row">
+                <div>
+                    <div class="item-title">${item.product_name}</div>
+                    <div class="item-sub">${engToBanglaNum(item.quantity)} x ${formatBanglaAmount(item.sellingPrice)} = ${formatBanglaAmount(item.sellingPrice * item.quantity)}</div>
                 </div>
-                <div class="mobile-cart-item-price-calc">
-                    <span>মূল্য</span>
-                    <span>${engToBanglaNum(item.quantity)} X ${formatBanglaAmount(item.sellingPrice)} = ${formatBanglaAmount(item.sellingPrice * item.quantity)}</span>
-                </div>
-                <div class="mobile-cart-item-subtotal">
-                    <span>সাব টোটাল</span>
-                    <span class="fw-bold">${formatBanglaAmount(item.sellingPrice * item.quantity)}</span>
-                </div>
+                <button type="button" class="item-del-btn" onclick="event.stopPropagation(); removeProduct(${item.id});" title="বাদ দিন">
+                    <i class="fa-regular fa-trash-can"></i>
+                </button>
             </div>
         `;
-        container.insertAdjacentHTML("beforeend", rowHtml);
+        container.insertAdjacentHTML("beforeend", itemHtml);
     });
 
-    if (document.getElementById("mobileTotalQty")) document.getElementById("mobileTotalQty").innerText = engToBanglaNum(totalQty);
-    if (document.getElementById("mobileTotalPrice")) document.getElementById("mobileTotalPrice").innerText = formatBanglaAmount(subTotal);
-    if (document.getElementById("mobileTotalProfit")) document.getElementById("mobileTotalProfit").innerText = formatBanglaAmount(totalProfit);
-    if (document.getElementById("mobileGrossTotal")) document.getElementById("mobileGrossTotal").value = engToBanglaNum(subTotal.toFixed(2));
-    if (document.getElementById("mobileHeaderTotal")) document.getElementById("mobileHeaderTotal").innerText = formatBanglaAmount(subTotal);
+    const delivery = parseBanglaFloat(document.getElementById("mobileDeliveryCharge")?.value) || 0;
+    const netTotal = subTotal + delivery;
+    const netInput = document.getElementById("mobileNetTotal");
+    if (netInput) {
+        netInput.value = engToBanglaNum(netTotal.toFixed(2));
+    }
+
+    const isCash = document.getElementById("mobileTypeCashBtn")?.classList.contains("active");
+    const paidInput = document.getElementById("mobilePaidInput");
+    if (isCash && paidInput) {
+        paidInput.value = engToBanglaNum(netTotal.toFixed(2));
+        if (typeof mobilePaymentRows !== 'undefined' && mobilePaymentRows.length > 0) {
+            mobilePaymentRows[0].amount = netTotal.toString();
+            if (typeof renderMobilePaymentRows === 'function') renderMobilePaymentRows();
+        }
+    }
 }
 
 function showMobileModal(modalId) {
@@ -3604,7 +4537,9 @@ function showMobileModal(modalId) {
         console.error("Modal element not found:", modalId);
         return;
     }
-    
+    if (modalEl.parentElement !== document.body) {
+        document.body.appendChild(modalEl);
+    }
     try {
         if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
             const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
@@ -3668,6 +4603,19 @@ function hideMobileModal(modalId) {
 function openMobileProductSearchModal() {
     populateMobileProductsGrid();
     showMobileModal("mobileProductSearchModal");
+    const input = document.getElementById("mobileModalSearchInput");
+    if (input) {
+        try { input.focus(); input.click(); } catch(_) {}
+    }
+    const modalEl = document.getElementById("mobileProductSearchModal");
+    if (modalEl) {
+        modalEl.addEventListener('shown.bs.modal', function() {
+            if (input) { input.focus(); input.click(); }
+        }, { once: true });
+        setTimeout(() => {
+            if (input) { input.focus(); input.click(); }
+        }, 150);
+    }
 }
 
 function matchProductSearch(p, rawQuery) {
@@ -3710,30 +4658,13 @@ function populateMobileProductsGrid(filterText = '') {
     filtered.forEach(p => {
         const itemPrice = p.sell_price || p.unit_price || p.price || 0;
         const itemStock = p.quantity !== undefined ? p.quantity : (p.stock || 0);
-        const codeDisplay = formatProductCode(p.product_code);
-        const safeName = (p.product_name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
         const itemHtml = `
-            <div class="d-flex align-items-center justify-content-between p-3 border-bottom rounded-3 mb-1 bg-white shadow-xs" style="cursor: pointer; transition: background 0.2s ease;" onclick="openMobileItemLineForm(${p.id})">
-                <div class="flex-grow-1 pe-2">
-                    <h6 class="fw-bold mb-1 text-dark" style="font-size: 14.5px;">${p.product_name}</h6>
-                    <div class="d-flex flex-wrap align-items-center gap-1.5 mb-1">
-                        ${codeDisplay ? `<span class="badge bg-light text-success border border-success font-monospace" style="font-size: 11px;">কোড: ${codeDisplay}</span>` : ''}
-                        <span class="badge bg-light text-secondary border" style="font-size: 11px;">বিক্রয়: ${formatBanglaAmount(itemPrice)}</span>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center gap-2 flex-shrink-0">
-                    <div class="text-end me-1">
-                        <small class="text-muted d-block" style="font-size: 10px;">স্টক</small>
-                        <span class="badge ${itemStock > 0 ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'} fw-bold px-2 py-1" style="font-size: 11.5px; border-radius: 8px;">${engToBanglaNum(itemStock)}</span>
-                    </div>
-                    <!-- Product Action Buttons: Edit & Delete -->
-                    <button type="button" class="btn btn-sm btn-outline-primary rounded-circle p-0 d-inline-flex align-items-center justify-content-center shadow-xs" style="width: 32px; height: 32px;" onclick="event.stopPropagation(); editProductFromPosModal(${p.id})" title="প্রোডাক্ট এডিট">
-                        <i class="fa-solid fa-pen-to-square" style="font-size: 13px;"></i>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-outline-danger rounded-circle p-0 d-inline-flex align-items-center justify-content-center shadow-xs" style="width: 32px; height: 32px;" onclick="event.stopPropagation(); deleteProductFromPosModal(${p.id}, '${safeName}')" title="প্রোডাক্ট মুছে ফেলুন">
-                        <i class="fa-solid fa-trash-can" style="font-size: 13px;"></i>
-                    </button>
+            <div class="px-3 py-2.5 border-bottom product-search-item" style="cursor: pointer; transition: background 0.15s;" onclick="openMobileItemLineForm(${p.id})">
+                <div class="fw-bold text-dark mb-1" style="font-size: 15px;">${p.product_name}</div>
+                <div class="d-flex justify-content-between align-items-center" style="font-size: 12.5px;">
+                    <span class="text-muted">বিক্রয় মূল্য <br><span class="fw-bold text-dark" style="font-size: 13.5px;">${formatBanglaAmount(itemPrice)}</span></span>
+                    <span class="text-end text-muted">স্টক <br><span class="fw-bold" style="color: #16a34a; font-size: 13.5px;">${engToBanglaNum(itemStock)}</span></span>
                 </div>
             </div>
         `;
@@ -3848,6 +4779,34 @@ function enforceBanglaNumberInput(inputEl, allowDecimal = true) {
     inputEl.value = val;
 }
 
+function filterNumericKey(e, allowDecimal = true) {
+    if (!e) return;
+    if (['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key) ||
+        (e.ctrlKey === true || e.metaKey === true)) {
+        return;
+    }
+    if (/^[0-9০-৯]$/.test(e.key)) {
+        return;
+    }
+    if (allowDecimal && (e.key === '.' || e.key === '।')) {
+        const val = e.target ? e.target.value : '';
+        if (!val.includes('.')) {
+            return;
+        }
+    }
+    e.preventDefault();
+}
+
+function filterNumericPaste(e, allowDecimal = true) {
+    if (!e) return;
+    const paste = (e.clipboardData || window.clipboardData).getData('text');
+    if (!paste) return;
+    const regex = allowDecimal ? /^[0-9০-৯.\s]+$/ : /^[0-9০-৯\s]+$/;
+    if (!regex.test(paste)) {
+        e.preventDefault();
+    }
+}
+
 function enforceTextInput(inputEl) {
     if (!inputEl) return;
 }
@@ -3953,7 +4912,7 @@ function confirmAddItemLineToCart() {
 
 function openCreateProductModalFromMobile() {
     hideMobileModal("mobileProductSearchModal");
-    openPosAddProductModal();
+    openMobileNewProductModal();
 }
 
 function addProductToCartCustom(product, customQty = 1, customPrice = null) {
@@ -3994,6 +4953,19 @@ function filterMobileProducts(val) {
 function openMobileCustomerSearchModal() {
     populateMobileCustomerModalList();
     showMobileModal("mobileCustomerSearchModal");
+    const input = document.getElementById("mobileCustomerSearchInput");
+    if (input) {
+        try { input.focus(); input.click(); } catch(_) {}
+    }
+    const modalEl = document.getElementById("mobileCustomerSearchModal");
+    if (modalEl) {
+        modalEl.addEventListener('shown.bs.modal', function() {
+            if (input) { input.focus(); input.click(); }
+        }, { once: true });
+        setTimeout(() => {
+            if (input) { input.focus(); input.click(); }
+        }, 150);
+    }
 }
 
 function populateMobileCustomerModalList(filterText = '') {
@@ -4074,8 +5046,559 @@ function selectCustomerFromMobileModal(customerId) {
 
 function openCreateCustomerModalFromMobile() {
     hideMobileModal("mobileCustomerSearchModal");
-    openPosCustomerModal();
+    openMobileNewCustomerModal();
 }
+
+// -------------------------------------------------------------
+// Mobile New Customer / Party ("নতুন পার্টি" - Matches Image 2) Logic
+// -------------------------------------------------------------
+function onMobilePartyTypeChange(type) {
+    const dueLabel = document.getElementById("lblMobileNewPartyDue");
+    const dueDateLabel = document.getElementById("lblMobileNewPartyDueDate");
+    const photoPhText = document.querySelector("#mobileNewCustPhotoPlaceholder .fw-semibold");
+
+    if (type === 'supplier') {
+        if (dueLabel) dueLabel.innerText = "আগের দেনা";
+        if (dueDateLabel) dueDateLabel.innerText = "দেনার তারিখ";
+        if (photoPhText) photoPhText.innerText = "সাপ্লায়ারের ছবি আপলোড করুন";
+    } else {
+        if (dueLabel) dueLabel.innerText = "আমার পাওনা";
+        if (dueDateLabel) dueDateLabel.innerText = "পাওনার তারিখ";
+        if (photoPhText) photoPhText.innerText = "পার্টির ছবি আপলোড করুন";
+    }
+}
+window.onMobilePartyTypeChange = onMobilePartyTypeChange;
+
+function openMobileNewCustomerModal() {
+    hideMobileModal("mobileCustomerSearchModal");
+    const modalEl = document.getElementById("modalMobileNewCustomer");
+    if (!modalEl) return;
+    if (modalEl.parentElement !== document.body) {
+        document.body.appendChild(modalEl);
+    }
+    const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    bsModal.show();
+
+    // Reset Radio to Customer and labels
+    const custRadio = document.querySelector('input[name="mobilePartyTypeRadio"][value="customer"]');
+    if (custRadio) custRadio.checked = true;
+    onMobilePartyTypeChange('customer');
+
+    // Reset Form Fields
+    const nameEl = document.getElementById("mobileNewCustName");
+    if (nameEl) nameEl.value = '';
+    const mobileEl = document.getElementById("mobileNewCustMobile");
+    if (mobileEl) mobileEl.value = '';
+    const emailEl = document.getElementById("mobileNewCustEmail");
+    if (emailEl) emailEl.value = '';
+    const addrEl = document.getElementById("mobileNewCustAddress");
+    if (addrEl) addrEl.value = '';
+    const dueEl = document.getElementById("mobileNewCustDue");
+    if (dueEl) dueEl.value = '0';
+    const photoEl = document.getElementById("mobileNewCustPhoto");
+    if (photoEl) photoEl.value = '';
+    const imgPrev = document.getElementById("mobileNewCustPhotoPreview");
+    if (imgPrev) { imgPrev.src = ''; imgPrev.classList.add('d-none'); }
+    const ph = document.getElementById("mobileNewCustPhotoPlaceholder");
+    if (ph) ph.classList.remove('d-none');
+
+    // Init Flatpickr on Due Date
+    const dueDateInput = document.getElementById("mobileNewCustDueDate");
+    if (dueDateInput && typeof flatpickr !== 'undefined') {
+        flatpickr(dueDateInput, {
+            dateFormat: "Y-m-d",
+            defaultDate: new Date(),
+            disableMobile: true,
+            monthSelectorType: "static",
+            parseDate: function(dateStr) {
+                if (!dateStr) return new Date();
+                const engStr = typeof banglaToEngNum === 'function' ? banglaToEngNum(String(dateStr)) : String(dateStr);
+                const parts = engStr.replace(/[^\d\/\-\.]/g, '').split(/[\/\-\.]/);
+                if (parts.length === 3) {
+                    return parts[0].length === 4 ? new Date(parts[0], parts[1]-1, parts[2]) : new Date(parts[2], parts[1]-1, parts[0]);
+                }
+                return new Date();
+            },
+            formatDate: function(date) {
+                const d = String(date.getDate()).padStart(2, '0');
+                const m = String(date.getMonth() + 1).padStart(2, '0');
+                const y = date.getFullYear();
+                return typeof engToBanglaNum === 'function' ? engToBanglaNum(`${d}/${m}/${y}`) : `${d}/${m}/${y}`;
+            },
+            onChange: function(dates) {
+                if (dates && dates.length > 0) {
+                    const d = String(dates[0].getDate()).padStart(2, '0');
+                    const m = String(dates[0].getMonth() + 1).padStart(2, '0');
+                    const y = dates[0].getFullYear();
+                    dueDateInput.value = typeof engToBanglaNum === 'function' ? engToBanglaNum(`${d}/${m}/${y}`) : `${d}/${m}/${y}`;
+                }
+            }
+        });
+    }
+
+    // Auto Focus Name field so mobile keyboard opens immediately
+    if (nameEl) {
+        try { nameEl.focus(); nameEl.click(); } catch(_) {}
+    }
+    modalEl.addEventListener('shown.bs.modal', function() {
+        if (nameEl) { nameEl.focus(); nameEl.click(); }
+    }, { once: true });
+    setTimeout(() => {
+        if (nameEl) { nameEl.focus(); nameEl.click(); }
+    }, 150);
+}
+
+function closeMobileNewCustomerModal() {
+    const modalEl = document.getElementById("modalMobileNewCustomer");
+    if (modalEl) {
+        const bsModal = bootstrap.Modal.getInstance(modalEl) || bootstrap.Modal.getOrCreateInstance(modalEl);
+        if (bsModal) bsModal.hide();
+    }
+    // Return to Customer Search Sheet
+    setTimeout(() => {
+        openMobileCustomerSearchModal();
+    }, 100);
+}
+
+function triggerMobileNewCustPhotoUpload() {
+    document.getElementById("mobileNewCustPhoto")?.click();
+}
+
+function previewMobileNewCustPhoto(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.getElementById("mobileNewCustPhotoPreview");
+            const ph = document.getElementById("mobileNewCustPhotoPlaceholder");
+            if (img) { img.src = e.target.result; img.classList.remove('d-none'); }
+            if (ph) ph.classList.add('d-none');
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+async function submitMobileNewCustomer() {
+    try {
+        const partyType = document.querySelector('input[name="mobilePartyTypeRadio"]:checked')?.value || 'customer';
+        const name = document.getElementById('mobileNewCustName')?.value?.trim();
+        const mobile = document.getElementById('mobileNewCustMobile')?.value?.trim();
+        const email = document.getElementById('mobileNewCustEmail')?.value?.trim() || '';
+        const address = document.getElementById('mobileNewCustAddress')?.value?.trim() || '';
+        const dueRaw = document.getElementById('mobileNewCustDue')?.value || '0';
+        const photoInput = document.getElementById('mobileNewCustPhoto')?.files[0];
+
+        const isSupplier = (partyType === 'supplier');
+
+        if (!name) {
+            Toastify({
+                text: isSupplier ? "অনুগ্রহ করে সাপ্লায়ারের নাম দিন" : "অনুগ্রহ করে কাস্টমারের নাম দিন",
+                duration: 2500,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#ef4444",
+            }).showToast();
+            document.getElementById('mobileNewCustName')?.focus();
+            return;
+        }
+
+        if (!mobile) {
+            Toastify({
+                text: "অনুগ্রহ করে ফোন নম্বর দিন",
+                duration: 2500,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#ef4444",
+            }).showToast();
+            document.getElementById('mobileNewCustMobile')?.focus();
+            return;
+        }
+
+        const dueVal = parseBanglaFloat(dueRaw) || 0;
+        const mobileEn = typeof banglaToEngNum === 'function' ? banglaToEngNum(mobile) : mobile;
+
+        const formData = new FormData();
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                ...HeaderToken().headers
+            }
+        };
+
+        if (isSupplier) {
+            formData.append('name', name);
+            formData.append('mobile', mobileEn);
+            formData.append('email', email);
+            formData.append('address', address);
+            formData.append('purchase_payable_amount', dueVal);
+            formData.append('status', 'Active');
+            if (photoInput) {
+                formData.append('img_url', photoInput);
+            }
+
+            if (typeof showLoader === 'function') showLoader();
+            let res;
+            try {
+                res = await axios.post("/api/create-supplier", formData, config);
+            } catch (suppErr) {
+                console.warn("create-supplier error, fallback:", suppErr);
+                res = suppErr.response;
+            }
+            if (typeof hideLoader === 'function') hideLoader();
+
+            if (res && res.data && (res.data['status'] === "success" || res.data.success)) {
+                // Close modals
+                const modalEl = document.getElementById("modalMobileNewCustomer");
+                if (modalEl) {
+                    const bsModal = bootstrap.Modal.getInstance(modalEl) || bootstrap.Modal.getOrCreateInstance(modalEl);
+                    if (bsModal) bsModal.hide();
+                }
+                hideMobileModal("mobileCustomerSearchModal");
+
+                Toastify({
+                    text: `🎉 সাপ্লায়ার "${name}" সফলভাবে যুক্ত করা হয়েছে`,
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "#8C56D4",
+                }).showToast();
+            } else {
+                Toastify({
+                    text: res?.data?.message || "সাপ্লায়ার সংরক্ষণ করতে সমস্যা হয়েছে",
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "#ef4444",
+                }).showToast();
+            }
+            return;
+        }
+
+        // Customer submission
+        formData.append('customer_name', name);
+        formData.append('mobile', mobileEn);
+        formData.append('email', email);
+        formData.append('previous_due_amount', dueVal);
+        formData.append('address_details', address);
+        if (photoInput) {
+            formData.append('img', photoInput);
+        }
+
+        if (typeof showLoader === 'function') showLoader();
+        const res = await axios.post("/api/create-customer", formData, config);
+        if (typeof hideLoader === 'function') hideLoader();
+
+        if (res.data && res.data['status'] === "success") {
+            const newCust = res.data.data || {
+                id: Date.now(),
+                customer_name: name,
+                mobile: mobileEn,
+                address_details: address,
+                previous_due_amount: dueVal,
+                total_due: dueVal
+            };
+
+            // Add to customers array
+            if (!window.allCustomersList) window.allCustomersList = [];
+            window.allCustomersList.unshift(newCust);
+
+            // Select this new customer in POS
+            if (document.getElementById("CustomerName")) document.getElementById("CustomerName").value = name;
+            if (document.getElementById("CustomerID")) document.getElementById("CustomerID").value = newCust.id;
+            if (document.getElementById("CustomerMobileNumber")) document.getElementById("CustomerMobileNumber").value = mobileEn;
+            if (document.getElementById("CustomerAddress")) document.getElementById("CustomerAddress").value = address;
+            if (document.getElementById("totalPreviousDueAmount")) document.getElementById("totalPreviousDueAmount").value = dueVal;
+            if (typeof updateMobileCustomerDisplay === 'function') {
+                updateMobileCustomerDisplay(name, mobileEn, address, dueVal);
+            }
+
+            // Close modals
+            const modalEl = document.getElementById("modalMobileNewCustomer");
+            if (modalEl) {
+                const bsModal = bootstrap.Modal.getInstance(modalEl) || bootstrap.Modal.getOrCreateInstance(modalEl);
+                if (bsModal) bsModal.hide();
+            }
+            hideMobileModal("mobileCustomerSearchModal");
+
+            Toastify({
+                text: `🎉 কাস্টমার "${name}" সফলভাবে যুক্ত করা হয়েছে`,
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#8C56D4",
+            }).showToast();
+
+            // Refresh desktop customer list in background
+            if (typeof CustomerTypeData === 'function') CustomerTypeData();
+        } else {
+            Toastify({
+                text: res.data?.message || "কাস্টমার সংরক্ষণ করতে সমস্যা হয়েছে",
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#ef4444",
+            }).showToast();
+        }
+    } catch(err) {
+        if (typeof hideLoader === 'function') hideLoader();
+        console.error("submitMobileNewCustomer error:", err);
+        Toastify({
+            text: err.response?.data?.message || "সংরক্ষণে ত্রুটি দেখা দিয়েছে",
+            duration: 3000,
+            gravity: "top",
+            position: "center",
+            backgroundColor: "#ef4444",
+        }).showToast();
+    }
+}
+
+// -------------------------------------------------------------
+// Mobile New Product ("নতুন পণ্য" - Matches Image 5) Logic
+// -------------------------------------------------------------
+function openMobileNewProductModal() {
+    hideMobileModal("mobileProductSearchModal");
+    const modalEl = document.getElementById("modalMobileNewProduct");
+    if (!modalEl) return;
+    if (modalEl.parentElement !== document.body) {
+        document.body.appendChild(modalEl);
+    }
+    const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    bsModal.show();
+
+    // Reset Form Fields
+    const nameEl = document.getElementById("mobileNewProdName");
+    if (nameEl) nameEl.value = '';
+    const codeEl = document.getElementById("mobileNewProdCode");
+    if (codeEl) codeEl.value = '';
+    const costEl = document.getElementById("mobileNewProdCost");
+    if (costEl) costEl.value = '0.00';
+    const sellEl = document.getElementById("mobileNewProdSell");
+    if (sellEl) sellEl.value = '0.00';
+    const stockEl = document.getElementById("mobileNewProdStock");
+    if (stockEl) stockEl.value = '0';
+    const photoEl = document.getElementById("mobileNewProdPhoto");
+    if (photoEl) photoEl.value = '';
+    const imgPrev = document.getElementById("mobileNewProdPhotoPreview");
+    if (imgPrev) { imgPrev.src = ''; imgPrev.classList.add('d-none'); }
+    const ph = document.getElementById("mobileNewProdPhotoPlaceholder");
+    if (ph) ph.classList.remove('d-none');
+
+    // Auto Focus Name field so mobile keyboard opens immediately
+    if (nameEl) {
+        try { nameEl.focus(); nameEl.click(); } catch(_) {}
+    }
+    modalEl.addEventListener('shown.bs.modal', function() {
+        if (nameEl) { nameEl.focus(); nameEl.click(); }
+    }, { once: true });
+    setTimeout(() => {
+        if (nameEl) { nameEl.focus(); nameEl.click(); }
+    }, 150);
+}
+
+function closeMobileNewProductModal() {
+    const modalEl = document.getElementById("modalMobileNewProduct");
+    if (modalEl) {
+        const bsModal = bootstrap.Modal.getInstance(modalEl) || bootstrap.Modal.getOrCreateInstance(modalEl);
+        if (bsModal) bsModal.hide();
+    }
+    // Return to Product Search Sheet
+    setTimeout(() => {
+        openMobileProductSearchModal();
+    }, 100);
+}
+
+function triggerMobileNewProdPhotoUpload() {
+    document.getElementById("mobileNewProdPhoto")?.click();
+}
+
+function previewMobileNewProdPhoto(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.getElementById("mobileNewProdPhotoPreview");
+            const ph = document.getElementById("mobileNewProdPhotoPlaceholder");
+            if (img) { img.src = e.target.result; img.classList.remove('d-none'); }
+            if (ph) ph.classList.add('d-none');
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+async function submitMobileNewProduct() {
+    try {
+        const name = document.getElementById('mobileNewProdName')?.value?.trim();
+        const code = document.getElementById('mobileNewProdCode')?.value?.trim() || '';
+        const costRaw = document.getElementById('mobileNewProdCost')?.value || '0';
+        const sellRaw = document.getElementById('mobileNewProdSell')?.value || '0';
+        const stockRaw = document.getElementById('mobileNewProdStock')?.value || '0';
+        const photoInput = document.getElementById('mobileNewProdPhoto')?.files[0];
+
+        if (!name) {
+            Toastify({
+                text: "অনুগ্রহ করে পণ্যের নাম দিন",
+                duration: 2500,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#ef4444",
+            }).showToast();
+            document.getElementById('mobileNewProdName')?.focus();
+            return;
+        }
+
+        const costVal = parseBanglaFloat(costRaw) || 0;
+        const sellVal = parseBanglaFloat(sellRaw) || 0;
+        const stockVal = parseBanglaFloat(stockRaw) || 0;
+
+        const barcodes = code ? [typeof banglaToEngNum === 'function' ? banglaToEngNum(code) : code] : [];
+
+        const formData = new FormData();
+        formData.append('product_name', name);
+        formData.append('cost_price', costVal);
+        formData.append('sell_price', sellVal);
+        formData.append('quantity', stockVal);
+        formData.append('product_code', JSON.stringify(barcodes));
+        formData.append('status', 'Active');
+        if (photoInput) {
+            formData.append('img', photoInput);
+        }
+
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                ...HeaderToken().headers
+            }
+        };
+
+        if (typeof showLoader === 'function') showLoader();
+        const res = await axios.post("/api/create-product", formData, config);
+        if (typeof hideLoader === 'function') hideLoader();
+
+        if (res.data && res.data['status'] === "success") {
+            const newProd = res.data.data || {
+                id: Date.now(),
+                product_name: name,
+                sell_price: sellVal,
+                cost_price: costVal,
+                quantity: stockVal,
+                product_code: JSON.stringify(barcodes)
+            };
+
+            // Add to allProducts list
+            if (!window.allProducts) window.allProducts = [];
+            window.allProducts.unshift(newProd);
+            if (typeof renderProducts === 'function') renderProducts(allProducts);
+            populateMobileProductsGrid();
+
+            // Close modals
+            const modalEl = document.getElementById("modalMobileNewProduct");
+            if (modalEl) {
+                const bsModal = bootstrap.Modal.getInstance(modalEl) || bootstrap.Modal.getOrCreateInstance(modalEl);
+                if (bsModal) bsModal.hide();
+            }
+            hideMobileModal("mobileProductSearchModal");
+
+            // Open "নতুন আইটেম লাইন" or add directly to cart
+            if (typeof openMobileItemLineForm === 'function') {
+                openMobileItemLineForm(newProd);
+            } else if (typeof addProductToCartCustom === 'function') {
+                addProductToCartCustom(newProd, 1, sellVal);
+            }
+
+            Toastify({
+                text: `🎉 পণ্য "${name}" সফলভাবে তৈরি হয়েছে`,
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#8C56D4",
+            }).showToast();
+        } else {
+            Toastify({
+                text: res.data?.message || "পণ্য সংরক্ষণ করতে সমস্যা হয়েছে",
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#ef4444",
+            }).showToast();
+        }
+    } catch(err) {
+        if (typeof hideLoader === 'function') hideLoader();
+        console.error("submitMobileNewProduct error:", err);
+        Toastify({
+            text: err.response?.data?.message || "পণ্য সংরক্ষণে ত্রুটি দেখা দিয়েছে",
+            duration: 3000,
+            gravity: "top",
+            position: "center",
+            backgroundColor: "#ef4444",
+        }).showToast();
+    }
+}
+
+window.openMobileNewCustomerModal = openMobileNewCustomerModal;
+window.closeMobileNewCustomerModal = closeMobileNewCustomerModal;
+window.submitMobileNewCustomer = submitMobileNewCustomer;
+window.triggerMobileNewCustPhotoUpload = triggerMobileNewCustPhotoUpload;
+window.previewMobileNewCustPhoto = previewMobileNewCustPhoto;
+
+window.openMobileNewProductModal = openMobileNewProductModal;
+window.closeMobileNewProductModal = closeMobileNewProductModal;
+window.submitMobileNewProduct = submitMobileNewProduct;
+window.triggerMobileNewProdPhotoUpload = triggerMobileNewProdPhotoUpload;
+window.previewMobileNewProdPhoto = previewMobileNewProdPhoto;
+
+// Sticky Save Button dynamic repositioning on mobile virtual keyboard open
+(function initStickyKeyboardSupport() {
+    if (!window.visualViewport) return;
+
+    function handleKeyboardAdjustment() {
+        const vv = window.visualViewport;
+        const windowHeight = window.innerHeight;
+        // Check if keyboard is open (visual viewport shrunk by > 60px)
+        const isKeyboardOpen = (windowHeight - vv.height) > 60;
+        const keyboardOffset = isKeyboardOpen ? Math.max(0, windowHeight - vv.height - (vv.offsetTop || 0)) : 0;
+
+        // 1. Reposition main POS sticky footer
+        const mainFooter = document.querySelector('.pos-mobile-sticky-footer');
+        if (mainFooter) {
+            mainFooter.style.bottom = isKeyboardOpen ? `${keyboardOffset}px` : '0px';
+        }
+
+        // 2. Adjust active bottom sheets (Customer Search & Product Search Modals)
+        document.querySelectorAll('.bottom-sheet.show .modal-dialog').forEach(dialog => {
+            if (isKeyboardOpen) {
+                dialog.style.bottom = `${keyboardOffset}px`;
+                dialog.style.maxHeight = `${Math.min(windowHeight * 0.85, vv.height - 10)}px`;
+            } else {
+                dialog.style.bottom = '0px';
+                dialog.style.maxHeight = '85dvh';
+            }
+        });
+
+        // 3. Adjust active fullscreen sheets modal dialog height and placement
+        document.querySelectorAll('.pos-fullscreen-sheet.show .modal-dialog').forEach(dialog => {
+            if (isKeyboardOpen) {
+                dialog.style.height = `${vv.height}px`;
+                dialog.style.top = `${vv.offsetTop || 0}px`;
+                dialog.style.bottom = 'auto';
+            } else {
+                dialog.style.height = '100%';
+                dialog.style.top = '0px';
+                dialog.style.bottom = '0px';
+            }
+        });
+    }
+
+    window.visualViewport.addEventListener('resize', handleKeyboardAdjustment);
+    window.visualViewport.addEventListener('scroll', handleKeyboardAdjustment);
+})();
+
+function closeMobileCustomerSearchModal() {
+    hideMobileModal("mobileCustomerSearchModal");
+}
+window.closeMobileCustomerSearchModal = closeMobileCustomerSearchModal;
+
+function closeMobileProductSearchModal() {
+    hideMobileModal("mobileProductSearchModal");
+}
+window.closeMobileProductSearchModal = closeMobileProductSearchModal;
 
 function addProductToCartById(productId) {
     const product = allProducts.find(p => p.id === productId);
@@ -4101,20 +5624,100 @@ function togglePosSaleType(type) {
     }
 }
 
+function switchMobileSaleType(type) {
+    const cashBtn = document.getElementById('mobileTypeCashBtn');
+    const creditBtn = document.getElementById('mobileTypeCreditBtn');
+    const smsChk = document.getElementById('chkSendTransactionSms');
+    const paidInput = document.getElementById('mobilePaidInput');
+    const netTotalInput = document.getElementById('mobileNetTotal');
+
+    if (type === 'Cash') {
+        if (cashBtn) cashBtn.classList.add('active');
+        if (creditBtn) creditBtn.classList.remove('active');
+        
+        const netVal = parseBanglaFloat(netTotalInput?.value) || 0;
+        if (paidInput) {
+            paidInput.value = netVal > 0 ? engToBanglaNum(netVal.toFixed(2)) : '';
+        }
+        if (smsChk) smsChk.checked = false;
+        
+        if (typeof mobilePaymentRows !== 'undefined' && mobilePaymentRows.length > 0) {
+            mobilePaymentRows[0].type = 'Cash';
+            mobilePaymentRows[0].amount = netVal > 0 ? netVal.toString() : '';
+            if (typeof renderMobilePaymentRows === 'function') renderMobilePaymentRows();
+        }
+    } else {
+        if (creditBtn) creditBtn.classList.add('active');
+        if (cashBtn) cashBtn.classList.remove('active');
+        
+        if (paidInput) {
+            paidInput.value = '০';
+        }
+        if (smsChk) smsChk.checked = true;
+        
+        if (typeof mobilePaymentRows !== 'undefined' && mobilePaymentRows.length > 0) {
+            mobilePaymentRows[0].amount = '0';
+            if (typeof renderMobilePaymentRows === 'function') renderMobilePaymentRows();
+        }
+    }
+    syncMobileCalcInputs();
+}
+
+function onManualGrossChange(val) {
+    const grossNum = parseBanglaFloat(val) || 0;
+    const grossInput = document.getElementById('mobileGrossTotal');
+    const errHint = document.getElementById('grossTotalErrorHint');
+
+    if (grossNum > 0 || (cartItems && cartItems.length > 0)) {
+        if (grossInput) grossInput.classList.remove('has-error-border');
+        if (errHint) errHint.style.display = 'none';
+    }
+
+    subTotal = grossNum;
+    const delivery = parseBanglaFloat(document.getElementById('mobileDeliveryCharge')?.value) || 0;
+    const net = grossNum + delivery;
+    
+    const netInput = document.getElementById('mobileNetTotal');
+    if (netInput) {
+        netInput.value = net > 0 ? engToBanglaNum(net.toFixed(2)) : '';
+    }
+
+    const isCash = document.getElementById('mobileTypeCashBtn')?.classList.contains('active');
+    const paidInput = document.getElementById('mobilePaidInput');
+    if (isCash && paidInput) {
+        paidInput.value = net > 0 ? engToBanglaNum(net.toFixed(2)) : '';
+        if (typeof mobilePaymentRows !== 'undefined' && mobilePaymentRows.length > 0) {
+            mobilePaymentRows[0].amount = net > 0 ? net.toString() : '';
+            if (typeof renderMobilePaymentRows === 'function') renderMobilePaymentRows();
+        }
+    }
+
+    syncMobileCalcInputs();
+}
+
 function syncMobileCalcInputs() {
-    const discount = parseBanglaFloat(document.getElementById("mobileDiscountInput")?.value) || 0;
+    const gross = parseBanglaFloat(document.getElementById("mobileGrossTotal")?.value) || 0;
     const delivery = parseBanglaFloat(document.getElementById("mobileDeliveryCharge")?.value) || 0;
+    const discount = parseBanglaFloat(document.getElementById("mobileDiscountInput")?.value) || 0;
     const paid = parseBanglaFloat(document.getElementById("mobilePaidInput")?.value) || 0;
 
-    const discountInput = document.getElementById("discountAmountInput");
-    if (discountInput) {
-        discountInput.value = discount;
+    const netTotal = Math.max(0, gross + delivery - discount);
+    const netInput = document.getElementById("mobileNetTotal");
+    if (netInput && (netTotal > 0 || gross > 0)) {
+        netInput.value = netTotal > 0 ? engToBanglaNum(netTotal.toFixed(2)) : '০.০০';
     }
 
+    const discountInput = document.getElementById("discountAmountInput");
+    if (discountInput) discountInput.value = discount;
+
     const paidInput = document.getElementById("paidAmountInput");
-    if (paidInput) {
-        paidInput.value = paid;
+    if (paidInput) paidInput.value = paid;
+
+    const subTotalEl = document.getElementById("subTotal");
+    if (subTotalEl && gross > 0 && cartItems.length === 0) {
+        subTotalEl.textContent = formatBanglaAmount(gross);
     }
+
     calculateDuePayment();
 }
 
@@ -4401,16 +6004,37 @@ try { ProductBrandData(); } catch(e) { console.error("ProductBrandData init erro
                         icon: 'warning',
                         title: 'কাস্টমার নির্বাচন করুন',
                         text: 'অর্ডার তৈরি করতে কাস্টমার সিলেক্ট করুন অথবা নতুন কাস্টমার এন্ট্রি করুন।',
-                        confirmButtonColor: '#15803d'
+                        confirmButtonColor: '#8C56D4'
                     });
                 }
                 if (cartItems.length === 0) {
-                    return Swal.fire({
-                        icon: 'warning',
-                        title: 'কার্ট খালি!',
-                        text: 'অর্ডার তৈরি করতে অন্তত একটি পণ্য কার্টে যুক্ত করুন।',
-                        confirmButtonColor: '#15803d'
-                    });
+                    const manualGross = parseBanglaFloat(document.getElementById("mobileGrossTotal")?.value) || 0;
+                    if (manualGross > 0) {
+                        const fallbackProd = (typeof allProducts !== 'undefined' && allProducts.length > 0) ? allProducts[0] : { id: 1, product_name: 'সাধারণ বিক্রয়', cost_price: 0 };
+                        cartItems.push({
+                            id: fallbackProd.id,
+                            product_name: fallbackProd.product_name || 'সাধারণ বিক্রয়',
+                            quantity: 1,
+                            cost_price: fallbackProd.cost_price || 0,
+                            sellingPrice: manualGross
+                        });
+                    } else {
+                        const grossInput = document.getElementById("mobileGrossTotal");
+                        const errHint = document.getElementById("grossTotalErrorHint");
+                        if (grossInput) {
+                            grossInput.classList.add("has-error-border");
+                            grossInput.focus();
+                        }
+                        if (errHint) {
+                            errHint.style.display = "block";
+                        }
+                        return Swal.fire({
+                            icon: 'warning',
+                            title: 'মোট মূল্য প্রয়োজন',
+                            text: 'অর্ডার তৈরি করতে মোট মূল্য লিখুন অথবা আইটেম যোগ করুন।',
+                            confirmButtonColor: '#8C56D4'
+                        });
+                    }
                 }
 
                 // Collect product details from the cart
@@ -4793,15 +6417,30 @@ try { ProductBrandData(); } catch(e) { console.error("ProductBrandData init erro
     </script>
 
     <!-- Mobile Multi-Payment Method System (Exact Parity with Reference Screenshot) -->
+    <!-- Mobile Multi-Payment Method System & Date Picker Integration -->
     <script>
-        const mobilePaymentInfo = {
-            'bKash':  { name: 'bKash',  icon: 'fa-solid fa-mobile-screen-button', color: '#e2136e', bg: '#fdf2f8' },
-            'Cash':   { name: 'Cash',   icon: 'fa-solid fa-money-bill-wave', color: '#16a34a', bg: '#f0fdf4' },
-            'Nagad':  { name: 'Nagad',  icon: 'fa-solid fa-wallet', color: '#ea580c', bg: '#fff7ed' },
-            'Rocket': { name: 'Rocket', icon: 'fa-solid fa-rocket', color: '#7c3aed', bg: '#f5f3ff' },
-            'Bank':   { name: 'Bank',   icon: 'fa-solid fa-building-columns', color: '#2563eb', bg: '#eff6ff' },
-            'Card':   { name: 'Card',   icon: 'fa-solid fa-credit-card', color: '#4f46e5', bg: '#e0e7ff' }
-        };
+        let mobileBankingMethods = [
+            { key: 'bKash',  name: 'bKash',  icon: 'fa-solid fa-mobile-screen-button', color: '#e2136e', bg: '#fdf2f8' },
+            { key: 'Nagad',  name: 'Nagad',  icon: 'fa-solid fa-wallet', color: '#ea580c', bg: '#fff7ed' },
+            { key: 'Rocket', name: 'Rocket', icon: 'fa-solid fa-rocket', color: '#7c3aed', bg: '#f5f3ff' },
+            { key: 'Upay',   name: 'Upay',   icon: 'fa-solid fa-money-bill-transfer', color: '#0284c7', bg: '#f0f9ff' }
+        ];
+
+        let bankMethods = [
+            { key: 'Bank',   name: 'Bank',   icon: 'fa-solid fa-building-columns', color: '#2563eb', bg: '#eff6ff' },
+            { key: 'Card',   name: 'Card',   icon: 'fa-solid fa-credit-card', color: '#4f46e5', bg: '#e0e7ff' }
+        ];
+
+        const cashMethod = { key: 'Cash', name: 'Cash', icon: 'fa-solid fa-money-bill-wave', color: '#16a34a', bg: '#f0fdf4' };
+
+        function getMobilePaymentInfo(key) {
+            if (key === 'Cash') return cashMethod;
+            const mb = mobileBankingMethods.find(m => m.key === key);
+            if (mb) return mb;
+            const bk = bankMethods.find(m => m.key === key);
+            if (bk) return bk;
+            return cashMethod;
+        }
 
         let mobilePaymentRows = [
             { id: 1, type: 'Cash', amount: '', trxId: '', phone: '' }
@@ -4813,18 +6452,18 @@ try { ProductBrandData(); } catch(e) { console.error("ProductBrandData init erro
 
             let html = '';
             mobilePaymentRows.forEach((row, index) => {
-                const info = mobilePaymentInfo[row.type] || mobilePaymentInfo['Cash'];
+                const info = getMobilePaymentInfo(row.type);
                 const isCash = (row.type === 'Cash');
                 const showAddBtn = (index === mobilePaymentRows.length - 1);
                 const canDelete = (mobilePaymentRows.length > 1);
 
                 html += `
                 <div class="pos-mobile-payment-card-box" data-id="${row.id}">
-                    <div class="payment-select-group">
+                    <div class="payment-top-select-row">
                         <div class="dropdown flex-grow-1 position-relative">
-                            <button type="button" class="btn border d-flex align-items-center justify-content-between w-100 px-3 py-2 bg-white rounded-3 shadow-xs dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="height: 42px; border-color: #cbd5e1 !important;">
+                            <button type="button" class="payment-method-custom-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="badge p-1.5 rounded-2 d-inline-flex align-items-center justify-content-center" style="background: ${info.bg}; color: ${info.color}; font-size: 14px; width: 26px; height: 26px;">
+                                    <span class="badge p-1 rounded-2 d-inline-flex align-items-center justify-content-center" style="background: ${info.bg}; color: ${info.color}; font-size: 14px; width: 28px; height: 28px;">
                                         <i class="${info.icon}"></i>
                                     </span>
                                     <span class="fw-bold text-dark" style="font-size: 14px;">${info.name}</span>
@@ -4832,21 +6471,60 @@ try { ProductBrandData(); } catch(e) { console.error("ProductBrandData init erro
                                 <i class="fa-solid fa-chevron-down text-muted small"></i>
                             </button>
 
-                            <ul class="dropdown-menu shadow-lg border-0 w-100 p-1" style="border-radius: 12px; z-index: 1060;">
-                                ${Object.keys(mobilePaymentInfo).map(key => {
-                                    const opt = mobilePaymentInfo[key];
-                                    const isActive = (row.type === key);
-                                    return `
-                                    <li>
-                                        <a class="dropdown-item d-flex align-items-center gap-2 py-2 rounded-2 ${isActive ? 'active bg-light' : ''}" href="#" onclick="selectMobilePaymentType(${row.id}, '${key}', event)">
-                                            <span class="badge p-1.5 rounded-2 d-inline-flex align-items-center justify-content-center" style="background: ${opt.bg}; color: ${opt.color}; font-size: 14px; width: 26px; height: 26px;">
-                                                <i class="${opt.icon}"></i>
-                                            </span>
-                                            <span class="fw-bold text-dark">${opt.name}</span>
-                                        </a>
-                                    </li>
-                                    `;
-                                }).join('')}
+                            <ul class="dropdown-menu shadow-lg border-0 w-100 p-2" style="border-radius: 12px; z-index: 1060; max-height: 380px; overflow-y: auto;">
+                                <!-- Cash Section -->
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2 py-2 rounded-2 ${row.type === 'Cash' ? 'active bg-light' : ''}" href="#" onclick="selectMobilePaymentType(${row.id}, 'Cash', event)">
+                                        <span class="badge p-1 rounded-2 d-inline-flex align-items-center justify-content-center" style="background: ${cashMethod.bg}; color: ${cashMethod.color}; font-size: 14px; width: 26px; height: 26px;">
+                                            <i class="${cashMethod.icon}"></i>
+                                        </span>
+                                        <span class="fw-bold text-dark">${cashMethod.name}</span>
+                                    </a>
+                                </li>
+
+                                <li><hr class="dropdown-divider my-1" style="border-color: #E5D5F7;"></li>
+
+                                <!-- Mobile Banking Section -->
+                                <li class="dropdown-category-header">
+                                    <span class="dropdown-category-title">
+                                        <i class="fa-solid fa-mobile-screen"></i>মোবাইল ব্যাংকিং
+                                    </span>
+                                    <button type="button" class="btn-add-payment-opt" onclick="promptAddMobileBanking(event)" title="নতুন মোবাইল ব্যাংকিং যোগ করুন">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </li>
+                                ${mobileBankingMethods.map(opt => `
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2 py-2 rounded-2 ${row.type === opt.key ? 'active bg-light' : ''}" href="#" onclick="selectMobilePaymentType(${row.id}, '${opt.key}', event)">
+                                        <span class="badge p-1 rounded-2 d-inline-flex align-items-center justify-content-center" style="background: ${opt.bg}; color: ${opt.color}; font-size: 14px; width: 26px; height: 26px;">
+                                            <i class="${opt.icon}"></i>
+                                        </span>
+                                        <span class="fw-bold text-dark">${opt.name}</span>
+                                    </a>
+                                </li>
+                                `).join('')}
+
+                                <li><hr class="dropdown-divider my-1" style="border-color: #E5D5F7;"></li>
+
+                                <!-- Bank & Card Section -->
+                                <li class="dropdown-category-header">
+                                    <span class="dropdown-category-title">
+                                        <i class="fa-solid fa-building-columns"></i>ব্যাংকসমূহ
+                                    </span>
+                                    <button type="button" class="btn-add-payment-opt" onclick="promptAddBank(event)" title="নতুন ব্যাংক যোগ করুন">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </li>
+                                ${bankMethods.map(opt => `
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2 py-2 rounded-2 ${row.type === opt.key ? 'active bg-light' : ''}" href="#" onclick="selectMobilePaymentType(${row.id}, '${opt.key}', event)">
+                                        <span class="badge p-1 rounded-2 d-inline-flex align-items-center justify-content-center" style="background: ${opt.bg}; color: ${opt.color}; font-size: 14px; width: 26px; height: 26px;">
+                                            <i class="${opt.icon}"></i>
+                                        </span>
+                                        <span class="fw-bold text-dark">${opt.name}</span>
+                                    </a>
+                                </li>
+                                `).join('')}
                             </ul>
                         </div>
 
@@ -4854,22 +6532,44 @@ try { ProductBrandData(); } catch(e) { console.error("ProductBrandData init erro
                             <button type="button" class="btn-delete-payment-line" onclick="deleteMobilePaymentRow(${row.id})" title="রিমুভ">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>
-                        ` : ''}
+                        ` : `
+                            <button type="button" class="btn-delete-payment-line" onclick="clearMobilePaymentRow(${row.id})" title="ক্লিয়ার" style="color: #cbd5e1;">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        `}
                     </div>
 
-                    <div class="payment-amount-input-wrap">
-                        <span class="currency-prefix">৳</span>
-                        <input type="text" inputmode="decimal" placeholder="0" value="${row.amount}" oninput="enforceBanglaNumberInput(this); updateMobilePaymentAmount(${row.id}, this.value)" />
+                    <div class="payment-bottom-amount-row">
+                        <div class="payment-amount-input-box">
+                            <span class="currency-tag">৳</span>
+                            <input type="text" inputmode="decimal" placeholder="" value="${row.amount}" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this); updateMobilePaymentAmount(${row.id}, this.value)" />
+                        </div>
                         ${showAddBtn ? `
-                            <button type="button" class="btn-add-payment-line" onclick="addMobilePaymentRow()" title="পেমেন্টের নতুন লাইন যোগ করুন">
+                            <button type="button" class="btn-plus-payment-method" onclick="addMobilePaymentRow()" title="পেমেন্টের নতুন লাইন যোগ করুন">
                                 <i class="fa-solid fa-plus"></i>
                             </button>
                         ` : ''}
                     </div>
 
                     ${!isCash ? `
-                        <input type="text" class="payment-extra-input" placeholder="লেনদেন আইডি" value="${row.trxId || ''}" oninput="updateMobilePaymentTrxId(${row.id}, this.value)" />
-                        <input type="text" class="payment-extra-input" placeholder="লেনদেনের ফোন নম্বর" value="${row.phone || ''}" oninput="updateMobilePaymentPhone(${row.id}, this.value)" />
+                    <div class="payment-extra-fields-wrap">
+                        <div class="payment-extra-input-row">
+                            <div class="input-group">
+                                <span class="input-group-text extra-icon-addon">
+                                    <i class="fa-solid fa-receipt"></i>
+                                </span>
+                                <input type="text" class="form-control payment-extra-input" placeholder="লেনদেন আইডি লিখুন" value="${row.trxId || ''}" oninput="updateMobilePaymentTrxId(${row.id}, this.value)" />
+                            </div>
+                        </div>
+                        <div class="payment-extra-input-row">
+                            <div class="input-group">
+                                <span class="input-group-text extra-icon-addon">
+                                    <i class="fa-solid fa-phone"></i>
+                                </span>
+                                <input type="text" inputmode="numeric" class="form-control payment-extra-input" placeholder="লেনদেনের ফোন নম্বর" value="${row.phone || ''}" onkeydown="filterNumericKey(event, false)" onpaste="filterNumericPaste(event, false)" oninput="enforceBanglaNumberInput(this, false); updateMobilePaymentPhone(${row.id}, this.value)" />
+                            </div>
+                        </div>
+                    </div>
                     ` : ''}
                 </div>
                 `;
@@ -4877,6 +6577,184 @@ try { ProductBrandData(); } catch(e) { console.error("ProductBrandData init erro
 
             container.innerHTML = html;
             calculateMobilePaymentTotals();
+        }
+
+        function promptAddMobileBanking(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            // 1. Immediately close any open payment dropdown menus so full screen backdrop covers everything
+            document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+            document.querySelectorAll('.dropdown-toggle.show').forEach(b => {
+                b.classList.remove('show');
+                b.setAttribute('aria-expanded', 'false');
+            });
+
+            const input = document.getElementById('mobileBankingModalName');
+            if (input) input.value = '';
+            const modalEl = document.getElementById('modalAddMobileBanking');
+            if (modalEl) {
+                // Ensure modal is directly attached to document.body (Root element)
+                if (modalEl.parentElement !== document.body) {
+                    document.body.appendChild(modalEl);
+                }
+                const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                bsModal.show();
+                
+                // Immediately focus input so keyboard pops up as shown in screenshot
+                if (input) {
+                    try { input.focus(); } catch(_) {}
+                }
+                modalEl.addEventListener('shown.bs.modal', function onShown() {
+                    if (input) {
+                        input.focus();
+                        input.click();
+                    }
+                }, { once: true });
+                setTimeout(() => {
+                    if (input) {
+                        input.focus();
+                        input.click();
+                    }
+                }, 150);
+            }
+        }
+
+        function submitAddMobileBankingModal() {
+            const input = document.getElementById('mobileBankingModalName');
+            const val = input ? input.value.trim() : '';
+            if (!val) {
+                Toastify({
+                    text: "অনুগ্রহ করে মোবাইল ব্যাংকিং এর নাম দিন",
+                    duration: 2500,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "#ef4444",
+                }).showToast();
+                input?.focus();
+                return;
+            }
+
+            const newKey = 'MB_' + Date.now();
+            mobileBankingMethods.push({
+                key: newKey,
+                name: val,
+                icon: 'fa-solid fa-mobile-screen-button',
+                color: '#8C56D4',
+                bg: '#F3ECFB'
+            });
+            renderMobilePaymentRows();
+
+            const modalEl = document.getElementById('modalAddMobileBanking');
+            if (modalEl) {
+                const bsModal = bootstrap.Modal.getInstance(modalEl);
+                if (bsModal) bsModal.hide();
+            }
+
+            Toastify({
+                text: `"${val}" মোবাইল ব্যাংকিং সফলভাবে যোগ করা হয়েছে`,
+                duration: 2500,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#8C56D4",
+            }).showToast();
+        }
+
+        function promptAddBank(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            // 1. Immediately close any open payment dropdown menus so full screen backdrop covers everything
+            document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+            document.querySelectorAll('.dropdown-toggle.show').forEach(b => {
+                b.classList.remove('show');
+                b.setAttribute('aria-expanded', 'false');
+            });
+
+            const nameInput = document.getElementById('bankModalName');
+            if (nameInput) nameInput.value = '';
+            const accNameInput = document.getElementById('bankModalAccName');
+            if (accNameInput) accNameInput.value = '';
+            const accNoInput = document.getElementById('bankModalAccNo');
+            if (accNoInput) accNoInput.value = '';
+            const balanceInput = document.getElementById('bankModalBalance');
+            if (balanceInput) balanceInput.value = '0';
+
+            const modalEl = document.getElementById('modalAddBank');
+            if (modalEl) {
+                // Ensure modal is directly attached to document.body (Root element)
+                if (modalEl.parentElement !== document.body) {
+                    document.body.appendChild(modalEl);
+                }
+                const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                bsModal.show();
+
+                // Immediately focus input so keyboard pops up as shown in screenshot
+                if (nameInput) {
+                    try { nameInput.focus(); } catch(_) {}
+                }
+                modalEl.addEventListener('shown.bs.modal', function onShown() {
+                    if (nameInput) {
+                        nameInput.focus();
+                        nameInput.click();
+                    }
+                }, { once: true });
+                setTimeout(() => {
+                    if (nameInput) {
+                        nameInput.focus();
+                        nameInput.click();
+                    }
+                }, 150);
+            }
+        }
+
+        function submitAddBankModal() {
+            const nameInput = document.getElementById('bankModalName');
+            const val = nameInput ? nameInput.value.trim() : '';
+            if (!val) {
+                Toastify({
+                    text: "অনুগ্রহ করে ব্যাংকের নাম দিন",
+                    duration: 2500,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "#ef4444",
+                }).showToast();
+                nameInput?.focus();
+                return;
+            }
+
+            const accName = document.getElementById('bankModalAccName')?.value.trim() || '';
+            const accNo = document.getElementById('bankModalAccNo')?.value.trim() || '';
+            const balance = document.getElementById('bankModalBalance')?.value.trim() || '0';
+
+            const newKey = 'BANK_' + Date.now();
+            bankMethods.push({
+                key: newKey,
+                name: val,
+                accName: accName,
+                accNo: accNo,
+                balance: balance,
+                icon: 'fa-solid fa-building-columns',
+                color: '#8C56D4',
+                bg: '#F3ECFB'
+            });
+            renderMobilePaymentRows();
+
+            const modalEl = document.getElementById('modalAddBank');
+            if (modalEl) {
+                const bsModal = bootstrap.Modal.getInstance(modalEl);
+                if (bsModal) bsModal.hide();
+            }
+
+            Toastify({
+                text: `"${val}" ব্যাংক সফলভাবে যোগ করা হয়েছে`,
+                duration: 2500,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#8C56D4",
+            }).showToast();
         }
 
         function selectMobilePaymentType(id, type, event) {
@@ -4903,6 +6781,16 @@ try { ProductBrandData(); } catch(e) { console.error("ProductBrandData init erro
             if (mobilePaymentRows.length <= 1) return;
             mobilePaymentRows = mobilePaymentRows.filter(r => r.id != id);
             renderMobilePaymentRows();
+        }
+
+        function clearMobilePaymentRow(id) {
+            const row = mobilePaymentRows.find(r => r.id == id);
+            if (row) {
+                row.amount = '';
+                row.trxId = '';
+                row.phone = '';
+                renderMobilePaymentRows();
+            }
         }
 
         function updateMobilePaymentType(id, type) {
@@ -5013,9 +6901,164 @@ try { ProductBrandData(); } catch(e) { console.error("ProductBrandData init erro
             return fallbackInv;
         }
 
+        let mobileDatePickerInstance = null;
+
+        function openInvoiceDatePicker(e) {
+            if (e) {
+                try { e.preventDefault(); } catch(_) {}
+                try { e.stopPropagation(); } catch(_) {}
+            }
+            if (mobileDatePickerInstance) {
+                try {
+                    mobileDatePickerInstance.open();
+                } catch(err) {
+                    console.error("Flatpickr open error:", err);
+                }
+            } else {
+                initMobileDatePicker();
+                setTimeout(() => {
+                    if (mobileDatePickerInstance) {
+                        try {
+                            mobileDatePickerInstance.open();
+                        } catch(err) {
+                            console.error("Flatpickr open error:", err);
+                        }
+                    }
+                }, 80);
+            }
+        }
+        window.openInvoiceDatePicker = openInvoiceDatePicker;
+
+        function initMobileDatePicker() {
+            const dateInput = document.getElementById('mobileInvoiceDateInput');
+            if (!dateInput) return;
+
+            if (typeof flatpickr === 'undefined') {
+                setTimeout(initMobileDatePicker, 100);
+                return;
+            }
+
+            if (mobileDatePickerInstance) {
+                return;
+            }
+
+            try {
+                // Initialize flatpickr on mobileInvoiceDateInput with custom parseDate to seamlessly handle Bengali numerals
+                mobileDatePickerInstance = flatpickr(dateInput, {
+                    dateFormat: "Y-m-d",
+                    defaultDate: new Date(),
+                    disableMobile: true,
+                    monthSelectorType: "static", // Removes month dropdown, uses prev/next arrow buttons only
+                    clickOpens: true,
+                    appendTo: document.body,
+                    allowInput: false,
+                    parseDate: function(dateStr, format) {
+                        if (!dateStr) return new Date();
+                        if (dateStr instanceof Date) return dateStr;
+                        const engStr = typeof banglaToEngNum === 'function' ? banglaToEngNum(String(dateStr)) : String(dateStr);
+                        const parts = engStr.replace(/[^\d\/\-\.]/g, '').split(/[\/\-\.]/);
+                        if (parts.length === 3) {
+                            if (parts[0].length === 4) {
+                                return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+                            } else {
+                                return new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+                            }
+                        }
+                        const d = new Date(engStr);
+                        return isNaN(d.getTime()) ? new Date() : d;
+                    },
+                    formatDate: function(date, format) {
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const year = date.getFullYear();
+                        return typeof engToBanglaNum === 'function' ? engToBanglaNum(`${day}/${month}/${year}`) : `${day}/${month}/${year}`;
+                    },
+                    onChange: function(selectedDates, dateStr) {
+                        if (selectedDates && selectedDates.length > 0) {
+                            const d = selectedDates[0];
+                            const day = String(d.getDate()).padStart(2, '0');
+                            const month = String(d.getMonth() + 1).padStart(2, '0');
+                            const year = d.getFullYear();
+                            const formattedEng = `${day}/${month}/${year}`;
+                            const formattedBng = typeof engToBanglaNum === 'function' ? engToBanglaNum(formattedEng) : formattedEng;
+                            dateInput.value = formattedBng;
+
+                            const hiddenDate = document.getElementById('mobileInvoiceDate');
+                            if (hiddenDate) hiddenDate.value = formattedEng;
+
+                            const stdDate = `${year}-${month}-${day}`;
+                            const desktopDate = document.getElementById('CustomerDate');
+                            if (desktopDate) desktopDate.value = stdDate;
+                            const mobileCustDate = document.getElementById('mobileCustomerDate');
+                            if (mobileCustDate) mobileCustDate.value = stdDate;
+                        }
+                    }
+                });
+
+                // Ensure initial display shows Bengali digits
+                const now = new Date();
+                const curDay = String(now.getDate()).padStart(2, '0');
+                const curMonth = String(now.getMonth() + 1).padStart(2, '0');
+                const curYear = now.getFullYear();
+                dateInput.value = typeof engToBanglaNum === 'function' ? engToBanglaNum(`${curDay}/${curMonth}/${curYear}`) : `${curDay}/${curMonth}/${curYear}`;
+
+                const clickWrap = document.getElementById('mobileDateClickWrap');
+                if (clickWrap) {
+                    clickWrap.onclick = function(e) {
+                        openInvoiceDatePicker(e);
+                    };
+                }
+                dateInput.onclick = function(e) {
+                    openInvoiceDatePicker(e);
+                };
+            } catch(e) {
+                console.error("Flatpickr init error:", e);
+            }
+        }
+        window.initMobileDatePicker = initMobileDatePicker;
+
+        // Fullscreen Toggle Helper
+        function initPosFullscreenToggle() {
+            const fsBtn = document.querySelector('.js-toggle-fullscreen-btn');
+            if (!fsBtn) return;
+            fsBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (document.fullscreenElement || document.webkitFullscreenElement) {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitCancelFullScreen) {
+                        document.webkitCancelFullScreen();
+                    }
+                } else {
+                    const el = document.documentElement;
+                    if (el.requestFullscreen) {
+                        el.requestFullscreen();
+                    } else if (el.webkitRequestFullScreen) {
+                        el.webkitRequestFullScreen();
+                    }
+                }
+            });
+
+            function syncFsState() {
+                const isFs = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+                if (isFs) {
+                    fsBtn.classList.add('on');
+                    fsBtn.setAttribute('aria-label', 'Exit fullscreen mode');
+                } else {
+                    fsBtn.classList.remove('on');
+                    fsBtn.setAttribute('aria-label', 'Enter fullscreen mode');
+                }
+            }
+
+            document.addEventListener('fullscreenchange', syncFsState);
+            document.addEventListener('webkitfullscreenchange', syncFsState);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             generateDynamicInvoiceNo();
             renderMobilePaymentRows();
+            initMobileDatePicker();
+            initPosFullscreenToggle();
         });
     </script>
 

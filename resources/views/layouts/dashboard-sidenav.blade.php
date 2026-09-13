@@ -64,7 +64,7 @@
 
     /* Vibrant Colorful Royal Purple Mesh Gradient Theme for Sidebar (#8C56D4) */
     .vertical-menu {
-      width: 215px !important;
+      width: 250px !important;
       background: linear-gradient(165deg, #260B4A 0%, #3E1870 35%, #672EB0 70%, #8C56D4 100%) !important;
       border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
       box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05) !important;
@@ -136,7 +136,7 @@
         top: 72px !important;
         bottom: 0 !important;
         left: 0 !important;
-        width: 220px !important;
+        width: 260px !important;
         height: calc(100vh - 72px) !important;
         height: calc(100dvh - 72px) !important;
         display: flex !important;
@@ -207,15 +207,15 @@
       }
     }
 
-    /* Desktop Main Content & Topbar offset for 215px sidebar with smooth transition */
+    /* Desktop Main Content & Topbar offset for 250px sidebar with smooth transition */
     @media (min-width: 992px) {
       .main-content {
-        margin-left: 215px !important;
+        margin-left: 250px !important;
         transition: margin-left 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
       }
       .isvertical-topbar,
       #page-topbar {
-        left: 215px !important;
+        left: 250px !important;
         transition: left 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
       }
       body[data-sidebar-size="sm"] .main-content {
@@ -227,7 +227,7 @@
       }
       /* Ensure desktop sidebar-enable doesn't shrink menu without data-sidebar-size=sm */
       body.sidebar-enable .vertical-menu {
-        width: 215px !important;
+        width: 250px !important;
       }
       body[data-sidebar-size="sm"].sidebar-enable .vertical-menu,
       body[data-sidebar-size="sm"] .vertical-menu {
@@ -266,6 +266,9 @@
     .vertical-menu .sidebar-flyout-link,
     .vertical-menu .sidebar-flyout-link:link,
     .vertical-menu .sidebar-flyout-link:visited {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
       color: #F3ECFB !important;
       text-decoration: none !important;
       padding: 9px 12px !important;
@@ -276,8 +279,57 @@
       font-family: inherit !important;
       font-weight: 500 !important;
       width: 100% !important;
+      min-height: 42px !important;
       overflow: hidden !important;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    .vertical-menu .sidebar-drilldown-trigger,
+    .vertical-menu button.sidebar-drilldown-trigger {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      width: 100% !important;
+    }
+
+    .vertical-menu .sidebar-drilldown-trigger > div {
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 0 !important;
+      min-width: 0 !important;
+      flex: 1 1 auto !important;
+    }
+
+    .vertical-menu .sidebar-arrow {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 22px !important;
+      height: 22px !important;
+      min-width: 22px !important;
+      flex-shrink: 0 !important;
+      border-radius: 6px !important;
+      background: rgba(255, 255, 255, 0.12) !important;
+      margin-left: auto !important;
+    }
+
+    .vertical-menu .sidebar-arrow i {
+      font-size: 10px !important;
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .vertical-menu .sidebar-label {
+      display: inline-block !important;
+      font-size: 13.5px !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.2px !important;
+      color: #F3ECFB !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
     }
 
     .vertical-menu .sidebar-link .sidebar-label,
@@ -292,13 +344,6 @@
       color: #F3ECFB !important;
     }
 
-    .vertical-menu .sidebar-drilldown-trigger > div {
-      gap: 10px !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      border: 0 !important;
-    }
-
     .vertical-menu .sidebar-link > i,
     .vertical-menu a.sidebar-link > i,
     .vertical-menu a.sidebar-link:link > i,
@@ -311,6 +356,7 @@
       max-width: 24px !important;
       text-align: center !important;
       color: #D2B7F1 !important;
+      flex-shrink: 0 !important;
       transition: all 0.2s ease !important;
     }
 
@@ -377,6 +423,9 @@
       border: 1.5px solid #B48BE8 !important;
       border-radius: 12px !important;
       box-shadow: 0 3px 10px rgba(140, 86, 212, 0.3) !important;
+      width: 100% !important;
+      display: flex !important;
+      align-items: center !important;
     }
 
     .vertical-menu .active-gradient .sidebar-label,

@@ -45,6 +45,7 @@ This `rules.md` file contains the strict guidelines and conventions for this pro
 - **Modern Dropdowns:** Remove default browser select styles. Implement modern dropdown designs.
 - **Searchable Selects:** For category-type or long-list dropdowns, always implement a searchable filter inside the dropdown.
 - **Date Pickers:** Do not use the default browser date input. Integrate a high-quality, modern calendar/datepicker UI.
+- **Numeric Input Restriction (সংখ্যা ইনপুট ফিল্ডের নিয়ম):** ইনপুট ফিল্ড সংখ্যা/নাম্বার হলে শুধুমাত্র নাম্বার বা ডিজিট টাইপ করা যাবে (English digits 0-9 and Bengali digits ০-৯, plus optional decimal point where applicable)। কোনো বর্ণমালা, অক্ষর বা চিহ্ন (letters/alphabetic characters/unwanted symbols) কোনোভাবেই টাইপ বা পেস্ট করা যাবে না। All numeric fields (e.g. price, quantity, phone number, charge, discount, amounts) must strictly enforce this rule.
 
 ## 6. Modal / Dialog Box Standardization
 - **Height & Viewport:** Modals must fit within a maximum of `100vh` (viewport height).
