@@ -186,43 +186,59 @@
     color: #0f172a;
   }
 
-  /* 2x2 Metric Grid Cards with Overlapping Top Badges */
+  /* 2x2 Metric Grid Cards with Scooped Notch Icon Badges (Exact to Image 2) */
   .hishab-grid-card-overlap {
     background: #ffffff;
-    border-radius: 18px;
-    padding: 22px 14px 14px 14px;
-    margin-top: 16px;
+    border-radius: 20px;
+    padding: 24px 14px 14px 14px;
+    margin-top: 18px;
     position: relative;
     transition: all 0.25s ease;
-    height: calc(100% - 16px);
+    height: calc(100% - 18px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
   }
 
-  .card-due-border { border: 1.5px solid #fed7aa; }
-  .card-payable-border { border: 1.5px solid #bfdbfe; }
-  .card-product-border { border: 1.5px solid #99f6e4; }
-  .card-party-border { border: 1.5px solid #fef08a; }
+  .card-due-border { border: 1.6px solid #ffa39e; }
+  .card-payable-border { border: 1.6px solid #91caff; }
+  .card-product-border { border: 1.6px solid #87e8de; }
+  .card-party-border { border: 1.6px solid #ffe58f; }
+
+  /* SVG Notch that creates the scooped dip under the circular icon */
+  .card-notch-svg {
+    position: absolute;
+    top: -2px;
+    left: 8px;
+    width: 54px;
+    height: 22px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .card-due-border .notch-curve { stroke: #ffa39e; }
+  .card-payable-border .notch-curve { stroke: #91caff; }
+  .card-product-border .notch-curve { stroke: #87e8de; }
+  .card-party-border .notch-curve { stroke: #ffe58f; }
+  .notch-mask { fill: #faf7fd; }
 
   .hishab-icon-overlap-badge {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 15px;
     position: absolute;
-    top: -20px;
-    left: 14px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    top: -18px;
+    left: 16px;
+    z-index: 2;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    color: #ffffff !important;
   }
 
-  .icon-due { background: #ffedd5; color: #ea580c; }
-  .icon-payable { background: #dbeafe; color: #2563eb; }
-  .icon-product { background: #ccfbf1; color: #0d9488; }
-  .icon-party { background: #fef9c3; color: #ca8a04; }
-  .icon-expense { background: #fee2e2; color: #dc2626; }
-  .icon-stock { background: #e0f2fe; color: #0284c7; }
-  .icon-valuation { background: #fef3c7; color: #d97706; }
+  .icon-due { background: linear-gradient(135deg, #ff7875 0%, #ff4d4f 100%) !important; }
+  .icon-payable { background: linear-gradient(135deg, #69c0ff 0%, #1890ff 100%) !important; }
+  .icon-product { background: linear-gradient(135deg, #5cdbd3 0%, #13c2c2 100%) !important; }
+  .icon-party { background: linear-gradient(135deg, #ffd666 0%, #faad14 100%) !important; }
 
   .hishab-card-title {
     font-size: 13px;
@@ -240,14 +256,14 @@
     justify-content: space-between;
   }
 
-  /* List View Detailed Cards */
+  /* List View Detailed Cards - Matching Image 2 soft square icons */
   .hishab-list-card {
     background: #ffffff;
     border-radius: 18px;
-    padding: 16px 20px;
-    border: 1px solid #e2e8f0;
+    padding: 14px 18px;
+    border: 1.5px solid #f1f5f9;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -256,8 +272,8 @@
   }
 
   .hishab-list-card:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
+    background: #faf7fd;
+    border-color: #E5D5F7;
     transform: translateX(3px);
   }
 
@@ -270,12 +286,17 @@
   .hishab-icon-badge {
     width: 44px;
     height: 44px;
-    border-radius: 50%;
+    border-radius: 12px; /* Soft rounded square matching Image 2 */
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
+    flex-shrink: 0;
   }
+
+  .icon-expense { background: #FFF1F0 !important; color: #FF4D4F !important; }
+  .icon-stock { background: #E6F4FF !important; color: #1677FF !important; }
+  .icon-valuation { background: #FFFBE6 !important; color: #FAAD14 !important; }
 
   .hishab-list-info .list-label {
     font-size: 13px;
@@ -291,150 +312,175 @@
   }
 
   .hishab-list-arrow {
-    color: #94a3b8;
-    font-size: 16px;
+    color: #8C56D4;
+    font-size: 15px;
     transition: transform 0.2s ease;
   }
 
   .hishab-list-card:hover .hishab-list-arrow {
-    color: #8C56D4;
     transform: translateX(4px);
   }
 
-  /* Sticky Bottom Action Navigation Bar with Curved Cutout Center */
-  .mobile-bottom-nav-curved {
+  /* Sticky Bottom Action Navigation Bar with Curved Cutout Center (clip-path per Image 2) */
+  .mobile-bottom-nav-wrapper {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background: #ffffff;
-    height: 72px;
-    padding: 0 16px;
     z-index: 1040;
+    /* Soft shadow surrounding the entire clipped bar and circular scoop */
+    filter: drop-shadow(0 -5px 16px rgba(140, 86, 212, 0.16)) drop-shadow(0 -2px 6px rgba(0, 0, 0, 0.05));
+    pointer-events: none;
+  }
+
+  .mobile-bottom-nav-curved {
+    position: relative;
+    width: 100%;
+    background: #ffffff;
+    height: 74px;
+    padding: 0 16px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.04);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    clip-path: url(#hishabBottomNavClip);
+    -webkit-clip-path: url(#hishabBottomNavClip);
+    pointer-events: auto;
   }
 
-  .center-notch-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 68px;
-    height: 68px;
-    margin-top: -30px;
-  }
-
-  .center-notch-cutout {
-    position: absolute;
-    top: -2px;
+  .center-notch-spacer {
     width: 76px;
-    height: 38px;
-    background: #f1f5f9;
-    border-bottom-left-radius: 40px;
-    border-bottom-right-radius: 40px;
-    z-index: 1;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
+    height: 74px;
+    flex-shrink: 0;
+    pointer-events: none;
   }
 
   .btn-mobile-buy {
-    background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #a855f7 0%, #8C56D4 100%) !important;
     color: #ffffff !important;
     font-weight: 700;
     font-size: 15px;
-    padding: 10px 24px;
-    border-radius: 30px;
-    text-decoration: none;
-    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.18);
-    display: flex;
+    padding: 0 22px;
+    border-radius: 28px;
+    height: 44px;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
+    box-shadow: 0 3px 10px rgba(140, 86, 212, 0.25);
+    text-decoration: none !important;
     border: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    min-width: 125px;
+    min-width: 120px;
     justify-content: center;
-    height: 44px;
   }
   .btn-mobile-buy:hover, .btn-mobile-buy:active {
     transform: scale(1.04);
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+    box-shadow: 0 4px 14px rgba(140, 86, 212, 0.35);
   }
 
   .btn-mobile-sell {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%) !important;
     color: #ffffff !important;
     font-weight: 700;
     font-size: 15px;
-    padding: 10px 24px;
-    border-radius: 30px;
-    text-decoration: none;
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.18);
-    display: flex;
+    padding: 0 22px;
+    border-radius: 28px;
+    height: 44px;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.25);
+    text-decoration: none !important;
     border: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    min-width: 125px;
+    min-width: 120px;
     justify-content: center;
-    height: 44px;
   }
   .btn-mobile-sell:hover, .btn-mobile-sell:active {
     transform: scale(1.04);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
   }
 
   .btn-mobile-plus-curved {
-    position: relative;
-    z-index: 2;
-    width: 52px;
-    height: 52px;
+    position: absolute;
+    left: 50%;
+    top: -18px;
+    transform: translateX(-50%);
+    z-index: 1052;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
     background: #ffffff;
-    border: 3.5px solid #ddd6fe;
-    color: #8b5cf6 !important;
+    border: 3.5px solid #d6bbfb;
+    color: #8C56D4 !important;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 26px;
-    font-weight: 400;
-    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.15);
+    font-weight: 600;
+    box-shadow: 0 5px 16px rgba(140, 86, 212, 0.28);
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     cursor: pointer;
+    pointer-events: auto;
   }
 
   .btn-mobile-plus-curved:hover, .btn-mobile-plus-curved:active {
-    transform: scale(1.08);
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.22);
+    transform: translateX(-50%) scale(1.08);
+    border-color: #8C56D4;
+    box-shadow: 0 8px 22px rgba(140, 86, 212, 0.38);
   }
 
   /* Desktop spacing adjustments */
   @media (min-width: 992px) {
-    .mobile-bottom-nav-curved {
+    .mobile-bottom-nav-wrapper {
       position: static;
-      background: transparent;
-      box-shadow: none;
-      border: none;
-      padding: 0;
-      backdrop-filter: none;
+      filter: none;
+      pointer-events: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
       margin-top: 15px;
     }
-    .center-notch-wrapper {
-      margin-top: 0;
+    .mobile-bottom-nav-curved {
+      background: transparent;
+      height: auto;
+      padding: 0;
+      clip-path: none !important;
+      -webkit-clip-path: none !important;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      width: auto;
     }
-    .center-notch-cutout {
+    .center-notch-spacer {
       display: none;
+    }
+    .btn-mobile-plus-curved {
+      position: static;
+      transform: none;
+      width: 44px;
+      height: 44px;
+      font-size: 20px;
+    }
+    .btn-mobile-plus-curved:hover, .btn-mobile-plus-curved:active {
+      transform: scale(1.08);
     }
   }
 
   @media (max-width: 991px) {
     .page-content {
-      padding-bottom: 110px !important;
+      padding-bottom: 120px !important;
     }
+  }
+
+  /* Dashboard Table Card styling for Mobile & Tablet */
+  .dashboard-table-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .dashboard-table-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(140, 86, 212, 0.12) !important;
   }
 
   /* Dark mode overrides */
@@ -444,6 +490,17 @@
   body[data-layout-mode="dark"] .hishab-list-card {
     background: #1e293b !important;
     border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  body[light-mode="dark"] .notch-mask,
+  body[data-layout-mode="dark"] .notch-mask {
+    fill: #0f172a !important;
+  }
+
+  body[light-mode="dark"] .dashboard-table-card,
+  body[data-layout-mode="dark"] .dashboard-table-card {
+    background: #1e293b !important;
+    border-color: #334155 !important;
   }
 
   body[light-mode="dark"] .hishab-card-val,
@@ -470,8 +527,15 @@
 
   body[light-mode="dark"] .mobile-bottom-nav-curved,
   body[data-layout-mode="dark"] .mobile-bottom-nav-curved {
-    background: rgba(15, 23, 42, 0.95) !important;
-    border-top-color: rgba(255, 255, 255, 0.1) !important;
+    background: #0f172a !important;
+    border-top-color: #334155 !important;
+  }
+
+  body[light-mode="dark"] .btn-mobile-plus-curved,
+  body[data-layout-mode="dark"] .btn-mobile-plus-curved {
+    background: #1e293b !important;
+    border-color: #672EB0 !important;
+    color: #D2B7F1 !important;
   }
 </style>
 
@@ -554,13 +618,34 @@
           </div>
         </div>
 
-        <!-- SECTION 2: 2x2 PRIMARY METRICS GRID WITH OVERLAPPING ICON BADGES -->
+        <!-- SVG Definitions for Curved Bottom Nav Clip-Path (Exact to Image 2) -->
+        <svg width="0" height="0" class="position-absolute" style="pointer-events: none;">
+          <defs>
+            <clipPath id="hishabBottomNavClip" clipPathUnits="objectBoundingBox">
+              <path d="M 0,0.22 
+                       C 0,0.08 0.01,0 0.05,0 
+                       L 0.36,0 
+                       C 0.41,0 0.435,0.56 0.5,0.56 
+                       C 0.565,0.56 0.59,0 0.64,0 
+                       L 0.95,0 
+                       C 0.99,0 1,0.08 1,0.22 
+                       L 1,1 
+                       L 0,1 Z" />
+            </clipPath>
+          </defs>
+        </svg>
+
+        <!-- SECTION 2: 2x2 PRIMARY METRICS GRID WITH SCOOPED NOTCH ICON BADGES (EXACT TO IMAGE 2) -->
         <div class="row g-3 mb-4 pt-2">
           <!-- Card 1: মোট পাওনা -->
           <div class="col-6 col-md-3">
             <a href="/admin-dashboard-customer-due-list" class="text-decoration-none">
               <div class="hishab-grid-card-overlap card-due-border">
-                <div class="hishab-icon-overlap-badge icon-due">
+                <svg class="card-notch-svg" viewBox="0 0 54 22" fill="none">
+                  <path class="notch-mask" d="M 0,0 L 54,0 L 54,2 C 43,2 40,21 27,21 C 14,21 11,2 0,2 Z" />
+                  <path class="notch-curve" d="M 0,2 C 11,2 14,21 27,21 C 40,21 43,2 54,2" stroke-width="1.8" />
+                </svg>
+                <div class="hishab-icon-overlap-badge icon-due shadow-sm">
                   <i class="fa-solid fa-receipt"></i>
                 </div>
                 <div class="hishab-card-title mt-2">
@@ -568,7 +653,7 @@
                 </div>
                 <div class="hishab-card-val text-dark fs-6 mt-2">
                   <span id="hishabCustomerDue" class="fw-bold">৳ ০.০০</span>
-                  <i class="fa-solid fa-arrow-right text-primary fs-6"></i>
+                  <i class="fa-solid fa-arrow-right" style="color: #8C56D4; font-size: 15px;"></i>
                 </div>
               </div>
             </a>
@@ -578,7 +663,11 @@
           <div class="col-6 col-md-3">
             <a href="/supplier-due-page" class="text-decoration-none">
               <div class="hishab-grid-card-overlap card-payable-border">
-                <div class="hishab-icon-overlap-badge icon-payable">
+                <svg class="card-notch-svg" viewBox="0 0 54 22" fill="none">
+                  <path class="notch-mask" d="M 0,0 L 54,0 L 54,2 C 43,2 40,21 27,21 C 14,21 11,2 0,2 Z" />
+                  <path class="notch-curve" d="M 0,2 C 11,2 14,21 27,21 C 40,21 43,2 54,2" stroke-width="1.8" />
+                </svg>
+                <div class="hishab-icon-overlap-badge icon-payable shadow-sm">
                   <i class="fa-solid fa-hand-holding-dollar"></i>
                 </div>
                 <div class="hishab-card-title mt-2">
@@ -586,7 +675,7 @@
                 </div>
                 <div class="hishab-card-val text-dark fs-6 mt-2">
                   <span id="hishabSupplierPayable" class="fw-bold">৳ ০.০০</span>
-                  <i class="fa-solid fa-arrow-right text-primary fs-6"></i>
+                  <i class="fa-solid fa-arrow-right" style="color: #8C56D4; font-size: 15px;"></i>
                 </div>
               </div>
             </a>
@@ -596,7 +685,11 @@
           <div class="col-6 col-md-3">
             <a href="/admin-dashboard-product" class="text-decoration-none">
               <div class="hishab-grid-card-overlap card-product-border">
-                <div class="hishab-icon-overlap-badge icon-product">
+                <svg class="card-notch-svg" viewBox="0 0 54 22" fill="none">
+                  <path class="notch-mask" d="M 0,0 L 54,0 L 54,2 C 43,2 40,21 27,21 C 14,21 11,2 0,2 Z" />
+                  <path class="notch-curve" d="M 0,2 C 11,2 14,21 27,21 C 40,21 43,2 54,2" stroke-width="1.8" />
+                </svg>
+                <div class="hishab-icon-overlap-badge icon-product shadow-sm">
                   <i class="fa-solid fa-box-archive"></i>
                 </div>
                 <div class="hishab-card-title mt-2">
@@ -604,7 +697,7 @@
                 </div>
                 <div class="hishab-card-val text-dark fs-6 mt-2">
                   <span id="hishabTotalProducts" class="fw-bold">০</span>
-                  <i class="fa-solid fa-arrow-right text-primary fs-6"></i>
+                  <i class="fa-solid fa-arrow-right" style="color: #8C56D4; font-size: 15px;"></i>
                 </div>
               </div>
             </a>
@@ -614,7 +707,11 @@
           <div class="col-6 col-md-3">
             <a href="/admin-dashboard-customer" class="text-decoration-none">
               <div class="hishab-grid-card-overlap card-party-border">
-                <div class="hishab-icon-overlap-badge icon-party">
+                <svg class="card-notch-svg" viewBox="0 0 54 22" fill="none">
+                  <path class="notch-mask" d="M 0,0 L 54,0 L 54,2 C 43,2 40,21 27,21 C 14,21 11,2 0,2 Z" />
+                  <path class="notch-curve" d="M 0,2 C 11,2 14,21 27,21 C 40,21 43,2 54,2" stroke-width="1.8" />
+                </svg>
+                <div class="hishab-icon-overlap-badge icon-party shadow-sm">
                   <i class="fa-solid fa-users"></i>
                 </div>
                 <div class="hishab-card-title mt-2">
@@ -622,14 +719,14 @@
                 </div>
                 <div class="hishab-card-val text-dark fs-6 mt-2">
                   <span id="hishabTotalParties" class="fw-bold">০</span>
-                  <i class="fa-solid fa-arrow-right text-primary fs-6"></i>
+                  <i class="fa-solid fa-arrow-right" style="color: #8C56D4; font-size: 15px;"></i>
                 </div>
               </div>
             </a>
           </div>
         </div>
 
-        <!-- SECTION 3: SECONDARY DETAILED LIST CARDS -->
+        <!-- SECTION 3: SECONDARY DETAILED LIST CARDS (IMAGE 2 EXACT) -->
         <div class="mb-4">
           <!-- List Item 1: মোট ব্যয়/খরচ -->
           <a href="/admin-dashboard-expence-list" class="hishab-list-card">
@@ -639,7 +736,7 @@
               </div>
               <div class="hishab-list-info">
                 <div class="list-label">মোট ব্যয়/খরচ</div>
-                <div class="list-val text-danger" id="hishabTotalExpense">৳ ০.০০</div>
+                <div class="list-val text-dark" id="hishabTotalExpense">৳ ০.০০</div>
               </div>
             </div>
             <i class="fa-solid fa-chevron-right hishab-list-arrow"></i>
@@ -653,7 +750,7 @@
               </div>
               <div class="hishab-list-info">
                 <div class="list-label">মোট স্টক</div>
-                <div class="list-val text-primary" id="hishabStockItems">০</div>
+                <div class="list-val text-dark" id="hishabStockItems">০</div>
               </div>
             </div>
             <i class="fa-solid fa-chevron-right hishab-list-arrow"></i>
@@ -667,7 +764,7 @@
               </div>
               <div class="hishab-list-info">
                 <div class="list-label">স্টক মূল্য</div>
-                <div class="list-val text-success" id="hishabStockValue">৳ ০.০০</div>
+                <div class="list-val text-dark" id="hishabStockValue">৳ ০.০০</div>
               </div>
             </div>
             <i class="fa-solid fa-chevron-right hishab-list-arrow"></i>
@@ -731,7 +828,7 @@
           </div>
         </div>
 
-        <!-- SECTION 5: TABLES SECTION -->
+        <!-- SECTION 5: TABLES SECTION (Desktop Table >= 992px, Mobile & Tablet Box Cards < 992px) -->
         <div class="row g-4 mb-4">
           <!-- Low Stock Alerts Table -->
           <div class="col-lg-6">
@@ -743,7 +840,8 @@
                 <a href="/admin-dashboard-product" class="btn btn-sm btn-outline-danger rounded-pill px-3">সকল স্টক</a>
               </div>
               <div class="card-body p-0">
-                <div class="table-responsive">
+                <!-- Desktop Table View (>= 992px) -->
+                <div class="table-responsive d-none d-lg-block">
                   <table class="table align-middle table-hover mb-0" id="lowStockTable">
                     <thead class="bg-light">
                       <tr>
@@ -757,6 +855,13 @@
                       <tr><td colspan="4" class="text-center py-4 text-muted">স্টক লোড হচ্ছে...</td></tr>
                     </tbody>
                   </table>
+                </div>
+
+                <!-- Mobile & Tablet Responsive Box Cards (< 992px) - 1 per row on Mobile, 2 per row on Tab -->
+                <div class="d-lg-none p-2 p-sm-3">
+                  <div class="row g-2.5" id="lowStockMobileList">
+                    <div class="col-12 text-center py-4 text-muted">স্টক লোড হচ্ছে...</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -772,7 +877,8 @@
                 <a href="/admin-dashboard-invoice" class="btn btn-sm btn-outline-primary rounded-pill px-3">সব ইনভয়েস</a>
               </div>
               <div class="card-body p-0">
-                <div class="table-responsive">
+                <!-- Desktop Table View (>= 992px) -->
+                <div class="table-responsive d-none d-lg-block">
                   <table class="table align-middle table-hover mb-0" id="recentSalesTable">
                     <thead class="bg-light">
                       <tr>
@@ -787,6 +893,13 @@
                     </tbody>
                   </table>
                 </div>
+
+                <!-- Mobile & Tablet Responsive Box Cards (< 992px) - 1 per row on Mobile, 2 per row on Tab -->
+                <div class="d-lg-none p-2 p-sm-3">
+                  <div class="row g-2.5" id="recentSalesMobileList">
+                    <div class="col-12 text-center py-4 text-muted">সাম্প্রতিক বিক্রি লোড হচ্ছে...</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -795,24 +908,27 @@
       </div>
       <!-- END MAIN FINANCIAL METRICS SECTION -->
 
-      <!-- MOBILE BOTTOM FLOATING ACTION BAR WITH CENTER CURVED NOTCH -->
-      <div class="mobile-bottom-nav-curved">
-        <a href="{{ url('admin-dashboard-Purchase') }}" class="btn-mobile-buy shadow-sm">
-          <i class="fa-solid fa-hand-holding-dollar fs-5"></i>
-          <span>কিনুন</span>
-        </a>
+      <!-- MOBILE BOTTOM FLOATING ACTION BAR WITH CENTER CURVED NOTCH (EXACT TO IMAGE 2) -->
+      <div class="mobile-bottom-nav-wrapper">
+        <div class="mobile-bottom-nav-curved">
+          <a href="{{ url('admin-dashboard-Purchase') }}" class="btn-mobile-buy">
+            <i class="fa-solid fa-hand-holding-dollar fs-5"></i>
+            <span>কিনুন</span>
+          </a>
 
-        <div class="center-notch-wrapper">
-          <div class="center-notch-cutout"></div>
-          <button type="button" class="btn-mobile-plus-curved border-0" data-bs-toggle="modal" data-bs-target="#quickActionModal" title="দ্রুত অ্যাকশন পপআপ">
-            <i class="fa-solid fa-plus"></i>
-          </button>
+          <!-- Center Notch Spacer to preserve flex spacing -->
+          <div class="center-notch-spacer"></div>
+
+          <a href="/admin-dashboard-pos" class="btn-mobile-sell">
+            <i class="fa-solid fa-cash-register fs-5"></i>
+            <span>বিক্রি করুন</span>
+          </a>
         </div>
 
-        <a href="/admin-dashboard-pos" class="btn-mobile-sell shadow-sm">
-          <i class="fa-solid fa-cash-register fs-5"></i>
-          <span>বিক্রি করুন</span>
-        </a>
+        <!-- Floating Elevated Center Plus Circle Button (Nested in Notch, 100% Unclipped) -->
+        <button type="button" class="btn-mobile-plus-curved" data-bs-toggle="modal" data-bs-target="#quickActionModal" title="দ্রুত অ্যাকশন পপআপ">
+          <i class="fa-solid fa-plus"></i>
+        </button>
       </div>
 
       <!-- Footer copyright -->
@@ -1151,13 +1267,16 @@
           parseFloat(monthly.net_profit || 0)
         );
 
-        // --- 6. Low Stock Table ---
+        // --- 6. Low Stock Table & Mobile/Tablet Box Cards ---
         const lowStockTbody = document.getElementById('lowStockTbody');
-        if (lowStockTbody) {
-          lowStockTbody.innerHTML = '';
+        const lowStockMobileList = document.getElementById('lowStockMobileList');
+        if (lowStockTbody || lowStockMobileList) {
+          if (lowStockTbody) lowStockTbody.innerHTML = '';
+          if (lowStockMobileList) lowStockMobileList.innerHTML = '';
           const lowStockList = data.low_stock_products || [];
           if (lowStockList.length === 0) {
-            lowStockTbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-success fw-bold"><i class="fa-solid fa-circle-check me-1"></i> সকল প্রোডাক্টের পর্যাপ্ত স্টক রয়েছে!</td></tr>`;
+            if (lowStockTbody) lowStockTbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-success fw-bold"><i class="fa-solid fa-circle-check me-1"></i> সকল প্রোডাক্টের পর্যাপ্ত স্টক রয়েছে!</td></tr>`;
+            if (lowStockMobileList) lowStockMobileList.innerHTML = `<div class="col-12 text-center py-4 text-success fw-bold"><i class="fa-solid fa-circle-check me-1"></i> সকল প্রোডাক্টের পর্যাপ্ত স্টক রয়েছে!</div>`;
           } else {
             lowStockList.forEach(item => {
               let code = item.product_code || 'N/A';
@@ -1166,44 +1285,114 @@
                 try { code = JSON.parse(code)[0]; } catch(e){}
               }
 
-              const row = `
-                <tr>
-                  <td class="ps-4 fw-bold text-dark">${item.product_name}</td>
-                  <td class="text-center"><span class="badge bg-light text-dark border font-monospace">${code}</span></td>
-                  <td class="text-center"><span class="badge bg-danger px-2 py-1 fw-bold">${engToBanglaNum(item.quantity)} ${item.unit || 'টি'}</span></td>
-                  <td class="text-end pe-4">
-                    <a href="/admin-dashboard-Purchase" class="btn btn-sm btn-outline-success rounded-pill px-2 py-1" title="ক্রয় করুন">
-                      <i class="fa-solid fa-cart-plus me-1"></i> কিনুন
-                    </a>
-                  </td>
-                </tr>
-              `;
-              lowStockTbody.innerHTML += row;
+              // Desktop table row
+              if (lowStockTbody) {
+                const row = `
+                  <tr>
+                    <td class="ps-4 fw-bold text-dark">${item.product_name}</td>
+                    <td class="text-center"><span class="badge bg-light text-dark border font-monospace">${code}</span></td>
+                    <td class="text-center"><span class="badge bg-danger px-2 py-1 fw-bold">${engToBanglaNum(item.quantity)} ${item.unit || 'টি'}</span></td>
+                    <td class="text-end pe-4">
+                      <a href="/admin-dashboard-Purchase" class="btn btn-sm btn-outline-success rounded-pill px-2 py-1" title="ক্রয় করুন">
+                        <i class="fa-solid fa-cart-plus me-1"></i> কিনুন
+                      </a>
+                    </td>
+                  </tr>
+                `;
+                lowStockTbody.innerHTML += row;
+              }
+
+              // Mobile & Tablet Responsive Box Cards (1 per row on mobile col-12, 2 per row on tab col-md-6)
+              if (lowStockMobileList) {
+                const card = `
+                  <div class="col-12 col-md-6 mb-2">
+                    <div class="dashboard-table-card card border shadow-sm rounded-4 p-3 position-relative" style="border: 1.5px solid #FECACA !important; background: #ffffff;">
+                      <div class="d-flex align-items-center justify-content-between pb-2 mb-2 border-bottom">
+                        <div class="d-flex align-items-center gap-1.5 text-truncate pe-2">
+                          <i class="fa-solid fa-box-open text-danger" style="font-size: 15px;"></i>
+                          <h6 class="fw-bold text-dark mb-0 text-truncate" style="font-size: 14.5px;">${item.product_name}</h6>
+                        </div>
+                        <span class="badge bg-light text-dark border font-monospace" style="font-size: 11px;">${code}</span>
+                      </div>
+                      <div class="d-flex align-items-center justify-content-between pt-1">
+                        <div>
+                          <span class="d-block text-muted small fw-semibold" style="font-size: 11px;">বর্তমান স্টক</span>
+                          <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 fw-bold" style="font-size: 13px;">
+                            <i class="fa-solid fa-triangle-exclamation me-1"></i>${engToBanglaNum(item.quantity)} ${item.unit || 'টি'}
+                          </span>
+                        </div>
+                        <a href="/admin-dashboard-Purchase" class="btn btn-sm btn-danger rounded-pill px-3 py-1.5 fw-bold shadow-sm" style="font-size: 12px;">
+                          <i class="fa-solid fa-cart-plus me-1"></i> ক্রয় করুন
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                `;
+                lowStockMobileList.innerHTML += card;
+              }
             });
           }
         }
 
-        // --- 7. Recent Sales Table ---
+        // --- 7. Recent Sales Table & Mobile/Tablet Box Cards ---
         const recentSalesTbody = document.getElementById('recentSalesTbody');
-        if (recentSalesTbody) {
-          recentSalesTbody.innerHTML = '';
+        const recentSalesMobileList = document.getElementById('recentSalesMobileList');
+        if (recentSalesTbody || recentSalesMobileList) {
+          if (recentSalesTbody) recentSalesTbody.innerHTML = '';
+          if (recentSalesMobileList) recentSalesMobileList.innerHTML = '';
           const recentList = data.recent_invoices || [];
           if (recentList.length === 0) {
-            recentSalesTbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-muted">কোনো সাম্প্রতিক বিক্রি পাওয়া যায়নি</td></tr>`;
+            if (recentSalesTbody) recentSalesTbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-muted">কোনো সাম্প্রতিক বিক্রি পাওয়া যায়নি</td></tr>`;
+            if (recentSalesMobileList) recentSalesMobileList.innerHTML = `<div class="col-12 text-center py-4 text-muted">কোনো সাম্প্রতিক বিক্রি পাওয়া যায়নি</div>`;
           } else {
             recentList.forEach(inv => {
-              let statusBadge = inv.due_amount <= 0 ? '<span class="badge bg-success px-2 py-1">পরিশোধিত</span>' :
-                                (inv.paid_amount > 0 ? '<span class="badge bg-warning text-dark px-2 py-1">আংশিক</span>' : '<span class="badge bg-danger px-2 py-1">বকেয়া</span>');
+              let statusBadge = inv.due_amount <= 0 ? '<span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 fw-bold">পরিশোধিত</span>' :
+                                (inv.paid_amount > 0 ? '<span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 fw-bold">আংশিক</span>' : '<span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 fw-bold">বকেয়া</span>');
 
-              const row = `
-                <tr>
-                  <td class="ps-4"><a href="/invoice/${inv.id}" class="fw-bold text-success text-decoration-none">${inv.order_no}</a></td>
-                  <td class="fw-semibold text-dark">${inv.customer_name}</td>
-                  <td class="text-end fw-bold text-dark">${formatBanglaAmount(inv.grand_subtotal)}</td>
-                  <td class="text-center pe-4">${statusBadge}</td>
-                </tr>
-              `;
-              recentSalesTbody.innerHTML += row;
+              // Desktop table row
+              if (recentSalesTbody) {
+                const row = `
+                  <tr>
+                    <td class="ps-4"><a href="/invoice/${inv.id}" class="fw-bold text-success text-decoration-none">${inv.order_no}</a></td>
+                    <td class="fw-semibold text-dark">${inv.customer_name}</td>
+                    <td class="text-end fw-bold text-dark">${formatBanglaAmount(inv.grand_subtotal)}</td>
+                    <td class="text-center pe-4">${statusBadge}</td>
+                  </tr>
+                `;
+                recentSalesTbody.innerHTML += row;
+              }
+
+              // Mobile & Tablet Responsive Box Cards (1 per row on mobile col-12, 2 per row on tab col-md-6)
+              if (recentSalesMobileList) {
+                const card = `
+                  <div class="col-12 col-md-6 mb-2">
+                    <div class="dashboard-table-card card border shadow-sm rounded-4 p-3 position-relative" style="border: 1.5px solid #E5D5F7 !important; background: #ffffff; cursor: pointer;" onclick="window.location.href='/invoice/${inv.id}'">
+                      <div class="d-flex align-items-center justify-content-between pb-2 mb-2 border-bottom">
+                        <span class="badge bg-light text-dark border fw-bold" style="font-size: 12px;">
+                          <i class="fa-solid fa-file-invoice me-1 text-primary" style="color: #8C56D4 !important;"></i>${inv.order_no}
+                        </span>
+                        ${statusBadge}
+                      </div>
+                      <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="d-flex align-items-center gap-1.5 text-truncate">
+                          <i class="fa-solid fa-user-circle" style="color: #8C56D4; font-size: 14px;"></i>
+                          <span class="fw-bold text-dark text-truncate" style="font-size: 14.5px;">${inv.customer_name || 'সাধারণ কাস্টমার'}</span>
+                        </div>
+                      </div>
+                      <div class="d-flex align-items-center justify-content-between pt-2 border-top">
+                        <div>
+                          <span class="d-block text-muted small fw-semibold" style="font-size: 11px;">মোট বিল</span>
+                          <span class="fw-bold text-dark" style="font-size: 17.5px; font-weight: 800;">${formatBanglaAmount(inv.grand_subtotal)}</span>
+                        </div>
+                        <a href="/invoice/${inv.id}" class="btn btn-sm rounded-pill px-3 py-1 fw-bold" style="background: #F3ECFB; color: #8C56D4; font-size: 12px;" onclick="event.stopPropagation();">
+                          রসিদ <i class="fa-solid fa-arrow-right ms-1"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                `;
+                recentSalesMobileList.innerHTML += card;
+              }
             });
           }
         }

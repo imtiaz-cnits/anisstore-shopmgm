@@ -2025,11 +2025,11 @@
         <div class="pos-mobile-subhead">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="subhead-left">
-                    <span class="subhead-label text-muted">ইনভয়েস নম্বর : </span>
+                    <span class="subhead-label text-muted">নম্বর : </span>
                     <span id="mobileInvoiceNo" class="subhead-val"></span>
                 </div>
                 <div class="subhead-right d-flex align-items-center" id="mobileDateClickWrap" onclick="openInvoiceDatePicker(event)" style="cursor: pointer;" title="তারিখ পরিবর্তন করতে ক্লিক করুন">
-                    <span class="subhead-label text-muted flex-shrink-0">ইনভয়েস তারিখ :&nbsp;</span>
+                    <span class="subhead-label text-muted flex-shrink-0">তারিখ :&nbsp;</span>
                     <input type="text" id="mobileInvoiceDateInput" readonly value="{{ str_replace(['0','1','2','3','4','5','6','7','8','9'], ['০','১','২','৩','৪','৫','৬','৭','৮','৯'], date('d/m/Y')) }}" class="subhead-date-input" onclick="openInvoiceDatePicker(event)" style="border: none !important; background: transparent !important; outline: none !important; box-shadow: none !important; font-size: 13px !important; font-weight: 700 !important; color: #1e293b; width: 95px; padding: 0 2px; cursor: pointer; text-align: center;" />
                     <span class="calendar-btn-icon ms-1" onclick="openInvoiceDatePicker(event)" style="color: #8C56D4; cursor: pointer; font-size: 14px;">
                         <i class="fa-regular fa-calendar-days"></i>
@@ -2067,7 +2067,7 @@
                 <span class="calc-row-title">মোট মূল্য</span>
                 <span class="calc-row-sym">৳</span>
                 <div class="calc-input-wrapper">
-                    <input type="text" inputmode="decimal" id="mobileGrossTotal" value="" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this); onManualGrossChange(this.value);" class="calc-box-input" placeholder="০.০০" />
+                    <input type="text" inputmode="decimal" pattern="[0-9]*" id="mobileGrossTotal" value="" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this); onManualGrossChange(this.value);" class="calc-box-input" placeholder="০.০০" />
                     <span class="calc-error-hint" id="grossTotalErrorHint" style="display: none;">মোট মূল্য অবশ্যই দিতে হবে</span>
                 </div>
             </div>
@@ -2077,7 +2077,7 @@
                 <span class="calc-row-title">ডেলিভারি চার্জ</span>
                 <span class="calc-row-sym">৳</span>
                 <div class="calc-input-wrapper">
-                    <input type="text" inputmode="decimal" id="mobileDeliveryCharge" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this); syncMobileCalcInputs()" placeholder="" class="calc-box-input" />
+                    <input type="text" inputmode="decimal" pattern="[0-9]*" id="mobileDeliveryCharge" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this); syncMobileCalcInputs()" placeholder="" class="calc-box-input" />
                 </div>
             </div>
 
@@ -2095,7 +2095,7 @@
                 <span class="calc-row-title fw-bold">পেলাম</span>
                 <span class="calc-row-sym">৳</span>
                 <div class="calc-input-wrapper">
-                    <input type="text" inputmode="decimal" id="mobilePaidInput" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this); syncMobileCalcInputs()" placeholder="" class="calc-box-input" />
+                    <input type="text" inputmode="decimal" pattern="[0-9]*" id="mobilePaidInput" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this); syncMobileCalcInputs()" placeholder="" class="calc-box-input" />
                 </div>
             </div>
 
@@ -2266,7 +2266,7 @@
                     <!-- 2. ফোন নম্বর -->
                     <div class="pos-outlined-field">
                         <label>ফোন নম্বর</label>
-                        <input type="tel" id="mobileNewCustMobile" class="pos-outlined-input" inputmode="tel" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, false)" placeholder="" autocomplete="off" />
+                        <input type="tel" id="mobileNewCustMobile" class="pos-outlined-input" inputmode="tel" pattern="[0-9]*" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, false)" placeholder="" autocomplete="off" />
                     </div>
 
                     <!-- 3. ইমেইল -->
@@ -2284,7 +2284,7 @@
                     <!-- 5. আমার পাওনা / আগের দেনা -->
                     <div class="pos-outlined-field">
                         <label id="lblMobileNewPartyDue">আমার পাওনা</label>
-                        <input type="text" id="mobileNewCustDue" class="pos-outlined-input pe-5" value="0" inputmode="decimal" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, true)" autocomplete="off" />
+                        <input type="text" id="mobileNewCustDue" class="pos-outlined-input pe-5" value="0" inputmode="decimal" pattern="[0-9]*" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, true)" autocomplete="off" />
                         <i class="fa-solid fa-circle-info" style="position: absolute; right: 14px; top: 16px; color: #94a3b8; font-size: 14px; pointer-events: none;"></i>
                     </div>
 
@@ -2362,21 +2362,21 @@
                     <!-- 3. ক্রয় মূল্য -->
                     <div class="pos-outlined-field">
                         <label>ক্রয় মূল্য</label>
-                        <input type="text" id="mobileNewProdCost" class="pos-outlined-input pe-5" value="0.00" inputmode="decimal" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, true)" autocomplete="off" />
+                        <input type="text" id="mobileNewProdCost" class="pos-outlined-input pe-5" value="0.00" inputmode="decimal" pattern="[0-9]*" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, true)" autocomplete="off" />
                         <i class="fa-solid fa-circle-info" style="position: absolute; right: 14px; top: 16px; color: #94a3b8; font-size: 14px; pointer-events: none;"></i>
                     </div>
 
                     <!-- 4. বিক্রয় মূল্য -->
                     <div class="pos-outlined-field">
                         <label>বিক্রয় মূল্য</label>
-                        <input type="text" id="mobileNewProdSell" class="pos-outlined-input pe-5" value="0.00" inputmode="decimal" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, true)" autocomplete="off" />
+                        <input type="text" id="mobileNewProdSell" class="pos-outlined-input pe-5" value="0.00" inputmode="decimal" pattern="[0-9]*" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, true)" autocomplete="off" />
                         <i class="fa-solid fa-circle-info" style="position: absolute; right: 14px; top: 16px; color: #94a3b8; font-size: 14px; pointer-events: none;"></i>
                     </div>
 
                     <!-- 5. আগের মজুদ -->
                     <div class="pos-outlined-field">
                         <label>আগের মজুদ</label>
-                        <input type="text" id="mobileNewProdStock" class="pos-outlined-input pe-5" value="0" inputmode="numeric" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, false)" autocomplete="off" />
+                        <input type="text" id="mobileNewProdStock" class="pos-outlined-input pe-5" value="0" inputmode="numeric" pattern="[0-9]*" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this, false)" autocomplete="off" />
                         <i class="fa-solid fa-circle-info" style="position: absolute; right: 14px; top: 16px; color: #94a3b8; font-size: 14px; pointer-events: none;"></i>
                     </div>
 
@@ -2427,13 +2427,13 @@
                     <!-- Outlined Field 2: পরিমাণ -->
                     <div class="pos-mobile-field-group mb-3">
                         <label class="field-group-label">পরিমাণ</label>
-                        <input type="text" inputmode="decimal" id="itemLineQty" value="১" oninput="enforceBanglaNumberInput(this); calculateItemLineTotal()" class="form-control border-0 bg-transparent fw-bold text-dark p-0" style="font-size: 16px;" />
+                        <input type="text" inputmode="numeric" pattern="[0-9]*" id="itemLineQty" value="১" oninput="enforceBanglaNumberInput(this); calculateItemLineTotal()" class="form-control border-0 bg-transparent fw-bold text-dark p-0" style="font-size: 16px;" />
                     </div>
 
                     <!-- Outlined Field 3: মূল্য -->
                     <div class="pos-mobile-field-group mb-3">
                         <label class="field-group-label">মূল্য</label>
-                        <input type="text" inputmode="decimal" id="itemLinePrice" value="০.০০" oninput="enforceBanglaNumberInput(this); calculateItemLineTotal()" class="form-control border-0 bg-transparent fw-bold text-dark p-0" style="font-size: 16px;" />
+                        <input type="text" inputmode="decimal" pattern="[0-9]*" id="itemLinePrice" value="০.০০" oninput="enforceBanglaNumberInput(this); calculateItemLineTotal()" class="form-control border-0 bg-transparent fw-bold text-dark p-0" style="font-size: 16px;" />
                     </div>
 
                     <!-- Sub-Total & Total Price Summary Card -->
@@ -2490,7 +2490,7 @@
                     
                     <div class="pos-outlined-field mb-2">
                         <label>প্রারম্ভিক ব্যালেন্স</label>
-                        <input type="text" id="bankModalBalance" class="pos-outlined-input" value="0" inputmode="decimal" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this)" autocomplete="off" />
+                        <input type="text" id="bankModalBalance" class="pos-outlined-input" value="0" inputmode="decimal" pattern="[0-9]*" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this)" autocomplete="off" />
                     </div>
                     
                     <div class="d-flex justify-content-end align-items-center gap-4 mt-4 pt-1">
@@ -2919,18 +2919,18 @@
 
                             <div class="subtotal mt-2">
                                 <span>ডিসকাউন্ট পরিমাণ</span>
-                                <input type="text" inputmode="decimal" id="discountAmountInput" oninput="enforceBanglaNumberInput(this); calculateDuePayment()">
+                                <input type="text" inputmode="decimal" pattern="[0-9]*" id="discountAmountInput" oninput="enforceBanglaNumberInput(this); calculateDuePayment()">
                             </div>
                             <div class="subtotal mt-2" id="posReturnAdjRow" style="display: none;">
                                 <span class="d-flex align-items-center">
                                     <input type="checkbox" id="chkPosReturnAdjRow" onchange="togglePosReturnCreditAdjustment()" class="me-1">
                                     <span style="color: #0d9488; font-weight: bold; font-size: 13px;">ফেরত বকেয়া সমন্বয়</span>
                                 </span>
-                                <input type="text" inputmode="decimal" id="posReturnAdjustmentInput" value="০" disabled oninput="enforceBanglaNumberInput(this); calculateDuePayment()" style="border-color: #0d9488; color: #0d9488; font-weight: bold;">
+                                <input type="text" inputmode="decimal" pattern="[0-9]*" id="posReturnAdjustmentInput" value="০" disabled oninput="enforceBanglaNumberInput(this); calculateDuePayment()" style="border-color: #0d9488; color: #0d9488; font-weight: bold;">
                             </div>
                             <div class="subtotal mt-2">
                                 <span>পরিশোধিত টাকা</span>
-                                <input type="text" inputmode="decimal" id="paidAmountInput" oninput="enforceBanglaNumberInput(this); calculateDuePayment()">
+                                <input type="text" inputmode="decimal" pattern="[0-9]*" id="paidAmountInput" oninput="enforceBanglaNumberInput(this); calculateDuePayment()">
                             </div>
                             <div class="total">
                                 <span>বকেয়া টাকা</span>
@@ -3057,7 +3057,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-row">
-                                        <input type="tel" inputmode="tel" placeholder="Enter Customer Number *"
+                                        <input type="tel" inputmode="tel" pattern="[0-9]*" placeholder="Enter Customer Number *"
                                             id="NewCustomerMobile" required oninput="if(typeof enforceBanglaNumberInput==='function'){enforceBanglaNumberInput(this, false);}else{this.value=this.value.replace(/[^0-9+০-৯]/g,'');}" />
                                     </div>
 
@@ -3071,14 +3071,14 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-row">
-                                        <input type="text" inputmode="numeric" placeholder="Enter Nid Number"
+                                        <input type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Enter Nid Number"
                                             id="CustomerNIDNumber" oninput="if(typeof enforceBanglaNumberInput==='function'){enforceBanglaNumberInput(this, false);}else{this.value=this.value.replace(/[^0-9০-৯]/g,'');}" />
                                     </div>
 
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-row">
-                                        <input type="text" inputmode="decimal" placeholder="Enter Previous Due Amount"
+                                        <input type="text" inputmode="decimal" pattern="[0-9]*" placeholder="Enter Previous Due Amount"
                                             id="PreviousDueAmount" oninput="if(typeof enforceBanglaNumberInput==='function'){enforceBanglaNumberInput(this, true);}else{this.value=this.value.replace(/[^0-9.০-৯]/g,'');}" />
                                     </div>
 
@@ -4357,6 +4357,7 @@ function triggerBarcodeSearchManual(event, inputId = 'productCodeSearch') {
                             <input
                                 type="text"
                                 inputmode="numeric" 
+                                pattern="[0-9]*"
                                 style="width: 36px; background: transparent; border: none; text-align: center; font-weight: 700; font-size: 12px; color: #0f172a; padding: 0; outline: none; margin: 0;"
                                 value="${engToBanglaNum(item.quantity)}"
                                 class="quantity"
@@ -4372,7 +4373,8 @@ function triggerBarcodeSearchManual(event, inputId = 'productCodeSearch') {
                             <input
                                 class="price cost-price-input"
                                 type="text"
-                                inputmode="numeric"
+                                inputmode="decimal"
+                                pattern="[0-9]*"
                                 value="${engToBanglaNum(item.cost_price)}"
                                 id="cost_price-${item.id}"
                                 oninput="updateCostPrice(${item.id}, this)"
@@ -4384,7 +4386,8 @@ function triggerBarcodeSearchManual(event, inputId = 'productCodeSearch') {
                         <input
                         class="price"
                         type="text"
-                        inputmode="numeric"
+                        inputmode="decimal"
+                        pattern="[0-9]*"
                         value="${engToBanglaNum(item.sellingPrice)}"
                         id="sellingPrice-${item.id}"
                         oninput="updateSellingPrice(${item.id}, this)"
@@ -6803,7 +6806,7 @@ try { ProductBrandData(); } catch(e) { console.error("ProductBrandData init erro
                     <div class="payment-bottom-amount-row">
                         <div class="payment-amount-input-box">
                             <span class="currency-tag">৳</span>
-                            <input type="text" inputmode="decimal" placeholder="" value="${row.amount}" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this); updateMobilePaymentAmount(${row.id}, this.value)" />
+                            <input type="text" inputmode="decimal" pattern="[0-9]*" placeholder="" value="${row.amount}" onkeydown="filterNumericKey(event)" onpaste="filterNumericPaste(event)" oninput="enforceBanglaNumberInput(this); updateMobilePaymentAmount(${row.id}, this.value)" />
                         </div>
                         ${showAddBtn ? `
                             <button type="button" class="btn-plus-payment-method" onclick="addMobilePaymentRow()" title="পেমেন্টের নতুন লাইন যোগ করুন">
@@ -6827,7 +6830,7 @@ try { ProductBrandData(); } catch(e) { console.error("ProductBrandData init erro
                                 <span class="input-group-text extra-icon-addon">
                                     <i class="fa-solid fa-phone"></i>
                                 </span>
-                                <input type="text" inputmode="numeric" class="form-control payment-extra-input" placeholder="লেনদেনের ফোন নম্বর" value="${row.phone || ''}" onkeydown="filterNumericKey(event, false)" onpaste="filterNumericPaste(event, false)" oninput="enforceBanglaNumberInput(this, false); updateMobilePaymentPhone(${row.id}, this.value)" />
+                                <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control payment-extra-input" placeholder="লেনদেনের ফোন নম্বর" value="${row.phone || ''}" onkeydown="filterNumericKey(event, false)" onpaste="filterNumericPaste(event, false)" oninput="enforceBanglaNumberInput(this, false); updateMobilePaymentPhone(${row.id}, this.value)" />
                             </div>
                         </div>
                     </div>

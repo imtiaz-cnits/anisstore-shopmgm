@@ -28,7 +28,7 @@
                             <div class="date-field-col" style="min-width: 0;">
                                 <label for="startDate" class="form-label mb-1 fw-semibold text-slate-700 dark:text-slate-200" style="font-size: 13px;">শুরুর তারিখ *</label>
                                 <div class="custom-date-input-wrap position-relative">
-                                    <input type="text" id="startDate" name="dateInput" class="custom-flatpickr-input form-control w-100" placeholder="YYYY-MM-DD" readonly autocomplete="off" />
+                                    <input type="text" id="startDate" name="dateInput" class="custom-flatpickr-input form-control w-100 text-start" placeholder="DD-MM-YYYY" readonly autocomplete="off" />
                                     <span class="calendar-addon-btn" onclick="openDatePicker('startDate')">
                                         <i class="fa-regular fa-calendar-days"></i>
                                     </span>
@@ -39,7 +39,7 @@
                             <div class="date-field-col" style="min-width: 0;">
                                 <label for="endDate" class="form-label mb-1 fw-semibold text-slate-700 dark:text-slate-200" style="font-size: 13px;">শেষের তারিখ *</label>
                                 <div class="custom-date-input-wrap position-relative">
-                                    <input type="text" id="endDate" name="dateInput" class="custom-flatpickr-input form-control w-100" placeholder="YYYY-MM-DD" readonly autocomplete="off" />
+                                    <input type="text" id="endDate" name="dateInput" class="custom-flatpickr-input form-control w-100 text-start" placeholder="DD-MM-YYYY" readonly autocomplete="off" />
                                     <span class="calendar-addon-btn" onclick="openDatePicker('endDate')">
                                         <i class="fa-regular fa-calendar-days"></i>
                                     </span>
@@ -394,6 +394,16 @@
         height: auto !important;
         min-height: 0 !important;
         align-self: flex-start !important;
+        border: 1.5px solid #E5D5F7 !important;
+        border-color: #E5D5F7 !important;
+        border-radius: 14px !important;
+        box-shadow: 0 2px 10px rgba(140, 86, 212, 0.08) !important;
+        background-color: #ffffff;
+        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    }
+    .invoice-mobile-card:hover {
+        box-shadow: 0 4px 16px rgba(140, 86, 212, 0.14) !important;
+        border-color: #d1b7f3 !important;
     }
 
     /* Print media query for Invoices List */
@@ -819,29 +829,80 @@
     }
 
     /* Invoice Mobile Card & Dark Mode Styling */
-    body[light-mode="dark"] .invoice-mobile-card {
+    body[light-mode="dark"] .invoice-mobile-card,
+    html[light-mode="dark"] .invoice-mobile-card,
+    body[data-layout-mode="dark"] .invoice-mobile-card,
+    html[data-layout-mode="dark"] .invoice-mobile-card,
+    body.dark-mode .invoice-mobile-card,
+    html.dark .invoice-mobile-card,
+    [data-bs-theme="dark"] .invoice-mobile-card {
         background-color: #1e293b !important;
-        color: #F3ECFB !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4) !important;
     }
     body[light-mode="dark"] .invoice-mobile-card .text-dark,
-    body[light-mode="dark"] .invoice-mobile-card h6 {
-        color: #F3ECFB !important;
-    }
-    body[light-mode="dark"] .invoice-summary-strip {
-        background-color: #0f172a !important;
-    }
-    body[light-mode="dark"] .invoice-summary-strip .summary-label {
-        color: #94a3b8 !important;
-    }
-    body[light-mode="dark"] .invoice-summary-strip .summary-price.text-dark {
+    html[light-mode="dark"] .invoice-mobile-card .text-dark,
+    body[data-layout-mode="dark"] .invoice-mobile-card .text-dark,
+    body.dark-mode .invoice-mobile-card .text-dark,
+    body[light-mode="dark"] .invoice-mobile-card h6,
+    html[light-mode="dark"] .invoice-mobile-card h6,
+    body[data-layout-mode="dark"] .invoice-mobile-card h6 {
         color: #f8fafc !important;
     }
-    body[light-mode="dark"] .invoice-mobile-card .text-muted {
+    body[light-mode="dark"] .invoice-mobile-card .customer-title,
+    html[light-mode="dark"] .invoice-mobile-card .customer-title,
+    body[data-layout-mode="dark"] .invoice-mobile-card .customer-title {
+        color: #D2B7F1 !important;
+    }
+    body[light-mode="dark"] .invoice-summary-strip,
+    html[light-mode="dark"] .invoice-summary-strip,
+    body[data-layout-mode="dark"] .invoice-summary-strip,
+    body[light-mode="dark"] .invoice-summary-grid,
+    html[light-mode="dark"] .invoice-summary-grid,
+    body[data-layout-mode="dark"] .invoice-summary-grid {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .invoice-summary-grid .border,
+    html[light-mode="dark"] .invoice-summary-grid .border,
+    body[data-layout-mode="dark"] .invoice-summary-grid .border {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .invoice-summary-strip .summary-label,
+    html[light-mode="dark"] .invoice-summary-strip .summary-label {
         color: #94a3b8 !important;
     }
-    body[light-mode="dark"] .invoice-mobile-card .badge.bg-light {
-        background-color: #0f172a !important;
+    body[light-mode="dark"] .invoice-summary-strip .summary-price.text-dark,
+    html[light-mode="dark"] .invoice-summary-strip .summary-price.text-dark {
         color: #f8fafc !important;
+    }
+    body[light-mode="dark"] .invoice-mobile-card .text-muted,
+    html[light-mode="dark"] .invoice-mobile-card .text-muted,
+    body[data-layout-mode="dark"] .invoice-mobile-card .text-muted {
+        color: #94a3b8 !important;
+    }
+    body[light-mode="dark"] .invoice-mobile-card .badge.bg-light,
+    html[light-mode="dark"] .invoice-mobile-card .badge.bg-light,
+    body[data-layout-mode="dark"] .invoice-mobile-card .badge.bg-light {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] .invoice-mobile-card .badge.bg-secondary-subtle,
+    html[light-mode="dark"] .invoice-mobile-card .badge.bg-secondary-subtle,
+    body[data-layout-mode="dark"] .invoice-mobile-card .badge.bg-secondary-subtle {
+        background-color: #334155 !important;
+        color: #e2e8f0 !important;
+    }
+    body[light-mode="dark"] .invoice-mobile-card .border-bottom,
+    html[light-mode="dark"] .invoice-mobile-card .border-bottom,
+    body[data-layout-mode="dark"] .invoice-mobile-card .border-bottom,
+    body[light-mode="dark"] .invoice-mobile-card .border-top,
+    html[light-mode="dark"] .invoice-mobile-card .border-top,
+    body[data-layout-mode="dark"] .invoice-mobile-card .border-top {
+        border-color: #334155 !important;
     }
 
     /* Desktop Table Dark Mode */
@@ -866,6 +927,245 @@
         background-color: #0f172a !important;
         color: #f8fafc !important;
     }
+
+    /* Invoice Mobile & Tablet Card styling with border color */
+    @media (max-width: 991.98px) {
+        .invoice-mobile-card,
+        .data-table .invoice-mobile-card,
+        #mobileCardList .invoice-mobile-card {
+            border: 1.5px solid #E5D5F7 !important;
+            border-color: #E5D5F7 !important;
+            border-radius: 14px !important;
+            box-shadow: 0 2px 10px rgba(140, 86, 212, 0.08) !important;
+            padding: 14px !important;
+            margin-bottom: 4px !important;
+        }
+
+        body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) .invoice-mobile-card {
+            background-color: #ffffff !important;
+        }
+    }
+
+    /* Explicit Desktop Light Mode Overrides (Guarantees card and interior never turn dark on desktop in light mode) */
+    body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) .data-table > .card,
+    body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) .data-table .card-body {
+        background-color: #ffffff !important;
+        color: #1e293b !important;
+    }
+
+    body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) .invoice-main-heading {
+        color: #1e293b !important;
+    }
+
+    body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) .invoice-title-icon-box {
+        background: #F3ECFB !important;
+        color: #8C56D4 !important;
+        border-color: #E5D5F7 !important;
+    }
+
+    body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) .custom-flatpickr-input,
+    body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) .invoice-search-input,
+    body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) .toolbar-control-btn {
+        background-color: #ffffff !important;
+        color: #1e293b !important;
+        border-color: #cbd5e1 !important;
+    }
+
+    body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) #printTable {
+        background-color: #ffffff !important;
+        color: #1e293b !important;
+    }
+
+    body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) #printTable thead tr th {
+        background-color: #f8fafc !important;
+        color: #475569 !important;
+        border-color: #e2e8f0 !important;
+    }
+
+    body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) #printTable tbody tr td {
+        background-color: #ffffff !important;
+        color: #1e293b !important;
+        border-color: #e2e8f0 !important;
+    }
+
+    body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) #printTable tbody tr:hover td {
+        background-color: #FAF7FD !important;
+    }
+
+    body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) #display-info {
+        color: #64748b !important;
+    }
+
+    /* Modern Action Button Icons under Financial Box in Mobile & Tab Cards */
+    .mobile-card-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+    }
+    .mobile-action-btn {
+        flex: 1 1 0;
+        height: 36px;
+        border-radius: 9px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        border: 1px solid transparent;
+        text-decoration: none;
+    }
+    .mobile-action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    }
+    .mobile-action-btn.action-btn-print {
+        background: #F3ECFB;
+        color: #8C56D4;
+        border-color: #E5D5F7;
+    }
+    .mobile-action-btn.action-btn-print:hover {
+        background: #8C56D4;
+        color: #ffffff;
+    }
+    .mobile-action-btn.action-btn-return {
+        background: #FEF3C7;
+        color: #D97706;
+        border-color: #FDE68A;
+    }
+    .mobile-action-btn.action-btn-return:hover {
+        background: #D97706;
+        color: #ffffff;
+    }
+    .mobile-action-btn.action-btn-due {
+        background: #DCFCE7;
+        color: #16A34A;
+        border-color: #BBF7D0;
+    }
+    .mobile-action-btn.action-btn-due:hover {
+        background: #16A34A;
+        color: #ffffff;
+    }
+    .mobile-action-btn.action-btn-edit {
+        background: #E0F2FE;
+        color: #0284C7;
+        border-color: #BAE6FD;
+    }
+    .mobile-action-btn.action-btn-edit:hover {
+        background: #0284C7;
+        color: #ffffff;
+    }
+    .mobile-action-btn.action-btn-share {
+        background: #FAF5FF;
+        color: #7E22CE;
+        border-color: #E9D5FF;
+    }
+    .mobile-action-btn.action-btn-share:hover {
+        background: #7E22CE;
+        color: #ffffff;
+    }
+    .mobile-action-btn.action-btn-delete {
+        background: #FEE2E2;
+        color: #DC2626;
+        border-color: #FECACA;
+    }
+    .mobile-action-btn.action-btn-delete:hover {
+        background: #DC2626;
+        color: #ffffff;
+    }
+
+    /* Dark Mode styles for action buttons */
+    body[light-mode="dark"] .mobile-action-btn,
+    html[light-mode="dark"] .mobile-action-btn,
+    body[data-layout-mode="dark"] .mobile-action-btn {
+        border-color: #334155 !important;
+        background: #0f172a !important;
+    }
+    body[light-mode="dark"] .mobile-action-btn.action-btn-print,
+    html[light-mode="dark"] .mobile-action-btn.action-btn-print { color: #D2B7F1 !important; }
+    body[light-mode="dark"] .mobile-action-btn.action-btn-return,
+    html[light-mode="dark"] .mobile-action-btn.action-btn-return { color: #FBBF24 !important; }
+    body[light-mode="dark"] .mobile-action-btn.action-btn-due,
+    html[light-mode="dark"] .mobile-action-btn.action-btn-due { color: #4ADE80 !important; }
+    body[light-mode="dark"] .mobile-action-btn.action-btn-edit,
+    html[light-mode="dark"] .mobile-action-btn.action-btn-edit { color: #38BDF8 !important; }
+    body[light-mode="dark"] .mobile-action-btn.action-btn-share,
+    html[light-mode="dark"] .mobile-action-btn.action-btn-share { color: #C084FC !important; }
+    body[light-mode="dark"] .mobile-action-btn.action-btn-delete,
+    html[light-mode="dark"] .mobile-action-btn.action-btn-delete { color: #F87171 !important; }
+
+    /* Summary Grid & Price Boxes in Mobile & Tablet Card */
+    .invoice-summary-grid {
+        background-color: #FAF7FD;
+        border-color: #E5D5F7 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease-in-out;
+    }
+    .invoice-summary-grid:hover {
+        border-color: #8C56D4 !important;
+        background-color: #F6F0FC !important;
+    }
+    .invoice-summary-grid .border {
+        border-color: #E5D5F7 !important;
+    }
+    .invoice-price-box {
+        cursor: pointer !important;
+        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease !important;
+    }
+    .invoice-price-box:hover,
+    .invoice-price-box:active {
+        border-color: #8C56D4 !important;
+        background-color: #FAF7FE !important;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(140, 86, 212, 0.15) !important;
+    }
+    @media (max-width: 991.98px) {
+        .invoice-summary-grid .summary-price {
+            font-size: 18.5px !important;
+            font-weight: 800 !important;
+            line-height: 1.3 !important;
+            letter-spacing: -0.2px;
+        }
+        .invoice-summary-grid .summary-label {
+            font-size: 12.5px !important;
+            font-weight: 700 !important;
+            margin-bottom: 2px !important;
+        }
+    }
+    body[light-mode="dark"] .invoice-summary-grid,
+    html[light-mode="dark"] .invoice-summary-grid,
+    body[data-layout-mode="dark"] .invoice-summary-grid,
+    html[data-layout-mode="dark"] .invoice-summary-grid,
+    body.dark-mode .invoice-summary-grid,
+    html.dark .invoice-summary-grid {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .invoice-summary-grid .border,
+    html[light-mode="dark"] .invoice-summary-grid .border,
+    body[data-layout-mode="dark"] .invoice-summary-grid .border,
+    body.dark-mode .invoice-summary-grid .border {
+        border-color: #334155 !important;
+        background-color: #1e293b !important;
+    }
+    body[light-mode="dark"] .invoice-price-box:hover,
+    html[light-mode="dark"] .invoice-price-box:hover,
+    body[data-layout-mode="dark"] .invoice-price-box:hover,
+    body.dark-mode .invoice-price-box:hover {
+        border-color: #8C56D4 !important;
+        background-color: #273549 !important;
+    }
+    body[light-mode="dark"] .invoice-summary-grid .summary-label,
+    html[light-mode="dark"] .invoice-summary-grid .summary-label,
+    body[data-layout-mode="dark"] .invoice-summary-grid .summary-label {
+        color: #94a3b8 !important;
+    }
+    body[light-mode="dark"] .invoice-summary-grid .summary-price.text-dark,
+    html[light-mode="dark"] .invoice-summary-grid .summary-price.text-dark,
+    body[data-layout-mode="dark"] .invoice-summary-grid .summary-price.text-dark {
+        color: #f8fafc !important;
+    }
 </style>
 
 <script>
@@ -888,6 +1188,42 @@
         return String(str).replace(/[০-৯]/g, w => bngDigits[w]);
     }
 
+    // Helper Date Functions for DD-MM-YYYY (d-m-Y)
+    function formatDateToDMY(date) {
+        if (!date) return '';
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
+
+    function parseDMYDate(dateStr) {
+        if (!dateStr) return null;
+        if (dateStr instanceof Date) return dateStr;
+        const engStr = banglaToEngNum(String(dateStr)).trim();
+        const parts = engStr.split('-');
+        if (parts.length === 3) {
+            if (parts[0].length === 4) { // Y-m-d
+                return new Date(parts[0], parts[1] - 1, parts[2]);
+            } else { // d-m-Y
+                return new Date(parts[2], parts[1] - 1, parts[0]);
+            }
+        }
+        const d = new Date(engStr);
+        return isNaN(d.getTime()) ? null : d;
+    }
+
+    function dmyToYMD(dmyStr) {
+        if (!dmyStr) return '';
+        const engStr = banglaToEngNum(String(dmyStr)).trim();
+        const parts = engStr.split('-');
+        if (parts.length === 3) {
+            if (parts[0].length === 4) return engStr; // already Y-m-d
+            return `${parts[2]}-${parts[1]}-${parts[0]}`; // converted to Y-m-d
+        }
+        return dmyStr;
+    }
+
     // Modern Flatpickr Calendar Initialization
     function initInvoiceDatePickers() {
         if (typeof flatpickr === 'undefined') {
@@ -896,24 +1232,13 @@
         }
 
         const flatpickrConfig = {
-            dateFormat: "Y-m-d",
+            dateFormat: "d-m-Y",
             disableMobile: true,
             monthSelectorType: "static", // Static header with prev/next arrows (per rules.md)
             allowInput: true,
             clickOpens: true,
-            parseDate: function(dateStr) {
-                if (!dateStr) return null;
-                if (dateStr instanceof Date) return dateStr;
-                const engStr = banglaToEngNum(String(dateStr));
-                const d = new Date(engStr);
-                return isNaN(d.getTime()) ? null : d;
-            },
-            formatDate: function(date) {
-                const day = String(date.getDate()).padStart(2, '0');
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const year = date.getFullYear();
-                return `${year}-${month}-${day}`;
-            }
+            parseDate: parseDMYDate,
+            formatDate: formatDateToDMY
         };
 
         startDatePickerInstance = flatpickr("#startDate", flatpickrConfig);
@@ -970,22 +1295,22 @@
         if (e) e.preventDefault();
         let today = new Date();
         let startDate = '';
-        let endDate = today.toISOString().split('T')[0];
+        let endDate = formatDateToDMY(today);
 
         if (filter === 'today') {
             startDate = endDate;
         } else if (filter === '7') {
             let d = new Date();
             d.setDate(d.getDate() - 7);
-            startDate = d.toISOString().split('T')[0];
+            startDate = formatDateToDMY(d);
         } else if (filter === '30') {
             let d = new Date();
             d.setDate(d.getDate() - 30);
-            startDate = d.toISOString().split('T')[0];
+            startDate = formatDateToDMY(d);
         } else if (filter === '365') {
             let d = new Date();
             d.setDate(d.getDate() - 365);
-            startDate = d.toISOString().split('T')[0];
+            startDate = formatDateToDMY(d);
         }
 
         $("#startDate").val(startDate);
@@ -1351,8 +1676,10 @@
     }
 
     async function fetchInvoiceReport() {
-        const startDate = document.getElementById("startDate").value;
-        const endDate = document.getElementById("endDate").value;
+        const rawStart = document.getElementById("startDate").value;
+        const rawEnd = document.getElementById("endDate").value;
+        const startDate = dmyToYMD(rawStart);
+        const endDate = dmyToYMD(rawEnd);
         await getList(startDate, endDate);
     }
 
@@ -1522,11 +1849,12 @@
                 // Mobile & Tablet Card View (col-12 on mobile, col-md-6 on tablet = 2 per row)
                 let mobileCard = `
                     <div class="col-12 col-md-6 mb-2 align-self-start">
-                        <div class="invoice-mobile-card card border shadow-sm rounded-4 p-3 pb-2.5 position-relative bg-white mb-0">
+                        <div class="invoice-mobile-card card border shadow-sm rounded-4 p-3 pb-2.5 position-relative mb-0" onclick="if (!event.target.closest('.mobile-card-actions, a, button')) { viewInvoice(${item.id}); }" style="cursor: pointer;">
+                            <!-- Top Bar: Serial + Order No on left, Status Badge on right -->
                             <div class="d-flex align-items-center justify-content-between pb-2 mb-2 border-bottom">
                                 <div class="d-flex align-items-center gap-1.5">
                                     <span class="badge bg-secondary-subtle text-secondary fw-bold" style="font-size: 11px;">#${engToBanglaNum(realIndex + 1)}</span>
-                                    <span class="badge bg-light text-dark border fw-bold" style="font-size: 12px;">
+                                    <span class="badge bg-light text-dark border fw-bold" style="font-size: 12px; cursor: pointer;" onclick="event.stopPropagation(); viewInvoice(${item.id})" title="ইনভয়েস প্রিন্ট ভিউ দেখুন">
                                         <i class="fa-solid fa-file-invoice me-1 text-primary" style="color: #8C56D4 !important;"></i>${item['order_no'] || '-'}
                                     </span>
                                 </div>
@@ -1537,96 +1865,86 @@
                                 </div>
                             </div>
 
+                            <!-- Customer Info: Name on left, ID on the far right of the card, Calendar Date directly under name (no phone number) -->
                             <div class="mb-2">
-                                ${item['customer']?.id ? `
-                                    <a href="/customer/profile/${item['customer'].id}" class="text-decoration-none" title="কাস্টমার প্রোফাইল দেখুন">
-                                        <h6 class="fw-bold mb-1 customer-title" style="font-size: 15.5px; color: #8C56D4 !important;">
-                                            <i class="fa-solid fa-user-circle me-1" style="color: #8C56D4;"></i>${item['customer']?.customer_name ?? 'সাধারণ কাস্টমার'}
-                                        </h6>
-                                    </a>
-                                ` : `
-                                    <h6 class="fw-bold text-dark mb-1 customer-title" style="font-size: 15.5px;">
-                                        <i class="fa-solid fa-user-circle me-1" style="color: #8C56D4;"></i>${item['customer']?.customer_name ?? 'সাধারণ কাস্টমার'}
-                                    </h6>
-                                `}
-                                <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 12px;">
-                                    <span><i class="fa-solid fa-phone me-1"></i>${item['customer']?.mobile ?? '-'}</span>
+                                <div class="d-flex align-items-center justify-content-between gap-2">
+                                    <div class="d-flex align-items-center gap-1.5 text-truncate">
+                                        ${item['customer']?.id ? `
+                                            <a href="/customer/profile/${item['customer'].id}" class="text-decoration-none text-truncate" onclick="event.stopPropagation();" title="কাস্টমার প্রোফাইল দেখুন">
+                                                <h6 class="fw-bold mb-0 customer-title text-truncate" style="font-size: 15.5px; color: #8C56D4 !important;">
+                                                    <i class="fa-solid fa-user-circle me-1" style="color: #8C56D4;"></i>${item['customer']?.customer_name ?? 'সাধারণ কাস্টমার'}
+                                                </h6>
+                                            </a>
+                                        ` : `
+                                            <h6 class="fw-bold text-dark mb-0 customer-title text-truncate" style="font-size: 15.5px;">
+                                                <i class="fa-solid fa-user-circle me-1" style="color: #8C56D4;"></i>${item['customer']?.customer_name ?? 'সাধারণ কাস্টমার'}
+                                            </h6>
+                                        `}
+                                    </div>
                                     ${item['customer']?.customer_id ? `
-                                        <a href="/customer/profile/${item['customer'].id}" class="text-decoration-none">
-                                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle ms-1 fw-bold" style="font-size: 11px;">আইডি: ${item['customer'].customer_id}</span>
+                                        <a href="/customer/profile/${item['customer'].id}" class="text-decoration-none flex-shrink-0" onclick="event.stopPropagation();" title="কাস্টমার প্রোফাইল দেখুন">
+                                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle fw-bold" style="font-size: 11px;">
+                                                আইডি: ${item['customer'].customer_id}
+                                            </span>
                                         </a>
                                     ` : ''}
                                 </div>
-                            </div>
-
-                            <!-- Financial Summary Strip: NOT black in light mode! Subtle soft background with larger prices -->
-                            <div class="invoice-summary-strip row g-1 p-2 rounded-3 my-2 text-center align-items-center">
-                                <div class="col-3 border-end">
-                                    <span class="summary-label d-block fw-bold">মোট</span>
-                                    <span class="summary-price fw-bold text-dark text-nowrap">৳ ${engToBanglaNum(subTotal)}</span>
-                                </div>
-                                <div class="col-3 border-end">
-                                    <span class="summary-label d-block fw-bold">ছাড়</span>
-                                    <span class="summary-price fw-bold text-muted text-nowrap">৳ ${engToBanglaNum(discountAmount)}</span>
-                                </div>
-                                <div class="col-3 border-end">
-                                    <span class="summary-label d-block fw-bold">পরিশোধ</span>
-                                    <span class="summary-price fw-bold text-success text-nowrap">৳ ${engToBanglaNum(paidAmount)}</span>
-                                </div>
-                                <div class="col-3">
-                                    <span class="summary-label d-block fw-bold">বকেয়া</span>
-                                    <span class="summary-price fw-bold ${parseFloat(dueAmount) > 0 ? 'text-danger' : 'text-muted'} text-nowrap">৳ ${engToBanglaNum(dueAmount)}</span>
+                                <div class="text-muted mt-1" style="font-size: 12px;">
+                                    <i class="fa-regular fa-calendar me-1" style="color: #8C56D4;"></i>${formattedDate}
+                                    <span class="ms-1 opacity-75">(${item['user']?.name ?? 'System'})</span>
                                 </div>
                             </div>
 
-                            <div class="d-flex align-items-center justify-content-between pt-2 mt-1 border-top">
-                                <div class="text-muted" style="font-size: 12px;">
-                                    <i class="fa-regular fa-calendar me-1"></i>${formattedDate} <span class="ms-1">(${item['user']?.name ?? 'System'})</span>
+                            <!-- 2-Column Financial Summary Grid with larger font size & clickable for print view -->
+                            <div class="invoice-summary-grid rounded-3 p-2 my-2 border" onclick="event.stopPropagation(); viewInvoice(${item.id})" role="button" title="ইনভয়েস প্রিন্ট ভিউ দেখুন" style="cursor: pointer;">
+                                <div class="row g-2 text-center">
+                                    <div class="col-6">
+                                        <div class="invoice-price-box p-2 rounded-2 border bg-white dark:bg-slate-800" onclick="event.stopPropagation(); viewInvoice(${item.id})" title="ইনভয়েস প্রিন্ট ভিউ দেখুন">
+                                            <span class="summary-label d-block text-muted small fw-semibold" style="font-size: 12.5px;">মোট</span>
+                                            <span class="summary-price fw-bold text-dark text-nowrap" style="font-size: 18.5px; font-weight: 800;">৳ ${engToBanglaNum(subTotal)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="invoice-price-box p-2 rounded-2 border bg-white dark:bg-slate-800" onclick="event.stopPropagation(); viewInvoice(${item.id})" title="ইনভয়েস প্রিন্ট ভিউ দেখুন">
+                                            <span class="summary-label d-block text-muted small fw-semibold" style="font-size: 12.5px;">ছাড়</span>
+                                            <span class="summary-price fw-bold text-secondary text-nowrap" style="font-size: 18.5px; font-weight: 800;">৳ ${engToBanglaNum(discountAmount)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="invoice-price-box p-2 rounded-2 border bg-white dark:bg-slate-800" onclick="event.stopPropagation(); viewInvoice(${item.id})" title="ইনভয়েস প্রিন্ট ভিউ দেখুন">
+                                            <span class="summary-label d-block text-success small fw-semibold" style="font-size: 12.5px;">পরিশোধ</span>
+                                            <span class="summary-price fw-bold text-success text-nowrap" style="font-size: 18.5px; font-weight: 800;">৳ ${engToBanglaNum(paidAmount)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="invoice-price-box p-2 rounded-2 border bg-white dark:bg-slate-800" onclick="event.stopPropagation(); viewInvoice(${item.id})" title="ইনভয়েস প্রিন্ট ভিউ দেখুন">
+                                            <span class="summary-label d-block ${parseFloat(dueAmount) > 0 ? 'text-danger' : 'text-muted'} small fw-semibold" style="font-size: 12.5px;">বকেয়া</span>
+                                            <span class="summary-price fw-bold ${parseFloat(dueAmount) > 0 ? 'text-danger' : 'text-muted'} text-nowrap" style="font-size: 18.5px; font-weight: 800;">৳ ${engToBanglaNum(dueAmount)}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-light border rounded-circle d-flex align-items-center justify-content-center action-dots-btn" type="button" data-bs-toggle="dropdown" data-bs-boundary="viewport" aria-expanded="false" title="অ্যাকশন মেনু" style="width: 34px; height: 34px;">
-                                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 py-2 invoice-action-dropdown-menu" style="min-width: 175px; z-index: 1060;">
-                                        <li>
-                                            <a class="dropdown-item py-2 px-3 d-flex align-items-center gap-2.5" href="javascript:void(0)" onclick="viewInvoice(${item.id})">
-                                                <i class="fa-solid fa-print text-primary" style="width: 18px;"></i>
-                                                <span class="fw-semibold">প্রিন্ট ইনভয়েস</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item py-2 px-3 d-flex align-items-center gap-2.5" href="javascript:void(0)" onclick="viewReturn(${item.id})">
-                                                <i class="fa-solid fa-rotate-left text-warning" style="width: 18px;"></i>
-                                                <span class="fw-semibold">পণ্য ফেরত</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item py-2 px-3 d-flex align-items-center gap-2.5 edit-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="${item.id}">
-                                                <i class="fa-solid fa-hand-holding-dollar text-success" style="width: 18px;"></i>
-                                                <span class="fw-semibold">বকেয়া সংগ্রহ</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item py-2 px-3 d-flex align-items-center gap-2.5 edit-link" href="#" data-bs-toggle="modal" data-bs-target="#invoiceFullEditModal" data-id="${item.id}">
-                                                <i class="fa-solid fa-pen-to-square text-info" style="width: 18px;"></i>
-                                                <span class="fw-semibold">ইনভয়েস এডিট</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item py-2 px-3 d-flex align-items-center gap-2.5" href="javascript:void(0)" onclick="shareInvoice(${item.id}, '${item.order_no || ''}')">
-                                                <i class="fa-solid fa-share-nodes" style="width: 18px; color: #8C56D4;"></i>
-                                                <span class="fw-semibold">শেয়ার করুন</span>
-                                            </a>
-                                        </li>
-                                        <li><hr class="dropdown-divider my-1 opacity-25"></li>
-                                        <li>
-                                            <a class="dropdown-item py-2 px-3 d-flex align-items-center gap-2.5 text-danger" href="javascript:void(0)" onclick="deleteInvoicePrompt(${item.id}, '${item.order_no || ''}')">
-                                                <i class="fa-solid fa-trash-can text-danger" style="width: 18px;"></i>
-                                                <span class="fw-semibold">মুছে ফেলুন</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                            </div>
+
+                            <!-- Modern Action Buttons Strip below Financial Grid -->
+                            <div class="mobile-card-actions pt-2 mt-1 border-top" onclick="event.stopPropagation();">
+                                <button type="button" class="mobile-action-btn action-btn-print" onclick="event.stopPropagation(); viewInvoice(${item.id})" title="প্রিন্ট করুন">
+                                    <i class="fa-solid fa-print"></i>
+                                </button>
+                                <button type="button" class="mobile-action-btn action-btn-return" onclick="event.stopPropagation(); viewReturn(${item.id})" title="পণ্য ফেরত">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                </button>
+                                <button type="button" class="mobile-action-btn action-btn-due edit-link" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="${item.id}" title="বকেয়া সংগ্রহ">
+                                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                                </button>
+                                <button type="button" class="mobile-action-btn action-btn-edit edit-link" data-bs-toggle="modal" data-bs-target="#invoiceFullEditModal" data-id="${item.id}" title="ইনভয়েস এডিট">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button type="button" class="mobile-action-btn action-btn-share" onclick="event.stopPropagation(); shareInvoice(${item.id}, '${item.order_no || ''}')" title="শেয়ার করুন">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                </button>
+                                <button type="button" class="mobile-action-btn action-btn-delete" onclick="event.stopPropagation(); deleteInvoicePrompt(${item.id}, '${item.order_no || ''}')" title="মুছে ফেলুন">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
                             </div>
                         </div>
                     </div>`;

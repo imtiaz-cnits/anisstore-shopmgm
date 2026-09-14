@@ -130,6 +130,14 @@
         z-index: 1090 !important; /* Above overlay (1080) */
       }
 
+      /* Global Modal Backdrop & Dialog (Ensures modal overlay covers topbar and all elements on mobile/desktop) */
+      .modal-backdrop {
+        z-index: 2000 !important;
+      }
+      .modal {
+        z-index: 2010 !important;
+      }
+
       /* Mobile Offcanvas Sidebar: Synchronized slide-in transition with backdrop overlay */
       .vertical-menu {
         position: fixed !important;

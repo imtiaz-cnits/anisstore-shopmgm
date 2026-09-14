@@ -2,154 +2,573 @@
 @section('title', 'Product Return Page')
 @section('content')
 
+    <!-- Scoped Styles for Modern Return Invoice -->
+    <style>
+        .return-page-header {
+            max-width: 900px;
+            margin: 0 auto 16px auto;
+            position: sticky !important;
+            top: 72px !important;
+            z-index: 1040 !important;
+            background: #ffffff !important;
+            padding: 10px 16px !important;
+            border-radius: 12px !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05) !important;
+            transition: all 0.2s ease;
+        }
+        .invoice-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+        .invoice-container .billing-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .invoice-container .billing-section .wrapper {
+            flex: 1 1 240px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .invoice-container .billing-to {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 14px;
+            width: 100%;
+        }
+        .invoice-container .invoice-wrapper {
+            width: 100%;
+        }
+        .invoice-container .invoice-wrapper table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .invoice-container .invoice-wrapper td {
+            border: 1px solid #e2e8f0;
+            padding: 6px 10px;
+            font-size: 13px;
+        }
+        .invoice-container .invoice-wrapper .number,
+        .invoice-container .invoice-wrapper .date {
+            background: #f1f5f9;
+            font-weight: 600;
+        }
+        .invoice-container .logo-wrapper {
+            flex: 1 1 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+        }
+        .invoice-container .logo-wrapper h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #8C56D4;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .invoice-container .logo-wrapper img {
+            max-height: 55px !important;
+            max-width: 170px !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain !important;
+            margin: 6px 0 !important;
+        }
+        .invoice-container .shop-details {
+            flex: 1 1 240px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 14px;
+            padding: 12px 14px;
+            text-align: right;
+        }
+        .return-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px !important;
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569 !important;
+            background: #ffffff !important;
+            border: 1.5px solid #cbd5e1 !important;
+            border-radius: 10px !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            text-decoration: none !important;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .return-back-btn:hover {
+            color: #8C56D4 !important;
+            background: #FAF7FD !important;
+            border-color: #8C56D4 !important;
+            transform: translateX(-2px);
+            box-shadow: 0 4px 12px rgba(140, 86, 212, 0.18);
+        }
+        .return-back-btn:active {
+            transform: translateX(0);
+        }
+        .return-submit-btn {
+            background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+            color: #ffffff !important;
+            border: none !important;
+            border-radius: 10px !important;
+            padding: 10px 24px !important;
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 10px rgba(140, 86, 212, 0.3) !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none !important;
+            white-space: nowrap;
+        }
+        .return-submit-btn:hover {
+            background: linear-gradient(135deg, #793FC5 0%, #6830a8 100%) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(140, 86, 212, 0.45) !important;
+            color: #ffffff !important;
+        }
+        .return-submit-btn:active {
+            transform: translateY(0);
+        }
+        .invoice-container .return-quantity {
+            width: 70px;
+            height: 34px;
+            text-align: center;
+            border-radius: 6px;
+            border: 1.5px solid #cbd5e1;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        .invoice-container .return-quantity:focus {
+            border-color: #8C56D4;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.15);
+        }
+        .invoice-container .return-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #8C56D4;
+        }
+        .invoice-container .invoice_table_list {
+            min-width: 600px;
+            border: 1px solid #e2e8f0;
+            width: 100%;
+        }
+        .invoice-container .invoice_table_list th {
+            background-color: #f1f5f9;
+            color: #334155;
+            font-weight: 700;
+            font-size: 13.5px;
+            padding: 8px 10px !important;
+            border: 1px solid #cbd5e1;
+        }
+        .invoice-container .invoice_table_list td {
+            padding: 8px 10px !important;
+            font-size: 13.5px;
+            border: 1px solid #e2e8f0;
+            vertical-align: middle;
+        }
+
+        /* Mobile specific responsiveness */
+        @media (max-width: 768px) {
+            .page-content {
+                padding: 82px 10px 24px 10px !important;
+                overflow-x: clip !important;
+            }
+            .return-page-header {
+                width: 100% !important;
+                top: 72px !important;
+                margin-bottom: 12px !important;
+                padding: 10px 12px !important;
+                border-radius: 10px !important;
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                flex-wrap: nowrap !important;
+                gap: 8px !important;
+            }
+            .return-page-header .d-flex {
+                width: auto !important;
+                justify-content: flex-end !important;
+                flex-wrap: nowrap !important;
+                gap: 6px !important;
+            }
+            .return-page-header .return-back-btn {
+                padding: 8px 12px !important;
+                font-size: 13px !important;
+                white-space: nowrap !important;
+                flex-shrink: 0 !important;
+            }
+            .return-page-header .return-submit-btn {
+                padding: 8px 14px !important;
+                font-size: 13px !important;
+                white-space: nowrap !important;
+                flex-shrink: 0 !important;
+            }
+            .invoice-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 12px 10px !important;
+                border-radius: 12px !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05) !important;
+            }
+            .invoice-container .billing-section {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .invoice-container .billing-section .wrapper,
+            .invoice-container .shop-details,
+            .invoice-container .logo-wrapper {
+                width: 100%;
+                flex: 1 1 100%;
+            }
+            .invoice-container .shop-details {
+                text-align: left;
+                align-items: flex-start;
+            }
+            .invoice-container .shop-details .contact {
+                justify-content: flex-start;
+            }
+            .invoice-container .logo-wrapper {
+                order: -1;
+                padding-bottom: 12px;
+                border-bottom: 1px dashed #e2e8f0;
+            }
+            .invoice-container .logo-wrapper .button {
+                display: none !important; /* Header button handles it on mobile */
+            }
+            .invoice-container .invoice_table_list {
+                min-width: 100% !important;
+                width: 100% !important;
+                table-layout: auto !important;
+            }
+            .invoice-container .invoice_table_list th,
+            .invoice-container .invoice_table_list td {
+                padding: 6px 3px !important;
+                font-size: 11.5px !important;
+            }
+            .invoice-container .invoice_table_list th:nth-child(1),
+            .invoice-container .invoice_table_list td:nth-child(1) {
+                width: 28px !important;
+                text-align: center;
+            }
+            .invoice-container .invoice_table_list th:nth-child(3),
+            .invoice-container .invoice_table_list td:nth-child(3) {
+                width: 36px !important;
+                text-align: center;
+            }
+            .invoice-container .invoice_table_list th:nth-child(4),
+            .invoice-container .invoice_table_list td:nth-child(4) {
+                width: 54px !important;
+                text-align: center;
+                font-size: 11px !important;
+            }
+            .invoice-container .invoice_table_list th:nth-child(5),
+            .invoice-container .invoice_table_list td:nth-child(5) {
+                width: 52px !important;
+                text-align: center;
+            }
+            .invoice-container .invoice_table_list th:nth-child(6),
+            .invoice-container .invoice_table_list td:nth-child(6) {
+                width: 32px !important;
+                text-align: center;
+            }
+            .invoice-container .return-quantity {
+                width: 44px !important;
+                height: 28px !important;
+                font-size: 12px !important;
+                padding: 2px !important;
+            }
+            .invoice-container .return-checkbox {
+                width: 17px !important;
+                height: 17px !important;
+            }
+        }
+
+        /* Mobile Calculation Summary Card Styling */
+        .mobile-invoice-summary-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        body[light-mode="dark"] .mobile-invoice-summary-card,
+        html[light-mode="dark"] .mobile-invoice-summary-card {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        body[light-mode="dark"] .mobile-invoice-summary-card .border-bottom {
+            border-color: #334155 !important;
+        }
+        body[light-mode="dark"] .mobile-invoice-summary-card .text-dark,
+        html[light-mode="dark"] .mobile-invoice-summary-card .text-dark {
+            color: #f8fafc !important;
+        }
+        .mobile-invoice-summary-card .bg-total-box {
+            padding: 14px 16px !important;
+            border-radius: 10px !important;
+            margin-top: 14px !important;
+        }
+        body[light-mode="dark"] .mobile-invoice-summary-card .bg-total-box {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border-color: rgba(239, 68, 68, 0.35) !important;
+        }
+
+        /* Terms & Conditions Footer Message Border Fix: Soft, clean border instead of black */
+        .invoice-container .footer-message {
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 10px !important;
+            padding: 14px 16px !important;
+            margin-top: 18px !important;
+            background: #f8fafc !important;
+        }
+        body[light-mode="dark"] .invoice-container .footer-message,
+        html[light-mode="dark"] .invoice-container .footer-message {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        body[light-mode="dark"] .invoice-container .footer-message p,
+        html[light-mode="dark"] .invoice-container .footer-message p {
+            color: #94a3b8 !important;
+        }
+        body[light-mode="dark"] .invoice-container .footer-message strong,
+        html[light-mode="dark"] .invoice-container .footer-message strong {
+            color: #f8fafc !important;
+        }
+
+        /* Dark mode for Sticky Header */
+        body[light-mode="dark"] .return-page-header,
+        html[light-mode="dark"] .return-page-header {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+        }
+    </style>
+
     <!-- Hero Main Content Start -->
     <div class="main-content">
         <div class="page-content">
+            <!-- Top Header & Back Button -->
+            <div class="return-page-header d-flex align-items-center justify-content-between flex-nowrap gap-2">
+                <a href="/admin-dashboard-invoice" class="return-back-btn" title="ইনভয়েস তালিকায় ফিরে যান">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>ফিরে যান</span>
+                </a>
+                <div class="d-flex align-items-center gap-2 flex-nowrap">
+                    <span class="badge bg-purple-subtle text-purple border border-purple-subtle px-3 py-2 fw-bold d-none d-sm-inline-flex" style="font-size: 13px; border-radius: 8px;">
+                        <i class="fa-solid fa-rotate-left me-1"></i> পণ্য ফেরত ইনভয়েস
+                    </span>
+                    <button type="button" class="return-submit-btn" onclick="ReturnProductSave(event)">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span>ফেরত নিশ্চিত করুন</span>
+                    </button>
+                </div>
+            </div>
+
             <div class="invoice-container">
-
-
                 <div class="billing-section">
                     <div class="wrapper">
                         <div class="billing-to">
-                            <h3><strong>Billed to</strong></h3>
-                            <p>
-                                <strong id="CustomerName">{{ $invoice->customer->customer_name ?? 'N/A' }}</strong>
-                            </p>
-                            <p id="CustomerAddress">{{ $invoice->customer->address_details ??
-                                '
-                                              ' }}</p>
-                            <p>Phone: <span id="CustomerMobile">{{ $invoice->customer->mobile ?? 'N/A' }}</span></p>
+                            <h3 class="fw-bold mb-1" style="font-size: 14px; color: #8C56D4;">কাস্টমার তথ্য (Billed to)</h3>
+                            <p class="mb-1"><strong id="CustomerName" style="font-size: 14px;">{{ $invoice->customer->customer_name ?? 'N/A' }}</strong></p>
+                            <p id="CustomerAddress" class="text-muted mb-1">{{ $invoice->customer->address_details ?? 'ঠিকানা নেই' }}</p>
+                            <p class="text-muted mb-0">মোবাইল: <span id="CustomerMobile" class="fw-semibold text-dark">{{ $invoice->customer->mobile ?? 'N/A' }}</span></p>
                         </div>
 
                         <div class="invoice-wrapper">
                             <table>
                                 <tr>
-                                    <td class="number">Invoice No:</td>
-                                    <td id="order_no">{{ $invoice->order_no }}</td>
+                                    <td class="number">ইনভয়েস নং:</td>
+                                    <td id="order_no" class="fw-bold text-dark">{{ $invoice->order_no }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="date">Invoice Date:</td>
-                                    <td id="invoice_date">{{ \Carbon\Carbon::parse($invoice->created_at)->format('d-m-Y') }}
-                                    </td>
+                                    <td class="date">ইনভয়েস তারিখ:</td>
+                                    <td id="invoice_date">{{ \Carbon\Carbon::parse($invoice->created_at)->format('d-m-Y') }}</td>
                                 </tr>
                             </table>
                         </div>
                     </div>
 
                     <div class="logo-wrapper">
-                        <h2><strong>Invoice</strong></h2>
+                        <h2>Invoice Return</h2>
                         <img src="{{ asset('back-end/assets/img/anis-store-logo.png') }}" alt="Anis Store Logo" />
-                        <div class="button">
-                            <button class="print-icon" onclick="ReturnProductSave(event)">
-                                <span>
-
-                                </span>
-                                <span class="text p-4">Return</span>
+                        <div class="button mt-2">
+                            <button class="return-submit-btn" onclick="ReturnProductSave(event)">
+                                <i class="fa-solid fa-rotate-left"></i>
+                                <span>ফেরত নিশ্চিত করুন</span>
                             </button>
                         </div>
                     </div>
 
-                    <strong style="display: none" id="OrderID">{{ $invoice->id ?? 'N/A' }}</strong><br />
-                    <strong style="display: none" id="CustomerID">{{ $invoice->customer->id ?? 'N/A' }}</strong><br />
+                    <strong style="display: none" id="OrderID">{{ $invoice->id ?? 'N/A' }}</strong>
+                    <strong style="display: none" id="CustomerID">{{ $invoice->customer->id ?? 'N/A' }}</strong>
+
                     <div class="shop-details">
-                        <h3>
-                            <strong>OWNEAR</strong>
-                        </h3>
-                        <div class="contact" style="display: flex; gap: 4px">
-                            <p>Cell:</p>
-                            <p>
-                                <span>01771299211</span>,
-                                <span>01912248104</span>
-                            </p>
+                        <h3 class="fw-bold mb-1" style="font-size: 14px; color: #8C56D4;">দোকান বিবরণ (Shop Info)</h3>
+                        <p class="fw-bold text-dark mb-1">মেসার্স আনিস ষ্টোর</p>
+                        <div class="contact mb-1" style="display: flex; gap: 4px">
+                            <p class="text-muted mb-0">মোবাইল: <span class="text-dark fw-medium">01771299211, 01912248104</span></p>
                         </div>
-                        <p>Shop No: <span>18, Level: 2</span></p>
-                        <p>Meghna Heights,Pabna</p>
-                        <p>exchangeworld0@gmail.com</p>
+                        <p class="text-muted mb-1">দোকান নং: <span>১৮, লেভেল: ২</span></p>
+                        <p class="text-muted mb-1">মেঘনা হাইটস, পাবনা</p>
+                        <p class="text-muted mb-0">exchangeworld0@gmail.com</p>
                     </div>
                 </div>
 
-                <!-- Table Section -->
-                <table class="invoice_table_list">
-                    <thead>
-                        <tr>
-                            <th>SL. No.</th>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Amount</th>
-                            <th>Return Quantity</th>
-                            <th>Return</th>
-                        </tr>
-                    </thead>
-                    <tbody id="order_details">
-                        @if ($invoice->details && $invoice->details->isNotEmpty())
-                            @foreach ($invoice->details as $key => $orderDetail)
-                                <tr>
-                                    <td>{{ $key + 1 }}</td>
-                                    <td>{{ $orderDetail->product->product_name ?? 'N/A' }}</td>
-                                    <td>{{ $orderDetail->quantity ?? 'N/A' }}</td>
-                                    <td id="SellingAmount">৳{{ $orderDetail->selling_price }}</td>
-                                    <td>
-                                        <input type="number" class="return-quantity" name="return_quantity[]"
-                                            min="1" max="{{ $orderDetail->quantity }}" value="1"
-                                            data-product-id="{{ $orderDetail->product_id }}"
-                                            data-order-detail-id="{{ $orderDetail->id }}">
-                                    </td>
-                                    <td>
-                                        <span class="checkbox">
-                                            <input type="checkbox" class="return-checkbox" name="return_product[]"
-                                                value="{{ $orderDetail->id }}">
-                                        </span>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @else
+                <!-- Table Section with Responsive Wrapper -->
+                <div class="table-responsive">
+                    <table class="invoice_table_list">
+                        <thead>
                             <tr>
-                                <td colspan="6">No products available for return.</td>
+                                <th>ক্র.নং</th>
+                                <th class="text-start">পণ্যের নাম</th>
+                                <th>পরিমাণ</th>
+                                <th>মূল্য</th>
+                                <th>ফেরত পরিমাণ</th>
+                                <th>ফেরত</th>
                             </tr>
+                        </thead>
+                        <tbody id="order_details">
+                            @if ($invoice->details && $invoice->details->isNotEmpty())
+                                @foreach ($invoice->details as $key => $orderDetail)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td class="text-start fw-semibold">{{ $orderDetail->product->product_name ?? 'N/A' }}</td>
+                                        <td>{{ $orderDetail->quantity ?? 'N/A' }}</td>
+                                        <td id="SellingAmount" class="fw-bold">৳{{ $orderDetail->selling_price }}</td>
+                                        <td>
+                                            <input type="number" class="return-quantity" name="return_quantity[]"
+                                                min="1" max="{{ $orderDetail->quantity }}" value="1"
+                                                data-product-id="{{ $orderDetail->product_id }}"
+                                                data-order-detail-id="{{ $orderDetail->id }}">
+                                        </td>
+                                        <td>
+                                            <span class="checkbox">
+                                                <input type="checkbox" class="return-checkbox" name="return_product[]"
+                                                    value="{{ $orderDetail->id }}">
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="6" class="text-center p-3 text-danger fw-bold">ফেরত দেওয়ার মতো কোনো পণ্য নেই।</td>
+                                </tr>
+                            @endif
+
+                            <!-- Desktop Only Summary Rows -->
+                            <tr class="summary-row d-none d-md-table-row">
+                                <td colspan="3" rowspan="6" id="payment_status" class="full-paid align-middle text-center">
+                                    @if ($invoice->due_amount <= 0)
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 fs-6">Fully Paid</span>
+                                    @elseif($invoice->paid_amount > 0)
+                                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2 fs-6">Partial Paid</span>
+                                    @else
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 fs-6">Unpaid</span>
+                                    @endif
+                                </td>
+                                <td colspan="2" class="amount_text fw-semibold"><span>মোট (Sub Total):</span></td>
+                                <td class="amount fw-bold text-dark"><span id="sub_total">৳{{ number_format($invoice->sub_total, 2) }}</span></td>
+                            </tr>
+                            <tr class="summary-row d-none d-md-table-row">
+                                <td colspan="2" class="amount_text">ছাড় (Discount):</td>
+                                <td class="amount text-muted" id="paidamount">৳ {{ number_format($invoice->discount_amount, 2) }}</td>
+                            </tr>
+                            <tr class="summary-row d-none d-md-table-row">
+                                <td colspan="2" class="amount_text text-success fw-semibold"><span>পরিশোধ (Paid):</span></td>
+                                <td class="amount text-success fw-bold"><span id="paidamount">৳ {{ number_format($invoice->paid_amount, 2) }}</span></td>
+                            </tr>
+                            <tr class="summary-row d-none d-md-table-row">
+                                <td colspan="2" class="amount_text text-danger fw-semibold"><span>বর্তমান বকেয়া (Due):</span></td>
+                                <td class="amount text-danger fw-bold"><span>৳{{ number_format($invoice->due_amount, 2) }}</span></td>
+                            </tr>
+                            <tr class="summary-row d-none d-md-table-row">
+                                <td colspan="2" class="amount_text">পূর্বের বকেয়া (Previous Due):</td>
+                                <td id="previous_due_amount" class="amount text-muted">৳ {{ number_format($invoice->previous_due_amount ?? 0, 2) }}</td>
+                            </tr>
+                            <tr class="summary-row d-none d-md-table-row">
+                                <td colspan="2" class="amount_text fw-bold">সর্বমোট বকেয়া (Total Due):</td>
+                                <td id="total_due_amount" class="amount fw-bold text-danger">৳ {{ number_format(($invoice->previous_due_amount ?? 0) + ($invoice->due_amount ?? 0), 2) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Dedicated Mobile Calculation Summary Card (Clean Modern Card, No Table Cramping) -->
+                <div class="mobile-invoice-summary-card d-block d-md-none mt-3 p-3 rounded-3 border">
+                    <!-- Status Badge -->
+                    <div class="text-center mb-3 pb-2 border-bottom">
+                        @if ($invoice->due_amount <= 0)
+                            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1.5 fs-6 fw-bold">
+                                <i class="fa-solid fa-circle-check me-1"></i> Fully Paid
+                            </span>
+                        @elseif($invoice->paid_amount > 0)
+                            <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-1.5 fs-6 fw-bold">
+                                <i class="fa-solid fa-clock me-1"></i> Partial Paid
+                            </span>
+                        @else
+                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1.5 fs-6 fw-bold">
+                                <i class="fa-solid fa-circle-exclamation me-1"></i> Unpaid
+                            </span>
                         @endif
+                    </div>
 
-                        <tr>
-                            <td colspan="3" rowspan="6" id="payment_status" class="full-paid">
-                                @if ($invoice->due_amount <= 0)
-                                    Fully Paid
-                                @elseif($invoice->paid_amount > 0)
-                                    Partial Paid
-                                @else
-                                    Unpaid
-                                @endif
-                            </td>
-                            <td colspan="2" class="amount_text"><span>Sub Total:</span></td>
-                            <td colspan="2" class="amount"><span id="sub_total">
-                                    ৳{{ number_format($invoice->sub_total, 2) }}</span></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="amount_text table_bg">Discount Amount:</td>
-                            <td class="amount table_bg" id="paidamount">৳ {{ number_format($invoice->discount_amount, 2) }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="amount_text"><span>Paid Amount:</span></td>
-                            <td colspan="2" class="amount"><span id="paidamount">৳
-                                    {{ number_format($invoice->paid_amount, 2) }}</span></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="amount_text"><span>Due Amount:</span></td>
-                            <td colspan="2" class="amount"><span>৳0.00</span></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="amount_text">Previous Due Amount:</td>
-                            <td id="previous_due_amount" class="amount">৳
-                                {{ number_format($invoice->previous_due_amount ?? 0, 2) }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="amount_text">Total Due Amount:</td>
-                            <td id="total_due_amount" class="amount">৳
-                                {{ number_format(($invoice->previous_due_amount ?? 0) + ($invoice->due_amount ?? 0), 2) }}
-                            </td>
-                        </tr>
-                    </tbody>
+                    <!-- Financial Key-Value Rows -->
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <span class="text-muted fw-semibold" style="font-size: 13px;">মোট বিল (Sub Total):</span>
+                        <span class="fw-bold text-dark" style="font-size: 14px;">৳{{ number_format($invoice->sub_total, 2) }}</span>
+                    </div>
 
-                </table>
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <span class="text-muted fw-semibold" style="font-size: 13px;">ছাড় (Discount):</span>
+                        <span class="fw-bold text-muted" style="font-size: 14px;">৳ {{ number_format($invoice->discount_amount, 2) }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <span class="text-success fw-bold" style="font-size: 13px;">পরিশোধ (Paid):</span>
+                        <span class="fw-bold text-success" style="font-size: 14px;">৳ {{ number_format($invoice->paid_amount, 2) }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <span class="text-danger fw-bold" style="font-size: 13px;">বর্তমান বকেয়া (Due):</span>
+                        <span class="fw-bold text-danger" style="font-size: 14px;">৳{{ number_format($invoice->due_amount, 2) }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <span class="text-muted fw-semibold" style="font-size: 13px;">পূর্বের বকেয়া (Previous Due):</span>
+                        <span class="fw-semibold text-secondary" style="font-size: 14px;">৳ {{ number_format($invoice->previous_due_amount ?? 0, 2) }}</span>
+                    </div>
+
+                    <!-- Total Due Highlight Box -->
+                    <div class="d-flex justify-content-between align-items-center mt-3 rounded-2 bg-total-box" style="background: #fef2f2; border: 1.5px dashed #fca5a5; padding: 14px 16px !important;">
+                        <span class="fw-bold text-danger" style="font-size: 13.5px;">সর্বমোট বকেয়া (Total Due):</span>
+                        <span class="fw-bold text-danger" style="font-size: 15px;">৳ {{ number_format(($invoice->previous_due_amount ?? 0) + ($invoice->due_amount ?? 0), 2) }}</span>
+                    </div>
+                </div>
 
                 <!-- Footer Message -->
                 <div class="footer-message">

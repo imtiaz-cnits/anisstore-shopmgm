@@ -1541,7 +1541,6 @@ body[light-mode="dark"] .profile-form .input-group input {
 /* Rock-Solid Comprehensive Dark Mode Overrides for Cards & Dashboard Sections */
 body[light-mode="dark"],
 body[data-layout-mode="dark"],
-body[data-sidebar="dark"],
 body.dark-mode {
   background-color: #0f172a !important;
   color: #F3ECFB !important;
@@ -1549,17 +1548,14 @@ body.dark-mode {
 
 body[light-mode="dark"] .main-content,
 body[data-layout-mode="dark"] .main-content,
-body[data-sidebar="dark"] .main-content,
 body[light-mode="dark"] .page-content,
-body[data-layout-mode="dark"] .page-content,
-body[data-sidebar="dark"] .page-content {
+body[data-layout-mode="dark"] .page-content {
   background-color: #0f172a !important;
 }
 
 /* Card & Card Header Dark Mode Styling */
 body[light-mode="dark"] .card,
 body[data-layout-mode="dark"] .card,
-body[data-sidebar="dark"] .card,
 body[light-mode="dark"] .card-body,
 body[data-layout-mode="dark"] .card-body {
   background: #1e293b !important;

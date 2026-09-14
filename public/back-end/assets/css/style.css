@@ -1110,7 +1110,8 @@ input::-webkit-inner-spin-button {
 .invoice-container .footer-message {
     text-align: left;
     margin-top: 4px;
-    border: 1px solid var(--text-color);
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
     padding: 10px;
     min-height: 40px;
 }
