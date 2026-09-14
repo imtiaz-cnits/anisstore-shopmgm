@@ -20,19 +20,28 @@
     border-color: rgba(255, 255, 255, 0.22) !important;
   }
 
-  /* Dashboard Filter Bar Styling */
+  /* Dashboard Filter Bar Styling - Smooth Horizontal Scroll without Scrollbar */
   .filter-pills-wrapper {
     display: flex;
     align-items: center;
     gap: 8px;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding-bottom: 2px;
+    padding: 6px 4px;
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    flex: 1 1 0%;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    scroll-behavior: smooth;
   }
   .filter-pills-wrapper::-webkit-scrollbar {
     display: none;
+    width: 0;
+    height: 0;
   }
 
   .dashboard-filter-btn {
@@ -43,9 +52,10 @@
     font-size: 13px;
     padding: 6px 16px;
     border: 1.5px solid #e2e8f0;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     white-space: nowrap;
     flex-shrink: 0;
+    margin: 0;
   }
 
   .dashboard-filter-btn:hover {
@@ -145,12 +155,13 @@
     background: #f8fafc;
   }
 
+  /* Subcard icon: Primary Purple */
   .subcard-icon-down {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: #dcfce7;
-    color: #16a34a;
+    background: #FAF7FD;
+    color: #8C56D4;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -186,53 +197,68 @@
     color: #0f172a;
   }
 
-  /* 2x2 Metric Grid Cards with Scooped Notch Icon Badges (Exact to Image 2) */
+  /* 2x2 Metric Grid Cards with Exact Image 2 Scooped Border & Floating Icon Badge */
   .hishab-grid-card-overlap {
-    background: #ffffff;
-    border-radius: 20px;
-    padding: 24px 14px 14px 14px;
-    margin-top: 18px;
     position: relative;
-    transition: all 0.25s ease;
-    height: calc(100% - 18px);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    background: transparent !important;
+    border: none !important;
+    border-radius: 18px;
+    padding: 26px 14px 14px 14px;
+    margin-top: 22px;
+    height: calc(100% - 22px);
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: transform 0.25s ease;
   }
 
-  .card-due-border { border: 1.6px solid #ffa39e; }
-  .card-payable-border { border: 1.6px solid #91caff; }
-  .card-product-border { border: 1.6px solid #87e8de; }
-  .card-party-border { border: 1.6px solid #ffe58f; }
+  .hishab-grid-card-overlap:hover {
+    transform: translateY(-2px);
+  }
 
-  /* SVG Notch that creates the scooped dip under the circular icon */
-  .card-notch-svg {
+  .hishab-card-bg-svg {
     position: absolute;
-    top: -2px;
-    left: 8px;
-    width: 54px;
-    height: 22px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 1;
     pointer-events: none;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.03));
   }
-  .card-due-border .notch-curve { stroke: #ffa39e; }
-  .card-payable-border .notch-curve { stroke: #91caff; }
-  .card-product-border .notch-curve { stroke: #87e8de; }
-  .card-party-border .notch-curve { stroke: #ffe58f; }
-  .notch-mask { fill: #faf7fd; }
+
+  .card-svg-shape {
+    fill: #ffffff;
+    vector-effect: non-scaling-stroke;
+    stroke-width: 1.6px;
+  }
+
+  .card-due-border .card-svg-shape { stroke: #ffa39e; }
+  .card-payable-border .card-svg-shape { stroke: #91caff; }
+  .card-product-border .card-svg-shape { stroke: #87e8de; }
+  .card-party-border .card-svg-shape { stroke: #ffe58f; }
 
   .hishab-icon-overlap-badge {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
+    font-size: 14px;
     position: absolute;
-    top: -18px;
-    left: 16px;
+    top: -27px;
+    left: calc(25% - 17px);
     z-index: 2;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
     color: #ffffff !important;
+    transition: transform 0.2s ease;
+  }
+
+  .hishab-card-content {
+    position: relative;
+    z-index: 2;
   }
 
   .icon-due { background: linear-gradient(135deg, #ff7875 0%, #ff4d4f 100%) !important; }
@@ -256,14 +282,14 @@
     justify-content: space-between;
   }
 
-  /* List View Detailed Cards - Matching Image 2 soft square icons */
+  /* List View Detailed Cards - 10px Padding & Gap */
   .hishab-list-card {
     background: #ffffff;
-    border-radius: 18px;
-    padding: 14px 18px;
+    border-radius: 16px;
+    padding: 10px 14px !important;
     border: 1.5px solid #f1f5f9;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-    margin-bottom: 12px;
+    margin-bottom: 10px !important;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -280,17 +306,17 @@
   .hishab-list-left {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
   }
 
   .hishab-icon-badge {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: 12px; /* Soft rounded square matching Image 2 */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 17px;
     flex-shrink: 0;
   }
 
@@ -299,16 +325,16 @@
   .icon-valuation { background: #FFFBE6 !important; color: #FAAD14 !important; }
 
   .hishab-list-info .list-label {
-    font-size: 13px;
+    font-size: 12px;
     color: #64748b;
     font-weight: 600;
   }
 
   .hishab-list-info .list-val {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 800;
     color: #0f172a;
-    margin-top: 2px;
+    margin-top: 1px;
   }
 
   .hishab-list-arrow {
@@ -470,12 +496,15 @@
 
   @media (max-width: 991px) {
     .page-content {
-      padding-bottom: 120px !important;
+      padding-bottom: 85px !important;
     }
   }
 
-  /* Dashboard Table Card styling for Mobile & Tablet */
+  /* Dashboard Table Card styling for Mobile & Tablet - 10px Padding, Margin 0 */
   .dashboard-table-card {
+    padding: 10px 12px !important;
+    border-radius: 14px !important;
+    margin-bottom: 0 !important;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   .dashboard-table-card:hover {
@@ -484,17 +513,15 @@
   }
 
   /* Dark mode overrides */
-  body[light-mode="dark"] .hishab-grid-card-overlap,
+  body[light-mode="dark"] .card-svg-shape,
+  body[data-layout-mode="dark"] .card-svg-shape {
+    fill: #1e293b !important;
+  }
+
   body[light-mode="dark"] .hishab-list-card,
-  body[data-layout-mode="dark"] .hishab-grid-card-overlap,
   body[data-layout-mode="dark"] .hishab-list-card {
     background: #1e293b !important;
     border-color: rgba(255, 255, 255, 0.08) !important;
-  }
-
-  body[light-mode="dark"] .notch-mask,
-  body[data-layout-mode="dark"] .notch-mask {
-    fill: #0f172a !important;
   }
 
   body[light-mode="dark"] .dashboard-table-card,
@@ -545,14 +572,14 @@
     <div class="container-fluid px-0">
 
       <!-- DASHBOARD DATE FILTER BAR -->
-      <div class="card border-0 shadow-sm rounded-4 mb-3" style="background: #ffffff;">
-        <div class="card-body p-2 p-sm-3">
-          <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center justify-content-between gap-2">
+      <div class="card border-0 shadow-sm rounded-4 mb-3" style="background: #ffffff; overflow: visible;">
+        <div class="card-body p-2 p-sm-3" style="overflow: visible;">
+          <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center justify-content-between gap-2" style="min-width: 0; max-width: 100%;">
             
             <!-- Preset Filter Pills (Scrollable on Mobile) -->
             <div class="filter-pills-wrapper">
               <span class="fw-bold text-dark me-1 flex-shrink-0" style="font-size: 13px;">
-                <i class="fa-solid fa-calendar-days text-success me-1"></i> ফিল্টার:
+                <i class="fa-solid fa-sliders me-1" style="color: #8C56D4; font-size: 13px;"></i> ফিল্টার:
               </span>
               <button type="button" class="btn btn-sm dashboard-filter-btn active" id="btnFilterToday" onclick="setDashboardFilter('today')">আজ (Today)</button>
               <button type="button" class="btn btn-sm dashboard-filter-btn" id="btnFilter7days" onclick="setDashboardFilter('7days')">গত ৭ দিন</button>
@@ -570,7 +597,7 @@
                 <span class="small text-muted fw-bold flex-shrink-0">শেষ:</span>
                 <input type="date" id="dashEndDate" class="form-control form-control-sm rounded-3 shadow-none border" style="width: 140px;" value="{{ date('Y-m-d') }}">
               </div>
-              <button type="button" class="btn btn-sm btn-success rounded-3 fw-bold px-3 py-1 flex-shrink-0" onclick="applyCustomDateFilter()">
+              <button type="button" class="btn btn-sm rounded-3 fw-bold px-3 py-1 flex-shrink-0 text-white" style="background: #8C56D4;" onclick="applyCustomDateFilter()">
                 <i class="fa-solid fa-magnifying-glass me-1"></i> সার্চ
               </button>
             </div>
@@ -584,8 +611,8 @@
         
         <!-- SECTION 1: SPLIT HERO CASH CARD ("হাতে আছে | ব্যাংকে আছে") -->
         <div class="hero-balance-card">
-          <!-- Top Split Row: হাতে আছে | ব্যাংকে আছে -->
-          <div class="d-flex align-items-center justify-content-between text-center pb-3 mb-3 border-bottom border-white-20">
+          <!-- Top Split Row: হাতে আছে | ব্যাংকে আছে with Top-Right Security Eye Button -->
+          <div class="d-flex align-items-center justify-content-between text-center pb-3 mb-3 border-bottom border-white-20 position-relative">
             <div class="flex-fill pe-2 border-end border-white-20">
               <span class="hero-balance-label d-block mb-1">হাতে আছে</span>
               <div class="hero-balance-amount mb-0" id="hishabCashInHand">৳ ০.০০</div>
@@ -593,10 +620,14 @@
             <div class="flex-fill ps-2">
               <div class="d-flex align-items-center justify-content-center gap-1">
                 <span class="hero-balance-label mb-1">ব্যাংকে আছে</span>
-                <i class="fa-regular fa-eye text-white-50 small" style="font-size: 11px;" title="ব্যালেন্স হাইড/শো"></i>
               </div>
               <div class="hero-balance-amount mb-0" id="hishabBankBalance">৳ ০.০০</div>
             </div>
+
+            <!-- Top-Right Security Eye Toggle Button (Mask/Unmask All Dashboard Amounts with *) -->
+            <button type="button" class="btn p-0 text-white position-absolute" id="btnToggleAmounts" onclick="toggleDashboardAmounts()" style="top: -6px; right: 0; opacity: 0.9; z-index: 10; font-size: 18px; border: none; background: transparent; cursor: pointer;" title="টাকার অংক লুকান / দেখান">
+              <i class="fa-regular fa-eye" id="toggleAmountsIcon"></i>
+            </button>
           </div>
 
           <!-- Subcards: নগদ প্রাপ্তি & নগদ প্রদান -->
@@ -635,25 +666,26 @@
           </defs>
         </svg>
 
-        <!-- SECTION 2: 2x2 PRIMARY METRICS GRID WITH SCOOPED NOTCH ICON BADGES (EXACT TO IMAGE 2) -->
-        <div class="row g-3 mb-4 pt-2">
+        <!-- SECTION 2: 2x2 PRIMARY METRICS GRID WITH EXACT IMAGE 2 SCOOPED BORDER & BADGES -->
+        <div class="row g-3 mb-3 pt-2">
           <!-- Card 1: মোট পাওনা -->
           <div class="col-6 col-md-3">
             <a href="/admin-dashboard-customer-due-list" class="text-decoration-none">
               <div class="hishab-grid-card-overlap card-due-border">
-                <svg class="card-notch-svg" viewBox="0 0 54 22" fill="none">
-                  <path class="notch-mask" d="M 0,0 L 54,0 L 54,2 C 43,2 40,21 27,21 C 14,21 11,2 0,2 Z" />
-                  <path class="notch-curve" d="M 0,2 C 11,2 14,21 27,21 C 40,21 43,2 54,2" stroke-width="1.8" />
-                </svg>
+                <svg class="hishab-card-bg-svg" preserveAspectRatio="none" viewBox="0 0 100 65" fill="none">
+  <path d="M 0,8 C 0,3.5 3.5,0 8,0 L 13,0 C 16.5,0 18,12.5 25,12.5 C 32,12.5 33.5,0 37,0 L 92,0 C 96.5,0 100,3.5 100,8 L 100,52.5 C 100,58.75 93.75,65 87.5,65 L 12.5,65 C 6.25,65 0,58.75 0,52.5 Z" class="card-svg-shape" />
+</svg>
                 <div class="hishab-icon-overlap-badge icon-due shadow-sm">
                   <i class="fa-solid fa-receipt"></i>
                 </div>
-                <div class="hishab-card-title mt-2">
-                  <span>মোট পাওনা <i class="fa-solid fa-circle-info text-muted" style="font-size: 11px;" title="কাস্টমারদের বকেয়া"></i></span>
-                </div>
-                <div class="hishab-card-val text-dark fs-6 mt-2">
-                  <span id="hishabCustomerDue" class="fw-bold">৳ ০.০০</span>
-                  <i class="fa-solid fa-arrow-right" style="color: #8C56D4; font-size: 15px;"></i>
+                <div class="hishab-card-content">
+                  <div class="hishab-card-title">
+                    <span>মোট পাওনা <i class="fa-solid fa-circle-info text-muted" style="font-size: 11px;" title="কাস্টমারদের বকেয়া"></i></span>
+                  </div>
+                  <div class="hishab-card-val text-dark fs-6 mt-1">
+                    <span id="hishabCustomerDue" class="fw-bold">৳ ০.০০</span>
+                    <i class="fa-solid fa-arrow-right" style="color: #8C56D4; font-size: 15px;"></i>
+                  </div>
                 </div>
               </div>
             </a>
@@ -663,19 +695,20 @@
           <div class="col-6 col-md-3">
             <a href="/supplier-due-page" class="text-decoration-none">
               <div class="hishab-grid-card-overlap card-payable-border">
-                <svg class="card-notch-svg" viewBox="0 0 54 22" fill="none">
-                  <path class="notch-mask" d="M 0,0 L 54,0 L 54,2 C 43,2 40,21 27,21 C 14,21 11,2 0,2 Z" />
-                  <path class="notch-curve" d="M 0,2 C 11,2 14,21 27,21 C 40,21 43,2 54,2" stroke-width="1.8" />
-                </svg>
+                <svg class="hishab-card-bg-svg" preserveAspectRatio="none" viewBox="0 0 100 65" fill="none">
+  <path d="M 0,8 C 0,3.5 3.5,0 8,0 L 13,0 C 16.5,0 18,12.5 25,12.5 C 32,12.5 33.5,0 37,0 L 92,0 C 96.5,0 100,3.5 100,8 L 100,52.5 C 100,58.75 93.75,65 87.5,65 L 12.5,65 C 6.25,65 0,58.75 0,52.5 Z" class="card-svg-shape" />
+</svg>
                 <div class="hishab-icon-overlap-badge icon-payable shadow-sm">
                   <i class="fa-solid fa-hand-holding-dollar"></i>
                 </div>
-                <div class="hishab-card-title mt-2">
-                  <span>মোট দেনা <i class="fa-solid fa-circle-info text-muted" style="font-size: 11px;" title="সাপ্লায়ারদের দেনা"></i></span>
-                </div>
-                <div class="hishab-card-val text-dark fs-6 mt-2">
-                  <span id="hishabSupplierPayable" class="fw-bold">৳ ০.০০</span>
-                  <i class="fa-solid fa-arrow-right" style="color: #8C56D4; font-size: 15px;"></i>
+                <div class="hishab-card-content">
+                  <div class="hishab-card-title">
+                    <span>মোট দেনা <i class="fa-solid fa-circle-info text-muted" style="font-size: 11px;" title="সাপ্লায়ারদের দেনা"></i></span>
+                  </div>
+                  <div class="hishab-card-val text-dark fs-6 mt-1">
+                    <span id="hishabSupplierPayable" class="fw-bold">৳ ০.০০</span>
+                    <i class="fa-solid fa-arrow-right" style="color: #8C56D4; font-size: 15px;"></i>
+                  </div>
                 </div>
               </div>
             </a>
@@ -685,19 +718,20 @@
           <div class="col-6 col-md-3">
             <a href="/admin-dashboard-product" class="text-decoration-none">
               <div class="hishab-grid-card-overlap card-product-border">
-                <svg class="card-notch-svg" viewBox="0 0 54 22" fill="none">
-                  <path class="notch-mask" d="M 0,0 L 54,0 L 54,2 C 43,2 40,21 27,21 C 14,21 11,2 0,2 Z" />
-                  <path class="notch-curve" d="M 0,2 C 11,2 14,21 27,21 C 40,21 43,2 54,2" stroke-width="1.8" />
-                </svg>
+                <svg class="hishab-card-bg-svg" preserveAspectRatio="none" viewBox="0 0 100 65" fill="none">
+  <path d="M 0,8 C 0,3.5 3.5,0 8,0 L 13,0 C 16.5,0 18,12.5 25,12.5 C 32,12.5 33.5,0 37,0 L 92,0 C 96.5,0 100,3.5 100,8 L 100,52.5 C 100,58.75 93.75,65 87.5,65 L 12.5,65 C 6.25,65 0,58.75 0,52.5 Z" class="card-svg-shape" />
+</svg>
                 <div class="hishab-icon-overlap-badge icon-product shadow-sm">
                   <i class="fa-solid fa-box-archive"></i>
                 </div>
-                <div class="hishab-card-title mt-2">
-                  <span>পণ্য</span>
-                </div>
-                <div class="hishab-card-val text-dark fs-6 mt-2">
-                  <span id="hishabTotalProducts" class="fw-bold">০</span>
-                  <i class="fa-solid fa-arrow-right" style="color: #8C56D4; font-size: 15px;"></i>
+                <div class="hishab-card-content">
+                  <div class="hishab-card-title">
+                    <span>পণ্য</span>
+                  </div>
+                  <div class="hishab-card-val text-dark fs-6 mt-1">
+                    <span id="hishabTotalProducts" class="fw-bold">০</span>
+                    <i class="fa-solid fa-arrow-right" style="color: #8C56D4; font-size: 15px;"></i>
+                  </div>
                 </div>
               </div>
             </a>
@@ -707,19 +741,20 @@
           <div class="col-6 col-md-3">
             <a href="/admin-dashboard-customer" class="text-decoration-none">
               <div class="hishab-grid-card-overlap card-party-border">
-                <svg class="card-notch-svg" viewBox="0 0 54 22" fill="none">
-                  <path class="notch-mask" d="M 0,0 L 54,0 L 54,2 C 43,2 40,21 27,21 C 14,21 11,2 0,2 Z" />
-                  <path class="notch-curve" d="M 0,2 C 11,2 14,21 27,21 C 40,21 43,2 54,2" stroke-width="1.8" />
-                </svg>
+                <svg class="hishab-card-bg-svg" preserveAspectRatio="none" viewBox="0 0 100 65" fill="none">
+  <path d="M 0,8 C 0,3.5 3.5,0 8,0 L 13,0 C 16.5,0 18,12.5 25,12.5 C 32,12.5 33.5,0 37,0 L 92,0 C 96.5,0 100,3.5 100,8 L 100,52.5 C 100,58.75 93.75,65 87.5,65 L 12.5,65 C 6.25,65 0,58.75 0,52.5 Z" class="card-svg-shape" />
+</svg>
                 <div class="hishab-icon-overlap-badge icon-party shadow-sm">
                   <i class="fa-solid fa-users"></i>
                 </div>
-                <div class="hishab-card-title mt-2">
-                  <span>পার্টি</span>
-                </div>
-                <div class="hishab-card-val text-dark fs-6 mt-2">
-                  <span id="hishabTotalParties" class="fw-bold">০</span>
-                  <i class="fa-solid fa-arrow-right" style="color: #8C56D4; font-size: 15px;"></i>
+                <div class="hishab-card-content">
+                  <div class="hishab-card-title">
+                    <span>পার্টি</span>
+                  </div>
+                  <div class="hishab-card-val text-dark fs-6 mt-1">
+                    <span id="hishabTotalParties" class="fw-bold">০</span>
+                    <i class="fa-solid fa-arrow-right" style="color: #8C56D4; font-size: 15px;"></i>
+                  </div>
                 </div>
               </div>
             </a>
@@ -791,18 +826,18 @@
         </div>
 
         <!-- SECTION 4: GRAPHICAL ANALYTICS CHARTS -->
-        <div class="row g-4 mb-4">
+        <div class="row g-3 mb-3">
           <!-- Sales vs Net Profit Trend Chart -->
           <div class="col-lg-8">
             <div class="card border-0 shadow-sm h-100" style="border-radius: 20px;">
               <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
                 <div>
                   <h5 class="fw-bold text-dark mb-0 fs-6">
-                    <i class="fa-solid fa-chart-area text-success me-2"></i> বিক্রয় ও লাভের গ্রাফ (১৫ দিনের ট্রেন্ড)
+                    <i class="fa-solid fa-chart-area me-2" style="color: #8C56D4;"></i> বিক্রয় ও লাভের গ্রাফ (১৫ দিনের ট্রেন্ড)
                   </h5>
                   <small class="text-muted">দৈনিক বিক্রি ও নিট লাভের রিয়েল-টাইম ওভারভিউ</small>
                 </div>
-                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 fw-bold rounded-pill">
+                <span class="badge px-3 py-1 fw-bold rounded-pill" style="background: #F3ECFB; color: #8C56D4; border: 1px solid #E5D5F7;">
                   Live
                 </span>
               </div>
@@ -829,7 +864,7 @@
         </div>
 
         <!-- SECTION 5: TABLES SECTION (Desktop Table >= 992px, Mobile & Tablet Box Cards < 992px) -->
-        <div class="row g-4 mb-4">
+        <div class="row g-3 mb-3">
           <!-- Low Stock Alerts Table -->
           <div class="col-lg-6">
             <div class="card border-0 shadow-sm h-100" style="border-radius: 20px;">
@@ -858,8 +893,8 @@
                 </div>
 
                 <!-- Mobile & Tablet Responsive Box Cards (< 992px) - 1 per row on Mobile, 2 per row on Tab -->
-                <div class="d-lg-none p-2 p-sm-3">
-                  <div class="row g-2.5" id="lowStockMobileList">
+                <div class="d-lg-none" style="padding: 10px !important;">
+                  <div class="row g-2" id="lowStockMobileList">
                     <div class="col-12 text-center py-4 text-muted">স্টক লোড হচ্ছে...</div>
                   </div>
                 </div>
@@ -895,8 +930,8 @@
                 </div>
 
                 <!-- Mobile & Tablet Responsive Box Cards (< 992px) - 1 per row on Mobile, 2 per row on Tab -->
-                <div class="d-lg-none p-2 p-sm-3">
-                  <div class="row g-2.5" id="recentSalesMobileList">
+                <div class="d-lg-none" style="padding: 10px !important;">
+                  <div class="row g-2" id="recentSalesMobileList">
                     <div class="col-12 text-center py-4 text-muted">সাম্প্রতিক বিক্রি লোড হচ্ছে...</div>
                   </div>
                 </div>
@@ -932,8 +967,8 @@
       </div>
 
       <!-- Footer copyright -->
-      <div class="text-center text-muted py-3 border-top mt-4" style="font-size: 13px;">
-        &copy; {{ date('Y') }} মেসার্স আনিস ষ্টোর | Software By: <a href="https://www.codenextit.com" target="_blank" class="text-success fw-bold text-decoration-none">CodeNext IT</a>
+      <div class="text-center text-muted py-3 border-top mt-3" style="font-size: 13px;">
+        &copy; {{ date('Y') }} মেসার্স আনিস ষ্টোর | Software By: <a href="https://www.codenextit.com" target="_blank" class="fw-bold text-decoration-none" style="color: #8C56D4;">CodeNext IT</a>
       </div>
 
     </div>
@@ -1153,8 +1188,53 @@
   let salesProfitChartInstance = null;
   let financialDonutChartInstance = null;
   let activeFilterType = 'today';
+  window.isAmountsMasked = (localStorage.getItem('hishab_amounts_masked') === 'true');
+  window.rawDashboardAmounts = {};
+
+  function updateDashboardAmount(elemId, actualValue) {
+    const elem = document.getElementById(elemId);
+    if (!elem) return;
+    window.rawDashboardAmounts[elemId] = actualValue;
+    if (window.isAmountsMasked) {
+      elem.innerText = (String(actualValue).includes('৳') ? '৳ ••••••' : '••••');
+    } else {
+      elem.innerText = actualValue;
+    }
+  }
+
+  function toggleDashboardAmounts() {
+    window.isAmountsMasked = !window.isAmountsMasked;
+    localStorage.setItem('hishab_amounts_masked', window.isAmountsMasked);
+    
+    const icon = document.getElementById('toggleAmountsIcon');
+    if (icon) {
+      icon.className = window.isAmountsMasked ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye';
+    }
+    
+    const targetIds = [
+      'hishabCashInHand', 'hishabBankBalance', 'hishabCashIn', 'hishabCashOut',
+      'hishabCustomerDue', 'hishabSupplierPayable', 'hishabTotalProducts', 'hishabTotalParties',
+      'hishabTotalExpense', 'hishabStockItems', 'hishabStockValue'
+    ];
+    
+    targetIds.forEach(id => {
+      const elem = document.getElementById(id);
+      if (!elem) return;
+      const raw = window.rawDashboardAmounts[id] || elem.innerText;
+      window.rawDashboardAmounts[id] = raw;
+      if (window.isAmountsMasked) {
+        elem.innerText = (String(raw).includes('৳') ? '৳ ••••••' : '••••');
+      } else {
+        elem.innerText = raw;
+      }
+    });
+  }
 
   document.addEventListener("DOMContentLoaded", async () => {
+    if (window.isAmountsMasked) {
+      const icon = document.getElementById('toggleAmountsIcon');
+      if (icon) icon.className = 'fa-regular fa-eye-slash';
+    }
     loadDashboardData();
   });
 
@@ -1216,27 +1296,27 @@
           document.getElementById('adminOnlyFinancialSections').style.display = isAdmin ? 'block' : 'none';
         }
 
-        // --- 1. Populate HishabPati Main Cards ---
+        // --- 1. Populate HishabPati Main Cards (Maskable) ---
         const cashInHand = (financial.cash_in_hand !== undefined) ? financial.cash_in_hand : Math.max(0, (today.cash_collection || 0) - (today.expense || 0));
-        document.getElementById('hishabCashInHand').innerText = formatBanglaAmount(cashInHand);
+        updateDashboardAmount('hishabCashInHand', formatBanglaAmount(cashInHand));
         if (document.getElementById('hishabBankBalance')) {
-          document.getElementById('hishabBankBalance').innerText = formatBanglaAmount(financial.bank_balance || 0);
+          updateDashboardAmount('hishabBankBalance', formatBanglaAmount(financial.bank_balance || 0));
         }
-        document.getElementById('hishabCashIn').innerText = formatBanglaAmount(today.cash_collection || 0);
-        document.getElementById('hishabCashOut').innerText = formatBanglaAmount(today.cash_outflow || today.expense || 0);
+        updateDashboardAmount('hishabCashIn', formatBanglaAmount(today.cash_collection || 0));
+        updateDashboardAmount('hishabCashOut', formatBanglaAmount(today.cash_outflow || today.expense || 0));
 
-        // --- 2. Populate 2x2 Metric Grid ---
-        document.getElementById('hishabCustomerDue').innerText = formatBanglaAmount(financial.customer_due || 0);
-        document.getElementById('hishabSupplierPayable').innerText = formatBanglaAmount(financial.supplier_payable || 0);
-        document.getElementById('hishabTotalProducts').innerText = engToBanglaNum(financial.total_products || 0);
+        // --- 2. Populate 2x2 Metric Grid (Maskable) ---
+        updateDashboardAmount('hishabCustomerDue', formatBanglaAmount(financial.customer_due || 0));
+        updateDashboardAmount('hishabSupplierPayable', formatBanglaAmount(financial.supplier_payable || 0));
+        updateDashboardAmount('hishabTotalProducts', engToBanglaNum(financial.total_products || 0));
         
         const totalParties = financial.total_customers || 0;
-        document.getElementById('hishabTotalParties').innerText = engToBanglaNum(totalParties);
+        updateDashboardAmount('hishabTotalParties', engToBanglaNum(totalParties));
 
-        // --- 3. Populate Secondary Detailed List Cards ---
-        document.getElementById('hishabTotalExpense').innerText = formatBanglaAmount(financial.total_expense || monthly.expense || today.expense || 0);
-        document.getElementById('hishabStockItems').innerText = engToBanglaNum(financial.total_stock_qty || financial.total_products || 0);
-        document.getElementById('hishabStockValue').innerText = formatBanglaAmount(financial.cost_stock_value || 0);
+        // --- 3. Populate Secondary Detailed List Cards (Maskable) ---
+        updateDashboardAmount('hishabTotalExpense', formatBanglaAmount(financial.total_expense || monthly.expense || today.expense || 0));
+        updateDashboardAmount('hishabStockItems', engToBanglaNum(financial.total_stock_qty || financial.total_products || 0));
+        updateDashboardAmount('hishabStockValue', formatBanglaAmount(financial.cost_stock_value || 0));
 
         // Populate Low Stock Badge Count in Header
         const notiBadge = document.getElementById('hishabNotiBadge');
@@ -1275,15 +1355,16 @@
           if (lowStockMobileList) lowStockMobileList.innerHTML = '';
           const lowStockList = data.low_stock_products || [];
           if (lowStockList.length === 0) {
-            if (lowStockTbody) lowStockTbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-success fw-bold"><i class="fa-solid fa-circle-check me-1"></i> সকল প্রোডাক্টের পর্যাপ্ত স্টক রয়েছে!</td></tr>`;
-            if (lowStockMobileList) lowStockMobileList.innerHTML = `<div class="col-12 text-center py-4 text-success fw-bold"><i class="fa-solid fa-circle-check me-1"></i> সকল প্রোডাক্টের পর্যাপ্ত স্টক রয়েছে!</div>`;
+            if (lowStockTbody) lowStockTbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 fw-bold" style="color: #8C56D4;"><i class="fa-solid fa-circle-check me-1"></i> সকল প্রোডাক্টের পর্যাপ্ত স্টক রয়েছে!</td></tr>`;
+            if (lowStockMobileList) lowStockMobileList.innerHTML = `<div class="col-12 text-center py-4 fw-bold" style="color: #8C56D4;"><i class="fa-solid fa-circle-check me-1"></i> সকল প্রোডাক্টের পর্যাপ্ত স্টক রয়েছে!</div>`;
           } else {
             lowStockList.forEach(item => {
-              let code = item.product_code || 'N/A';
-              if (Array.isArray(code)) code = code[0] || 'N/A';
+              let code = item.product_code || item.code || item.category || 'স্টক কম';
+              if (Array.isArray(code)) code = code[0] || 'স্টক কম';
               else if (typeof code === 'string' && code.startsWith('[')) {
                 try { code = JSON.parse(code)[0]; } catch(e){}
               }
+              if (!code || code === 'undefined') code = 'স্টক কম';
 
               // Desktop table row
               if (lowStockTbody) {
@@ -1293,7 +1374,7 @@
                     <td class="text-center"><span class="badge bg-light text-dark border font-monospace">${code}</span></td>
                     <td class="text-center"><span class="badge bg-danger px-2 py-1 fw-bold">${engToBanglaNum(item.quantity)} ${item.unit || 'টি'}</span></td>
                     <td class="text-end pe-4">
-                      <a href="/admin-dashboard-Purchase" class="btn btn-sm btn-outline-success rounded-pill px-2 py-1" title="ক্রয় করুন">
+                      <a href="/admin-dashboard-Purchase" class="btn btn-sm btn-outline-primary rounded-pill px-2 py-1" title="ক্রয় করুন">
                         <i class="fa-solid fa-cart-plus me-1"></i> কিনুন
                       </a>
                     </td>
@@ -1306,11 +1387,11 @@
               if (lowStockMobileList) {
                 const card = `
                   <div class="col-12 col-md-6 mb-2">
-                    <div class="dashboard-table-card card border shadow-sm rounded-4 p-3 position-relative" style="border: 1.5px solid #FECACA !important; background: #ffffff;">
+                    <div class="dashboard-table-card card border shadow-sm rounded-4 position-relative" style="padding: 10px 12px !important; border: 1.5px solid #FECACA !important; background: #ffffff;">
                       <div class="d-flex align-items-center justify-content-between pb-2 mb-2 border-bottom">
                         <div class="d-flex align-items-center gap-1.5 text-truncate pe-2">
                           <i class="fa-solid fa-box-open text-danger" style="font-size: 15px;"></i>
-                          <h6 class="fw-bold text-dark mb-0 text-truncate" style="font-size: 14.5px;">${item.product_name}</h6>
+                          <h6 class="fw-bold text-dark mb-0 text-truncate" style="font-size: 14px;">${item.product_name}</h6>
                         </div>
                         <span class="badge bg-light text-dark border font-monospace" style="font-size: 11px;">${code}</span>
                       </div>
@@ -1346,14 +1427,14 @@
             if (recentSalesMobileList) recentSalesMobileList.innerHTML = `<div class="col-12 text-center py-4 text-muted">কোনো সাম্প্রতিক বিক্রি পাওয়া যায়নি</div>`;
           } else {
             recentList.forEach(inv => {
-              let statusBadge = inv.due_amount <= 0 ? '<span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 fw-bold">পরিশোধিত</span>' :
+              let statusBadge = inv.due_amount <= 0 ? '<span class="badge px-2 py-1 fw-bold" style="background: #F3ECFB; color: #8C56D4; border: 1px solid #E5D5F7;">পরিশোধিত</span>' :
                                 (inv.paid_amount > 0 ? '<span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 fw-bold">আংশিক</span>' : '<span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 fw-bold">বকেয়া</span>');
 
               // Desktop table row
               if (recentSalesTbody) {
                 const row = `
                   <tr>
-                    <td class="ps-4"><a href="/invoice/${inv.id}" class="fw-bold text-success text-decoration-none">${inv.order_no}</a></td>
+                    <td class="ps-4"><a href="/invoice/${inv.id}" class="fw-bold text-decoration-none" style="color: #8C56D4 !important;">${inv.order_no}</a></td>
                     <td class="fw-semibold text-dark">${inv.customer_name}</td>
                     <td class="text-end fw-bold text-dark">${formatBanglaAmount(inv.grand_subtotal)}</td>
                     <td class="text-center pe-4">${statusBadge}</td>
@@ -1366,7 +1447,7 @@
               if (recentSalesMobileList) {
                 const card = `
                   <div class="col-12 col-md-6 mb-2">
-                    <div class="dashboard-table-card card border shadow-sm rounded-4 p-3 position-relative" style="border: 1.5px solid #E5D5F7 !important; background: #ffffff; cursor: pointer;" onclick="window.location.href='/invoice/${inv.id}'">
+                    <div class="dashboard-table-card card border shadow-sm rounded-4 position-relative" style="padding: 10px 12px !important; border: 1.5px solid #E5D5F7 !important; background: #ffffff; cursor: pointer;" onclick="window.location.href='/invoice/${inv.id}'">
                       <div class="d-flex align-items-center justify-content-between pb-2 mb-2 border-bottom">
                         <span class="badge bg-light text-dark border fw-bold" style="font-size: 12px;">
                           <i class="fa-solid fa-file-invoice me-1 text-primary" style="color: #8C56D4 !important;"></i>${inv.order_no}
@@ -1376,13 +1457,13 @@
                       <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="d-flex align-items-center gap-1.5 text-truncate">
                           <i class="fa-solid fa-user-circle" style="color: #8C56D4; font-size: 14px;"></i>
-                          <span class="fw-bold text-dark text-truncate" style="font-size: 14.5px;">${inv.customer_name || 'সাধারণ কাস্টমার'}</span>
+                          <span class="fw-bold text-dark text-truncate" style="font-size: 14px;">${inv.customer_name || 'সাধারণ কাস্টমার'}</span>
                         </div>
                       </div>
                       <div class="d-flex align-items-center justify-content-between pt-2 border-top">
                         <div>
                           <span class="d-block text-muted small fw-semibold" style="font-size: 11px;">মোট বিল</span>
-                          <span class="fw-bold text-dark" style="font-size: 17.5px; font-weight: 800;">${formatBanglaAmount(inv.grand_subtotal)}</span>
+                          <span class="fw-bold text-dark" style="font-size: 16.5px; font-weight: 800;">${formatBanglaAmount(inv.grand_subtotal)}</span>
                         </div>
                         <a href="/invoice/${inv.id}" class="btn btn-sm rounded-pill px-3 py-1 fw-bold" style="background: #F3ECFB; color: #8C56D4; font-size: 12px;" onclick="event.stopPropagation();">
                           রসিদ <i class="fa-solid fa-arrow-right ms-1"></i>
