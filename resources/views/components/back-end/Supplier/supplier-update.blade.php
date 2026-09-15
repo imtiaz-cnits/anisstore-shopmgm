@@ -5,7 +5,7 @@
         left: 0 !important;
         width: 100% !important;
         height: 100% !important;
-        z-index: 999999 !important;
+        z-index: 107000 !important;
         background: rgba(15, 23, 42, 0.65) !important;
         backdrop-filter: blur(8px) !important;
         -webkit-backdrop-filter: blur(8px) !important;
@@ -20,102 +20,214 @@
         max-width: 580px !important;
         width: 100% !important;
         border-radius: 20px !important;
-        padding: 24px !important;
+        padding: 0 !important;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
         position: relative !important;
         top: 0 !important;
         transform: none !important;
         border: 1px solid rgba(226, 232, 240, 0.8) !important;
+        overflow: hidden !important;
     }
 
-    #supplierUpdateModal .btn-close-modal:hover {
-        background-color: #fee2e2 !important;
-        color: #ef4444 !important;
-        transform: rotate(90deg);
+    #supplierUpdateModal .modal-header-purple {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        padding: 14px 18px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        color: #ffffff !important;
+        border-bottom: 1px solid #E5D5F7 !important;
     }
 
-    @media screen and (max-width: 576px) {
+    #supplierUpdateModal .btn-close-red {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        border-radius: 50% !important;
+        width: 32px !important;
+        height: 32px !important;
+        border: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 15px !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+    }
+    #supplierUpdateModal .btn-close-red:hover {
+        background: #dc2626 !important;
+        transform: rotate(90deg) scale(1.05);
+    }
+
+    #supplierUpdateModal .btn-cancel-red {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        border: 1px solid #dc2626 !important;
+        border-radius: 10px !important;
+        font-weight: 700 !important;
+        transition: all 0.2s ease !important;
+    }
+    #supplierUpdateModal .btn-cancel-red:hover {
+        background: #dc2626 !important;
+        color: #ffffff !important;
+    }
+
+    #supplierUpdateModal .form-control:focus,
+    #supplierUpdateModal input:focus,
+    #supplierUpdateModal select:focus {
+        border-color: #8C56D4 !important;
+        box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.15) !important;
+        background: #ffffff !important;
+    }
+
+    .dark-mode #supplierUpdateModal .newbrand-content {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+
+    .dark-mode #supplierUpdateModal .form-control,
+    .dark-mode #supplierUpdateModal select {
+        background: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+
+    .dark-mode #supplierUpdateModal label {
+        color: #e2e8f0 !important;
+    }
+
+    @media screen and (max-width: 991.98px) {
+        #supplierUpdateModal {
+            padding: 0 !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: flex-end !important;
+            align-items: center !important;
+            overflow: hidden !important;
+        }
+
         #supplierUpdateModal .newbrand-content {
-            padding: 18px !important;
-            margin: 10px auto !important;
-            border-radius: 16px !important;
+            position: fixed !important;
+            top: auto !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            max-height: 85vh !important;
+            max-height: 85dvh !important;
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+            border-top-left-radius: 24px !important;
+            border-top-right-radius: 24px !important;
+            box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.35) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+            animation: slideUpSupplierModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
+        @keyframes slideUpSupplierModal {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        #supplierUpdateModal .modal-body-scroll {
+            flex: 1 1 auto !important;
+            max-height: calc(85vh - 60px) !important;
+            max-height: calc(85dvh - 60px) !important;
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch;
+            padding: 14px 16px 20px 16px !important;
         }
 
         #supplierUpdateModal .actions-btn-group {
+            display: flex !important;
             flex-direction: row !important;
-            gap: 8px !important;
+            gap: 10px !important;
             width: 100% !important;
+            padding-top: 10px !important;
+            padding-bottom: 6px !important;
         }
 
         #supplierUpdateModal .actions-btn-group button {
             flex: 1 !important;
             width: 50% !important;
-            height: 44px !important;
-            font-size: 13.5px !important;
+            height: 46px !important;
+            font-size: 14px !important;
         }
     }
 </style>
 
 <div class="newbrand" id="supplierUpdateModal" style="display: none;">
     <div class="newbrand-content">
-        <!-- Sleek Header with Close Icon -->
-        <div class="d-flex align-items-center justify-content-between pb-2 mb-3 border-bottom">
-            <h5 class="fw-extrabold text-success m-0 d-flex align-items-center gap-2" style="font-size: 17px; color: #15803d !important;">
+        <!-- Sleek Purple Header with Red Close Button -->
+        <div class="modal-header-purple">
+            <h5 class="fw-bold m-0 d-flex align-items-center gap-2 text-white" style="font-size: 16.5px;">
                 <i class="fa-solid fa-pen-to-square"></i>
-                <span>সাপ্লায়ার এডিট করুন (Update Supplier)</span>
+                <span>সাপ্লায়ার এডিট করুন</span>
             </h5>
-            <button type="button" onclick="closeSupplierUpdateModal()" class="btn-close-modal border-0 bg-light text-secondary rounded-circle d-flex align-items-center justify-content-center shadow-xs" style="width: 36px; height: 36px; cursor: pointer; transition: all 0.2s;" title="বন্ধ করুন">
-                <i class="fa-solid fa-xmark fs-5"></i>
+            <button type="button" onclick="closeSupplierUpdateModal()" class="btn-close-red" title="বন্ধ করুন">
+                <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
-        <div id="popup-modal">
+        <div id="popup-modal" class="modal-body-scroll p-3">
             <form onsubmit="return SupplierDataUpdate(event)" id="supplierUpdateForm">
                 <input class="d-none" id="updateID">
 
                 <div class="row g-2">
                     <div class="col-md-6 col-12">
                         <div class="form-row mb-2">
-                            <label for="UpdatesupplierName" class="fw-bold text-dark mb-1" style="font-size: 13px;">সাপ্লায়ার নাম (Supplier Name) <span class="text-danger">*</span></label>
-                            <input type="text" placeholder="সাপ্লায়ারের নাম লিখুন..." id="UpdatesupplierName" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #f8fafc;" required />
+                            <label for="UpdatesupplierName" class="fw-bold text-dark mb-1" style="font-size: 13px;">সাপ্লায়ারের নাম <span class="text-danger">*</span></label>
+                            <input type="text" placeholder="সাপ্লায়ারের নাম লিখুন..." id="UpdatesupplierName" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" required />
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-row mb-2">
-                            <label for="UpdatesupplierMobile" class="fw-bold text-dark mb-1" style="font-size: 13px;">মোবাইল নম্বর (Supplier Mobile) <span class="text-danger">*</span></label>
-                            <input type="tel" inputmode="tel" maxlength="15" placeholder="০১৭xxxxxxxx (মোবাইল নম্বর)" id="UpdatesupplierMobile" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #f8fafc;" oninput="enforceBanglaNumberInput(this)" required />
+                            <label for="UpdatesupplierMobile" class="fw-bold text-dark mb-1" style="font-size: 13px;">মোবাইল নম্বর <span class="text-danger">*</span></label>
+                            <input type="tel" inputmode="tel" pattern="[0-9]*" maxlength="15" placeholder="০১৭xxxxxxxx" id="UpdatesupplierMobile" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" oninput="enforceBanglaNumberInput(this)" required />
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-row mb-2">
-                            <label for="UpdatesupplierCompany" class="fw-bold text-dark mb-1" style="font-size: 13px;">কোম্পানির নাম (Company Name)</label>
-                            <input type="text" placeholder="কোম্পানির নাম লিখুন..." id="UpdatesupplierCompany" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #f8fafc;" />
+                            <label for="UpdatesupplierCompany" class="fw-bold text-dark mb-1" style="font-size: 13px;">কোম্পানির নাম</label>
+                            <input type="text" placeholder="কোম্পানির নাম লিখুন..." id="UpdatesupplierCompany" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" />
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-row mb-2">
-                            <label for="UpdatesupplierAddress" class="fw-bold text-dark mb-1" style="font-size: 13px;">ঠিকানা (Supplier Address)</label>
-                            <input type="text" placeholder="সাপ্লায়ারের ঠিকানা লিখুন..." id="UpdatesupplierAddress" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #f8fafc;" />
+                            <label for="UpdatesupplierAddress" class="fw-bold text-dark mb-1" style="font-size: 13px;">ঠিকানা</label>
+                            <input type="text" placeholder="সাপ্লায়ারের ঠিকানা লিখুন..." id="UpdatesupplierAddress" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" />
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-row mb-2">
-                            <label for="UpdatesupplierEmail" class="fw-bold text-dark mb-1" style="font-size: 13px;">ইমেইল (Supplier Email)</label>
-                            <input type="email" inputmode="email" placeholder="example@domain.com (ইমেইল)" id="UpdatesupplierEmail" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #f8fafc;" />
+                            <label for="UpdatesupplierEmail" class="fw-bold text-dark mb-1" style="font-size: 13px;">ইমেইল</label>
+                            <input type="email" inputmode="email" placeholder="example@domain.com" id="UpdatesupplierEmail" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" />
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-row mb-2">
-                            <label for="UpdatePurchasePayableAmount" class="fw-bold text-dark mb-1" style="font-size: 13px;">পূর্বের পাওনা (Payable Amount)</label>
-                            <input type="text" inputmode="decimal" placeholder="৳ ০.০০ (পূর্বের পাওনা/বাকি)" id="UpdatePurchasePayableAmount" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #f8fafc;" oninput="enforceBanglaNumberInput(this)" />
+                            <label for="UpdatePurchasePayableAmount" class="fw-bold text-dark mb-1" style="font-size: 13px;">পূর্বের দেনা / বাকি</label>
+                            <input type="text" inputmode="decimal" pattern="[0-9]*" placeholder="৳ ০.০০" id="UpdatePurchasePayableAmount" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" oninput="enforceBanglaNumberInput(this)" />
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-row mb-2">
-                            <label for="UpdateSelectStatus" class="fw-bold text-dark mb-1" style="font-size: 13px;">স্ট্যাটাস (Status)</label>
-                            <select class="form-select fw-bold" id="UpdateSelectStatus" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #f8fafc;">
-                                <option value="Active">সক্রিয় (Active)</option>
-                                <option value="InActive">নিষ্ক্রিয় (Inactive)</option>
+                            <label for="UpdateSelectStatus" class="fw-bold text-dark mb-1" style="font-size: 13px;">স্ট্যাটাস</label>
+                            <select class="form-select fw-bold" id="UpdateSelectStatus" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;">
+                                <option value="Active">সক্রিয়</option>
+                                <option value="InActive">নিষ্ক্রিয়</option>
                             </select>
                         </div>
                     </div>
@@ -123,15 +235,15 @@
                     <!-- Upload Photo -->
                     <div class="col-12 mb-2">
                         <div class="form-row mb-2">
-                            <label class="fw-bold text-dark mb-1" style="font-size: 13px;">সাপ্লায়ার ছবি (Supplier Photo)</label>
+                            <label class="fw-bold text-dark mb-1" style="font-size: 13px;">সাপ্লায়ার ছবি</label>
                             <div class="d-flex align-items-center gap-3 p-2.5 border rounded-3 bg-light" style="width: 100%; border: 1.5px dashed #cbd5e1 !important;">
                                 <div class="bg-white border rounded-3 d-flex align-items-center justify-content-center shadow-xs overflow-hidden position-relative" style="width: 64px; height: 56px; flex-shrink: 0;">
                                     <img id="UpdatesupplierImgPreview" src="" class="d-none w-100 h-100 object-fit-cover" />
-                                    <i id="UpdatesupplierImgIcon" class="fa-regular fa-image fa-2x text-success" style="color: #15803d !important;"></i>
+                                    <i id="UpdatesupplierImgIcon" class="fa-regular fa-image fa-2x" style="color: #8C56D4 !important;"></i>
                                 </div>
                                 <div class="flex-grow-1">
                                     <input type="file" id="UpdatesupplierImage" accept="image/*" class="form-control form-control-sm fw-bold" onchange="previewUpdateSupplierImage(this)" style="border-radius: 8px; border: 1px solid #cbd5e1;" />
-                                    <p class="mb-0 text-muted mt-1" style="font-size: 11px;">PNG, JPEG or GIF (up to 1 MB)</p>
+                                    <p class="mb-0 text-muted mt-1" style="font-size: 11px;">PNG, JPEG অথবা GIF (সর্বোচ্চ ১ MB)</p>
                                 </div>
                             </div>
                         </div>
@@ -140,8 +252,8 @@
                     <!-- Action Buttons -->
                     <div class="col-12 mt-2 pt-2 border-top">
                         <div class="actions d-flex align-items-center justify-content-end gap-2 actions-btn-group">
-                            <button type="button" onclick="closeSupplierUpdateModal()" class="btn btn-outline-secondary px-4 py-2.5 fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px;">বাতিল (Cancel)</button>
-                            <button type="button" onclick="SupplierDataUpdate(event)" class="btn-save btn btn-primary px-4 py-2.5 fw-bold" style="height: 44px; margin: 0; background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); border: none; border-radius: 10px; font-size: 14px; color: #ffffff;">আপডেট করুন</button>
+                            <button type="button" onclick="closeSupplierUpdateModal()" class="btn btn-cancel-red px-4 py-2.5 fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px;">বাতিল</button>
+                            <button type="button" onclick="SupplierDataUpdate(event)" class="btn-save btn btn-primary px-4 py-2.5 fw-bold" style="height: 44px; margin: 0; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); border: none; border-radius: 10px; font-size: 14px; color: #ffffff;">আপডেট করুন</button>
                         </div>
                     </div>
                 </div>
@@ -243,15 +355,31 @@
 
     async function openSupplierUpdateModal(supplierDataOrId) {
         const modal = document.getElementById('supplierUpdateModal');
+        const inputEl = document.getElementById('UpdatesupplierName');
+        if (inputEl) {
+            try { inputEl.focus(); } catch(_) {}
+        }
         if (modal) {
             modal.style.setProperty('display', 'block', 'important');
             modal.style.opacity = '1';
             modal.style.visibility = 'visible';
+            modal.classList.add('show');
+            modal.classList.add('show-modal');
             document.documentElement.style.overflowY = 'hidden';
 
             if (supplierDataOrId) {
                 await FillUpSupplierUpdateForm(supplierDataOrId);
             }
+            if (inputEl) {
+                inputEl.focus();
+                inputEl.click();
+            }
+            setTimeout(() => {
+                if (inputEl) {
+                    inputEl.focus();
+                    inputEl.click();
+                }
+            }, 50);
         }
     }
     window.openSupplierUpdateModal = openSupplierUpdateModal;

@@ -1,76 +1,241 @@
 <style>
-    /* Scoped Fix for Create Product Modal Overlay & Mobile View Responsiveness */
-    #createProduct.financemodal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 999999 !important;
-        background: rgba(15, 23, 42, 0.65);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch;
-        padding: 16px 12px;
-        box-sizing: border-box;
+    /* Scoped Fix for Create Product Modal Overlay & Responsive Layout */
+    #createProduct.modal,
+    #createProduct {
+        z-index: 107000 !important;
+    }
+    #createProduct.modal .modal-dialog {
+        margin: auto !important;
+        width: calc(100% - 40px) !important;
+        max-width: 860px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: calc(100dvh - 60px) !important;
     }
 
-    #createProduct .modal-content {
+    #createProduct.modal .modal-content {
         position: relative !important;
-        top: 0 !important;
-        left: 0 !important;
-        transform: none !important;
-        -webkit-transform: none !important;
-        margin: 20px auto !important;
         width: 100% !important;
-        max-width: 850px !important;
-        border-radius: 20px !important;
+        max-height: calc(100dvh - 60px) !important;
+        border-radius: 16px !important;
         border: 1px solid #cbd5e1 !important;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
         background: #ffffff !important;
-        padding: 24px !important;
+        padding: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
         box-sizing: border-box !important;
     }
 
-    #createProduct .form-control:focus {
-        border-color: #16a34a !important;
-        box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15) !important;
+    #createProduct .modal-header {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        color: #ffffff !important;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        padding: 14px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        flex-shrink: 0;
+    }
+
+    #createProduct .btn-close-custom {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0.85;
+        transition: opacity 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+    }
+    #createProduct .btn-close-custom:hover {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    #createProduct .modal-body {
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        flex: 1 1 auto;
+        min-height: 0;
+        padding: 20px !important;
+        background: #ffffff;
+    }
+
+    #createProduct .form-field-group {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+
+    #createProduct .form-control {
+        height: 42px !important;
+        border-radius: 10px !important;
+        font-size: 14px !important;
+        border: 1.5px solid #cbd5e1 !important;
         background: #ffffff !important;
+        color: #1e293b !important;
+        transition: all 0.2s ease-in-out !important;
+        width: 100% !important;
+    }
+    #createProduct .form-control:focus {
+        border-color: #8C56D4 !important;
+        box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.2) !important;
+        background: #ffffff !important;
+        outline: none !important;
     }
 
-    @media screen and (max-width: 991px) {
-        #createProduct.financemodal {
-            padding: 8px 6px !important;
-        }
+    /* Sticky Footer - Edge-to-Edge with Modal, Zero Outer Gap, Buttons 1 Row Side-by-Side */
+    #createProduct .create-modal-footer {
+        position: sticky;
+        bottom: 0;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+        padding: 12px 20px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 12px !important;
+        flex-shrink: 0;
+        z-index: 10;
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+        box-sizing: border-box !important;
+    }
 
-        #createProduct .modal-content {
-            margin: 5px auto 20px auto !important;
-            width: 98% !important;
-            max-width: 98% !important;
-            padding: 18px 16px !important;
-            border-radius: 18px !important;
-        }
+    #createProduct .create-modal-footer .btn {
+        flex: 1 1 50% !important;
+        width: 50% !important;
+        min-width: 0 !important;
+        height: 44px !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        border-radius: 10px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+    }
 
-        #createProduct .actions-btn-group {
-            display: flex !important;
-            flex-direction: row !important;
-            gap: 8px !important;
+    #createProduct .create-modal-footer .btn-cancel {
+        background-color: #ef4444 !important;
+        border: none !important;
+        color: #ffffff !important;
+    }
+    #createProduct .create-modal-footer .btn-cancel:hover {
+        background-color: #dc2626 !important;
+    }
+
+    #createProduct .create-modal-footer .btn-save {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        border: none !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(140, 86, 212, 0.25) !important;
+    }
+    #createProduct .create-modal-footer .btn-save:hover {
+        opacity: 0.95;
+    }
+
+    /* Mobile View (< 768px): Symmetrical 16px margin at Top & Bottom */
+    @media screen and (max-width: 767.98px) {
+        #createProduct.modal {
+            padding: 16px 12px !important;
+            box-sizing: border-box !important;
+        }
+        #createProduct.modal .modal-dialog {
             width: 100% !important;
+            max-width: 100% !important;
+            margin: 16px auto !important;
+            margin-top: 16px !important;
+            margin-bottom: 16px !important;
+            min-height: auto !important;
+            align-items: flex-start !important;
+        }
+        #createProduct.modal .modal-dialog::before {
+            display: none !important;
+            height: 0 !important;
+            content: none !important;
+        }
+        #createProduct.modal .modal-content {
+            max-height: calc(100dvh - 32px) !important;
+            border-radius: 16px !important;
         }
 
-        #createProduct .actions-btn-group button {
-            flex: 1 !important;
-            width: 50% !important;
-            height: 42px !important;
-            font-size: 13.5px !important;
+        /* Keyboard Open State */
+        #createProduct.modal.keyboard-open {
+            padding-top: 72px !important;
+            padding-bottom: 16px !important;
+        }
+        #createProduct.modal.keyboard-open .modal-dialog {
+            margin-top: 0 !important;
+            margin-bottom: 16px !important;
+            align-items: flex-start !important;
+            min-height: calc(100dvh - 88px) !important;
+        }
+        #createProduct.modal.keyboard-open .modal-content {
+            max-height: calc(100dvh - 88px) !important;
+        }
+
+        #createProduct .create-modal-footer {
+            padding: 12px 16px !important;
+            gap: 10px !important;
         }
     }
 
-    .financemodal .modal-content .col-lg-6,
-    .financemodal .modal-content .col-lg-4 {
-        padding: 0 6px !important;
+    /* Dark Mode Support */
+    body[light-mode="dark"] #createProduct .modal-content,
+    body[data-layout-mode="dark"] #createProduct .modal-content,
+    body.dark-mode #createProduct .modal-content {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] #createProduct .modal-body,
+    body[data-layout-mode="dark"] #createProduct .modal-body,
+    body.dark-mode #createProduct .modal-body {
+        background-color: #1e293b !important;
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] #createProduct .create-modal-footer,
+    body[data-layout-mode="dark"] #createProduct .create-modal-footer,
+    body.dark-mode #createProduct .create-modal-footer {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] #createProduct .form-control,
+    body[data-layout-mode="dark"] #createProduct .form-control,
+    body.dark-mode #createProduct .form-control {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] #createProduct label,
+    body[data-layout-mode="dark"] #createProduct label,
+    body.dark-mode #createProduct label {
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] #createProduct .upload-profile,
+    body[data-layout-mode="dark"] #createProduct .upload-profile,
+    body.dark-mode #createProduct .upload-profile {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] #createProduct #createProductImgPreviewBox,
+    body[data-layout-mode="dark"] #createProduct #createProductImgPreviewBox,
+    body.dark-mode #createProduct #createProductImgPreviewBox {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
     }
 
     .newbrand .upload-profile .item,
@@ -182,142 +347,116 @@
     <div class="page-content">
 
         <!-- Create Product Modal Start -->
-        <section id="createProduct" class="financemodal">
-            <div class="modal-content">
-                <!-- Sleek Header with Close Icon -->
-                <div class="d-flex align-items-center justify-content-between pb-2 mb-3 border-bottom">
-                    <h5 class="fw-extrabold text-success m-0 d-flex align-items-center gap-2" style="font-size: 17px;">
-                        <i class="fa-solid fa-box-open"></i>
-                        <span>নতুন প্রোডাক্ট তৈরি করুন</span>
-                    </h5>
-                    <button type="button" onclick="closePosAddProductModal()" class="btn-close-modal border-0 bg-light text-secondary rounded-circle d-flex align-items-center justify-content-center shadow-xs" style="width: 36px; height: 36px; cursor: pointer; transition: all 0.2s;" title="বন্ধ করুন">
-                        <i class="fa-solid fa-xmark fs-5"></i>
-                    </button>
-                </div>
+        <section class="modal fade" id="createProduct" tabindex="-1" aria-labelledby="createProductModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- Sleek Purple Header with Close Icon -->
+                    <div class="modal-header d-flex align-items-center justify-content-between">
+                        <h5 class="modal-title fw-bold text-white d-flex align-items-center gap-2 m-0" id="createProductModalLabel" style="font-size: 16px;">
+                            <i class="fa-solid fa-box-open"></i>
+                            <span>নতুন প্রোডাক্ট তৈরি করুন</span>
+                        </h5>
+                        <button type="button" onclick="closePosAddProductModal()" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close" title="বন্ধ করুন">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
 
-                <div id="popup-modal">
-                    <form onsubmit="return Save(event)" id="signup">
-                        <!-- Select Dropdowns with Add Buttons (Hidden per user preference) -->
-                        <div class="row d-none">
-                            <div class="col-lg-6">
-                                <div class="form-row">
-                                    <select class="form-select input-style" id="ProductBrand"
-                                        aria-label="Default select example">
-                                        <option value="none" selected>Select Brand</option>
-                                    </select>
-                                    <button type="button" class="btn-add newbrand-open">+ Add</button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-row">
-                                    <select id="ProductCategoryDataID">
-                                        <option value="none" selected>
-                                            Select Category
-                                        </option>
-                                    </select>
-                                    <button type="button" class="btn-add newcategory-open">
-                                        + Add
-                                    </button>
-                                </div>
-                            </div>
+                    <form onsubmit="return Save(event)" id="signup" style="display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; margin: 0;">
+                        <!-- Hidden Brand / Category Selects -->
+                        <div class="d-none">
+                            <select id="ProductBrand"><option value="none" selected>Select Brand</option></select>
+                            <select id="ProductCategoryDataID"><option value="none" selected>Select Category</option></select>
                         </div>
 
-                        <div class="row g-2">
-
-                            <!-- Product Name & Translate Button -->
-                            <div class="col-12">
-                                <div class="form-row mb-2">
-                                    <div class="d-flex align-items-center justify-content-between mb-1 flex-wrap gap-1">
-                                        <label for="ProductName" class="fw-bold text-dark m-0" style="font-size: 13.5px;">পণ্য/সার্ভিস নাম (Product Name) <span class="text-danger">*</span></label>
-                                        <button type="button" id="translateBtn" onclick="translateProductName()" class="btn btn-sm text-white d-inline-flex align-items-center gap-1 shadow-xs" style="background-color: #15803d; font-size: 11.5px; font-weight: 600; padding: 4px 10px; border-radius: 8px; border: none; cursor: pointer;">
-                                            <i class="fa-solid fa-language"></i>
-                                            <span>বাংলায় রূপান্তর (Translate)</span>
-                                        </button>
-                                    </div>
-                                    <input type="text" placeholder="Product Name (বাংলা বা English) *" id="ProductName" class="form-control fw-bold" style="width: 100%; height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #f8fafc;" />
-                                </div>
-                            </div>
-
-                            <!-- Quantity, Cost Price, Selling Price -->
-                            <div class="col-md-4 col-12">
-                                <div class="form-row mb-2">
-                                    <label for="ProductQuantity" class="fw-bold text-dark mb-1" style="font-size: 13px;">পরিমাণ (Quantity)</label>
-                                    <input type="text" inputmode="decimal" placeholder="Quantity (০)" id="ProductQuantity" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #f8fafc;" oninput="enforceProductNumericInput(this)" />
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-12">
-                                <div class="form-row mb-2">
-                                    <label for="ProductCostPrice" class="fw-bold text-dark mb-1" style="font-size: 13px;">ক্রয় মূল্য (Cost Price)</label>
-                                    <input type="text" inputmode="decimal" placeholder="Cost Price (০.০০)" id="ProductCostPrice" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #f8fafc;" oninput="enforceProductNumericInput(this)" />
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-12">
-                                <div class="form-row mb-2">
-                                    <label for="ProductSellingPrice" class="fw-bold text-dark mb-1" style="font-size: 13px;">বিক্রয় মূল্য (Selling Price)</label>
-                                    <input type="text" inputmode="decimal" placeholder="Selling Price (০.০০)" id="ProductSellingPrice" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #f8fafc;" oninput="enforceProductNumericInput(this)" />
-                                </div>
-                            </div>
-
-                            <!-- Barcode Code Input & Scan Button -->
-                            <div class="col-12">
-                                <div class="form-row mb-2">
-                                    <label for="ProductCodeInput" class="fw-bold text-dark mb-1" style="font-size: 13px;">বারকোড (Scan / Enter Barcode)</label>
-                                    <div class="d-flex align-items-center gap-2" style="width: 100%;">
-                                        <input type="text" id="ProductCodeInput" placeholder="বারকোড লিখুন বা স্ক্যান করুন..." class="form-control fw-bold" style="flex: 1; height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #f8fafc;" />
-                                        <button type="button" class="btn btn-success fw-bold text-nowrap d-flex align-items-center gap-1 px-3 shadow-xs" onclick="openProductCreateCameraScanner()" style="height: 44px; border-radius: 10px; background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); border: none; font-size: 13px; color: #ffffff;">
-                                            <i class="fa-solid fa-camera"></i>
-                                            <span>স্ক্যান</span>
-                                        </button>
+                        <!-- Scrollable Modal Body: Clean 2 Columns -->
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <!-- Col 1: পণ্য নাম -->
+                                <div class="col-md-6 col-12">
+                                    <div class="form-field-group">
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <label for="ProductName" class="fw-bold text-dark m-0" style="font-size: 13.5px;">পণ্য নাম <span class="text-danger">*</span></label>
+                                            <button type="button" id="translateBtn" onclick="translateProductName()" class="btn btn-sm text-white d-inline-flex align-items-center gap-1 shadow-xs" style="background-color: #15803d; font-size: 11.5px; font-weight: 600; padding: 3px 8px; border-radius: 6px; border: none; cursor: pointer;">
+                                                <i class="fa-solid fa-language"></i>
+                                                <span>বাংলায় রূপান্তর</span>
+                                            </button>
+                                        </div>
+                                        <input type="text" placeholder="পণ্যের নাম লিখুন..." id="ProductName" class="form-control fw-bold" required />
                                     </div>
                                 </div>
-                                <div id="BarcodeContainer" class="d-flex flex-wrap gap-2 mt-1 mb-2"></div>
-                            </div>
 
-                            <!-- Upload Photo (Positioned at bottom per user request) -->
-                            <div class="col-12 mb-2">
-                                <div class="form-row">
-                                    <label class="fw-semibold text-dark mb-1" style="font-size: 13px;">প্রোডাক্ট ছবি (Product Photo)</label>
-                                    <div class="upload-profile p-2 border rounded-3 bg-light" style="width: 100%;">
-                                        <div class="item d-flex align-items-center gap-3">
-                                            <div class="img-box bg-white border rounded-3 d-flex align-items-center justify-content-center" style="width: 70px; height: 60px; flex-shrink: 0;">
-                                                <svg width="28" height="28" viewBox="0 0 50 50" fill="red"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect width="50" height="50" fill="url(#pattern0_1204_6)"
-                                                        fill-opacity="0.5" />
-                                                    <defs>
-                                                        <pattern id="pattern0_1204_6"
-                                                            patternContentUnits="objectBoundingBox" width="1"
-                                                            height="1">
-                                                            <use xlink:href="#image0_1204_6" transform="scale(0.005)" />
-                                                        </pattern>
-                                                        <image id="image0_1204_6" width="200" height="200"
-                                                            xlink:href="data:image/png;base64,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" />
-                                                        </defs>
-                                                    </svg>
-                                                </div>
+                                <!-- Col 2: বারকোড ও স্ক্যান -->
+                                <div class="col-md-6 col-12">
+                                    <div class="form-field-group">
+                                        <label for="ProductCodeInput" class="fw-bold text-dark mb-1" style="font-size: 13.5px;">বারকোড</label>
+                                        <div class="d-flex align-items-center gap-2" style="width: 100%;">
+                                            <input type="text" id="ProductCodeInput" placeholder="বারকোড লিখুন বা স্ক্যান করুন..." class="form-control fw-bold" style="flex: 1;" />
+                                            <button type="button" class="btn btn-primary fw-bold text-nowrap d-flex align-items-center gap-1 px-3 shadow-xs" onclick="openProductCreateCameraScanner()" style="height: 42px; border-radius: 10px; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); border: none; font-size: 13px; color: #ffffff;">
+                                                <i class="fa-solid fa-camera"></i>
+                                                <span>স্ক্যান</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="BarcodeContainer" class="d-flex flex-wrap gap-2 mt-1"></div>
+                                </div>
 
-                                                <div class="profile-wrapper flex-grow-1">
-                                                    <label class="custom-file-input-wrapper mb-0">
-                                                        <input type="file" class="custom-file-input" id="ProductImage"
-                                                            aria-label="Upload Photo" />
-                                                    </label>
-                                                    <p class="mb-0 small text-muted">PNG, JPEG or GIF (up to 1 MB)</p>
-                                                </div>
+                                <!-- Col 3: পরিমাণ -->
+                                <div class="col-md-6 col-12">
+                                    <div class="form-field-group">
+                                        <label for="ProductQuantity" class="fw-bold text-dark mb-1" style="font-size: 13.5px;">পরিমাণ</label>
+                                        <input type="text" inputmode="decimal" placeholder="০" id="ProductQuantity" class="form-control fw-bold" oninput="enforceProductNumericInput(this)" />
+                                    </div>
+                                </div>
+
+                                <!-- Col 4: ক্রয় মূল্য -->
+                                <div class="col-md-6 col-12">
+                                    <div class="form-field-group">
+                                        <label for="ProductCostPrice" class="fw-bold text-dark mb-1" style="font-size: 13.5px;">ক্রয় মূল্য</label>
+                                        <input type="text" inputmode="decimal" placeholder="০.০০" id="ProductCostPrice" class="form-control fw-bold" oninput="enforceProductNumericInput(this)" />
+                                    </div>
+                                </div>
+
+                                <!-- Col 5: বিক্রয় মূল্য -->
+                                <div class="col-md-6 col-12">
+                                    <div class="form-field-group">
+                                        <label for="ProductSellingPrice" class="fw-bold text-dark mb-1" style="font-size: 13.5px;">বিক্রয় মূল্য</label>
+                                        <input type="text" inputmode="decimal" placeholder="০.০০" id="ProductSellingPrice" class="form-control fw-bold" oninput="enforceProductNumericInput(this)" />
+                                    </div>
+                                </div>
+
+                                <!-- Col 6: প্রোডাক্ট ছবি (Live Preview on left, primary purple upload button) -->
+                                <div class="col-md-6 col-12">
+                                    <div class="form-field-group">
+                                        <label class="fw-bold text-dark mb-1" style="font-size: 13.5px;">প্রোডাক্ট ছবি</label>
+                                        <div class="upload-profile p-2.5 border rounded-3 bg-light d-flex align-items-center gap-3">
+                                            <div id="createProductImgPreviewBox" class="img-box bg-white border rounded-3 d-flex align-items-center justify-content-center overflow-hidden flex-shrink-0 shadow-xs" style="width: 65px; height: 56px;">
+                                                <img id="createProductImgPreview" src="" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; display: none;" />
+                                                <i id="createProductDefaultIcon" class="fa-solid fa-image" style="color: #8C56D4; font-size: 24px;"></i>
+                                            </div>
+                                            <div class="position-relative flex-grow-1">
+                                                <label for="ProductImage" class="d-flex align-items-center justify-content-center gap-2 w-100 m-0 py-2 px-3 rounded-2 fw-semibold shadow-xs" style="cursor: pointer; background: #F3ECFB; color: #8C56D4; border: 1.5px dashed #8C56D4; font-size: 13px;">
+                                                    <i class="fa-solid fa-cloud-arrow-up fs-6" style="color: #8C56D4;"></i>
+                                                    <span id="createProductUploadText">ছবি আপলোড করুন</span>
+                                                </label>
+                                                <input type="file" class="d-none" id="ProductImage" accept="image/*" onchange="previewProductCreateImage(this)" />
+                                                <p class="mb-0 mt-1 small text-muted text-center" style="font-size: 11px;">PNG, JPEG বা GIF (সর্বোচ্চ ১ MB)</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="mt-3 pt-2 border-top">
-                                    <div class="actions d-flex align-items-center justify-content-end gap-2 actions-btn-group">
-                                        <button type="button" onclick="resetProductForm()" class="btn btn-outline-secondary px-4 py-2.5 fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px;">বাতিল / রিসেট</button>
-                                        <button type="button" onclick="ProductDataSave(event)" class="btn-save btn btn-success px-4 py-2.5 fw-bold" style="height: 44px; margin: 0; background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); border: none; border-radius: 10px; font-size: 14px; color: #ffffff;">সেভ করুন</button>
-                                    </div>
-                                </div>
                             </div>
-                        </div>      </form>
+                        </div>
+
+                        <!-- Sticky Footer Actions: Edge-to-Edge, Red Cancel & Purple Save strictly side-by-side in 1 row -->
+                        <div class="modal-footer create-modal-footer">
+                            <button type="button" onclick="closePosAddProductModal()" class="btn btn-cancel shadow-sm" data-bs-dismiss="modal">
+                                <i class="fa-solid fa-xmark"></i> <span>বাতিল</span>
+                            </button>
+                            <button type="button" onclick="ProductDataSave(event)" class="btn btn-save shadow-sm">
+                                <i class="fa-solid fa-check"></i> <span>সেভ করুন</span>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
@@ -793,15 +932,6 @@ function resetProductForm() {
     const imgInput = document.getElementById("ProductImage");
     if (imgInput) imgInput.value = '';
 }
-
-function closeModal(modal) {
-    const targetModal = document.getElementById('createProduct') || modal;
-    if (targetModal) {
-        targetModal.style.display = 'none';
-        document.documentElement.style.overflowY = 'auto';
-    }
-    if (typeof resetProductForm === 'function') resetProductForm();
-}
 </script>
 
 
@@ -1001,15 +1131,93 @@ function closeModal(modal) {
         return false;
     }
 
+    function previewProductCreateImage(input) {
+        if (input.files && input.files[0]) {
+            let file = input.files[0];
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                $('#createProductImgPreview').attr('src', e.target.result).show();
+                $('#createProductDefaultIcon').hide();
+                $('#createProductUploadText').text(file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            $('#createProductImgPreview').hide().attr('src', '');
+            $('#createProductDefaultIcon').show();
+            $('#createProductUploadText').text('ছবি আপলোড করুন');
+        }
+    }
+    window.previewProductCreateImage = previewProductCreateImage;
+
+    function resetProductForm() {
+        const form = document.getElementById('signup');
+        if (form) form.reset();
+        $('#createProductImgPreview').hide().attr('src', '');
+        $('#createProductDefaultIcon').show();
+        $('#createProductUploadText').text('ছবি আপলোড করুন');
+        if (typeof barcodeList !== 'undefined') {
+            barcodeList = [];
+            if (typeof renderBarcodeTags === 'function') renderBarcodeTags();
+        }
+    }
+    window.resetProductForm = resetProductForm;
+
+    function setupModalKeyboardDetection(modalId) {
+        const $modal = $(modalId);
+        $modal.off('focus', 'input, textarea, select').on('focus', 'input, textarea, select', function() {
+            if (window.innerWidth <= 991.98) {
+                $modal.addClass('keyboard-open');
+            }
+        });
+        $modal.off('blur', 'input, textarea, select').on('blur', 'input, textarea, select', function() {
+            setTimeout(() => {
+                if (!$modal.find('input:focus, textarea:focus, select:focus').length) {
+                    $modal.removeClass('keyboard-open');
+                }
+            }, 150);
+        });
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', () => {
+                if (window.innerWidth <= 991.98 && $modal.is(':visible')) {
+                    const isKeyboard = window.visualViewport.height < window.innerHeight * 0.75;
+                    if (isKeyboard) {
+                        $modal.addClass('keyboard-open');
+                    } else if (!$modal.find('input:focus, textarea:focus, select:focus').length) {
+                        $modal.removeClass('keyboard-open');
+                    }
+                }
+            });
+        }
+    }
+
+    function cleanUpProductModalScrollLock() {
+        setTimeout(() => {
+            if (!$('.modal.show').length && !document.querySelector('.modal.show')) {
+                $('body').removeClass('modal-open').css({ 'overflow': '', 'padding-right': '' });
+                document.body.classList.remove('modal-open');
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+                document.documentElement.style.overflow = '';
+                document.documentElement.style.overflowY = '';
+                $('.modal-backdrop').remove();
+            }
+        }, 120);
+    }
+
     function closeModal(modal) {
         const targetModal = modal || document.getElementById('createProduct');
         if (targetModal) {
-            targetModal.style.setProperty('display', 'none', 'important');
-            targetModal.style.setProperty('visibility', 'hidden');
-            targetModal.style.setProperty('opacity', '0');
-            document.documentElement.style.overflowY = 'auto';
+            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                let modalObj = bootstrap.Modal.getInstance(targetModal);
+                if (modalObj) modalObj.hide();
+            }
+            if (typeof $ !== 'undefined') {
+                $(targetModal).modal('hide');
+            }
+            targetModal.classList.remove('keyboard-open');
         }
         if (typeof resetProductForm === 'function') resetProductForm();
+        cleanUpProductModalScrollLock();
     }
 
     function closePosAddProductModal() {
@@ -1017,33 +1225,23 @@ function closeModal(modal) {
     }
     window.closePosAddProductModal = closePosAddProductModal;
     window.closeModal = closeModal;
+    window.cleanUpProductModalScrollLock = cleanUpProductModalScrollLock;
 
     function openPosAddProductModal() {
         if (typeof resetProductForm === 'function') resetProductForm();
         const modal = document.getElementById('createProduct');
         if (modal) {
-            const parentMain = modal.closest('.main-content');
-            if (parentMain) parentMain.style.setProperty('display', 'block', 'important');
-
-            const parentPage = modal.closest('.page-content');
-            if (parentPage) parentPage.style.setProperty('display', 'block', 'important');
-
-            modal.style.setProperty('display', 'block', 'important');
-            modal.style.setProperty('z-index', '999999', 'important');
-            modal.style.setProperty('opacity', '1', 'important');
-            modal.style.setProperty('visibility', 'visible', 'important');
-            document.documentElement.style.overflowY = 'hidden';
+            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                let modalObj = bootstrap.Modal.getInstance(modal) || new bootstrap.Modal(modal);
+                modalObj.show();
+            } else if (typeof $ !== 'undefined') {
+                $(modal).modal('show');
+            }
+            setupModalKeyboardDetection('#createProduct');
         }
     }
     window.openPosAddProductModal = openPosAddProductModal;
     window.openProductCreateModal = openPosAddProductModal;
-
-    window.addEventListener('click', function(event) {
-        const productModal = document.getElementById('createProduct');
-        if (productModal && event.target === productModal) {
-            closePosAddProductModal();
-        }
-    });
 
     document.addEventListener('DOMContentLoaded', function() {
         document.body.addEventListener('click', function(e) {
@@ -1052,6 +1250,20 @@ function closeModal(modal) {
                 openPosAddProductModal();
             }
         });
+        setupModalKeyboardDetection('#createProduct');
+
+        // Restore scroll when modal is hidden via any trigger
+        if (typeof $ !== 'undefined') {
+            $('#createProduct').on('hidden.bs.modal', function () {
+                cleanUpProductModalScrollLock();
+            });
+        }
+        const createProductEl = document.getElementById('createProduct');
+        if (createProductEl) {
+            createProductEl.addEventListener('hidden.bs.modal', function () {
+                cleanUpProductModalScrollLock();
+            });
+        }
     });
 </script>
 

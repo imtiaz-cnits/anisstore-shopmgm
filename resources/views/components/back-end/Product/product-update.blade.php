@@ -1,201 +1,424 @@
 <style>
+    /* Scoped Fix for Product Edit Modal Overlay & Responsive Layout */
+    #updateProductModal .modal-dialog,
     #exampleModal .modal-dialog {
-        max-width: 650px;
-        height: auto;
+        margin: auto !important;
+        width: calc(100% - 40px) !important;
+        max-width: 860px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: calc(100dvh - 60px) !important;
     }
 
-    @media (max-width: 768px) {
-        #exampleModal .modal-dialog {
-            max-width: 95% !important;
-            margin: 10px auto !important;
-        }
-
-        #exampleModal .modal-content {
-            padding: 14px !important;
-            border-radius: 14px !important;
-        }
-
-        .update-translate-btn-wrap {
-            flex-direction: column !important;
-            align-items: stretch !important;
-            gap: 6px !important;
-        }
-
-        .update-translate-btn-wrap button {
-            width: 100% !important;
-            justify-content: center !important;
-        }
+    #updateProductModal.modal,
+    #updateProductModal {
+        z-index: 107000 !important;
     }
 
-    #exampleModal form .form-row {
-        margin-bottom: 12px;
+    #updateProductModal .modal-content,
+    #exampleModal .modal-content {
+        width: 100% !important;
+        max-height: calc(100dvh - 60px) !important;
+        border-radius: 16px !important;
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
     }
 
-    #exampleModal form select, 
-    #exampleModal form input[type="text"], 
-    #exampleModal form input[type="number"] {
-        width: 100%;
-        height: 44px;
-        border-radius: 6px;
-        border: 1px solid #ced4da;
-        padding: 8px 12px;
-        font-size: 14px;
+    #updateProductModal .modal-header,
+    #exampleModal .modal-header {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        color: #ffffff !important;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        padding: 14px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        flex-shrink: 0;
     }
 
-    #exampleModal .img-box-wrapper {
+    #updateProductModal .btn-close-custom,
+    #exampleModal .btn-close-custom {
+        background: #ef4444 !important;
+        border: none;
+        color: #ffffff;
+        font-size: 16px;
+        cursor: pointer;
+        opacity: 1;
+        transition: all 0.2s ease;
         display: flex;
         align-items: center;
-        gap: 15px;
-        background: #f8f9fa;
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px dashed #ced4da;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+    }
+    #updateProductModal .btn-close-custom:hover,
+    #exampleModal .btn-close-custom:hover {
+        background: #dc2626 !important;
+        transform: rotate(90deg) scale(1.05);
     }
 
-    #exampleModal .img-box-preview {
-        width: 80px;
-        height: 80px;
-        border-radius: 6px;
-        object-fit: cover;
-        border: 1px solid #ddd;
-        background-color: #fff;
+    #updateProductModal .modal-body,
+    #exampleModal .modal-body {
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        flex: 1 1 auto;
+        min-height: 0;
+        padding: 20px;
+        background: #ffffff;
     }
 
-    #exampleModal .btn-save {
-        background-color: #15803d;
-        color: #fff;
-        font-weight: 600;
-        padding: 10px 24px;
-        border-radius: 6px;
-        border: none;
-        transition: background-color 0.2s ease;
+    #updateProductModal .form-control,
+    #updateProductModal .form-select,
+    #exampleModal .form-control,
+    #exampleModal .form-select {
+        height: 42px !important;
+        border-radius: 10px !important;
+        font-size: 14px !important;
+        border: 1.5px solid #cbd5e1 !important;
+        background: #ffffff !important;
+        color: #1e293b !important;
+        transition: all 0.2s ease-in-out !important;
+    }
+    #updateProductModal .form-control:focus,
+    #updateProductModal .form-select:focus,
+    #exampleModal .form-control:focus,
+    #exampleModal .form-select:focus {
+        border-color: #8C56D4 !important;
+        box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.2) !important;
+        background: #ffffff !important;
+        outline: none !important;
     }
 
-    #exampleModal .btn-save:hover {
-        background-color: #166534;
+    /* Sticky Footer - Edge-to-Edge with Modal, Zero Outer Gap, Buttons 1 Row Side-by-Side */
+    #updateProductModal .update-modal-footer,
+    #exampleModal .update-modal-footer {
+        position: sticky;
+        bottom: 0;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+        padding: 12px 20px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 12px !important;
+        flex-shrink: 0;
+        z-index: 10;
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+        box-sizing: border-box !important;
+    }
+
+    #updateProductModal .update-modal-footer .btn,
+    #exampleModal .update-modal-footer .btn {
+        flex: 1 1 50% !important;
+        width: 50% !important;
+        min-width: 0 !important;
+        height: 44px !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        border-radius: 10px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+    }
+
+    #updateProductModal .update-modal-footer .btn-cancel,
+    #exampleModal .update-modal-footer .btn-cancel {
+        background-color: #ef4444 !important;
+        border: none !important;
+        color: #ffffff !important;
+    }
+    #updateProductModal .update-modal-footer .btn-cancel:hover,
+    #exampleModal .update-modal-footer .btn-cancel:hover {
+        background-color: #dc2626 !important;
+    }
+
+    #updateProductModal .update-modal-footer .btn-save,
+    #exampleModal .update-modal-footer .btn-save,
+    #updateProductModal .update-modal-footer .btn-update,
+    #exampleModal .update-modal-footer .btn-update {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        border: none !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(140, 86, 212, 0.25) !important;
+    }
+    #updateProductModal .update-modal-footer .btn-save:hover,
+    #exampleModal .update-modal-footer .btn-save:hover,
+    #updateProductModal .update-modal-footer .btn-update:hover,
+    #exampleModal .update-modal-footer .btn-update:hover {
+        opacity: 0.95;
+    }
+
+    #updateProductModal .form-field-group,
+    #exampleModal .form-field-group {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+
+    /* Mobile View (< 768px): Symmetrical 16px margin at Top & Bottom */
+    @media screen and (max-width: 767.98px) {
+        #updateProductModal.modal,
+        #updateProductModal,
+        #exampleModal.modal,
+        #exampleModal {
+            padding: 16px 12px !important;
+            box-sizing: border-box !important;
+        }
+        #updateProductModal.modal .modal-dialog,
+        #updateProductModal .modal-dialog,
+        #exampleModal.modal .modal-dialog,
+        #exampleModal .modal-dialog {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 16px auto !important;
+            margin-top: 16px !important;
+            margin-bottom: 16px !important;
+            min-height: auto !important;
+            align-items: flex-start !important;
+        }
+        #updateProductModal.modal .modal-dialog::before,
+        #updateProductModal .modal-dialog::before,
+        #exampleModal.modal .modal-dialog::before,
+        #exampleModal .modal-dialog::before {
+            display: none !important;
+            height: 0 !important;
+            content: none !important;
+        }
+        #updateProductModal.modal .modal-content,
+        #updateProductModal .modal-content,
+        #exampleModal.modal .modal-content,
+        #exampleModal .modal-content {
+            max-height: calc(100dvh - 32px) !important;
+            border-radius: 16px !important;
+        }
+
+        /* Keyboard Open State */
+        #updateProductModal.modal.keyboard-open,
+        #updateProductModal.keyboard-open,
+        #exampleModal.modal.keyboard-open,
+        #exampleModal.keyboard-open {
+            padding-top: 72px !important;
+            padding-bottom: 16px !important;
+        }
+        #updateProductModal.keyboard-open .modal-dialog,
+        #exampleModal.keyboard-open .modal-dialog {
+            margin-top: 0 !important;
+            margin-bottom: 16px !important;
+            align-items: flex-start !important;
+            min-height: calc(100dvh - 88px) !important;
+        }
+        #updateProductModal.keyboard-open .modal-content,
+        #exampleModal.keyboard-open .modal-content {
+            max-height: calc(100dvh - 88px) !important;
+        }
+
+        #updateProductModal .update-modal-footer,
+        #exampleModal .update-modal-footer {
+            padding: 12px 16px !important;
+            gap: 10px !important;
+        }
+    }
+
+    /* Dark Mode Support */
+    body[light-mode="dark"] #updateProductModal .modal-content,
+    body[data-layout-mode="dark"] #updateProductModal .modal-content,
+    body.dark-mode #updateProductModal .modal-content,
+    body[light-mode="dark"] #exampleModal .modal-content,
+    body[data-layout-mode="dark"] #exampleModal .modal-content,
+    body.dark-mode #exampleModal .modal-content {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] #updateProductModal .modal-body,
+    body[data-layout-mode="dark"] #updateProductModal .modal-body,
+    body.dark-mode #updateProductModal .modal-body,
+    body[light-mode="dark"] #exampleModal .modal-body,
+    body[data-layout-mode="dark"] #exampleModal .modal-body,
+    body.dark-mode #exampleModal .modal-body {
+        background-color: #1e293b !important;
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] #updateProductModal .update-modal-footer,
+    body[data-layout-mode="dark"] #updateProductModal .update-modal-footer,
+    body.dark-mode #updateProductModal .update-modal-footer,
+    body[light-mode="dark"] #exampleModal .update-modal-footer,
+    body[data-layout-mode="dark"] #exampleModal .update-modal-footer,
+    body.dark-mode #exampleModal .update-modal-footer {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] #updateProductModal .form-control,
+    body[data-layout-mode="dark"] #updateProductModal .form-control,
+    body.dark-mode #updateProductModal .form-control,
+    body[light-mode="dark"] #updateProductModal .form-select,
+    body[data-layout-mode="dark"] #updateProductModal .form-select,
+    body.dark-mode #updateProductModal .form-select,
+    body[light-mode="dark"] #exampleModal .form-control,
+    body[data-layout-mode="dark"] #exampleModal .form-control,
+    body.dark-mode #exampleModal .form-control,
+    body[light-mode="dark"] #exampleModal .form-select,
+    body[data-layout-mode="dark"] #exampleModal .form-select,
+    body.dark-mode #exampleModal .form-select {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] #updateProductModal label,
+    body[data-layout-mode="dark"] #updateProductModal label,
+    body.dark-mode #updateProductModal label,
+    body[light-mode="dark"] #exampleModal label,
+    body[data-layout-mode="dark"] #exampleModal label,
+    body.dark-mode #exampleModal label {
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] #updateProductModal .upload-profile,
+    body[data-layout-mode="dark"] #updateProductModal .upload-profile,
+    body.dark-mode #updateProductModal .upload-profile,
+    body[light-mode="dark"] #exampleModal .upload-profile,
+    body[data-layout-mode="dark"] #exampleModal .upload-profile,
+    body.dark-mode #exampleModal .upload-profile {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] #updateProductModal #updateProductImgPreviewBox,
+    body[data-layout-mode="dark"] #updateProductModal #updateProductImgPreviewBox,
+    body.dark-mode #updateProductModal #updateProductImgPreviewBox,
+    body[light-mode="dark"] #exampleModal #updateProductImgPreviewBox,
+    body[data-layout-mode="dark"] #exampleModal #updateProductImgPreviewBox,
+    body.dark-mode #exampleModal #updateProductImgPreviewBox {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
     }
 </style>
 
 <!-- Action Button Edit Modal Start -->
-<section class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content p-3">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold text-success" id="exampleModalLabel">
-                    <i class="fa-solid fa-pen-to-square me-2"></i>Product Update
+<section class="modal fade" id="updateProductModal" tabindex="-1" aria-labelledby="updateProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Sleek Purple Header with Close Icon -->
+            <div class="modal-header d-flex align-items-center justify-content-between">
+                <h5 class="modal-title fw-bold text-white d-flex align-items-center gap-2 m-0" id="updateProductModalLabel" style="font-size: 16px;">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>প্রোডাক্ট এডিট করুন</span>
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close" title="বন্ধ করুন">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
 
-            <div class="modal-body">
-                <form id="updateProductForm" onsubmit="Update(event)">
-                    <input type="hidden" id="updateID">
+            <form id="updateProductForm" onsubmit="Update(event)" style="display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; margin: 0;">
+                <input type="hidden" id="updateID">
 
-                    <!-- Brand & Category Row (Hidden per user preference) -->
-                    <div class="row d-none">
-                        <div class="col-lg-6">
-                            <div class="form-row">
-                                <label for="UpdateProductBrand" class="form-label fw-semibold small mb-1">Brand</label>
-                                <select id="UpdateProductBrand" class="form-select">
-                                    <option value="">Select Brand</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-row">
-                                <label for="UpdateProductCategory" class="form-label fw-semibold small mb-1">Category</label>
-                                <select id="UpdateProductCategory" class="form-select">
-                                    <option value="">Select Category</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Hidden Selects -->
+                <div class="d-none">
+                    <select id="UpdateProductBrand"><option value="">Select Brand</option></select>
+                    <select id="UpdateProductCategory"><option value="">Select Category</option></select>
+                    <select id="UpdateProductStatus"><option value="Active" selected>Active</option><option value="InActive">Inactive</option></select>
+                </div>
 
-                    <!-- Image Upload with Live Preview -->
-                    <div class="row my-2">
-                        <div class="col-lg-12">
-                            <div class="img-box-wrapper">
-                                <img id="UpdateShowImage" src="{{ asset('back-end/assets/img/product-img.svg') }}" class="img-box-preview" alt="Product Image Preview">
-                                <div class="flex-grow-1">
-                                    <label for="UpdateProductImage" class="form-label fw-semibold small mb-1">Product Photo</label>
-                                    <input type="file" id="UpdateProductImage" class="form-control" accept="image/*" />
-                                    <div class="form-text text-muted small">JPG, PNG or GIF (Recommended max 1MB)</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product Name & Translation -->
-                    <div class="row mt-2">
-                        <div class="col-lg-12">
-                            <div class="form-row">
-                                <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-2 mb-1 update-translate-btn-wrap">
-                                    <label for="UpdateProductName" class="form-label fw-semibold small m-0 text-success">Product Name <span class="text-danger">*</span></label>
-                                    <button type="button" id="translateUpdateBtn" onclick="translateUpdateProductName()" class="btn btn-sm btn-outline-success d-inline-flex align-items-center gap-1 py-1 px-2" style="font-size: 12px; font-weight: 600;">
-                                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
-                                        </svg>
+                <div class="modal-body">
+                    <!-- Clean 2-Column Fields -->
+                    <div class="row g-3">
+                        <!-- Col 1: পণ্য নাম -->
+                        <div class="col-md-6 col-12">
+                            <div class="form-field-group">
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <label for="UpdateProductName" class="fw-bold text-dark m-0" style="font-size: 13.5px;">পণ্য নাম <span class="text-danger">*</span></label>
+                                    <button type="button" id="translateUpdateBtn" onclick="translateUpdateProductName()" class="btn btn-sm text-white d-inline-flex align-items-center gap-1 shadow-xs" style="background-color: #15803d; font-size: 11.5px; font-weight: 600; padding: 3px 8px; border-radius: 6px; border: none; cursor: pointer;">
+                                        <i class="fa-solid fa-language"></i>
                                         <span>বাংলায় রূপান্তর</span>
                                     </button>
                                 </div>
-                                <input type="text" id="UpdateProductName" class="form-control" placeholder="Enter Product Name (বাংলা / English)..." required />
+                                <input type="text" id="UpdateProductName" class="form-control fw-bold" placeholder="পণ্যের নাম লিখুন..." required />
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Quantity, Cost Price, Selling Price, Status -->
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="form-row">
-                                <label for="UpdateProductQuantity" class="form-label fw-semibold small mb-1">Quantity</label>
-                                <input type="text" inputmode="decimal" id="UpdateProductQuantity" class="form-control" placeholder="০" oninput="if(typeof engToBanglaNum==='function'){this.value=engToBanglaNum(this.value);}" />
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="form-row">
-                                <label for="UpdateProductCostPrice" class="form-label fw-semibold small mb-1">Cost Price</label>
-                                <input type="text" inputmode="decimal" id="UpdateProductCostPrice" class="form-control" placeholder="০.০০" oninput="if(typeof engToBanglaNum==='function'){this.value=engToBanglaNum(this.value);}" />
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="form-row">
-                                <label for="UpdateProductSellingPrice" class="form-label fw-semibold small mb-1">Selling Price</label>
-                                <input type="text" inputmode="decimal" id="UpdateProductSellingPrice" class="form-control" placeholder="০.০০" oninput="if(typeof engToBanglaNum==='function'){this.value=engToBanglaNum(this.value);}" />
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="form-row">
-                                <label for="UpdateProductStatus" class="form-label fw-semibold small mb-1">Status</label>
-                                <select id="UpdateProductStatus" class="form-select">
-                                    <option value="Active">Active</option>
-                                    <option value="InActive">Inactive</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Barcode Section -->
-                    <div class="row mt-2">
-                        <div class="col-lg-12">
-                            <div class="form-row">
-                                <label for="ProductBarCodeInput" class="form-label fw-semibold small mb-1">Product Barcode</label>
+                        <!-- Col 2: বারকোড ও স্ক্যান -->
+                        <div class="col-md-6 col-12">
+                            <div class="form-field-group">
+                                <label for="ProductBarCodeInput" class="fw-bold text-dark mb-1" style="font-size: 13.5px;">বারকোড</label>
                                 <div class="d-flex align-items-center gap-2">
-                                    <input type="text" id="ProductBarCodeInput" class="form-control" placeholder="বারকোড লিখুন বা স্ক্যান করুন..." oninput="if(typeof engToBanglaNum==='function'){this.value=engToBanglaNum(this.value);}" />
-                                    <button type="button" class="btn btn-primary fw-bold text-nowrap d-flex align-items-center gap-2 px-3 shadow-sm" onclick="openProductUpdateCameraScanner()" style="height: 38px; border-radius: 8px; background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); border: none;">
-                                        <i class="fa-solid fa-camera fs-6"></i>
-                                        <span class="d-none d-sm-inline">ক্যামেরা স্ক্যান</span>
+                                    <input type="text" id="ProductBarCodeInput" class="form-control fw-bold" placeholder="বারকোড লিখুন বা স্ক্যান করুন..." />
+                                    <button type="button" class="btn btn-primary fw-bold text-nowrap d-flex align-items-center gap-1 px-3 shadow-xs" onclick="openProductUpdateCameraScanner()" style="height: 42px; border-radius: 10px; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); border: none; font-size: 13px; color: #ffffff;">
+                                        <i class="fa-solid fa-camera"></i>
+                                        <span>স্ক্যান</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="modal-footer border-0 px-0 pb-0 mt-3">
-                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn-save px-4"><i class="fa-solid fa-check me-1"></i> Save Changes</button>
+                        <!-- Col 3: পরিমাণ -->
+                        <div class="col-md-6 col-12">
+                            <div class="form-field-group">
+                                <label for="UpdateProductQuantity" class="fw-bold text-dark mb-1" style="font-size: 13.5px;">পরিমাণ</label>
+                                <input type="text" inputmode="decimal" id="UpdateProductQuantity" class="form-control fw-bold" placeholder="০" />
+                            </div>
+                        </div>
+
+                        <!-- Col 4: ক্রয় মূল্য -->
+                        <div class="col-md-6 col-12">
+                            <div class="form-field-group">
+                                <label for="UpdateProductCostPrice" class="fw-bold text-dark mb-1" style="font-size: 13.5px;">ক্রয় মূল্য</label>
+                                <input type="text" inputmode="decimal" id="UpdateProductCostPrice" class="form-control fw-bold" placeholder="০.০০" />
+                            </div>
+                        </div>
+
+                        <!-- Col 5: বিক্রয় মূল্য -->
+                        <div class="col-md-6 col-12">
+                            <div class="form-field-group">
+                                <label for="UpdateProductSellingPrice" class="fw-bold text-dark mb-1" style="font-size: 13.5px;">বিক্রয় মূল্য</label>
+                                <input type="text" inputmode="decimal" id="UpdateProductSellingPrice" class="form-control fw-bold" placeholder="০.০০" />
+                            </div>
+                        </div>
+
+                        <!-- Col 6: প্রোডাক্ট ছবি (Live Preview in left box + purple upload button) -->
+                        <div class="col-md-6 col-12">
+                            <div class="form-field-group">
+                                <label class="fw-bold text-dark mb-1" style="font-size: 13.5px;">প্রোডাক্ট ছবি</label>
+                                <div class="upload-profile p-2.5 border rounded-3 bg-light d-flex align-items-center gap-3">
+                                    <div id="updateProductImgPreviewBox" class="img-box bg-white border rounded-3 d-flex align-items-center justify-content-center overflow-hidden flex-shrink-0 shadow-xs" style="width: 65px; height: 56px;">
+                                        <img id="UpdateShowImage" src="{{ asset('back-end/assets/img/product-img.svg') }}" class="img-box-preview" alt="Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="position-relative flex-grow-1">
+                                        <label for="UpdateProductImage" class="d-flex align-items-center justify-content-center gap-2 w-100 m-0 py-2 px-3 rounded-2 fw-semibold shadow-xs" style="cursor: pointer; background: #F3ECFB; color: #8C56D4; border: 1.5px dashed #8C56D4; font-size: 13px;">
+                                            <i class="fa-solid fa-cloud-arrow-up fs-6" style="color: #8C56D4;"></i>
+                                            <span id="updateProductUploadText">ছবি পরিবর্তন করুন</span>
+                                        </label>
+                                        <input type="file" id="UpdateProductImage" class="d-none" accept="image/*" />
+                                        <p class="mb-0 mt-1 small text-muted text-center" style="font-size: 11px;">PNG, JPEG বা GIF (সর্বোচ্চ ১ MB)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <!-- Sticky Footer Actions: Edge-to-Edge, Red Cancel & Purple Update side-by-side in 1 row -->
+                <div class="modal-footer update-modal-footer">
+                    <button type="button" class="btn btn-cancel shadow-sm" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark"></i> <span>বাতিল</span>
+                    </button>
+                    <button type="submit" class="btn btn-save shadow-sm">
+                        <i class="fa-solid fa-check"></i> <span>আপডেট করুন</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </section>
@@ -203,6 +426,36 @@
 
 <script>
     let isFormLoading = false;
+
+    if (typeof window.setupModalKeyboardDetection !== 'function') {
+        window.setupModalKeyboardDetection = function(modalId) {
+            const $modal = $(modalId);
+            $modal.off('focus', 'input, textarea, select').on('focus', 'input, textarea, select', function() {
+                if (window.innerWidth <= 991.98) {
+                    $modal.addClass('keyboard-open');
+                }
+            });
+            $modal.off('blur', 'input, textarea, select').on('blur', 'input, textarea, select', function() {
+                setTimeout(() => {
+                    if (!$modal.find('input:focus, textarea:focus, select:focus').length) {
+                        $modal.removeClass('keyboard-open');
+                    }
+                }, 150);
+            });
+            if (window.visualViewport) {
+                window.visualViewport.addEventListener('resize', () => {
+                    if (window.innerWidth <= 991.98 && $modal.is(':visible')) {
+                        const isKeyboard = window.visualViewport.height < window.innerHeight * 0.75;
+                        if (isKeyboard) {
+                            $modal.addClass('keyboard-open');
+                        } else if (!$modal.find('input:focus, textarea:focus, select:focus').length) {
+                            $modal.removeClass('keyboard-open');
+                        }
+                    }
+                });
+            }
+        };
+    }
 
     $(document).ready(function() {
         // Image preview listener
@@ -212,8 +465,11 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     $('#UpdateShowImage').attr('src', e.target.result);
+                    $('#updateProductUploadText').text(file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name);
                 };
                 reader.readAsDataURL(file);
+            } else {
+                $('#updateProductUploadText').text('ছবি পরিবর্তন করুন');
             }
         });
 
@@ -222,10 +478,14 @@
             $('#updateProductForm')[0].reset();
             $('#updateID').val('');
             $('#UpdateShowImage').attr('src', "{{ asset('back-end/assets/img/product-img.svg') }}");
+            $('#updateProductUploadText').text('ছবি পরিবর্তন করুন');
+            $('#exampleModal, #updateProductModal').removeClass('keyboard-open');
         });
 
         // Modal show listener
         $('#exampleModal, #updateProductModal').on('show.bs.modal', function (event) {
+            setupModalKeyboardDetection('#exampleModal');
+            setupModalKeyboardDetection('#updateProductModal');
             const button = event.relatedTarget;
             if (button) {
                 const id = $(button).attr('data-id') || $(button).data('id') || $(button).closest('[data-id]').attr('data-id');
@@ -638,4 +898,43 @@
         const instance = bootstrap.Modal.getInstance(modalEl);
         if (instance) instance.hide();
     }
+
+    // Restore body scroll whenever product update modal is closed
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof $ !== 'undefined') {
+            $('#exampleModal').on('hidden.bs.modal', function () {
+                if (typeof cleanUpProductModalScrollLock === 'function') {
+                    cleanUpProductModalScrollLock();
+                } else {
+                    setTimeout(() => {
+                        if (!$('.modal.show').length && !document.querySelector('.modal.show')) {
+                            $('body').removeClass('modal-open').css({ 'overflow': '', 'padding-right': '' });
+                            document.body.classList.remove('modal-open');
+                            document.body.style.overflow = '';
+                            document.body.style.paddingRight = '';
+                            $('.modal-backdrop').remove();
+                        }
+                    }, 120);
+                }
+            });
+        }
+        const exampleModalEl = document.getElementById('exampleModal');
+        if (exampleModalEl) {
+            exampleModalEl.addEventListener('hidden.bs.modal', function () {
+                if (typeof cleanUpProductModalScrollLock === 'function') {
+                    cleanUpProductModalScrollLock();
+                } else {
+                    setTimeout(() => {
+                        if (!$('.modal.show').length && !document.querySelector('.modal.show')) {
+                            $('body').removeClass('modal-open').css({ 'overflow': '', 'padding-right': '' });
+                            document.body.classList.remove('modal-open');
+                            document.body.style.overflow = '';
+                            document.body.style.paddingRight = '';
+                            $('.modal-backdrop').remove();
+                        }
+                    }, 120);
+                }
+            });
+        }
+    });
 </script>

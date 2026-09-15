@@ -2899,22 +2899,28 @@ input::-webkit-inner-spin-button {
     width: 100%;
     height: 100%;
     padding: 0px !important;
-  }
+    z-index: 100000 !important;
+}
 
-  #confirmationModal .modal-dialog {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--white);
-    text-align: center;
-    border-radius: 10px;
-    padding: 0px;
-    min-width: 30%;
-    width: 100%;
-    overflow: auto;
-    margin: 0;
-  }
+#confirmationModal .modal-dialog {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 100% !important;
+    max-width: 420px !important;
+    width: 90% !important;
+    margin: auto !important;
+    padding: 16px !important;
+    box-sizing: border-box !important;
+    background: transparent !important;
+    border: none !important;
+}
 
   #confirmationModal .modal-dialog .heading-wrap {
     position: sticky;

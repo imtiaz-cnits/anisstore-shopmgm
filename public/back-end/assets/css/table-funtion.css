@@ -137,13 +137,16 @@ Reset Default CSS End
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px !important;
 }
+
 .data-table .card-body {
   overflow: hidden;
 }
+
 .data-table .card-body .date-wrapper input,
 .data-table .card-body .date-wrapper label {
   width: 100%;
 }
+
 .data-table .card-body .date-wrapper label {
   font-size: 16px;
   color: var(--text-color);
@@ -151,12 +154,14 @@ Reset Default CSS End
   margin-bottom: 4px;
   text-align: left;
 }
+
 .data-table .card-body .date-wrapper input {
   padding: 10px;
   border: 1px solid var(--gray);
   border-radius: 6px;
   transition: 0.4s;
 }
+
 .data-table .card-body .date-wrapper input:focus {
   border-color: var(--stroke);
 }
@@ -265,25 +270,25 @@ Reset Default CSS End
   align-items: center;
   justify-content: center;
   padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 15px;
   border-radius: 8px;
   margin: 0;
-  background: #15803d !important;
+  background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
   color: #ffffff !important;
-  border: 1px solid #15803d !important;
+  border: none !important;
   transition: all 0.2s ease-in-out;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(21, 128, 61, 0.25);
+  font-weight: 700 !important;
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease-in-out !important;
+  box-shadow: 0 2px 8px rgba(140, 86, 212, 0.25) !important;
+  cursor: pointer !important;
 }
 
 .data-table #openModalBtns:hover,
 .data-table .create-invoice:hover,
 .data-table .create-invoices:hover {
-  background: #16a34a !important;
+  background: linear-gradient(135deg, #8C56D4 0%, #7c3bd1 100%) !important;
   color: #ffffff !important;
-  border-color: #16a34a !important;
-  box-shadow: 0 4px 10px rgba(22, 163, 74, 0.35);
 }
 
 .data-table .button-wrapper {
@@ -340,6 +345,7 @@ Reset Default CSS End
   align-items: center;
   gap: 10px;
 }
+
 .data-table .entries-page label {
   font-size: 18px;
 }
@@ -432,11 +438,13 @@ Reset Default CSS End
   align-items: center;
   gap: 5px;
 }
+
 .data-table .table td .client-item .image {
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
+
 .data-table .table td img {
   width: 40px;
   height: 40px;
@@ -450,7 +458,7 @@ Reset Default CSS End
   padding: 10px 10px !important;
 }
 
-.table-hover > tbody > tr:hover > * {
+.table-hover>tbody>tr:hover>* {
   background: #eef8ff;
 }
 
@@ -476,20 +484,24 @@ Reset Default CSS End
   color: var(--text-color);
   font-weight: normal;
 }
+
 .data-table .badge {
   font-size: 14px;
   border-radius: 30px;
 }
+
 .data-table .badge-success {
   background-color: #14cc52;
   padding: 6px 30px !important;
   box-shadow: 0px 0px 8px 4px rgba(20, 204, 82, 0.3);
 }
+
 .data-table .badge-danger {
   background-color: #ff2929;
   padding: 6px 30px !important;
   box-shadow: 0px 0px 8px 4px rgba(255, 41, 41, 0.4);
 }
+
 .data-table .badge-warning {
   background-color: #fa8231;
   padding: 6px 30px !important;
@@ -504,10 +516,12 @@ Reset Default CSS End
   align-items: center;
   justify-content: center;
 }
+
 #action_btn_wrap .link .fa-pen-to-square {
   color: var(--text-color);
   font-size: 22px;
 }
+
 #action_btn_wrap .link .fa-trash {
   color: red;
   font-size: 22px;
@@ -548,9 +562,9 @@ Reset Default CSS End
   z-index: 1;
 }
 
-#action_btn #menu-wrap .dots > div,
-#action_btn #menu-wrap .dots > div:after,
-#action_btn #menu-wrap .dots > div:before {
+#action_btn #menu-wrap .dots>div,
+#action_btn #menu-wrap .dots>div:after,
+#action_btn #menu-wrap .dots>div:before {
   height: 6px;
   width: 6px;
   background-color: rgba(49, 49, 49, 0.8);
@@ -560,18 +574,18 @@ Reset Default CSS End
   transition: 0.5s;
 }
 
-#action_btn #menu-wrap .dots > div {
+#action_btn #menu-wrap .dots>div {
   position: relative;
 }
 
-#action_btn #menu-wrap .dots > div:after {
+#action_btn #menu-wrap .dots>div:after {
   content: "";
   position: absolute;
   bottom: calc((25px / 2) - (6px / 2));
   left: 0;
 }
 
-#action_btn #menu-wrap .dots > div:before {
+#action_btn #menu-wrap .dots>div:before {
   content: "";
   position: absolute;
   top: calc((25px / 2) - (6px / 2));
@@ -642,57 +656,40 @@ Reset Default CSS End
   z-index: 2;
 }
 
-#action_btn #menu-wrap .toggler:hover + .dots > div,
-#action_btn #menu-wrap .toggler:hover + .dots > div:after,
-#action_btn #menu-wrap .toggler:hover + .dots > div:before {
+#action_btn #menu-wrap .toggler:hover+.dots>div,
+#action_btn #menu-wrap .toggler:hover+.dots>div:after,
+#action_btn #menu-wrap .toggler:hover+.dots>div:before {
   background-color: rgba(49, 49, 49, 0.6);
 }
 
-#action_btn #menu-wrap .toggler:checked + .dots > div {
-  -webkit-transform: translateX(calc(((25px / 2) - (6px / 2)) * -0.7071067812))
-    translateY(calc(((25px / 2) - (6px / 2)) * -0.7071067812));
-  -ms-transform: translateX(calc(((25px / 2) - (6px / 2)) * -0.7071067812))
-    translateY(calc(((25px / 2) - (6px / 2)) * -0.7071067812));
-  transform: translateX(calc(((25px / 2) - (6px / 2)) * -0.7071067812))
-    translateY(calc(((25px / 2) - (6px / 2)) * -0.7071067812));
+#action_btn #menu-wrap .toggler:checked+.dots>div {
+  -webkit-transform: translateX(calc(((25px / 2) - (6px / 2)) * -0.7071067812)) translateY(calc(((25px / 2) - (6px / 2)) * -0.7071067812));
+  -ms-transform: translateX(calc(((25px / 2) - (6px / 2)) * -0.7071067812)) translateY(calc(((25px / 2) - (6px / 2)) * -0.7071067812));
+  transform: translateX(calc(((25px / 2) - (6px / 2)) * -0.7071067812)) translateY(calc(((25px / 2) - (6px / 2)) * -0.7071067812));
 }
 
-#action_btn #menu-wrap .toggler:checked + .dots > div:after {
-  -webkit-transform: translateX(calc(((25px / 2) - (6px / 2)) * 0.7071067812))
-    translateY(calc((2 * (25px / 2) - (6px / 2)) * 0.7071067812));
-  -ms-transform: translateX(calc(((25px / 2) - (6px / 2)) * 0.7071067812))
-    translateY(calc((2 * (25px / 2) - (6px / 2)) * 0.7071067812));
-  transform: translateX(calc(((25px / 2) - (6px / 2)) * 0.7071067812))
-    translateY(calc((2 * (25px / 2) - (6px / 2)) * 0.7071067812));
+#action_btn #menu-wrap .toggler:checked+.dots>div:after {
+  -webkit-transform: translateX(calc(((25px / 2) - (6px / 2)) * 0.7071067812)) translateY(calc((2 * (25px / 2) - (6px / 2)) * 0.7071067812));
+  -ms-transform: translateX(calc(((25px / 2) - (6px / 2)) * 0.7071067812)) translateY(calc((2 * (25px / 2) - (6px / 2)) * 0.7071067812));
+  transform: translateX(calc(((25px / 2) - (6px / 2)) * 0.7071067812)) translateY(calc((2 * (25px / 2) - (6px / 2)) * 0.7071067812));
 }
 
-#action_btn #menu-wrap .toggler:checked + .dots > div:before {
-  -webkit-transform: translateX(
-      calc(2 * (((25px / 2) - (6px / 2)) * 0.7071067812))
-    )
-    translateY(
-      calc(((25px / 2) - (6px / 2)) - (((25px / 2) - (6px / 2)) * 0.7071067812))
-    );
-  -ms-transform: translateX(calc(2 * (((25px / 2) - (6px / 2)) * 0.7071067812)))
-    translateY(
-      calc(((25px / 2) - (6px / 2)) - (((25px / 2) - (6px / 2)) * 0.7071067812))
-    );
-  transform: translateX(calc(2 * (((25px / 2) - (6px / 2)) * 0.7071067812)))
-    translateY(
-      calc(((25px / 2) - (6px / 2)) - (((25px / 2) - (6px / 2)) * 0.7071067812))
-    );
+#action_btn #menu-wrap .toggler:checked+.dots>div:before {
+  -webkit-transform: translateX(calc(2 * (((25px / 2) - (6px / 2)) * 0.7071067812))) translateY(calc(((25px / 2) - (6px / 2)) - (((25px / 2) - (6px / 2)) * 0.7071067812)));
+  -ms-transform: translateX(calc(2 * (((25px / 2) - (6px / 2)) * 0.7071067812))) translateY(calc(((25px / 2) - (6px / 2)) - (((25px / 2) - (6px / 2)) * 0.7071067812)));
+  transform: translateX(calc(2 * (((25px / 2) - (6px / 2)) * 0.7071067812))) translateY(calc(((25px / 2) - (6px / 2)) - (((25px / 2) - (6px / 2)) * 0.7071067812)));
 }
 
-#action_btn #menu-wrap .toggler:checked:hover + .dots > div,
-#action_btn #menu-wrap .toggler:checked:hover + .dots > div:after,
-#action_btn #menu-wrap .toggler:checked:hover + .dots > div:before {
+#action_btn #menu-wrap .toggler:checked:hover+.dots>div,
+#action_btn #menu-wrap .toggler:checked:hover+.dots>div:after,
+#action_btn #menu-wrap .toggler:checked:hover+.dots>div:before {
   background-color: rgba(49, 49, 49, 0.6);
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
 }
 
-#action_btn #menu-wrap .toggler:checked ~ .menu {
+#action_btn #menu-wrap .toggler:checked~.menu {
   opacity: 1;
   visibility: visible;
   width: 70px;
@@ -703,7 +700,7 @@ Reset Default CSS End
   transition: 0.5s;
 }
 
-#action_btn #menu-wrap .toggler:checked ~ .menu ul .link {
+#action_btn #menu-wrap .toggler:checked~.menu ul .link {
   opacity: 1;
   visibility: visible;
   -webkit-transition: 0.5s ease 0.3s;
@@ -711,26 +708,27 @@ Reset Default CSS End
   transition: 0.5s ease 0.3s;
 }
 
-#action_btn #menu-wrap .toggler:checked ~ .menu ul .link:hover {
+#action_btn #menu-wrap .toggler:checked~.menu ul .link:hover {
   color: #2980b9;
   -webkit-transition: 0.2s;
   -o-transition: 0.2s;
   transition: 0.2s;
 }
 
-#action_btn #menu-wrap .toggler:not(:checked) ~ .menu {
+#action_btn #menu-wrap .toggler:not(:checked)~.menu {
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
 }
 
-#action_btn #menu-wrap .toggler:not(:checked) ~ .menu ul .link {
+#action_btn #menu-wrap .toggler:not(:checked)~.menu ul .link {
   opacity: 0;
   visibility: hidden;
   -webkit-transition: 0.1s;
   -o-transition: 0.1s;
   transition: 0.1s;
 }
+
 /* Table Action Toggle Button CSS Start */
 
 .data-table .btn {
@@ -764,7 +762,8 @@ Reset Default CSS End
   font-weight: bold;
   color: var(--white);
   background: var(--text-color2);
-  text-decoration: underline; /* Optional */
+  text-decoration: underline;
+  /* Optional */
 }
 
 .data-table .pagination .page-link {
@@ -835,6 +834,7 @@ Reset Default CSS End
   margin-bottom: 0px !important;
   color: var(--text-color);
 }
+
 /* scrollbar */
 .table-wrapper::-webkit-scrollbar {
   height: 10px;
@@ -852,8 +852,10 @@ Reset Default CSS End
   background: var(--gray);
   cursor: pointer;
 }
+
 /* print.css */
 @media print {
+
   .navbar-header,
   .isvertical-topbar,
   .data-table .button-wrapper,
@@ -876,6 +878,7 @@ Reset Default CSS End
     justify-content: center;
     margin-top: 20px;
   }
+
   .input-group {
     display: block;
   }
@@ -895,6 +898,7 @@ Reset Default CSS End
   .data-table .entries-page {
     justify-content: center;
   }
+
   .my-3 {
     text-align: center;
   }
@@ -911,6 +915,7 @@ Reset Default CSS End
     padding: 0px 6px;
     font-size: 16px;
   }
+
   .icon-buttons svg {
     width: 28px !important;
     height: 28px !important;

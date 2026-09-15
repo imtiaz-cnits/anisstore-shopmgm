@@ -246,6 +246,7 @@
         background-color: #0f172a !important;
         border-color: #1e293b !important;
         color: #475569 !important;
+    }
 </style>
 
 <script>

@@ -261,7 +261,7 @@
         }
 
         .badge.available {
-            background-color: #28a745;
+            background-color: #793FC5;
             /* Green */
         }
 

@@ -2640,8 +2640,6 @@
           $activeParent = 'product';
       } elseif (request()->is('admin-dashboard-supplier*') || request()->is('supplier-due-page*') || request()->is('supplier-due-collection-page*')) {
           $activeParent = 'supplier';
-      } elseif (request()->is('admin-dashboard-Purchase*')) {
-          $activeParent = 'purchase';
       } elseif (request()->is('admin-dashboard-customer*') || request()->is('admin-dashboard-customer-due-list*') || request()->is('customer-due-collection-page*')) {
           $activeParent = 'customer';
       } elseif (request()->is('admin-dashboard-*-report*') || request()->is('admin-dashboard-daily-*') || request()->is('admin-dashboard-personal-*') || request()->is('admin-dashboard-income-*') || request()->is('admin-dashboard-sales-report*')) {
@@ -2741,30 +2739,13 @@
             </div>
           </li>
 
-          <!-- 6. ক্রয় (পারচেজ) (Has Submenu) -->
-          <li class="sidebar-item has-submenu relative group" data-menu-id="purchase" data-perm="purchase">
-            <button type="button" class="sidebar-drilldown-trigger w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-100 hover:text-white hover:bg-white/15 bg-transparent outline-none transition-all duration-200 text-start {{ $activeParent === 'purchase' ? 'active-parent' : '' }}" style="background-color: transparent;" data-target="submenu-panel-purchase">
-              <div class="flex items-center gap-2 min-w-0">
-                <i class="fa-solid fa-cart-shopping text-purple-200 group-hover:text-white text-[15px] w-6 text-center shrink-0 transition-transform group-hover:scale-110"></i>
-                <span class="sidebar-label text-[13.5px] font-medium tracking-wide truncate">ক্রয় (পারচেজ)</span>
-              </div>
-              <span class="sidebar-arrow shrink-0 w-5 h-5 rounded-md bg-white/10 flex items-center justify-center text-white/70 group-hover:text-white group-hover:bg-white/20 transition-all">
-                <i class="fa-solid fa-chevron-right text-[9px]"></i>
-              </span>
-            </button>
-            <!-- Collapsed Flyout Popover -->
-            <div class="sidebar-flyout">
-              <div class="sidebar-flyout-header flex items-center justify-between px-3 py-2 border-b border-purple-400/25 mb-1.5" style="border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;">
-                <span class="text-[11px] font-bold tracking-wider text-white uppercase flex items-center gap-1.5" style="color: #ffffff !important;">
-                  <span class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#ffffff]" style="background-color: #ffffff !important; box-shadow: 0 0 6px #ffffff !important;"></span>
-                  ক্রয় (পারচেজ)
-                </span>
-                <span class="text-[10px] font-medium text-white/90" style="color: rgba(255, 255, 255, 0.9) !important;">মেনু</span>
-              </div>
-              <ul class="py-0.5 px-1 space-y-0.5">
-                <li><a href="{{ url('admin-dashboard-Purchase') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-Purchase*') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-cart-arrow-down text-[10px] text-purple-200/80 w-4 text-center"></i><span>ক্রয়ের তালিকা</span></a></li>
-              </ul>
-            </div>
+          <!-- 6. ক্রয় (পারচেজ) (Single Menu) -->
+          <li class="sidebar-item relative group" data-perm="purchase">
+            <a href="{{ url('admin-dashboard-Purchase') }}" class="sidebar-link w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-slate-100 hover:text-white hover:bg-white/15 transition-all duration-200 {{ request()->is('admin-dashboard-Purchase*') ? 'active-gradient' : '' }}" style="color: {{ request()->is('admin-dashboard-Purchase*') ? '#ffffff' : '#f1f5f9' }} !important; text-decoration: none !important;">
+              <i class="fa-solid fa-cart-shopping text-purple-200 group-hover:text-white text-[15px] w-6 text-center shrink-0 transition-transform group-hover:scale-110" style="color: {{ request()->is('admin-dashboard-Purchase*') ? '#ffffff' : '#D2B7F1' }} !important;"></i>
+              <span class="sidebar-label text-[13.5px] font-medium tracking-wide" style="color: {{ request()->is('admin-dashboard-Purchase*') ? '#ffffff' : '#f1f5f9' }} !important;">ক্রয় (পারচেজ)</span>
+            </a>
+            <div class="sidebar-mini-tooltip">ক্রয় (পারচেজ)</div>
           </li>
 
           <!-- 7. কাস্টমার (Has Submenu) -->
@@ -2950,25 +2931,7 @@
         </ul>
       </div>
 
-      <!-- Panel 4: Purchase Submenu Panel -->
-      <div id="submenu-panel-purchase" class="sidebar-submenu-panel sidebar-panel-scroll absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out py-2 px-3 {{ $activeParent === 'purchase' ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none' }}" data-parent-id="purchase">
-        <div class="sidebar-back-wrapper relative group mb-2">
-          <button type="button" class="sidebar-back-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-200" data-target="main">
-            <i class="fa-solid fa-chevron-left text-xs text-purple-200"></i>
-            <span class="truncate">ক্রয় (পারচেজ)</span>
-          </button>
-          <div class="sidebar-mini-tooltip">মূল মেনু</div>
-        </div>
-        <ul class="space-y-1">
-          <li class="relative group">
-            <a href="{{ url('admin-dashboard-Purchase') }}" class="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] text-slate-200 hover:text-white hover:bg-white/10 transition-all duration-150 {{ request()->is('admin-dashboard-Purchase*') ? 'active-submenu-link' : '' }}">
-              <i class="fa-solid fa-cart-arrow-down text-xs text-purple-200/80 w-4 text-center"></i>
-              <span>ক্রয়ের তালিকা</span>
-            </a>
-            <div class="sidebar-mini-tooltip">ক্রয়ের তালিকা</div>
-          </li>
-        </ul>
-      </div>
+
 
       <!-- Panel 5: Customer Submenu Panel -->
       <div id="submenu-panel-customer" class="sidebar-submenu-panel sidebar-panel-scroll absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out py-2 px-3 {{ $activeParent === 'customer' ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none' }}" data-parent-id="customer">
