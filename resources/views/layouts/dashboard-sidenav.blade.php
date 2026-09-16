@@ -2129,13 +2129,25 @@
 
     /* Explicit Light Mode Base & Background Overrides */
     body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) {
-      background-color: #F3ECFB !important;
+      background-color: #ffffff !important;
       color: #1e293b !important;
     }
 
     body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) .main-content,
     body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) .page-content {
-      background-color: #F3ECFB !important;
+      background-color: #ffffff !important;
+      background: #ffffff !important;
+    }
+
+    /* Mobile and Tablet: Keep top padding for topbar height, remove left, right and bottom padding */
+    @media (max-width: 991.98px) {
+      .page-content,
+      .main-content .page-content,
+      body .page-content,
+      body .main-content .page-content,
+      div.page-content {
+        padding: 70px 0px 0px 0px !important;
+      }
     }
 
     body:not([light-mode="dark"]):not([data-layout-mode="dark"]):not(.dark-mode) #page-topbar,
@@ -3520,7 +3532,7 @@
         const elId = (el.id || '').toLowerCase();
         const elClass = (el.className || '').toLowerCase();
 
-        const isExcluded = (inputType === 'date' || inputType === 'time' || inputType === 'datetime-local' || inputType === 'password' || inputType === 'file' || inputType === 'checkbox' || inputType === 'radio');
+        const isExcluded = (inputType === 'date' || inputType === 'time' || inputType === 'datetime-local' || inputType === 'password' || inputType === 'file' || inputType === 'checkbox' || inputType === 'radio' || elClass.includes('custom-flatpickr-input') || elClass.includes('flatpickr') || elId.includes('startdate') || elId.includes('enddate') || elId.includes('duecollectiondate'));
         if (isExcluded) return;
 
         let val = el.value;
@@ -3529,7 +3541,7 @@
         const isNumericOnly = (inputMode === 'numeric' || inputMode === 'decimal' || inputType === 'number' || 
                                elClass.includes('calc-input') || elClass.includes('number-only') ||
                                elId.includes('qty') || elId.includes('price') || elId.includes('paid') || 
-                               elId.includes('due') || elId.includes('mobile') || elId.includes('phone') || 
+                               elId.includes('due') || ((elId.includes('mobile') || elId.includes('phone')) && !elId.includes('date')) || 
                                elId.includes('amount') || elId.includes('charge') || elId.includes('discount') || 
                                elId.includes('nid') || elId.includes('previousdue'));
 

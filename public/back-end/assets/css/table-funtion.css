@@ -98,7 +98,9 @@ Reset Default CSS End
 .data-table {
   width: 100%;
   background: var(--white);
-  border-radius: 12px !important;
+  border-radius: 0px !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .bredcam {
@@ -133,9 +135,10 @@ Reset Default CSS End
 }
 
 .data-table .card {
-  border: none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 12px !important;
+  border: none !important;
+  border-radius: 0px !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .data-table .card-body {

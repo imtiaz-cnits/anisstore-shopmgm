@@ -65,7 +65,7 @@
 
             <!-- Quick Search & Return Trigger Box -->
             <div id="searchCardBox" class="card border-0 shadow-sm mb-4" style="border-radius: 16px; background: linear-gradient(145deg, #ffffff, #f0fdf4); border-left: 5px solid #16a34a !important;">
-                <div class="card-body p-3 p-sm-4">
+                <div class="card-body p-3 p-lg-4">
                     <h5 id="searchCardTitle" class="fw-bold text-dark mb-2 d-flex align-items-center gap-2 fs-6 fs-sm-5">
                         <i class="fa-solid fa-magnifying-glass text-success"></i> Quick Invoice Search & Process Return
                     </h5>

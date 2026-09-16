@@ -569,7 +569,7 @@
 <!-- Main Dashboard Content Start -->
 <div class="main-content">
   <div class="page-content">
-    <div class="container-fluid px-0">
+    <div class="container-fluid p-3">
 
       <!-- DASHBOARD DATE FILTER BAR -->
       <div class="card border-0 shadow-sm rounded-4 mb-3" style="background: #ffffff; overflow: visible;">

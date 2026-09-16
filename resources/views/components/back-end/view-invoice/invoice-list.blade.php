@@ -9,26 +9,65 @@
     <div class="page-content">
         <!-- Table Start -->
         <div class="data-table">
-            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                <div class="card-body p-3 p-sm-4">
-                    <!-- 1. Title: Icon + Title with clean gap, no description, no margins -->
-                    <div class="invoice-card-header mb-3 pb-2 border-bottom d-flex align-items-center">
+            <div class="card border-0">
+                <div class="card-body p-3 p-lg-4">
+                    <!-- 1. Header: On Mobile/Tab: Title on left (no icon), Search & Filter icon buttons on right. On Desktop: Icon + Title -->
+                    <div class="invoice-card-header mb-3 pb-2 border-bottom d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
-                            <div class="invoice-title-icon-box rounded-3 d-flex align-items-center justify-content-center">
+                            <div class="invoice-title-icon-box rounded-3 d-none d-lg-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-file-invoice-dollar fs-5"></i>
                             </div>
                             <h4 class="invoice-main-heading m-0 p-0 fw-bold">ইনভয়েস তালিকা</h4>
                         </div>
+
+                        <!-- Mobile & Tab Action Buttons (Search & Filter) -->
+                        <div class="d-flex align-items-center gap-2 d-lg-none">
+                            <!-- Mobile Search Toggle Button -->
+                            <button type="button" id="mobileSearchToggleBtn" class="mobile-header-icon-btn" onclick="toggleMobileSearchBar()" title="অনুসন্ধান">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+
+                            <!-- Mobile Filter Dropdown (Icon only, no text) -->
+                            <div class="custom-dropdown-wrap position-relative" id="mobileFilterDropdownContainer">
+                                <button type="button" class="mobile-header-icon-btn" id="mobileFilterDropdownToggle" onclick="toggleCustomDropdown('mobileFilterDropdownMenu')" title="ফিল্টার">
+                                    <i class="fa-solid fa-filter"></i>
+                                </button>
+                                <div class="custom-dropdown-menu dropdown-menus end-0 shadow-lg" id="mobileFilterDropdownMenu" style="min-width: 175px;">
+                                    <a href="#" class="custom-dropdown-item active" data-filter="all" onclick="selectFilterOption('all', 'সব সময়', event)">সব সময়</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="today" onclick="selectFilterOption('today', 'আজকের', event)">আজকের</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="7" onclick="selectFilterOption('7', 'গত ৭ দিন', event)">গত ৭ দিন</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="30" onclick="selectFilterOption('30', 'গত ৩০ দিন', event)">গত ৩০ দিন</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="365" onclick="selectFilterOption('365', 'গত বছর', event)">গত বছর</a>
+                                    <div class="custom-dropdown-divider"></div>
+                                    <a href="#" class="custom-dropdown-item d-flex align-items-center justify-content-center text-primary fw-bold" onclick="openCustomDateModal(event)" style="color: #8C56D4 !important;">
+                                        <i class="fa-regular fa-calendar-days me-2"></i>
+                                        <span>তারিখ</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- 2. Date Fields (1 Row, 2 Columns on Mobile, Tab, Desktop) -->
-                    <div class="invoice-date-section mb-3">
+                    <!-- Mobile Expandable Search Bar (Appears on clicking search icon) -->
+                    <div id="mobileSearchWrap" class="mb-0 d-none position-relative">
+                        <div class="d-flex align-items-center gap-2 mb-0">
+                            <div class="position-relative flex-grow-1 mb-0">
+                                <input type="text" id="mobileSearchInput" class="form-control invoice-search-input mb-0" placeholder="ইনভয়েস খুঁজুন..." autocomplete="off" />
+                            </div>
+                            <button type="button" class="mobile-search-close-btn mb-0" onclick="closeMobileSearchBar()" title="বন্ধ করুন">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Date Fields (Desktop only >= 992px) -->
+                    <div class="invoice-date-section mb-3 d-none d-lg-block">
                         <div class="invoice-date-grid mb-2.5" style="display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 10px !important;">
                             <!-- Start Date -->
                             <div class="date-field-col" style="min-width: 0;">
                                 <label for="startDate" class="form-label mb-1 fw-semibold text-slate-700 dark:text-slate-200" style="font-size: 13px;">শুরুর তারিখ *</label>
                                 <div class="custom-date-input-wrap position-relative">
-                                    <input type="text" id="startDate" name="dateInput" class="custom-flatpickr-input form-control w-100 text-start" placeholder="DD-MM-YYYY" readonly autocomplete="off" />
+                                    <input type="text" id="startDate" name="dateInput" class="custom-flatpickr-input form-control w-100 text-start" placeholder="DD/MM/YYYY" readonly autocomplete="off" />
                                     <span class="calendar-addon-btn" onclick="openDatePicker('startDate')">
                                         <i class="fa-regular fa-calendar-days"></i>
                                     </span>
@@ -39,7 +78,7 @@
                             <div class="date-field-col" style="min-width: 0;">
                                 <label for="endDate" class="form-label mb-1 fw-semibold text-slate-700 dark:text-slate-200" style="font-size: 13px;">শেষের তারিখ *</label>
                                 <div class="custom-date-input-wrap position-relative">
-                                    <input type="text" id="endDate" name="dateInput" class="custom-flatpickr-input form-control w-100 text-start" placeholder="DD-MM-YYYY" readonly autocomplete="off" />
+                                    <input type="text" id="endDate" name="dateInput" class="custom-flatpickr-input form-control w-100 text-start" placeholder="DD/MM/YYYY" readonly autocomplete="off" />
                                     <span class="calendar-addon-btn" onclick="openDatePicker('endDate')">
                                         <i class="fa-regular fa-calendar-days"></i>
                                     </span>
@@ -54,14 +93,14 @@
                         </button>
                     </div>
 
-                    <!-- Search Input Box -->
-                    <div class="invoice-search-box-wrap mb-3 position-relative">
+                    <!-- Search Input Box (Desktop only >= 992px) -->
+                    <div class="invoice-search-box-wrap mb-3 position-relative d-none d-lg-block">
                         <input type="text" id="searchInput" class="form-control invoice-search-input" placeholder="ইনভয়েস খুঁজুন..." autocomplete="off" />
                         <i class="fa-solid fa-magnifying-glass invoice-search-addon-icon"></i>
                     </div>
 
-                    <!-- 3. Toolbar Section: Row 1 (Entry & Filter in 1 row 2 col), Row 2 (PDF & Print in 1 row 2 col) -->
-                    <div class="invoice-toolbar-section mb-3 d-flex flex-column gap-3">
+                    <!-- 3. Toolbar Section: Desktop only >= 992px (Row 1: Entry & Filter, Row 2: PDF & Print) -->
+                    <div class="invoice-toolbar-section mb-3 d-none d-lg-flex flex-column gap-3">
                         <!-- Row 1: Entry & Filter (1 Row, 2 Columns) -->
                         <div class="toolbar-row-1 d-flex align-items-center justify-content-between gap-2 w-100 mb-1">
                             <!-- Left: "এন্ট্রি:" text + Entry dropdown (width fits content) -->
@@ -98,6 +137,11 @@
                                     <a href="#" class="custom-dropdown-item" data-filter="7" onclick="selectFilterOption('7', 'গত ৭ দিন', event)">গত ৭ দিন</a>
                                     <a href="#" class="custom-dropdown-item" data-filter="30" onclick="selectFilterOption('30', 'গত ৩০ দিন', event)">গত ৩০ দিন</a>
                                     <a href="#" class="custom-dropdown-item" data-filter="365" onclick="selectFilterOption('365', 'গত বছর', event)">গত বছর</a>
+                                    <div class="custom-dropdown-divider"></div>
+                                    <a href="#" class="custom-dropdown-item d-flex align-items-center justify-content-center text-primary fw-bold" onclick="openCustomDateModal(event)" style="color: #8C56D4 !important;">
+                                        <i class="fa-regular fa-calendar-days me-2"></i>
+                                        <span>তারিখ</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -115,6 +159,26 @@
                                 <i class="fa-solid fa-print me-2" style="color: #8C56D4; font-size: 15px;"></i>
                                 <span class="fw-bold fs-7 fs-sm-6">প্রিন্ট</span>
                             </button>
+                        </div>
+                    </div>
+
+                    <!-- Top Summary Stats Strip (1 Row, Shadow, Mot Left, Mot Mullo Right, Vertical Divider) -->
+                    <div class="invoice-top-summary-strip mb-3 p-2.5 px-3 bg-white dark:bg-slate-800" style="border-radius: 6px !important; border: none !important; box-shadow: 0 4px 18px rgba(140, 86, 212, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <!-- Left: মোট -->
+                            <div class="d-flex flex-column text-start ps-1 flex-grow-1">
+                                <span class="text-muted small fw-medium" style="font-size: 12px;">মোট</span>
+                                <span class="fw-bold" id="topSummaryTotalCount" style="font-size: 15.5px; color: #8C56D4; font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;">০</span>
+                            </div>
+
+                            <!-- Middle Vertical Divider Bar -->
+                            <div class="summary-divider-bar" style="width: 1.5px; height: 32px; background-color: #E5D5F7; flex-shrink: 0; margin: 0 16px;"></div>
+
+                            <!-- Right: মোট মূল্য -->
+                            <div class="d-flex flex-column text-end pe-1 flex-grow-1">
+                                <span class="text-muted small fw-medium" style="font-size: 12px;">মোট মূল্য</span>
+                                <span class="fw-bold" id="topSummaryTotalAmount" style="font-size: 15.5px; color: #8C56D4; font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;">৳ ০.০০</span>
+                            </div>
                         </div>
                     </div>
 
@@ -137,8 +201,8 @@
                         </table>
                     </div>
 
-                    <!-- Mobile & Tablet Responsive Card List View (< 992px) - 2 Cards per row on Tablet (col-md-6) -->
-                    <div id="mobileCardList" class="row g-3 d-flex flex-wrap d-lg-none mb-3 align-items-start"></div>
+                    <!-- Mobile & Tablet Responsive Card List View (< 992px) - 2 Cards per row on Tablet with 8px gap -->
+                    <div id="mobileCardList" class="d-flex flex-wrap d-lg-none mb-3 align-items-start" style="gap: 8px !important;"></div>
 
                     <!-- Smart Pagination & Display Info Footer -->
                     <div class="d-flex flex-column flex-md-row align-items-center justify-content-between pt-3 mt-3 border-top gap-2">
@@ -150,10 +214,65 @@
                 </div>
             </div>
         </div>
+        <!-- Table End -->
+
+        <!-- Custom Date Range Filter Modal for Mobile/Tablet -->
+        <div class="modal fade" id="customDateRangeModal" tabindex="-1" aria-labelledby="customDateRangeModalLabel" aria-hidden="true" style="z-index: 2050;">
+            <div class="modal-dialog modal-dialog-centered modal-sm" style="max-width: 380px;">
+                <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                    <div class="modal-header border-bottom py-2.5 px-3 d-flex align-items-center justify-content-between" style="background: #FAF7FD;">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="d-flex align-items-center justify-content-center rounded-2" style="width: 30px; height: 30px; background: #F3ECFB; color: #8C56D4;">
+                                <i class="fa-regular fa-calendar-days fs-7"></i>
+                            </div>
+                            <h6 class="modal-title fw-bold m-0 text-dark" id="customDateRangeModalLabel" style="font-size: 15px;">তারিখ অনুযায়ী ফিল্টার</h6>
+                        </div>
+                        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close" onclick="closeCustomDateModal()" style="font-size: 11px; cursor: pointer;"></button>
+                    </div>
+                    <div class="modal-body p-3">
+                        <form id="mobileCustomDateForm" onsubmit="applyMobileCustomDateFilter(event)">
+                            <div class="mb-2.5">
+                                <label for="mobileStartDate" class="form-label mb-1 fw-semibold text-slate-700" style="font-size: 13px;">শুরুর তারিখ *</label>
+                                <div class="custom-date-input-wrap position-relative">
+                                    <input type="text" id="mobileStartDate" name="mobileStartDate" class="custom-flatpickr-input form-control w-100 text-start" placeholder="DD/MM/YYYY" readonly autocomplete="off" />
+                                    <span class="calendar-addon-btn" onclick="openMobileDatePicker('mobileStartDate')">
+                                        <i class="fa-regular fa-calendar-days"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="mb-3 mt-2">
+                                <label for="mobileEndDate" class="form-label mb-1 fw-semibold text-slate-700 mt-2" style="font-size: 13px;">শেষের তারিখ *</label>
+                                <div class="custom-date-input-wrap position-relative">
+                                    <input type="text" id="mobileEndDate" name="mobileEndDate" class="custom-flatpickr-input form-control w-100 text-start" placeholder="DD/MM/YYYY" readonly autocomplete="off" />
+                                    <span class="calendar-addon-btn" onclick="openMobileDatePicker('mobileEndDate')">
+                                        <i class="fa-regular fa-calendar-days"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Reset & Search Action Buttons in Modal -->
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button" class="btn btn-outline-danger fw-bold d-flex align-items-center justify-content-center gap-1.5 px-3" style="height: 42px; border-radius: 10px; font-size: 14px; min-width: 90px;" onclick="resetDateFilter()" title="রিসেট করুন">
+                                    <span>রিসেট</span>
+                                </button>
+                                <button type="submit" class="invoice-search-submit-btn flex-grow-1 fw-bold d-flex align-items-center justify-content-center gap-2" style="height: 42px;">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <span>অনুসন্ধান করুন</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="copyright">
             <footer class="footer text-center py-3 mt-4 text-muted small border-top">&copy; {{ date('Y') }} মেসার্স আনিস ষ্টোর | Software By: <a href="https://www.codenextit.com" target="_blank" class="text-primary fw-bold text-decoration-none" style="color: #8C56D4 !important;">CodeNext IT</a></footer>
         </div>
-        <!-- Table End -->
+
+        <!-- Floating Add Invoice FAB Button -->
+        <a href="{{ url('/admin-dashboard-pos') }}" class="floating-add-invoice-btn" title="নতুন ইনভয়েস তৈরি করুন">
+            <i class="fa-solid fa-plus"></i>
+        </a>
     </div>
 </div>
 <!-- Hero Main Content End -->
@@ -181,6 +300,11 @@
         font-size: 20px;
         letter-spacing: -0.2px;
         font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;
+        border-left: 4px solid #8C56D4 !important;
+        padding-left: 10px !important;
+        line-height: 1.2 !important;
+        display: inline-flex;
+        align-items: center;
     }
 
     /* 2. Standardized Form Inputs & Datepicker */
@@ -262,7 +386,33 @@
         transform: translateY(0);
     }
 
-    /* Toolbar Controls */
+    /* Toolbar Controls & Mobile Header Icon Buttons */
+    .mobile-header-icon-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: #ffffff;
+        border: 1.5px solid #cbd5e1;
+        color: #8C56D4;
+        font-size: 14.5px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease-in-out;
+        outline: none !important;
+        box-shadow: 0 1px 3px rgba(140, 86, 212, 0.08);
+    }
+    .mobile-header-icon-btn:hover,
+    .mobile-header-icon-btn:active,
+    .mobile-header-icon-btn.active {
+        background: #F3ECFB;
+        border-color: #8C56D4;
+        color: #793FC5;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(140, 86, 212, 0.2);
+    }
+
     .toolbar-control-btn {
         height: 42px !important;
         min-height: 42px !important;
@@ -296,22 +446,114 @@
         color: #8C56D4;
     }
 
+    .main-content,
+    .page-content,
+    .data-table,
+    .data-table .card,
+    .data-table .card-body {
+        overflow: visible !important;
+    }
+    .data-table .card-body {
+        min-height: 480px !important;
+    }
+
+    .invoice-card-header {
+        position: relative;
+        z-index: 10;
+    }
+    .custom-dropdown-wrap {
+        position: relative;
+    }
+    .custom-dropdown-wrap.open {
+        z-index: 1000 !important;
+    }
+
     /* Custom Dropdown Menus */
     .custom-dropdown-menu {
         display: none;
         position: absolute;
         top: calc(100% + 6px);
         left: 0;
-        min-width: 100%;
+        min-width: 175px;
         width: max-content;
         max-width: 220px;
         background: #ffffff;
         border: 1px solid #E5D5F7;
-        border-radius: 10px;
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
-        z-index: 1050;
+        border-radius: 6px !important;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(140, 86, 212, 0.18) !important;
+        z-index: 1005 !important;
         overflow: hidden;
         padding: 5px;
+    }
+    .custom-dropdown-menu.end-0,
+    #mobileFilterDropdownMenu {
+        left: auto !important;
+        right: 0 !important;
+        z-index: 1005 !important;
+    }
+
+    /* Modal & Flatpickr Overlay Priority */
+    #customDateRangeModal {
+        z-index: 10600 !important;
+    }
+    .modal-backdrop {
+        z-index: 10500 !important;
+    }
+    .flatpickr-calendar {
+        z-index: 999999 !important;
+    }
+
+    /* Custom Dropdown Divider */
+    .custom-dropdown-divider {
+        border-top: 1.5px solid #d8b4fe !important;
+        margin: 6px 0 !important;
+        opacity: 1 !important;
+    }
+    body[light-mode="dark"] .custom-dropdown-divider,
+    html[light-mode="dark"] .custom-dropdown-divider {
+        border-top: 1.5px solid #475569 !important;
+    }
+    body[light-mode="dark"] .summary-divider-bar,
+    html[light-mode="dark"] .summary-divider-bar {
+        background-color: #334155 !important;
+    }
+
+    /* Red Close Button for Mobile Search Bar & Clean Bottom Gap */
+    #mobileSearchWrap:not(.d-none) {
+        margin-bottom: 12px !important;
+    }
+    #mobileSearchWrap.d-none {
+        margin-bottom: 0px !important;
+    }
+    #mobileSearchWrap .invoice-search-input,
+    #mobileSearchWrap .mobile-search-close-btn {
+        margin-bottom: 0px !important;
+    }
+    .mobile-search-close-btn {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        border-radius: 6px !important;
+        background-color: #ef4444 !important;
+        border: 1.5px solid #dc2626 !important;
+        color: #ffffff !important;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease-in-out;
+        outline: none !important;
+        box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25) !important;
+    }
+    .mobile-search-close-btn:hover {
+        background-color: #dc2626 !important;
+        border-color: #b91c1c !important;
+        color: #ffffff !important;
+        transform: scale(1.05);
+    }
+    .mobile-search-close-btn:active {
+        transform: scale(0.98);
     }
     .custom-dropdown-menu.show {
         display: block;
@@ -327,7 +569,7 @@
         font-size: 13.5px;
         font-weight: 500;
         color: #334155;
-        border-radius: 6px;
+        border-radius: 4px !important;
         cursor: pointer !important;
         transition: all 0.15s ease;
         display: block;
@@ -362,7 +604,7 @@
     .invoice-action-dropdown-menu {
         background-color: #ffffff;
         border: 1px solid #e2e8f0;
-        border-radius: 12px !important;
+        border-radius: 8px !important;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
         padding: 6px;
     }
@@ -370,7 +612,7 @@
         padding: 8px 14px;
         font-size: 13.5px;
         color: #334155;
-        border-radius: 8px;
+        border-radius: 6px;
         transition: all 0.15s ease;
     }
     .invoice-action-dropdown-menu .dropdown-item:hover {
@@ -387,23 +629,75 @@
         overflow: visible !important;
     }
     #mobileCardList {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
         align-items: flex-start !important;
+    }
+    #mobileCardList > .col-12 {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    @media (min-width: 768px) and (max-width: 991.98px) {
+        #mobileCardList > .col-md-6 {
+            width: calc(50% - 4px) !important;
+            max-width: calc(50% - 4px) !important;
+            flex: 0 0 calc(50% - 4px) !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
     }
     .invoice-mobile-card {
         overflow: visible !important;
         height: auto !important;
         min-height: 0 !important;
         align-self: flex-start !important;
-        border: 1.5px solid #E5D5F7 !important;
-        border-color: #E5D5F7 !important;
-        border-radius: 14px !important;
-        box-shadow: 0 2px 10px rgba(140, 86, 212, 0.08) !important;
+        border: 1px solid #E2E8F0 !important;
+        border-color: #E2E8F0 !important;
+        border-radius: 6px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
         background-color: #ffffff;
         transition: transform 0.2s ease, box-shadow 0.2s ease !important;
     }
     .invoice-mobile-card:hover {
-        box-shadow: 0 4px 16px rgba(140, 86, 212, 0.14) !important;
+        box-shadow: 0 4px 16px rgba(140, 86, 212, 0.12) !important;
         border-color: #d1b7f3 !important;
+    }
+
+    /* Floating Action Button (FAB) for Creating Invoice */
+    .floating-add-invoice-btn {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 52px;
+        height: 52px;
+        border-radius: 50% !important;
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        color: #ffffff !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        box-shadow: 0 6px 20px rgba(140, 86, 212, 0.4), 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+        z-index: 999;
+        text-decoration: none !important;
+        transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease, background 0.25s ease;
+        border: 2px solid rgba(255, 255, 255, 0.25);
+    }
+    .floating-add-invoice-btn:hover {
+        transform: scale(1.1) translateY(-3px);
+        box-shadow: 0 10px 28px rgba(140, 86, 212, 0.55), 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+        color: #ffffff !important;
+        background: linear-gradient(135deg, #9962e0 0%, #8C56D4 100%) !important;
+    }
+    .floating-add-invoice-btn:active {
+        transform: scale(0.95);
+        box-shadow: 0 3px 10px rgba(140, 86, 212, 0.35) !important;
     }
 
     /* Print media query for Invoices List */
@@ -643,6 +937,50 @@
     }
 
     body[light-mode="dark"] .action-dots-btn,
+    html[light-mode="dark"] .action-dots-btn,
+    body[light-mode="dark"] .mobile-header-icon-btn,
+    html[light-mode="dark"] .mobile-header-icon-btn {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #cbd5e1 !important;
+    }
+    body[light-mode="dark"] .mobile-header-icon-btn,
+    html[light-mode="dark"] .mobile-header-icon-btn {
+        color: #D2B7F1 !important;
+    }
+    body[light-mode="dark"] .mobile-header-icon-btn:hover,
+    html[light-mode="dark"] .mobile-header-icon-btn:hover,
+    body[light-mode="dark"] .mobile-header-icon-btn.active,
+    html[light-mode="dark"] .mobile-header-icon-btn.active {
+        background: #1e293b !important;
+        border-color: #8C56D4 !important;
+        color: #ffffff !important;
+    }
+
+    /* Mobile Custom Date Range Modal Dark Mode */
+    body[light-mode="dark"] #customDateRangeModal .modal-content,
+    html[light-mode="dark"] #customDateRangeModal .modal-content {
+        background-color: #1e293b !important;
+        border: 1px solid #334155 !important;
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] #customDateRangeModal .modal-header,
+    html[light-mode="dark"] #customDateRangeModal .modal-header {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] #customDateRangeModal .modal-title,
+    html[light-mode="dark"] #customDateRangeModal .modal-title {
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] #customDateRangeModal label,
+    html[light-mode="dark"] #customDateRangeModal label {
+        color: #cbd5e1 !important;
+    }
+    body[light-mode="dark"] #customDateRangeModal .btn-close,
+    html[light-mode="dark"] #customDateRangeModal .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
     html[light-mode="dark"] .action-dots-btn {
         background-color: #0f172a !important;
         color: #cbd5e1 !important;
@@ -1005,12 +1343,12 @@
     }
     .mobile-action-btn {
         flex: 1 1 0;
-        height: 36px;
-        border-radius: 9px;
+        height: 30px;
+        border-radius: 7px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
+        font-size: 11.5px;
         transition: all 0.2s ease-in-out;
         cursor: pointer;
         border: 1px solid transparent;
@@ -1188,24 +1526,24 @@
         return String(str).replace(/[০-৯]/g, w => bngDigits[w]);
     }
 
-    // Helper Date Functions for DD-MM-YYYY (d-m-Y)
+    // Helper Date Functions for DD/MM/YYYY (d/m/Y)
     function formatDateToDMY(date) {
         if (!date) return '';
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
-        return `${day}-${month}-${year}`;
+        return `${day}/${month}/${year}`;
     }
 
     function parseDMYDate(dateStr) {
         if (!dateStr) return null;
         if (dateStr instanceof Date) return dateStr;
         const engStr = banglaToEngNum(String(dateStr)).trim();
-        const parts = engStr.split('-');
+        const parts = engStr.split(/[-/]/);
         if (parts.length === 3) {
             if (parts[0].length === 4) { // Y-m-d
                 return new Date(parts[0], parts[1] - 1, parts[2]);
-            } else { // d-m-Y
+            } else { // d-m-Y or d/m/Y
                 return new Date(parts[2], parts[1] - 1, parts[0]);
             }
         }
@@ -1216,15 +1554,21 @@
     function dmyToYMD(dmyStr) {
         if (!dmyStr) return '';
         const engStr = banglaToEngNum(String(dmyStr)).trim();
-        const parts = engStr.split('-');
+        const parts = engStr.split(/[-/]/);
         if (parts.length === 3) {
             if (parts[0].length === 4) return engStr; // already Y-m-d
-            return `${parts[2]}-${parts[1]}-${parts[0]}`; // converted to Y-m-d
+            const d = parts[0].padStart(2, '0');
+            const m = parts[1].padStart(2, '0');
+            const y = parts[2];
+            return `${y}-${m}-${d}`; // converted to Y-m-d
         }
         return dmyStr;
     }
 
     // Modern Flatpickr Calendar Initialization
+    let mobileStartDatePickerInstance = null;
+    let mobileEndDatePickerInstance = null;
+
     function initInvoiceDatePickers() {
         if (typeof flatpickr === 'undefined') {
             setTimeout(initInvoiceDatePickers, 80);
@@ -1232,17 +1576,18 @@
         }
 
         const flatpickrConfig = {
-            dateFormat: "d-m-Y",
+            dateFormat: "d/m/Y",
             disableMobile: true,
             monthSelectorType: "static", // Static header with prev/next arrows (per rules.md)
             allowInput: true,
-            clickOpens: true,
-            parseDate: parseDMYDate,
-            formatDate: formatDateToDMY
+            clickOpens: true
         };
 
         startDatePickerInstance = flatpickr("#startDate", flatpickrConfig);
         endDatePickerInstance = flatpickr("#endDate", flatpickrConfig);
+
+        mobileStartDatePickerInstance = flatpickr("#mobileStartDate", flatpickrConfig);
+        mobileEndDatePickerInstance = flatpickr("#mobileEndDate", flatpickrConfig);
     }
 
     function openDatePicker(inputId) {
@@ -1251,6 +1596,131 @@
         } else if (inputId === 'endDate' && endDatePickerInstance) {
             endDatePickerInstance.open();
         }
+    }
+
+    function openMobileDatePicker(inputId) {
+        if (inputId === 'mobileStartDate' && mobileStartDatePickerInstance) {
+            mobileStartDatePickerInstance.open();
+        } else if (inputId === 'mobileEndDate' && mobileEndDatePickerInstance) {
+            mobileEndDatePickerInstance.open();
+        }
+    }
+
+    // Mobile Search Bar Toggle
+    function toggleMobileSearchBar() {
+        const wrap = $("#mobileSearchWrap");
+        if (wrap.hasClass("d-none")) {
+            wrap.removeClass("d-none");
+            $("#mobileSearchToggleBtn").addClass("active");
+            $("#mobileSearchInput").focus();
+        } else {
+            closeMobileSearchBar();
+        }
+    }
+
+    function closeMobileSearchBar() {
+        $("#mobileSearchWrap").addClass("d-none");
+        $("#mobileSearchToggleBtn").removeClass("active");
+        if ($("#mobileSearchInput").val()) {
+            $("#mobileSearchInput").val('');
+            $("#searchInput").val('');
+            currentPage = 1;
+            renderPaginatedList();
+        }
+    }
+
+    // Custom Date Modal Actions
+    function openCustomDateModal(e) {
+        if (e) e.preventDefault();
+        closeAllCustomDropdowns();
+
+        let curStart = $("#mobileStartDate").val() || $("#startDate").val();
+        let curEnd = $("#mobileEndDate").val() || $("#endDate").val();
+
+        if (curStart) {
+            $("#mobileStartDate").val(curStart);
+            if (mobileStartDatePickerInstance) {
+                let cleanStart = banglaToEngNum(curStart);
+                mobileStartDatePickerInstance.setDate(cleanStart, false, "d/m/Y");
+            }
+        }
+        if (curEnd) {
+            $("#mobileEndDate").val(curEnd);
+            if (mobileEndDatePickerInstance) {
+                let cleanEnd = banglaToEngNum(curEnd);
+                mobileEndDatePickerInstance.setDate(cleanEnd, false, "d/m/Y");
+            }
+        }
+
+        const modalEl = document.getElementById('customDateRangeModal');
+        if (modalEl) {
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modal.show();
+        }
+    }
+
+    function closeCustomDateModal() {
+        const modalEl = document.getElementById('customDateRangeModal');
+        if (modalEl) {
+            const modal = bootstrap.Modal.getInstance(modalEl) || bootstrap.Modal.getOrCreateInstance(modalEl);
+            if (modal) modal.hide();
+        }
+    }
+
+    async function applyMobileCustomDateFilter(e) {
+        if (e) e.preventDefault();
+        let startVal = $("#mobileStartDate").val();
+        let endVal = $("#mobileEndDate").val();
+
+        $("#startDate").val(startVal);
+        $("#endDate").val(endVal);
+        if (startDatePickerInstance) {
+            let cleanStart = banglaToEngNum(startVal);
+            startDatePickerInstance.setDate(cleanStart || '', false, "d/m/Y");
+        }
+        if (endDatePickerInstance) {
+            let cleanEnd = banglaToEngNum(endVal);
+            endDatePickerInstance.setDate(cleanEnd || '', false, "d/m/Y");
+        }
+
+        $("#currentFilterText").text("তারিখ");
+        $("#filterDropdownMenu .custom-dropdown-item").removeClass("active");
+        $("#mobileFilterDropdownMenu .custom-dropdown-item").removeClass("active");
+
+        const modalEl = document.getElementById('customDateRangeModal');
+        if (modalEl) {
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
+        }
+
+        const startDate = dmyToYMD(startVal);
+        const endDate = dmyToYMD(endVal);
+        await getList(startDate, endDate);
+    }
+
+    async function resetDateFilter() {
+        $("#mobileStartDate").val('');
+        $("#mobileEndDate").val('');
+        $("#startDate").val('');
+        $("#endDate").val('');
+        if (mobileStartDatePickerInstance) mobileStartDatePickerInstance.clear();
+        if (mobileEndDatePickerInstance) mobileEndDatePickerInstance.clear();
+        if (startDatePickerInstance) startDatePickerInstance.clear();
+        if (endDatePickerInstance) endDatePickerInstance.clear();
+
+        $("#currentFilterText").text("সব সময়");
+        $("#filterDropdownMenu .custom-dropdown-item").removeClass("active");
+        $("#mobileFilterDropdownMenu .custom-dropdown-item").removeClass("active");
+        $("#filterDropdownMenu [data-filter='all']").addClass("active");
+        $("#mobileFilterDropdownMenu [data-filter='all']").addClass("active");
+
+        const modalEl = document.getElementById('customDateRangeModal');
+        if (modalEl) {
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
+        }
+
+        await getList('', '');
     }
 
     // Modern Dropdowns Management
@@ -1322,26 +1792,64 @@
         if (endDatePickerInstance) {
             endDatePickerInstance.setDate(endDate || '', false);
         }
+        if (mobileStartDatePickerInstance) {
+            mobileStartDatePickerInstance.setDate(startDate || '', false);
+        }
+        if (mobileEndDatePickerInstance) {
+            mobileEndDatePickerInstance.setDate(endDate || '', false);
+        }
 
         $("#currentFilterText").text(labelText);
         $("#filterDropdownMenu .custom-dropdown-item").removeClass("active");
         $(`#filterDropdownMenu [data-filter="${filter}"]`).addClass("active");
+
+        $("#mobileFilterDropdownMenu .custom-dropdown-item").removeClass("active");
+        $(`#mobileFilterDropdownMenu [data-filter="${filter}"]`).addClass("active");
+
         closeAllCustomDropdowns();
         fetchInvoiceReport();
     }
 
     function getFilteredInvoices() {
         if (!rawInvoiceData || !Array.isArray(rawInvoiceData)) return [];
-        let searchTerm = ($("#searchInput").val() || "").toLowerCase().trim();
+        let rawTerm = ($("#searchInput").val() || $("#mobileSearchInput").val() || "").trim();
+        if (!rawTerm) return rawInvoiceData;
+
+        let termLower = rawTerm.toLowerCase();
+        let termEng = banglaToEngNum(termLower);
+        let termBn = engToBanglaNum(termLower);
 
         return rawInvoiceData.filter(function (item) {
-            let orderNo = (item.order_no || "").toLowerCase();
-            let customerName = (item.customer?.customer_name || "").toLowerCase();
-            let customerMobile = (item.customer?.mobile || "").toLowerCase();
-            let customerId = (item.customer?.customer_id || "").toLowerCase();
-            let userName = (item.user?.name || "").toLowerCase();
+            let orderNo = String(item.order_no || "").toLowerCase();
+            let customerName = String(item.customer?.customer_name || "").toLowerCase();
+            let customerMobile = String(item.customer?.mobile || "").toLowerCase();
+            let customerId = String(item.customer?.customer_id || "").toLowerCase();
+            let userName = String(item.user?.name || "").toLowerCase();
+            let subTotal = String(item.sub_total || "").toLowerCase();
+            let paidAmount = String(item.paid_amount || "").toLowerCase();
+            let dueAmount = String(item.due_amount || "").toLowerCase();
+            let invoiceDate = String(item.invoice_date || "").toLowerCase();
 
-            return !searchTerm || orderNo.includes(searchTerm) || customerName.includes(searchTerm) || customerMobile.includes(searchTerm) || customerId.includes(searchTerm) || userName.includes(searchTerm);
+            let matches = function(field) {
+                if (!field) return false;
+                let fieldEng = banglaToEngNum(field);
+                let fieldBn = engToBanglaNum(field);
+                return field.includes(termLower) ||
+                       fieldEng.includes(termEng) ||
+                       fieldBn.includes(termBn) ||
+                       field.includes(termEng) ||
+                       field.includes(termBn);
+            };
+
+            return matches(orderNo) ||
+                   matches(customerName) ||
+                   matches(customerMobile) ||
+                   matches(customerId) ||
+                   matches(userName) ||
+                   matches(subTotal) ||
+                   matches(paidAmount) ||
+                   matches(dueAmount) ||
+                   matches(invoiceDate);
         });
     }
 
@@ -1591,7 +2099,7 @@
         });
     });
 
-    $("#searchInput").on("keyup search input", function () {
+    $(document).on("keyup search input", "#searchInput, #mobileSearchInput", function () {
         currentPage = 1;
         renderPaginatedList();
     });
@@ -1717,8 +2225,17 @@
         // 1. Filter Invoices
         let filtered = getFilteredInvoices();
 
-        // 2. Pagination Calculations
+        // 2. Calculate Top Summary Stats (Dynamic across all filtered invoices)
         let totalItems = filtered.length;
+        let totalAmount = filtered.reduce(function(sum, item) {
+            return sum + (parseFloat(item.sub_total) || 0);
+        }, 0);
+
+        let totalAmountFormatted = totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        $("#topSummaryTotalCount").text(engToBanglaNum(totalItems));
+        $("#topSummaryTotalAmount").text("৳ " + engToBanglaNum(totalAmountFormatted));
+
+        // 3. Pagination Calculations
         let totalPages = Math.ceil(totalItems / pageSize) || 1;
         if (currentPage > totalPages) currentPage = totalPages;
         if (currentPage < 1) currentPage = 1;
@@ -1735,34 +2252,69 @@
 
         if (pageItems.length === 0) {
             tableList.html('<tr><td colspan="8" class="text-center text-danger p-4 fw-bold">❌ কোনো ইনভয়েস পাওয়া যায়নি।</td></tr>');
-            mobileCardList.html('<div class="col-12 p-4 text-center text-danger fw-bold bg-white rounded-3 border shadow-sm">❌ কোনো ইনভয়েস পাওয়া যায়নি।</div>');
+            mobileCardList.html('<div class="col-12 p-4 text-center text-danger fw-bold bg-white border shadow-sm" style="border-radius: 6px !important;">❌ কোনো ইনভয়েস পাওয়া যায়নি।</div>');
         } else {
             pageItems.forEach(function (item, idx) {
                 let realIndex = startIndex + idx;
-                const subTotal = item['sub_total'] ? parseFloat(item['sub_total']).toFixed(2) : '0.00';
-                const discountAmount = item['discount_amount'] ? parseFloat(item['discount_amount']).toFixed(2) : '0.00';
-                const paidAmount = item['paid_amount'] ? parseFloat(item['paid_amount']).toFixed(2) : '0.00';
-                const dueAmount = item['due_amount'] ? parseFloat(item['due_amount']).toFixed(2) : '0.00';
+                const subTotalNum = item['sub_total'] ? parseFloat(item['sub_total']) : 0;
+                const discountAmountNum = item['discount_amount'] ? parseFloat(item['discount_amount']) : 0;
+                const paidAmountNum = item['paid_amount'] ? parseFloat(item['paid_amount']) : 0;
+                const dueAmountNum = item['due_amount'] ? parseFloat(item['due_amount']) : 0;
+
+                const subTotal = subTotalNum.toFixed(2);
+                const discountAmount = discountAmountNum.toFixed(2);
+                const paidAmount = paidAmountNum.toFixed(2);
+                const dueAmount = dueAmountNum.toFixed(2);
+
+                const subTotalFormatted = subTotalNum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                const discountFormatted = discountAmountNum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                const paidFormatted = paidAmountNum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                const dueFormatted = dueAmountNum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
                 let paymentStatus = '';
                 let statusBadgeClass = '';
-                if (parseFloat(dueAmount) === 0 && parseFloat(paidAmount) > 0) {
-                    paymentStatus = 'পরিশোধিত';
+                if (dueAmountNum === 0 && paidAmountNum > 0) {
+                    paymentStatus = 'পরিশোধ';
                     statusBadgeClass = 'bg-success-subtle text-success border border-success-subtle';
-                } else if (parseFloat(dueAmount) > 0 && parseFloat(paidAmount) > 0) {
-                    paymentStatus = 'আংশিক পরিশোধ';
-                    statusBadgeClass = 'bg-warning-subtle text-warning-emphasis border border-warning-subtle';
-                } else if (parseFloat(dueAmount) > 0 && parseFloat(paidAmount) === 0) {
+                } else if (dueAmountNum > 0 && paidAmountNum > 0) {
+                    paymentStatus = 'আংশিক';
+                    statusBadgeClass = 'bg-purple-subtle text-purple border border-purple-subtle';
+                } else if (dueAmountNum > 0 && paidAmountNum === 0) {
                     paymentStatus = 'বকেয়া';
                     statusBadgeClass = 'bg-danger-subtle text-danger border border-danger-subtle';
                 } else {
                     paymentStatus = 'ফেরত';
-                    statusBadgeClass = 'bg-purple-subtle text-purple border border-purple-subtle';
+                    statusBadgeClass = 'bg-warning-subtle text-warning-emphasis border border-warning-subtle';
                 }
 
-                let formattedDate = item['invoice_date'] ? new Intl.DateTimeFormat('bn-BD', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(item['invoice_date'])) : 'N/A';
+                // Parse Date & Time
+                let rawDateStr = item.created_at || item.invoice_date;
+                let cardDate = 'N/A';
+                let cardTime = '';
+                let formattedTableDate = 'N/A';
 
-                // Desktop Row - Larger font sizes for table & prices
+                if (rawDateStr) {
+                    let d = new Date(rawDateStr);
+                    if (!isNaN(d.getTime())) {
+                        const day = d.getDate();
+                        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                        const month = monthNames[d.getMonth()];
+                        cardDate = `${day} ${month}`;
+
+                        let hours = d.getHours();
+                        let minutes = d.getMinutes();
+                        let ampm = hours >= 12 ? 'PM' : 'AM';
+                        hours = hours % 12;
+                        hours = hours ? hours : 12;
+                        let strMinutes = minutes < 10 ? '0' + minutes : minutes;
+                        let strHours = hours < 10 ? '0' + hours : hours;
+                        cardTime = `${strHours}:${strMinutes} ${ampm}`;
+
+                        formattedTableDate = new Intl.DateTimeFormat('bn-BD', { day: '2-digit', month: 'short', year: 'numeric' }).format(d);
+                    }
+                }
+
+                // Desktop Row - Table View
                 let row = `
                     <tr>
                         <td class="text-center fw-bold" style="font-size: 14.5px;">${engToBanglaNum(realIndex + 1)}</td>
@@ -1788,10 +2340,10 @@
                             <div style="font-size: 13.5px;">মোট: <span class="fw-bold text-dark" style="font-size: 15px;">৳ ${engToBanglaNum(subTotal)}</span></div>
                             <div class="text-muted" style="font-size: 12.5px;">ছাড়: ৳ ${engToBanglaNum(discountAmount)}</div>
                             <div class="text-success" style="font-size: 13.5px;">পরিশোধ: <span class="fw-bold" style="font-size: 15px;">৳ ${engToBanglaNum(paidAmount)}</span></div>
-                            ${parseFloat(dueAmount) > 0 ? `<div class="text-danger fw-bold" style="font-size: 14px;">বকেয়া: ৳ ${engToBanglaNum(dueAmount)}</div>` : ''}
+                            ${dueAmountNum > 0 ? `<div class="text-danger fw-bold" style="font-size: 14px;">বকেয়া: ৳ ${engToBanglaNum(dueAmount)}</div>` : ''}
                         </td>
                         <td class="fw-semibold text-secondary" style="font-size: 13.5px;"><i class="fa-solid fa-user me-1"></i>${item['user']?.name ?? 'System'}</td>
-                        <td class="text-muted" style="font-size: 13px;"><i class="fa-regular fa-calendar me-1"></i>${formattedDate}</td>
+                        <td class="text-muted" style="font-size: 13px;"><i class="fa-regular fa-calendar me-1"></i>${formattedTableDate}</td>
                         <td class="text-center">
                             <span class="badge ${statusBadgeClass} px-2.5 py-1.5 fw-bold" style="font-size: 12px; border-radius: 12px;">
                                 ${paymentStatus}
@@ -1846,80 +2398,63 @@
                     </tr>`;
                 tableList.append(row);
 
-                // Mobile & Tablet Card View (col-12 on mobile, col-md-6 on tablet = 2 per row)
+                // Right bottom due info
+                let dueInfoHtml = '';
+                if (dueAmountNum > 0) {
+                    dueInfoHtml = `
+                        <span class="text-secondary fw-medium" style="font-size: 12px;">বাকি : ৳ ${engToBanglaNum(dueFormatted)}</span>
+                        <i class="fa-regular fa-circle-check ms-1" style="color: #8C56D4; font-size: 13.5px;"></i>
+                    `;
+                } else {
+                    dueInfoHtml = `
+                        <span class="text-success fw-medium" style="font-size: 12px;">পরিশোধ: ৳ ${engToBanglaNum(paidFormatted)}</span>
+                        <i class="fa-solid fa-circle-check ms-1 text-success" style="font-size: 13.5px;"></i>
+                    `;
+                }
+
+                // Mobile & Tablet Box-Type Card View (col-12 on mobile, col-md-6 on tablet with 8px gap)
                 let mobileCard = `
-                    <div class="col-12 col-md-6 mb-2 align-self-start">
-                        <div class="invoice-mobile-card card border shadow-sm rounded-4 p-3 pb-2.5 position-relative mb-0" onclick="if (!event.target.closest('.mobile-card-actions, a, button')) { viewInvoice(${item.id}); }" style="cursor: pointer;">
-                            <!-- Top Bar: Serial + Order No on left, Status Badge on right -->
-                            <div class="d-flex align-items-center justify-content-between pb-2 mb-2 border-bottom">
-                                <div class="d-flex align-items-center gap-1.5">
-                                    <span class="badge bg-secondary-subtle text-secondary fw-bold" style="font-size: 11px;">#${engToBanglaNum(realIndex + 1)}</span>
-                                    <span class="badge bg-light text-dark border fw-bold" style="font-size: 12px; cursor: pointer;" onclick="event.stopPropagation(); viewInvoice(${item.id})" title="ইনভয়েস প্রিন্ট ভিউ দেখুন">
-                                        <i class="fa-solid fa-file-invoice me-1 text-primary" style="color: #8C56D4 !important;"></i>${item['order_no'] || '-'}
-                                    </span>
+                    <div class="col-12 col-md-6 align-self-start">
+                        <div class="invoice-mobile-card card border shadow-sm p-2.5 position-relative mb-0 bg-white" onclick="if (!event.target.closest('.mobile-card-actions, a, button')) { viewInvoice(${item.id}); }" style="cursor: pointer; border-color: #E2E8F0 !important; border-radius: 6px !important;">
+                            <!-- Top Section: Left Date/Time Box + Right Content -->
+                            <div class="d-flex align-items-stretch">
+                                <!-- Left Date & Time Column -->
+                                <div class="d-flex flex-column justify-content-center align-items-center text-center pe-2.5 me-2.5 border-end" style="min-width: 68px; flex-shrink: 0; border-color: #f1f5f9 !important;">
+                                    <span class="fw-bold" style="color: #8C56D4; font-size: 13.5px; line-height: 1.2;">${cardDate}</span>
+                                    <span class="small mt-1" style="color: #a855f7 !important; font-size: 10.5px; font-weight: 500;">${cardTime}</span>
                                 </div>
-                                <div>
-                                    <span class="badge ${statusBadgeClass} px-2.5 py-1 fw-bold" style="font-size: 11px; border-radius: 12px;">
-                                        ${paymentStatus}
-                                    </span>
-                                </div>
-                            </div>
 
-                            <!-- Customer Info: Name on left, ID on the far right of the card, Calendar Date directly under name (no phone number) -->
-                            <div class="mb-2">
-                                <div class="d-flex align-items-center justify-content-between gap-2">
-                                    <div class="d-flex align-items-center gap-1.5 text-truncate">
-                                        ${item['customer']?.id ? `
-                                            <a href="/customer/profile/${item['customer'].id}" class="text-decoration-none text-truncate" onclick="event.stopPropagation();" title="কাস্টমার প্রোফাইল দেখুন">
-                                                <h6 class="fw-bold mb-0 customer-title text-truncate" style="font-size: 15.5px; color: #8C56D4 !important;">
-                                                    <i class="fa-solid fa-user-circle me-1" style="color: #8C56D4;"></i>${item['customer']?.customer_name ?? 'সাধারণ কাস্টমার'}
-                                                </h6>
-                                            </a>
-                                        ` : `
-                                            <h6 class="fw-bold text-dark mb-0 customer-title text-truncate" style="font-size: 15.5px;">
-                                                <i class="fa-solid fa-user-circle me-1" style="color: #8C56D4;"></i>${item['customer']?.customer_name ?? 'সাধারণ কাস্টমার'}
-                                            </h6>
-                                        `}
-                                    </div>
-                                    ${item['customer']?.customer_id ? `
-                                        <a href="/customer/profile/${item['customer'].id}" class="text-decoration-none flex-shrink-0" onclick="event.stopPropagation();" title="কাস্টমার প্রোফাইল দেখুন">
-                                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle fw-bold" style="font-size: 11px;">
-                                                আইডি: ${item['customer'].customer_id}
+                                <!-- Right Content Area -->
+                                <div class="flex-grow-1 min-w-0 d-flex flex-column justify-content-between">
+                                    <!-- Line 1: Customer Name + Status Badge -->
+                                    <div class="d-flex align-items-center justify-content-between gap-1 mb-0.5">
+                                        <div class="fw-bold text-dark text-truncate" style="font-size: 14.5px;">
+                                            ${item['customer']?.customer_name ?? 'সাধারণ কাস্টমার'}
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <span class="badge ${statusBadgeClass} px-2 py-0.5 fw-bold" style="font-size: 11px; border-radius: 6px;">
+                                                ${paymentStatus}
                                             </span>
-                                        </a>
-                                    ` : ''}
-                                </div>
-                                <div class="text-muted mt-1" style="font-size: 12px;">
-                                    <i class="fa-regular fa-calendar me-1" style="color: #8C56D4;"></i>${formattedDate}
-                                    <span class="ms-1 opacity-75">(${item['user']?.name ?? 'System'})</span>
-                                </div>
-                            </div>
+                                        </div>
+                                    </div>
 
-                            <!-- 2-Column Financial Summary Grid with larger font size & clickable for print view -->
-                            <div class="invoice-summary-grid rounded-3 p-2 my-2 border" onclick="event.stopPropagation(); viewInvoice(${item.id})" role="button" title="ইনভয়েস প্রিন্ট ভিউ দেখুন" style="cursor: pointer;">
-                                <div class="row g-2 text-center">
-                                    <div class="col-6">
-                                        <div class="invoice-price-box p-2 rounded-2 border bg-white dark:bg-slate-800" onclick="event.stopPropagation(); viewInvoice(${item.id})" title="ইনভয়েস প্রিন্ট ভিউ দেখুন">
-                                            <span class="summary-label d-block text-muted small fw-semibold" style="font-size: 12.5px;">মোট</span>
-                                            <span class="summary-price fw-bold text-dark text-nowrap" style="font-size: 18.5px; font-weight: 800;">৳ ${engToBanglaNum(subTotal)}</span>
+                                    <!-- Line 2: Customer / Order Subtitle -->
+                                    <div class="d-flex align-items-center justify-content-between gap-1 mb-1" style="font-size: 11.5px; color: #64748b;">
+                                        <div class="text-truncate">
+                                            <span>কাস্টমার</span>
+                                            ${item['customer']?.customer_id ? `<span class="ms-1 opacity-75">(${item['customer'].customer_id})</span>` : ''}
+                                            ${item['order_no'] ? `<span class="ms-1 opacity-75">| #${item['order_no']}</span>` : ''}
                                         </div>
+                                        ${discountAmountNum > 0 ? `<div class="text-end text-muted flex-shrink-0" style="font-size: 11px;">ছাড়: ৳ ${engToBanglaNum(discountFormatted)}</div>` : ''}
                                     </div>
-                                    <div class="col-6">
-                                        <div class="invoice-price-box p-2 rounded-2 border bg-white dark:bg-slate-800" onclick="event.stopPropagation(); viewInvoice(${item.id})" title="ইনভয়েস প্রিন্ট ভিউ দেখুন">
-                                            <span class="summary-label d-block text-muted small fw-semibold" style="font-size: 12.5px;">ছাড়</span>
-                                            <span class="summary-price fw-bold text-secondary text-nowrap" style="font-size: 18.5px; font-weight: 800;">৳ ${engToBanglaNum(discountAmount)}</span>
+
+                                    <!-- Line 3: Total Price + Due Status -->
+                                    <div class="d-flex align-items-center justify-content-between gap-2">
+                                        <div class="fw-bold text-dark" style="font-size: 14px;">
+                                            ৳ ${engToBanglaNum(subTotalFormatted)}
                                         </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="invoice-price-box p-2 rounded-2 border bg-white dark:bg-slate-800" onclick="event.stopPropagation(); viewInvoice(${item.id})" title="ইনভয়েস প্রিন্ট ভিউ দেখুন">
-                                            <span class="summary-label d-block text-success small fw-semibold" style="font-size: 12.5px;">পরিশোধ</span>
-                                            <span class="summary-price fw-bold text-success text-nowrap" style="font-size: 18.5px; font-weight: 800;">৳ ${engToBanglaNum(paidAmount)}</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="invoice-price-box p-2 rounded-2 border bg-white dark:bg-slate-800" onclick="event.stopPropagation(); viewInvoice(${item.id})" title="ইনভয়েস প্রিন্ট ভিউ দেখুন">
-                                            <span class="summary-label d-block ${parseFloat(dueAmount) > 0 ? 'text-danger' : 'text-muted'} small fw-semibold" style="font-size: 12.5px;">বকেয়া</span>
-                                            <span class="summary-price fw-bold ${parseFloat(dueAmount) > 0 ? 'text-danger' : 'text-muted'} text-nowrap" style="font-size: 18.5px; font-weight: 800;">৳ ${engToBanglaNum(dueAmount)}</span>
+                                        <div class="d-flex align-items-center flex-shrink-0">
+                                            ${dueInfoHtml}
                                         </div>
                                     </div>
                                 </div>
