@@ -956,7 +956,7 @@
 
           <a href="/admin-dashboard-pos" class="btn-mobile-sell">
             <i class="fa-solid fa-cash-register fs-5"></i>
-            <span>বিক্রি করুন</span>
+            <span>বিক্রি</span>
           </a>
         </div>
 

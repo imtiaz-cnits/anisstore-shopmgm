@@ -348,7 +348,7 @@
 
         <!-- Create Product Modal Start -->
         <section class="modal fade" id="createProduct" tabindex="-1" aria-labelledby="createProductModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <!-- Sleek Purple Header with Close Icon -->
                     <div class="modal-header d-flex align-items-center justify-content-between">

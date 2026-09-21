@@ -110,7 +110,7 @@ label {
 
 @media (max-width: 991.98px) {
   .page-content {
-    padding: 70px 0px 0px 0px !important;
+    padding: 52px 0px 0px 0px !important;
   }
 }
 
@@ -160,7 +160,7 @@ body[data-sidebar-size="sm"] .main-content {
   -ms-flex-align: center;
   align-items: center;
   margin: 0 auto;
-  height: 72px;
+  height: 52px;
   padding: 0 calc(24px / 2) 0 0;
 }
 
@@ -170,7 +170,7 @@ body[data-sidebar-size="sm"] .main-content {
 
 .navbar-brand-box {
   position: absolute;
-  height: 72px;
+  height: 52px;
   right: 0;
   top: 0;
   left: 0;
@@ -407,7 +407,7 @@ body[data-sidebar-size="sm"] #page-topbar {
   .navbar-header .dropdown .page-header-notifications-dropdown-v,
   .page-header-notifications-dropdown-v {
     position: fixed !important;
-    top: 72px !important;
+    top: 52px !important;
     left: 12px !important;
     right: 12px !important;
     width: calc(100vw - 24px) !important;

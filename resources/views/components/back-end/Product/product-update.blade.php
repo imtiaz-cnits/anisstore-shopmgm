@@ -309,7 +309,7 @@
 
 <!-- Action Button Edit Modal Start -->
 <section class="modal fade" id="updateProductModal" tabindex="-1" aria-labelledby="updateProductModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <!-- Sleek Purple Header with Close Icon -->
             <div class="modal-header d-flex align-items-center justify-content-between">

@@ -120,23 +120,25 @@
 
             <!-- Product Details View Modal -->
             <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsModalLabel" aria-hidden="true" style="z-index: 10600;">
-                <div class="modal-dialog modal-dialog-centered" style="max-width: 480px;">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 480px;">
                     <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
-                        <div class="modal-header border-bottom py-2.5 px-3 d-flex align-items-center justify-content-between" style="background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); color: #ffffff;">
+                        <div class="modal-header border-bottom py-2.5 px-3 d-flex align-items-center justify-content-between flex-shrink-0" style="background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); color: #ffffff;">
                             <div class="d-flex align-items-center gap-2">
                                 <i class="fa-solid fa-boxes-stacked fs-6"></i>
                                 <h6 class="modal-title fw-bold m-0 text-white" id="productDetailsModalLabel" style="font-size: 15px;">প্রোডাক্টের বিস্তারিত তথ্য</h6>
                             </div>
-                            <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal" aria-label="Close" style="font-size: 11px;"></button>
+                            <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close" title="বন্ধ করুন">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
                         </div>
-                        <div class="modal-body p-3">
+                        <div class="modal-body p-3 overflow-y-auto" style="max-height: calc(100vh - 160px);">
                             <!-- Top Product Card: Image + Title + Badges -->
-                            <div class="d-flex align-items-center gap-3 p-2.5 rounded-3 mb-3" style="background: #FAF7FD; border: 1px solid #E5D5F7;">
+                            <div class="detail-product-banner d-flex align-items-center gap-3 p-2.5 rounded-3 mb-3">
                                 <img id="detailProductImg" src="" alt="Product" class="rounded-3 border" style="width: 64px; height: 64px; object-fit: cover; flex-shrink: 0;" />
                                 <div class="flex-grow-1 min-w-0">
-                                    <h6 id="detailProductName" class="fw-bold text-dark mb-1 text-truncate" style="font-size: 16px;">-</h6>
+                                    <h6 id="detailProductName" class="fw-bold mb-1 text-truncate" style="font-size: 16px;">-</h6>
                                     <div class="d-flex align-items-center gap-1.5 flex-wrap">
-                                        <span id="detailProductCode" class="badge bg-white text-secondary border fw-semibold px-2 py-0.5" style="font-size: 11px;">-</span>
+                                        <span id="detailProductCode" class="badge detail-code-badge fw-semibold px-2 py-0.5" style="font-size: 11px;">-</span>
                                         <span id="detailStockBadge" class="badge px-2 py-0.5 fw-bold" style="font-size: 11px;">-</span>
                                     </div>
                                 </div>
@@ -145,64 +147,66 @@
                             <!-- Info Grid: Category, SubCategory, Brand, Unit -->
                             <div class="row g-2 mb-3">
                                 <div class="col-6">
-                                    <div class="p-2 rounded-2 border bg-light">
-                                        <span class="text-muted d-block small" style="font-size: 11px;">ক্যাটাগরি</span>
-                                        <span id="detailCategory" class="fw-bold text-dark" style="font-size: 13px;">-</span>
+                                    <div class="detail-info-item p-2 rounded-2">
+                                        <span class="detail-info-label d-block small" style="font-size: 11px;">ক্যাটাগরি</span>
+                                        <span id="detailCategory" class="detail-info-val fw-bold" style="font-size: 13px;">-</span>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="p-2 rounded-2 border bg-light">
-                                        <span class="text-muted d-block small" style="font-size: 11px;">সাব-ক্যাটাগরি</span>
-                                        <span id="detailSubCategory" class="fw-bold text-dark" style="font-size: 13px;">-</span>
+                                    <div class="detail-info-item p-2 rounded-2">
+                                        <span class="detail-info-label d-block small" style="font-size: 11px;">সাব-ক্যাটাগরি</span>
+                                        <span id="detailSubCategory" class="detail-info-val fw-bold" style="font-size: 13px;">-</span>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="p-2 rounded-2 border bg-light">
-                                        <span class="text-muted d-block small" style="font-size: 11px;">ব্র্যান্ড</span>
-                                        <span id="detailBrand" class="fw-bold text-dark" style="font-size: 13px;">-</span>
+                                    <div class="detail-info-item p-2 rounded-2">
+                                        <span class="detail-info-label d-block small" style="font-size: 11px;">ব্র্যান্ড</span>
+                                        <span id="detailBrand" class="detail-info-val fw-bold" style="font-size: 13px;">-</span>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="p-2 rounded-2 border bg-light">
-                                        <span class="text-muted d-block small" style="font-size: 11px;">ইউনিট</span>
-                                        <span id="detailUnit" class="fw-bold text-dark" style="font-size: 13px;">-</span>
+                                    <div class="detail-info-item p-2 rounded-2">
+                                        <span class="detail-info-label d-block small" style="font-size: 11px;">ইউনিট</span>
+                                        <span id="detailUnit" class="detail-info-val fw-bold" style="font-size: 13px;">-</span>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- 2x2 Financial Summary Box -->
-                            <div class="p-2.5 rounded-3 mb-2" style="background: #FAF7FD; border: 1px solid #E5D5F7;">
+                            <div class="detail-finance-wrap p-2.5 rounded-3 mb-2">
                                 <div class="row g-2 text-center">
                                     <div class="col-6">
-                                        <div class="p-2 rounded-2 bg-white border">
-                                            <span class="text-muted d-block small" style="font-size: 11px;">বর্তমান স্টক</span>
-                                            <span id="detailQuantity" class="fw-bold text-dark" style="font-size: 15px;">০</span>
+                                        <div class="detail-finance-item p-2 rounded-2">
+                                            <span class="detail-finance-label d-block small" style="font-size: 11px;">বর্তমান স্টক</span>
+                                            <span id="detailQuantity" class="detail-finance-val fw-bold" style="font-size: 15px;">০</span>
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <div class="p-2 rounded-2 bg-white border">
-                                            <span class="text-danger d-block small" style="font-size: 11px;">একক ক্রয়মূল্য</span>
+                                        <div class="detail-finance-item p-2 rounded-2">
+                                            <span class="text-danger d-block small fw-medium" style="font-size: 11px;">একক ক্রয়মূল্য</span>
                                             <span id="detailCostPrice" class="fw-bold text-danger" style="font-size: 15px;">৳ ০.০০</span>
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <div class="p-2 rounded-2 bg-white border">
-                                            <span class="text-success d-block small" style="font-size: 11px;">একক বিক্রয়মূল্য</span>
+                                        <div class="detail-finance-item p-2 rounded-2">
+                                            <span class="text-success d-block small fw-medium" style="font-size: 11px;">একক বিক্রয়মূল্য</span>
                                             <span id="detailSellPrice" class="fw-bold text-success" style="font-size: 15px;">৳ ০.০০</span>
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <div class="p-2 rounded-2 bg-white border">
-                                            <span class="d-block small" style="font-size: 11px; color: #8C56D4;">মোট ক্রয়মূল্য</span>
-                                            <span id="detailTotalCost" class="fw-bold" style="font-size: 15px; color: #8C56D4;">৳ ০.০০</span>
+                                        <div class="detail-finance-item p-2 rounded-2">
+                                            <span class="detail-purple-label d-block small fw-medium" style="font-size: 11px;">মোট ক্রয়মূল্য</span>
+                                            <span id="detailTotalCost" class="fw-bold detail-purple-val" style="font-size: 15px;">৳ ০.০০</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer border-top py-2 px-3 d-flex align-items-center justify-content-between">
-                            <button type="button" class="btn btn-secondary px-3 py-1.5 fw-semibold" data-bs-dismiss="modal" style="font-size: 13px; border-radius: 6px;">বন্ধ করুন</button>
-                            <button type="button" id="detailQuickEditBtn" class="btn text-white px-3 py-1.5 fw-semibold" style="font-size: 13px; border-radius: 6px; background: #8C56D4;">
+                        <div class="modal-footer border-top py-2.5 px-3 d-flex align-items-center justify-content-between gap-2 flex-shrink-0">
+                            <button type="button" class="btn btn-modal-close px-3 py-2 fw-semibold text-white shadow-sm" data-bs-dismiss="modal" style="font-size: 13px; border-radius: 6px; padding-top: 8px !important; padding-bottom: 8px !important; min-height: 38px; background-color: #ef4444 !important; border: none !important; color: #ffffff !important;">
+                                <i class="fa-solid fa-xmark me-1"></i> বন্ধ করুন
+                            </button>
+                            <button type="button" id="detailQuickEditBtn" class="btn text-white px-3 py-2 fw-semibold d-inline-flex align-items-center justify-content-center gap-1" style="font-size: 13px; border-radius: 6px; background: #8C56D4; padding-top: 8px !important; padding-bottom: 8px !important; min-height: 38px;">
                                 <i class="fa-solid fa-pen-to-square me-1"></i> এডিট করুন
                             </button>
                         </div>
@@ -488,6 +492,119 @@
             border-color: #d1b7f3 !important;
         }
 
+        /* Modal Close (Header) & Bondho Korun (Footer) Button Styles */
+        .btn-close-custom {
+            background: #ef4444 !important;
+            border: none !important;
+            color: #ffffff !important;
+            font-size: 13px !important;
+            cursor: pointer;
+            opacity: 1 !important;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50% !important;
+            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.35) !important;
+            padding: 0 !important;
+            line-height: 1 !important;
+        }
+        .btn-close-custom:hover {
+            background: #dc2626 !important;
+            transform: rotate(90deg) scale(1.08);
+            color: #ffffff !important;
+        }
+        .btn-modal-close {
+            background-color: #ef4444 !important;
+            border: none !important;
+            color: #ffffff !important;
+            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25) !important;
+            transition: all 0.2s ease;
+        }
+        .btn-modal-close:hover {
+            background-color: #dc2626 !important;
+            color: #ffffff !important;
+        }
+
+        /* 1-Row Box Type Action Buttons matching Invoice List */
+        .mobile-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-top: 8px !important;
+            margin-top: 8px !important;
+            border-top: 1px solid #f1f5f9 !important;
+        }
+        .mobile-action-btn {
+            flex: 1 1 0;
+            height: 32px;
+            border-radius: 6px !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            border: 1px solid transparent;
+            text-decoration: none;
+            outline: none !important;
+        }
+        .mobile-action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .mobile-action-btn.action-btn-details {
+            background: #F3ECFB;
+            color: #8C56D4;
+            border-color: #E5D5F7;
+        }
+        .mobile-action-btn.action-btn-details:hover {
+            background: #8C56D4;
+            color: #ffffff;
+        }
+        .mobile-action-btn.action-btn-edit {
+            background: #E0F2FE;
+            color: #0284C7;
+            border-color: #BAE6FD;
+        }
+        .mobile-action-btn.action-btn-edit:hover {
+            background: #0284C7;
+            color: #ffffff;
+        }
+        .mobile-action-btn.action-btn-delete {
+            background: #FEE2E2;
+            color: #DC2626;
+            border-color: #FECACA;
+        }
+        .mobile-action-btn.action-btn-delete:hover {
+            background: #DC2626;
+            color: #ffffff;
+        }
+
+        /* Dark Mode for mobile action buttons */
+        body[light-mode="dark"] .mobile-card-actions,
+        body[data-layout-mode="dark"] .mobile-card-actions,
+        body.dark-mode .mobile-card-actions {
+            border-color: #334155 !important;
+        }
+        body[light-mode="dark"] .mobile-action-btn,
+        body[data-layout-mode="dark"] .mobile-action-btn,
+        body.dark-mode .mobile-action-btn {
+            border-color: #334155 !important;
+            background: #0f172a !important;
+        }
+        body[light-mode="dark"] .mobile-action-btn.action-btn-details,
+        body[data-layout-mode="dark"] .mobile-action-btn.action-btn-details,
+        body.dark-mode .mobile-action-btn.action-btn-details { color: #D2B7F1 !important; }
+        body[light-mode="dark"] .mobile-action-btn.action-btn-edit,
+        body[data-layout-mode="dark"] .mobile-action-btn.action-btn-edit,
+        body.dark-mode .mobile-action-btn.action-btn-edit { color: #38BDF8 !important; }
+        body[light-mode="dark"] .mobile-action-btn.action-btn-delete,
+        body[data-layout-mode="dark"] .mobile-action-btn.action-btn-delete,
+        body.dark-mode .mobile-action-btn.action-btn-delete { color: #F87171 !important; }
+
         @media (max-width: 991.98px) {
             .page-content {
                 background: #ffffff !important;
@@ -666,6 +783,58 @@
             color: #cbd5e1 !important;
         }
 
+        /* Details Modal Styles */
+        #productDetailsModal .modal-dialog-scrollable .modal-content {
+            max-height: calc(100vh - 3.5rem);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        #productDetailsModal .modal-dialog-scrollable .modal-body {
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
+        .detail-product-banner {
+            background: #FAF7FD;
+            border: 1px solid #E5D5F7;
+        }
+        #detailProductName {
+            color: #1e293b;
+        }
+        .detail-code-badge {
+            background: #ffffff;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+        .detail-info-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+        .detail-info-label {
+            color: #64748b;
+        }
+        .detail-info-val {
+            color: #0f172a;
+        }
+        .detail-finance-wrap {
+            background: #FAF7FD;
+            border: 1px solid #E5D5F7;
+        }
+        .detail-finance-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+        }
+        .detail-finance-label {
+            color: #64748b;
+        }
+        .detail-finance-val {
+            color: #0f172a;
+        }
+        .detail-purple-label,
+        .detail-purple-val {
+            color: #8C56D4;
+        }
+
         /* Mobile & Tablet Card Dark Mode */
         body[light-mode="dark"] .product-user-card,
         body[data-layout-mode="dark"] .product-user-card,
@@ -679,6 +848,86 @@
         body[data-layout-mode="dark"] .product-user-card .text-dark,
         body.dark-mode .product-user-card .text-dark {
             color: #F3ECFB !important;
+        }
+
+        /* Modal Dark Mode Styles */
+        body[light-mode="dark"] #productDetailsModal .modal-content,
+        body[data-layout-mode="dark"] #productDetailsModal .modal-content,
+        body.dark-mode #productDetailsModal .modal-content {
+            background-color: #1e293b !important;
+            border: 1px solid #334155 !important;
+            color: #f8fafc !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6) !important;
+        }
+        body[light-mode="dark"] #productDetailsModal .modal-footer,
+        body[data-layout-mode="dark"] #productDetailsModal .modal-footer,
+        body.dark-mode #productDetailsModal .modal-footer {
+            border-top: 1px solid #334155 !important;
+            background-color: #1e293b !important;
+        }
+        body[light-mode="dark"] .detail-product-banner,
+        body[data-layout-mode="dark"] .detail-product-banner,
+        body.dark-mode .detail-product-banner {
+            background: #0f172a !important;
+            border: 1px solid #334155 !important;
+        }
+        body[light-mode="dark"] #detailProductName,
+        body[data-layout-mode="dark"] #detailProductName,
+        body.dark-mode #detailProductName {
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .detail-code-badge,
+        body[data-layout-mode="dark"] .detail-code-badge,
+        body.dark-mode .detail-code-badge {
+            background: #1e293b !important;
+            color: #cbd5e1 !important;
+            border-color: #334155 !important;
+        }
+        body[light-mode="dark"] .detail-info-item,
+        body[data-layout-mode="dark"] .detail-info-item,
+        body.dark-mode .detail-info-item {
+            background: #0f172a !important;
+            border: 1px solid #334155 !important;
+        }
+        body[light-mode="dark"] .detail-info-label,
+        body[data-layout-mode="dark"] .detail-info-label,
+        body.dark-mode .detail-info-label {
+            color: #94a3b8 !important;
+        }
+        body[light-mode="dark"] .detail-info-val,
+        body[data-layout-mode="dark"] .detail-info-val,
+        body.dark-mode .detail-info-val {
+            color: #f1f5f9 !important;
+        }
+        body[light-mode="dark"] .detail-finance-wrap,
+        body[data-layout-mode="dark"] .detail-finance-wrap,
+        body.dark-mode .detail-finance-wrap {
+            background: #0f172a !important;
+            border: 1px solid #334155 !important;
+        }
+        body[light-mode="dark"] .detail-finance-item,
+        body[data-layout-mode="dark"] .detail-finance-item,
+        body.dark-mode .detail-finance-item {
+            background: #1e293b !important;
+            border: 1px solid #334155 !important;
+        }
+        body[light-mode="dark"] .detail-finance-label,
+        body[data-layout-mode="dark"] .detail-finance-label,
+        body.dark-mode .detail-finance-label {
+            color: #94a3b8 !important;
+        }
+        body[light-mode="dark"] .detail-finance-val,
+        body[data-layout-mode="dark"] .detail-finance-val,
+        body.dark-mode .detail-finance-val {
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .detail-purple-label,
+        body[data-layout-mode="dark"] .detail-purple-label,
+        body.dark-mode .detail-purple-label,
+        body[light-mode="dark"] .detail-purple-val,
+        body[data-layout-mode="dark"] .detail-purple-val,
+        body.dark-mode .detail-purple-val {
+            color: #D2B7F1 !important;
         }
 
         body[light-mode="dark"] .custom-dropdown-menu,
@@ -784,9 +1033,9 @@
             mobileCardList.html('<div class="col-12 text-center py-4"><div class="spinner-border text-primary me-2" role="status"></div><span class="fw-bold text-muted">ডাটা লোড হচ্ছে...</span></div>');
 
             try {
-                const res = await axios.get('/admin-dashboard-product-list');
+                const res = await axios.get('/api/product-list', typeof HeaderToken === 'function' ? HeaderToken() : {});
                 if (res.data && res.data.status === 'success') {
-                    rawProductData = res.data.data || [];
+                    rawProductData = res.data.ProductData || res.data.data || [];
                     currentPage = 1;
                     renderPaginatedList();
                 } else {
@@ -799,6 +1048,11 @@
                 mobileCardList.html('<div class="col-12 text-center py-4 text-danger fw-bold bg-white rounded-3 border p-3">⚠️ সমস্যা দেখা দিয়েছে!</div>');
             }
         }
+
+        function getList() {
+            getProductList();
+        }
+        window.getList = getList;
 
         function normalizeSearchStr(str) {
             if (str === null || str === undefined) return "";
@@ -965,15 +1219,15 @@
                         </tr>`;
                     tableList.append(row);
 
-                    // Mobile & Tablet Card Layout matching User's Uploaded Image
+                    // Mobile & Tablet Card Layout matching Invoice List Action Bar Style
                     let mobileCard = `
                         <div class="col-12 col-md-6 align-self-start mb-0">
-                            <div class="product-user-card card border shadow-sm p-3 position-relative mb-0 bg-white" style="border-color: #E2E8F0 !important; border-radius: 6px !important;">
-                                <div class="d-flex align-items-center justify-content-between gap-3">
+                            <div class="product-user-card card shadow-sm p-3 position-relative mb-0 bg-white">
+                                <div class="d-flex align-items-center gap-3">
                                     <!-- Left: Circular Product Image -->
-                                    <img src="${img_url}" onerror="this.src='${defaultImg}'" alt="${item.product_name}" class="product-circle-img" style="width: 50px; height: 50px; border-radius: 50% !important; object-fit: cover; border: 1.5px solid #E5D5F7; flex-shrink: 0;" />
+                                    <img src="${img_url}" onerror="this.src='${defaultImg}'" alt="${item.product_name}" class="product-circle-img" style="width: 48px; height: 48px; border-radius: 50% !important; object-fit: cover; border: 1.5px solid #E5D5F7; flex-shrink: 0;" />
                                     
-                                    <!-- Middle: Product Name & 2-Col Stats -->
+                                    <!-- Right: Product Name & 2-Col Stats -->
                                     <div class="flex-grow-1 min-w-0">
                                         <h6 class="fw-bold text-dark mb-1 text-truncate" style="font-size: 15px;">${item.product_name}</h6>
                                         <div class="d-flex align-items-center justify-content-between gap-2">
@@ -987,42 +1241,19 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <!-- Right Column: 3-Dots at Top, Eye View at Bottom -->
-                                    <div class="d-flex flex-column align-items-center justify-content-between flex-shrink-0" style="min-height: 50px;">
-                                        <!-- 3-Dots Menu -->
-                                        <div class="dropdown position-relative">
-                                            <button type="button" class="btn p-0 border-0 text-muted shadow-none" data-bs-toggle="dropdown" aria-expanded="false" style="line-height: 1;" title="মেনু">
-                                                <i class="fa-solid fa-ellipsis-vertical fs-5 text-secondary"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end shadow-sm border py-1" style="min-width: 140px; border-radius: 8px; z-index: 1050;">
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-flex align-items-center gap-2 py-1.5 px-3" onclick="openProductDetailsModal(${item['id']})" style="font-size: 13px;">
-                                                        <i class="fa-solid fa-eye" style="color: #8C56D4; width: 16px;"></i>
-                                                        <span>বিস্তারিত</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-flex align-items-center gap-2 py-1.5 px-3 edit-link" data-id="${item['id']}" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size: 13px;">
-                                                        <i class="fa-solid fa-pen-to-square text-primary" style="width: 16px;"></i>
-                                                        <span>এডিট</span>
-                                                    </button>
-                                                </li>
-                                                <li><hr class="dropdown-divider my-1"></li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-flex align-items-center gap-2 py-1.5 px-3 text-danger custom-delete-modal-btn" data-id="${item['id']}" data-bs-toggle="modal" data-bs-target="#confirmationModal" style="font-size: 13px;">
-                                                        <i class="fa-solid fa-trash text-danger" style="width: 16px;"></i>
-                                                        <span>ডিলিট</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <!-- Quick View Eye Button -->
-                                        <button type="button" class="btn p-0 border-0 shadow-none mt-auto" onclick="openProductDetailsModal(${item['id']})" title="বিস্তারিত দেখুন" style="color: #8C56D4; line-height: 1;">
-                                            <i class="fa-regular fa-eye fs-6"></i>
-                                        </button>
-                                    </div>
+                                <!-- Bottom: 1-Row Box Type Action Buttons matching Invoice List -->
+                                <div class="mobile-card-actions" onclick="event.stopPropagation();">
+                                    <button type="button" class="mobile-action-btn action-btn-details" onclick="openProductDetailsModal(${item['id']})" title="বিস্তারিত দেখুন">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="mobile-action-btn action-btn-edit edit-link" data-id="${item['id']}" data-bs-toggle="modal" data-bs-target="#updateProductModal" title="এডিট করুন">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button type="button" class="mobile-action-btn action-btn-delete custom-delete-modal-btn" data-id="${item['id']}" data-bs-toggle="modal" data-bs-target="#confirmationModal" title="মুছে ফেলুন">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>`;
@@ -1076,16 +1307,29 @@
             $("#detailTotalCost").text("৳ " + engToBanglaNum(totalCost.toFixed(2)));
 
             $("#detailQuickEditBtn").off("click").on("click", function() {
-                $("#productDetailsModal").modal("hide");
-                setTimeout(() => {
-                    const modalEl = document.getElementById('exampleModal') || document.getElementById('updateProductModal');
-                    if (modalEl) {
-                        $(modalEl).modal('show');
-                        if (typeof FillUpProductUpdateForm === 'function') {
-                            FillUpProductUpdateForm(id);
+                const detailsModalEl = document.getElementById('productDetailsModal');
+                if (detailsModalEl) {
+                    $(detailsModalEl).one('hidden.bs.modal', function () {
+                        if (typeof openProductUpdateModal === 'function') {
+                            openProductUpdateModal(id);
+                        } else {
+                            const modalEl = document.getElementById('updateProductModal') || document.getElementById('exampleModal');
+                            if (modalEl) {
+                                let bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl, { backdrop: true, keyboard: true });
+                                bsModal.show();
+                                if (typeof FillUpProductUpdateForm === 'function') {
+                                    FillUpProductUpdateForm(id);
+                                }
+                            }
                         }
+                    });
+                    let bsDetails = bootstrap.Modal.getInstance(detailsModalEl);
+                    if (bsDetails) {
+                        bsDetails.hide();
+                    } else {
+                        $(detailsModalEl).modal('hide');
                     }
-                }, 300);
+                }
             });
 
             $("#productDetailsModal").modal("show");
@@ -1100,9 +1344,10 @@
             if (typeof openProductUpdateModal === 'function') {
                 openProductUpdateModal(id);
             } else {
-                const modalEl = document.getElementById('exampleModal') || document.getElementById('updateProductModal');
+                const modalEl = document.getElementById('updateProductModal') || document.getElementById('exampleModal');
                 if (modalEl) {
-                    $(modalEl).modal('show');
+                    let bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl, { backdrop: true, keyboard: true });
+                    bsModal.show();
                     if (typeof FillUpProductUpdateForm === 'function') {
                         FillUpProductUpdateForm(id);
                     }
@@ -1188,7 +1433,9 @@
         // Global Modal Dismiss Scroll Unlock Safety Check
         $(document).on('hidden.bs.modal', '.modal', function () {
             setTimeout(() => {
-                if (!$('.modal.show').length && !document.querySelector('.modal.show')) {
+                if ($('.modal.show').length || document.querySelector('.modal.show')) {
+                    $('body').addClass('modal-open');
+                } else {
                     $('body').removeClass('modal-open').css({ 'overflow': '', 'padding-right': '' });
                     document.body.classList.remove('modal-open');
                     document.body.style.overflow = '';

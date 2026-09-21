@@ -96,7 +96,7 @@
       .sidebar-backdrop-overlay {
         display: block !important;
         position: fixed !important;
-        top: 72px !important; /* Starts below the topbar so topbar has NO overlay */
+        top: 52px !important; /* Starts below the topbar so topbar has NO overlay */
         left: 0 !important;
         right: 0 !important;
         bottom: 0 !important;
@@ -126,7 +126,7 @@
         top: 0 !important;
         left: 0 !important;
         right: 0 !important;
-        height: 72px !important;
+        height: 52px !important;
         z-index: 1090 !important; /* Above overlay (1080) */
       }
 
@@ -141,7 +141,7 @@
       /* Mobile Offcanvas Sidebar: Synchronized slide-in transition with backdrop overlay */
       .vertical-menu {
         position: fixed !important;
-        top: 72px !important;
+        top: 52px !important;
         bottom: 0 !important;
         left: 0 !important;
         width: 260px !important;
@@ -1939,7 +1939,7 @@
       .navbar-header .dropdown .page-header-notifications-dropdown-v,
       .page-header-notifications-dropdown-v {
         position: fixed !important;
-        top: 72px !important;
+        top: 52px !important;
         left: 12px !important;
         right: 12px !important;
         width: calc(100vw - 24px) !important;
@@ -2146,7 +2146,7 @@
       body .page-content,
       body .main-content .page-content,
       div.page-content {
-        padding: 70px 0px 0px 0px !important;
+        padding: 52px 0px 0px 0px !important;
       }
     }
 
