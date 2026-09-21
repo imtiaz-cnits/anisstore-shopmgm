@@ -2,46 +2,56 @@
 <div class="main-content">
     <div class="page-content" style="padding: 0px !important;">
         <!-- Table Start -->
-        <div class="data-table border-0 shadow-none bg-transparent">
-            <div class="card border-0 border-none shadow-none bg-transparent">
-                <div class="card-body border-0 p-0">
-                    <!-- 1. Header: Mobile/Tab: Title on left, Search & Filter icon buttons on right. Desktop: Icon + Title -->
-                    <div class="invoice-card-header mb-3 pb-2 border-bottom d-flex align-items-center justify-content-between gap-2">
-                        <div class="d-flex align-items-center gap-2 flex-grow-1 overflow-hidden">
+        <div class="data-table">
+            <div class="card border-0">
+                <div class="card-body p-3 p-lg-4">
+                    <!-- 1. Header: Left Title, Right Tab Switcher + Search & Filter on Mobile -->
+                    <div class="invoice-card-header mb-3 pb-2 border-bottom d-flex align-items-start justify-content-between gap-2">
+                        <div class="d-flex align-items-center gap-3 flex-grow-1" style="min-width: 0;">
                             <div class="invoice-title-icon-box rounded-3 d-none d-lg-flex align-items-center justify-content-center flex-shrink-0">
-                                <i class="fa-solid fa-truck-field fs-5"></i>
+                                <i class="fa-solid fa-file-invoice-dollar fs-5"></i>
                             </div>
-                            <h4 class="invoice-main-heading m-0 p-0 fw-bold">সাপ্লায়ার তালিকা</h4>
+                            <h4 class="invoice-main-heading m-0 p-0 fw-bold" style="word-break: break-word; min-width: 0;">সাপ্লায়ার বকেয়া ও কালেকশন</h4>
                         </div>
 
-                        <!-- Mobile & Tab Action Buttons (Search & Filter) -->
-                        <div class="d-flex align-items-center gap-2 d-lg-none flex-shrink-0">
-                            <!-- Mobile Search Toggle Button -->
+                        <!-- Mobile Action Buttons (Search & Filter) -->
+                        <div class="d-flex align-items-center gap-2 d-lg-none flex-shrink-0" style="padding-top: 4px;">
                             <button type="button" id="mobileSearchToggleBtn" class="mobile-header-icon-btn" onclick="toggleMobileSearchBar()" title="অনুসন্ধান">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
 
-                            <!-- Mobile Filter Dropdown -->
                             <div class="custom-dropdown-wrap position-relative" id="mobileFilterDropdownContainer">
                                 <button type="button" class="mobile-header-icon-btn" id="mobileFilterDropdownToggle" onclick="toggleCustomDropdown('mobileFilterDropdownMenu')" title="ফিল্টার">
                                     <i class="fa-solid fa-filter"></i>
                                 </button>
                                 <div class="custom-dropdown-menu dropdown-menus end-0 shadow-lg" id="mobileFilterDropdownMenu" style="min-width: 175px;">
-                                    <a href="#" class="custom-dropdown-item active" data-filter="all" onclick="selectFilterOption('all', 'সব সাপ্লায়ার', event)">সব সাপ্লায়ার</a>
+                                    <a href="#" class="custom-dropdown-item active" data-filter="all" onclick="selectFilterOption('all', 'সব তালিকা', event)">সব তালিকা</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="hasDue" onclick="selectFilterOption('hasDue', 'বকেয়া রয়েছে', event)">বকেয়া রয়েছে</a>
                                     <a href="#" class="custom-dropdown-item" data-filter="Active" onclick="selectFilterOption('Active', 'সক্রিয় (Active)', event)">সক্রিয় (Active)</a>
-                                    <a href="#" class="custom-dropdown-item" data-filter="Inactive" onclick="selectFilterOption('Inactive', 'নিষ্ক্রিয় (Inactive)', event)">নিষ্ক্রিয় (Inactive)</a>
-                                    <a href="#" class="custom-dropdown-item" data-filter="due" onclick="selectFilterOption('due', 'বকেয়া রয়েছে', event)">বকেয়া রয়েছে</a>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Tab Switcher Navigation Strip -->
+                    <div class="supplier-tab-nav-wrap mb-3 p-1.5 bg-light dark:bg-slate-900 rounded-3 d-flex align-items-center gap-2" style="background: #FAF7FD; border: 1.5px solid #E5D5F7;">
+                        <button type="button" id="tabDueListBtn" class="supplier-tab-btn flex-grow-1 active" onclick="switchSupplierTab('dueList')">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                            <span class="d-none d-sm-inline" style="margin-left: 8px;">সাপ্লায়ার বকেয়া তালিকা</span>
+                            <span class="badge px-2 py-0.5" id="dueListCountBadge" style="background: rgba(140, 86, 212, 0.15); color: #8C56D4; font-size: 11px; margin-left: 6px;">০</span>
+                        </button>
+                        <button type="button" id="tabCollectionListBtn" class="supplier-tab-btn flex-grow-1" onclick="switchSupplierTab('collectionList')">
+                            <i class="fa-solid fa-receipt"></i>
+                            <span class="d-none d-sm-inline" style="margin-left: 8px;">বকেয়া পরিশোধ / কালেকশন তালিকা</span>
+                            <span class="badge px-2 py-0.5" id="collectionListCountBadge" style="background: rgba(140, 86, 212, 0.15); color: #8C56D4; font-size: 11px; margin-left: 6px;">০</span>
+                        </button>
                     </div>
 
                     <!-- Mobile Expandable Search Bar -->
                     <div id="mobileSearchWrap" class="mb-3 d-none position-relative">
                         <div class="d-flex align-items-center gap-2 mb-0">
                             <div class="position-relative flex-grow-1 mb-0">
-                                <input type="text" id="mobileSearchInput" class="form-control invoice-search-input mb-0" placeholder="সাপ্লায়ার খুঁজুন (নাম, আইডি, কোম্পানি)..." autocomplete="off" />
-                                <div id="mobileSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
+                                <input type="text" id="mobileSearchInput" class="form-control invoice-search-input mb-0" placeholder="অনুসন্ধান করুন..." autocomplete="off" />
                             </div>
                             <button type="button" class="mobile-search-close-btn mb-0" onclick="closeMobileSearchBar()" title="বন্ধ করুন">
                                 <i class="fa-solid fa-xmark"></i>
@@ -54,9 +64,8 @@
                         <div class="d-flex align-items-center justify-content-between gap-3 w-100">
                             <!-- Left: Search Input Box -->
                             <div class="invoice-search-box-wrap position-relative flex-grow-1" style="max-width: 420px;">
-                                <input type="text" id="searchInput" class="form-control invoice-search-input" placeholder="সাপ্লায়ার খুঁজুন (নাম, আইডি, কোম্পানি)..." autocomplete="off" />
+                                <input type="text" id="searchInput" class="form-control invoice-search-input" placeholder="অনুসন্ধান করুন (নাম, আইডি, কোম্পানি)..." autocomplete="off" />
                                 <i class="fa-solid fa-magnifying-glass invoice-search-addon-icon"></i>
-                                <div id="desktopSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
                             </div>
 
                             <!-- Right: Entries & Filter Dropdowns -->
@@ -85,23 +94,16 @@
                                     <button type="button" class="toolbar-control-btn w-100 d-flex align-items-center justify-content-between px-3" id="filterDropdownToggle" onclick="toggleCustomDropdown('filterDropdownMenu')">
                                         <div class="d-flex align-items-center">
                                             <i class="fa-solid fa-filter me-2" style="color: #8C56D4; font-size: 13px;"></i>
-                                            <span id="currentFilterText" class="fw-bold fs-7 fs-sm-6 text-truncate">সব সাপ্লায়ার</span>
+                                            <span id="currentFilterText" class="fw-bold fs-7 fs-sm-6 text-truncate">সব তালিকা</span>
                                         </div>
                                         <i class="fa-solid fa-chevron-down dropdown-arrow-icon ms-1"></i>
                                     </button>
                                     <div class="custom-dropdown-menu dropdown-menus end-0" id="filterDropdownMenu">
-                                        <a href="#" class="custom-dropdown-item active" data-filter="all" onclick="selectFilterOption('all', 'সব সাপ্লায়ার', event)">সব সাপ্লায়ার</a>
+                                        <a href="#" class="custom-dropdown-item active" data-filter="all" onclick="selectFilterOption('all', 'সব তালিকা', event)">সব তালিকা</a>
+                                        <a href="#" class="custom-dropdown-item" data-filter="hasDue" onclick="selectFilterOption('hasDue', 'বকেয়া রয়েছে', event)">বকেয়া রয়েছে</a>
                                         <a href="#" class="custom-dropdown-item" data-filter="Active" onclick="selectFilterOption('Active', 'সক্রিয় (Active)', event)">সক্রিয় (Active)</a>
-                                        <a href="#" class="custom-dropdown-item" data-filter="Inactive" onclick="selectFilterOption('Inactive', 'নিষ্ক্রিয় (Inactive)', event)">নিষ্ক্রিয় (Inactive)</a>
-                                        <a href="#" class="custom-dropdown-item" data-filter="due" onclick="selectFilterOption('due', 'বকেয়া রয়েছে', event)">বকেয়া রয়েছে</a>
                                     </div>
                                 </div>
-
-                                <!-- Create Supplier Button -->
-                                <button type="button" class="invoice-search-submit-btn px-3 fw-bold d-inline-flex align-items-center justify-content-center gap-1.5 shadow-sm" onclick="openSupplierCreateModal()">
-                                    <i class="fa-solid fa-plus"></i>
-                                    <span>নতুন সাপ্লায়ার</span>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -109,49 +111,79 @@
                     <!-- Top Summary Stats Strip (1 Row, 2 Columns, Vertical Divider, Purple Color) -->
                     <div class="invoice-top-summary-strip mb-3 p-2.5 px-3 bg-white dark:bg-slate-800" style="border-radius: 6px !important; border: none !important; box-shadow: 0 4px 18px rgba(140, 86, 212, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;">
                         <div class="d-flex align-items-center justify-content-between">
-                            <!-- Left: মোট সাপ্লায়ার -->
+                            <!-- Left: মোট সংখ্যা -->
                             <div class="d-flex flex-column text-start ps-1 flex-grow-1">
-                                <span class="text-muted small fw-medium" style="font-size: 12px;">মোট সাপ্লায়ার</span>
+                                <span class="text-muted small fw-medium" id="topSummaryLabelLeft" style="font-size: 12px;">মোট বকেয়া সাপ্লায়ার</span>
                                 <span class="fw-bold" id="topSummaryTotalCount" style="font-size: 15.5px; color: #8C56D4; font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;">০</span>
                             </div>
 
                             <!-- Middle Vertical Divider Bar -->
                             <div class="summary-divider-bar" style="width: 1.5px; height: 32px; background-color: #E5D5F7; flex-shrink: 0; margin: 0 16px;"></div>
 
-                            <!-- Right: মোট বকেয়া দেনা -->
+                            <!-- Right: মোট পরিমাণ -->
                             <div class="d-flex flex-column text-end pe-1 flex-grow-1">
-                                <span class="text-muted small fw-medium" style="font-size: 12px;">মোট বকেয়া দেনা</span>
+                                <span class="text-muted small fw-medium" id="topSummaryLabelRight" style="font-size: 12px;">মোট বকেয়া দেনা</span>
                                 <span class="fw-bold" id="topSummaryTotalAmount" style="font-size: 15.5px; color: #8C56D4; font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;">৳ ০.০০</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Desktop Table View (>= 992px) -->
-                    <div class="table-responsive d-none d-lg-block">
-                        <table id="printTable" class="table table-bordered table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th class="text-center" style="width: 55px;">ক্রমিক</th>
-                                    <th class="text-center" style="width: 130px;">অ্যাকশন</th>
-                                    <th class="text-start" style="width: 130px;">সাপ্লায়ার আইডি</th>
-                                    <th class="text-center" style="width: 65px;">ছবি</th>
-                                    <th class="text-start">নাম</th>
-                                    <th class="text-start">কোম্পানি</th>
-                                    <th class="text-end" style="width: 140px;">বকেয়া দেনা</th>
-                                    <th class="text-center" style="width: 100px;">স্ট্যাটাস</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableList"></tbody>
-                        </table>
+                    <!-- ================= TAB 1: SUPPLIER DUE LIST ================= -->
+                    <div id="tabContentDueList" class="supplier-tab-pane">
+                        <!-- Desktop Table View (>= 992px) -->
+                        <div class="table-responsive d-none d-lg-block">
+                            <table id="dueTable" class="table table-bordered table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="text-center" style="width: 55px;">ক্রমিক</th>
+                                        <th class="text-center" style="width: 100px;">অ্যাকশন</th>
+                                        <th class="text-start" style="width: 130px;">সাপ্লায়ার আইডি</th>
+                                        <th class="text-center" style="width: 65px;">ছবি</th>
+                                        <th class="text-start">নাম</th>
+                                        <th class="text-start">কোম্পানি</th>
+                                        <th class="text-end" style="width: 130px;">পূর্বের বকেয়া</th>
+                                        <th class="text-end" style="width: 130px;">ইনভয়েস বকেয়া</th>
+                                        <th class="text-end" style="width: 130px;">মোট বকেয়া</th>
+                                        <th class="text-center" style="width: 95px;">স্ট্যাটাস</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dueTableList"></tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mobile & Tablet Card List View (< 992px) -->
+                        <div id="dueMobileCardList" class="d-flex flex-wrap d-lg-none mb-3 align-items-start" style="gap: 8px !important;"></div>
                     </div>
 
-                    <!-- Mobile & Tablet Responsive Card List View (< 992px) -->
-                    <div id="mobileCardList" class="d-flex flex-wrap d-lg-none mb-3 align-items-start" style="gap: 8px !important;"></div>
+                    <!-- ================= TAB 2: DUE COLLECTION LIST ================= -->
+                    <div id="tabContentCollectionList" class="supplier-tab-pane d-none">
+                        <!-- Desktop Table View (>= 992px) -->
+                        <div class="table-responsive d-none d-lg-block">
+                            <table id="collectionTable" class="table table-bordered table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="text-center" style="width: 55px;">ক্রমিক</th>
+                                        <th class="text-start" style="width: 110px;">তারিখ</th>
+                                        <th class="text-start" style="width: 130px;">সাপ্লায়ার আইডি</th>
+                                        <th class="text-start">সাপ্লায়ার নাম</th>
+                                        <th class="text-end" style="width: 130px;">পূর্বের বকেয়া</th>
+                                        <th class="text-end" style="width: 130px;">পরিশোধিত অর্থ</th>
+                                        <th class="text-end" style="width: 130px;">বর্তমান বকেয়া</th>
+                                        <th class="text-center" style="width: 110px;">স্ট্যাটাস</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="collectionTableList"></tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mobile & Tablet Card List View (< 992px) -->
+                        <div id="collectionMobileCardList" class="d-flex flex-wrap d-lg-none mb-3 align-items-start" style="gap: 8px !important;"></div>
+                    </div>
 
                     <!-- Smart Pagination & Display Info Footer -->
                     <div class="d-flex flex-column flex-md-row align-items-center justify-content-between pt-3 mt-3 border-top gap-2">
                         <div class="text-muted small fw-medium" id="display-info" style="font-size: 13px;">
-                            মোট ০ টির মধ্যে ০ - ০ টি সাপ্লায়ার প্রদর্শিত হচ্ছে
+                            মোট ০ টির মধ্যে ০ - ০ টি তথ্য প্রদর্শিত হচ্ছে
                         </div>
                         <div id="pagination" class="d-flex align-items-center gap-1.5 flex-wrap justify-content-center"></div>
                     </div>
@@ -163,124 +195,119 @@
         <div class="copyright">
             <footer class="footer text-center py-3 mt-4 text-muted small border-top">&copy; {{ date('Y') }} মেসার্স আনিস ষ্টোর | Software By: <a href="https://www.codenextit.com" target="_blank" class="text-primary fw-bold text-decoration-none" style="color: #8C56D4 !important;">CodeNext IT</a></footer>
         </div>
-
-        <!-- Floating Add Supplier FAB Button -->
-        <button type="button" onclick="openSupplierCreateModal()" class="floating-add-invoice-btn" title="নতুন সাপ্লায়ার যোগ করুন">
-            <i class="fa-solid fa-plus"></i>
-        </button>
     </div>
 </div>
 <!-- Hero Main Content End -->
 
-<!-- ================= PAYMENT MODAL (Supplier Due Collection) ================= -->
-<div class="modal fade" id="supplierDuePaymentModal" aria-labelledby="supplierDuePaymentModalLabel" aria-hidden="true" style="z-index: 107000;">
+<!-- ================= MODERN PAYMENT COLLECTION MODAL ================= -->
+<div class="modal fade" id="editModal" aria-labelledby="editModalLabel" aria-hidden="true" style="z-index: 107000;">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 540px;">
         <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
             <!-- Modal Header -->
             <div class="modal-header-purple p-3 px-4 d-flex align-items-center justify-content-between" style="background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important; color: #ffffff !important;">
                 <div class="d-flex align-items-center gap-2">
                     <i class="fa-solid fa-hand-holding-dollar fs-5"></i>
-                    <h5 class="modal-title fw-bold m-0 text-white" id="supplierDuePaymentModalLabel" style="font-size: 17px;">সাপ্লায়ার বকেয়া পরিশোধ (Due Collection)</h5>
+                    <h5 class="modal-title fw-bold m-0 text-white" id="editModalLabel" style="font-size: 17px;">সাপ্লায়ার বকেয়া পরিশোধ (Due Collection)</h5>
                 </div>
-                <button type="button" class="sl-btn-close-red" data-bs-dismiss="modal" aria-label="Close" onclick="slClosePaymentModal()">
+                <button type="button" class="btn-close-red" data-bs-dismiss="modal" aria-label="Close" onclick="closePaymentModal()">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <!-- Modal Form with Scrollable Body and Sticky Bottom Action Buttons -->
-            <form id="slPaymentForm" onsubmit="slSavePaymentInfo(event)" class="d-flex flex-column flex-grow-1 overflow-hidden m-0">
-                <input type="hidden" id="slUpdateID">
+            <form id="paymentForm" onsubmit="SavePaymentInfo(event)" class="d-flex flex-column flex-grow-1 overflow-hidden m-0">
+                <input type="hidden" id="updateID">
 
                 <div class="modal-body p-3 p-md-4 flex-grow-1 overflow-y-auto">
                     <!-- Date & Dues Summary Card -->
                     <div class="p-3 mb-3 rounded-3" style="background: #FAF7FD; border: 1.5px solid #E5D5F7;">
-                        <div class="mb-2">
-                            <label for="slDueCollectionDate" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">পরিশোধের তারিখ *</label>
-                            <input type="date" class="form-control invoice-search-input" id="slDueCollectionDate" required>
+                        <div class="mb-2.5">
+                            <label for="DueCollectionDate" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">পরিশোধের তারিখ *</label>
+                            <input type="date" class="form-control invoice-search-input" id="DueCollectionDate" required>
                         </div>
                         <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
                             <span class="text-muted small">সাপ্লায়ার পূর্বের বকেয়া:</span>
-                            <span class="fw-bold text-dark" id="slSupplierPreviousDue">৳ ০.০০</span>
+                            <span class="fw-bold text-dark" id="SupplierPreviousDue">৳ ০.০০</span>
                         </div>
                         <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
                             <span class="text-muted small">পারচেস পূর্বের বকেয়া:</span>
-                            <span class="fw-bold text-dark" id="slPurchasePreviousDue">৳ ০.০০</span>
+                            <span class="fw-bold text-dark" id="PurchasePreviousDue">৳ ০.০০</span>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between py-1">
+                        <div class="d-flex align-items-center justify-content-between py-1.5">
                             <span class="fw-bold text-slate-800">মোট পূর্বের বকেয়া:</span>
-                            <span class="fw-bold text-danger fs-6" id="slTotalPreviousDue" data-raw="0">৳ ০.০০</span>
+                            <span class="fw-bold text-danger fs-6" id="TotalPreviousDue" data-raw="0">৳ ০.০০</span>
                         </div>
                     </div>
 
-                    <!-- Discount & Pay Amount -->
+                    <!-- Discount & Pay Amount Inputs -->
                     <div class="row g-2 mb-3">
                         <div class="col-6">
-                            <label for="slDiscountAmount" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">ছাড় (Discount)</label>
-                            <input type="number" inputmode="decimal" step="any" min="0" id="slDiscountAmount" class="form-control invoice-search-input" oninput="slCalculateDuePayment()" placeholder="৳ ০.০০">
+                            <label for="DiscountAmount" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">ছাড় (Discount)</label>
+                            <input type="number" inputmode="decimal" step="any" min="0" id="DiscountAmount" class="form-control invoice-search-input" oninput="calculateDuePayment()" placeholder="৳ ০.০০">
                         </div>
                         <div class="col-6">
-                            <label for="slPayAmount" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">পরিশোধিত টাকা *</label>
-                            <input type="number" inputmode="decimal" step="any" min="0" id="slPayAmount" class="form-control invoice-search-input" oninput="slCalculateDuePayment()" placeholder="৳ ০.০০" required>
+                            <label for="PayAmount" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">পরিশোধিত টাকা *</label>
+                            <input type="number" inputmode="decimal" step="any" min="0" id="PayAmount" class="form-control invoice-search-input" oninput="calculateDuePayment()" placeholder="৳ ০.০০" required>
                         </div>
                     </div>
 
                     <!-- Calculation Status Box -->
-                    <div class="p-2 px-3 mb-3 rounded-3 d-flex align-items-center justify-content-between" style="background: #F3ECFB; border: 1px solid #E5D5F7;">
+                    <div class="p-2.5 px-3 mb-3 rounded-3 d-flex align-items-center justify-content-between" style="background: #F3ECFB; border: 1px solid #E5D5F7;">
                         <div>
                             <span class="text-muted small d-block" style="font-size: 11px;">অবশিষ্ট বকেয়া:</span>
-                            <span class="fw-bold text-danger fs-6" id="slFinalDueAmount">৳ ০.০০</span>
+                            <span class="fw-bold text-danger fs-6" id="FinalDueAmount">৳ ০.০০</span>
                         </div>
                         <div class="text-end">
                             <span class="text-muted small d-block" style="font-size: 11px;">পেমেন্ট স্ট্যাটাস:</span>
-                            <span class="badge bg-secondary px-2 py-1 fw-bold" id="slShowPaymentStatusDisplay" style="font-size: 11px;">Pending</span>
+                            <span class="badge bg-secondary px-2.5 py-1 fw-bold" id="ShowpaymentStatusDisplay" style="font-size: 11px;">Pending</span>
                         </div>
                     </div>
 
-                    <!-- Payment Method -->
+                    <!-- Payment Method Select -->
                     <div class="mb-3">
-                        <label class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">পেমেন্ট মাধ্যম *</label>
-                        <div class="d-flex flex-wrap gap-2">
-                            <label class="sl-payment-chip active" onclick="slSelectPaymentChip('cash')">
-                                <input type="radio" name="slPayment" id="slCash" value="cash" checked style="display: none;">
+                        <label class="form-label mb-1.5 fw-semibold text-slate-700 small" style="font-size: 12.5px;">পেমেন্ট মাধ্যম *</label>
+                        <div class="payment-method-grid d-flex flex-wrap gap-2">
+                            <label class="payment-chip-btn active" onclick="selectPaymentChip('cash')">
+                                <input type="radio" name="payment" id="cash" value="cash" checked style="display: none;">
                                 <i class="fa-solid fa-money-bill-wave me-1"></i> Cash
                             </label>
-                            <label class="sl-payment-chip" onclick="slSelectPaymentChip('bkash')">
-                                <input type="radio" name="slPayment" id="slBkash" value="bkash" style="display: none;">
+                            <label class="payment-chip-btn" onclick="selectPaymentChip('bkash')">
+                                <input type="radio" name="payment" id="bkash" value="bkash" style="display: none;">
                                 <i class="fa-solid fa-mobile-screen me-1"></i> bKash
                             </label>
-                            <label class="sl-payment-chip" onclick="slSelectPaymentChip('nagad')">
-                                <input type="radio" name="slPayment" id="slNagad" value="nagad" style="display: none;">
+                            <label class="payment-chip-btn" onclick="selectPaymentChip('nagad')">
+                                <input type="radio" name="payment" id="nagad" value="nagad" style="display: none;">
                                 <i class="fa-solid fa-mobile-screen me-1"></i> Nagad
                             </label>
-                            <label class="sl-payment-chip" onclick="slSelectPaymentChip('rocket')">
-                                <input type="radio" name="slPayment" id="slRocket" value="rocket" style="display: none;">
+                            <label class="payment-chip-btn" onclick="selectPaymentChip('rocket')">
+                                <input type="radio" name="payment" id="rocket" value="rocket" style="display: none;">
                                 <i class="fa-solid fa-mobile-screen me-1"></i> Rocket
                             </label>
-                            <label class="sl-payment-chip" onclick="slSelectPaymentChip('bank')">
-                                <input type="radio" name="slPayment" id="slBank" value="bank" style="display: none;">
+                            <label class="payment-chip-btn" onclick="selectPaymentChip('bank')">
+                                <input type="radio" name="payment" id="bank" value="bank" style="display: none;">
                                 <i class="fa-solid fa-building-columns me-1"></i> Bank
                             </label>
-                            <label class="sl-payment-chip" onclick="slSelectPaymentChip('mastercard')">
-                                <input type="radio" name="slPayment" id="slMastercard" value="mastercard" style="display: none;">
+                            <label class="payment-chip-btn" onclick="selectPaymentChip('mastercard')">
+                                <input type="radio" name="payment" id="mastercard" value="mastercard" style="display: none;">
                                 <i class="fa-solid fa-credit-card me-1"></i> Card
                             </label>
                         </div>
                     </div>
 
-                    <!-- Transaction ID (non-cash) -->
-                    <div class="mb-3" id="slTransactionIdWrapper" style="display: none;">
-                        <label for="slTransactionInput" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">ট্রানজেকশন আইডি</label>
-                        <input type="text" id="slTransactionInput" class="form-control invoice-search-input" placeholder="ট্রানজেকশন আইডি লিখুন...">
+                    <!-- Transaction ID Field (Shown for non-cash) -->
+                    <div class="mb-3" id="transactionIdWrapper" style="display: none;">
+                        <label for="transactionInput" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">ট্রানজেকশন আইডি (Transaction ID)</label>
+                        <input type="text" id="transactionInput" class="form-control invoice-search-input" placeholder="ট্রানজেকশন আইডি লিখুন...">
                     </div>
                 </div>
 
                 <!-- Sticky Bottom Action Buttons right above keyboard -->
                 <div class="modal-sticky-footer p-3 border-top">
                     <div class="d-flex align-items-center gap-2">
-                        <button type="button" class="btn sl-btn-cancel-red py-2 px-3 fw-bold flex-grow-1" data-bs-dismiss="modal" onclick="slClosePaymentModal()" style="height: 44px; border-radius: 10px; font-size: 14px;">
+                        <button type="button" class="btn btn-cancel-red py-2 px-3 fw-bold flex-grow-1" data-bs-dismiss="modal" onclick="closePaymentModal()" style="height: 44px; border-radius: 10px; font-size: 14px;">
                             <i class="fa-solid fa-xmark me-1"></i> বাতিল
                         </button>
-                        <button type="submit" id="slPaymentSubmitBtn" class="invoice-search-submit-btn flex-grow-1 py-2 px-3 fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px;">
+                        <button type="submit" id="paymentSubmitBtn" class="invoice-search-submit-btn flex-grow-1 py-2 px-3 fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px;">
                             <i class="fa-solid fa-check me-1"></i> পরিশোধ নিশ্চিত করুন
                         </button>
                     </div>
@@ -291,19 +318,7 @@
 </div>
 
 <style>
-    /* 0. Card & Border Cleanup */
-    .data-table,
-    .data-table .card,
-    .data-table .card.border-none,
-    .data-table .card.border-0,
-    .data-table .card-body {
-        border: none !important;
-        border-width: 0 !important;
-        box-shadow: none !important;
-        outline: none !important;
-    }
-
-    /* 1. Header & Title Box */
+    /* 1. Header & Title */
     .invoice-card-header {
         border-color: #f1f5f9;
     }
@@ -317,62 +332,48 @@
     }
     .invoice-main-heading {
         color: #1e293b;
-        font-size: 19px;
+        font-size: 20px;
         letter-spacing: -0.2px;
         font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;
         border-left: 4px solid #8C56D4 !important;
         padding-left: 10px !important;
         line-height: 1.3 !important;
-        display: block !important;
-        word-break: break-word;
-    }
-    #mobileSearchWrap:not(.d-none) {
-        margin-bottom: 14px !important;
-    }
-    .search-live-dropdown {
-        top: calc(100% + 4px);
-        background: #ffffff;
-        border: 1.5px solid #E5D5F7;
-        z-index: 1060;
-        max-height: 280px;
-        overflow-y: auto;
-        box-shadow: 0 12px 32px rgba(140, 86, 212, 0.18) !important;
-    }
-    .search-live-item {
-        padding: 9px 14px;
-        border-bottom: 1px solid #f1f5f9;
-        cursor: pointer;
-        transition: all 0.15s ease;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-    }
-    .search-live-item:last-child {
-        border-bottom: none;
-    }
-    .search-live-item:hover {
-        background: #F3ECFB;
-    }
-    body[light-mode="dark"] .search-live-dropdown,
-    body[data-layout-mode="dark"] .search-live-dropdown,
-    body.dark-mode .search-live-dropdown {
-        background: #1e293b !important;
-        border-color: #334155 !important;
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
-    }
-    body[light-mode="dark"] .search-live-item,
-    body[data-layout-mode="dark"] .search-live-item,
-    body.dark-mode .search-live-item {
-        border-color: #334155 !important;
-        color: #f1f5f9 !important;
-    }
-    body[light-mode="dark"] .search-live-item:hover,
-    body[data-layout-mode="dark"] .search-live-item:hover,
-    body.dark-mode .search-live-item:hover {
-        background: #334155 !important;
+        word-break: break-word;
+        flex-wrap: wrap;
     }
 
-    /* 2. Standardized Form Inputs */
+    /* Tab Switcher Styling */
+    .supplier-tab-btn {
+        border: none;
+        background: transparent;
+        color: #64748b;
+        font-weight: 700;
+        font-size: 13.5px;
+        padding: 9px 16px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+    .supplier-tab-btn:hover {
+        color: #8C56D4;
+        background: rgba(140, 86, 212, 0.08);
+    }
+    .supplier-tab-btn.active {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(140, 86, 212, 0.3) !important;
+    }
+    .supplier-tab-btn.active .badge {
+        background: rgba(255, 255, 255, 0.25) !important;
+        color: #ffffff !important;
+    }
+
+    /* Standardized Form Inputs */
     .invoice-search-input {
         height: 42px !important;
         min-height: 42px !important;
@@ -558,7 +559,8 @@
     }
 
     /* Mobile & Tablet Card Layout */
-    #mobileCardList {
+    #dueMobileCardList,
+    #collectionMobileCardList {
         display: flex !important;
         flex-wrap: wrap !important;
         gap: 8px !important;
@@ -566,7 +568,8 @@
         margin-right: 0 !important;
         align-items: flex-start !important;
     }
-    #mobileCardList > .col-12 {
+    #dueMobileCardList > .col-12,
+    #collectionMobileCardList > .col-12 {
         width: 100% !important;
         max-width: 100% !important;
         flex: 0 0 100% !important;
@@ -574,7 +577,8 @@
         margin: 0 !important;
     }
     @media (min-width: 768px) and (max-width: 991.98px) {
-        #mobileCardList > .col-md-6 {
+        #dueMobileCardList > .col-md-6,
+        #collectionMobileCardList > .col-md-6 {
             width: calc(50% - 4px) !important;
             max-width: calc(50% - 4px) !important;
             flex: 0 0 calc(50% - 4px) !important;
@@ -602,13 +606,13 @@
         border-radius: 10px !important;
     }
     .invoice-summary-strip .summary-label {
-        font-size: 11px !important;
+        font-size: 10.5px !important;
         color: #64748b;
         text-transform: uppercase;
         margin-bottom: 2px;
     }
     .invoice-summary-strip .summary-price {
-        font-size: 14px !important;
+        font-size: 13.5px !important;
         font-weight: 700 !important;
         letter-spacing: -0.2px;
         white-space: nowrap !important;
@@ -623,12 +627,13 @@
     }
     .mobile-action-btn {
         flex: 1 1 0;
-        height: 32px;
+        height: 38px;
         border-radius: 8px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         font-size: 12.5px;
+        font-weight: 600;
         transition: all 0.2s ease-in-out;
         cursor: pointer;
         border: 1px solid transparent;
@@ -638,67 +643,73 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
     }
-    .mobile-action-btn.action-btn-profile {
-        background: #F3ECFB;
-        color: #8C56D4;
-        border-color: #E5D5F7;
-    }
-    .mobile-action-btn.action-btn-profile:hover {
-        background: #8C56D4;
+    .mobile-action-btn.action-btn-pay {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%);
         color: #ffffff;
+        border-color: #8C56D4;
     }
-    .mobile-action-btn.action-btn-due {
-        background: #FEF9EC;
-        color: #D97706;
-        border-color: #FDE68A;
-    }
-    .mobile-action-btn.action-btn-due:hover {
-        background: #D97706;
-        color: #ffffff;
-    }
-    .mobile-action-btn.action-btn-edit {
-        background: #E0F2FE;
-        color: #0284C7;
-        border-color: #BAE6FD;
-    }
-    .mobile-action-btn.action-btn-edit:hover {
-        background: #0284C7;
-        color: #ffffff;
-    }
-    .mobile-action-btn.action-btn-delete {
-        background: #FEE2E2;
-        color: #DC2626;
-        border-color: #FECACA;
-    }
-    .mobile-action-btn.action-btn-delete:hover {
-        background: #DC2626;
+    .mobile-action-btn.action-btn-pay:hover {
+        background: linear-gradient(135deg, #793FC5 0%, #672EB0 100%);
         color: #ffffff;
     }
 
-    /* Floating Action Button (FAB) */
-    .floating-add-invoice-btn {
-        position: fixed;
-        bottom: 24px;
-        right: 24px;
-        width: 52px;
-        height: 52px;
-        border-radius: 50% !important;
-        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
-        color: #ffffff !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        box-shadow: 0 6px 20px rgba(140, 86, 212, 0.4), 0 2px 6px rgba(0, 0, 0, 0.12) !important;
-        z-index: 999;
-        text-decoration: none !important;
-        transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease;
-        border: 2px solid rgba(255, 255, 255, 0.25);
+    /* Payment Method Chip Buttons in Modal */
+    .payment-chip-btn {
+        padding: 7px 14px;
+        border-radius: 8px;
+        border: 1.5px solid #cbd5e1;
+        background: #ffffff;
+        color: #475569;
+        font-size: 13px;
+        font-weight: 600;
         cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        user-select: none;
     }
-    .floating-add-invoice-btn:hover {
-        transform: scale(1.1) translateY(-3px);
-        box-shadow: 0 10px 28px rgba(140, 86, 212, 0.55), 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+    .payment-chip-btn:hover {
+        border-color: #8C56D4;
+        color: #8C56D4;
+        background: #FAF7FD;
+    }
+    .payment-chip-btn.active {
+        border-color: #8C56D4 !important;
+        background: #F3ECFB !important;
+        color: #8C56D4 !important;
+        font-weight: 700;
+        box-shadow: 0 2px 6px rgba(140, 86, 212, 0.2);
+    }
+
+    .btn-close-red {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        border-radius: 50% !important;
+        width: 30px !important;
+        height: 30px !important;
+        border: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 14px !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+    }
+    .btn-close-red:hover {
+        background: #dc2626 !important;
+        transform: rotate(90deg) scale(1.05);
+    }
+
+    .btn-cancel-red {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        border: 1px solid #dc2626 !important;
+        border-radius: 10px !important;
+        font-weight: 700 !important;
+        transition: all 0.2s ease !important;
+    }
+    .btn-cancel-red:hover {
+        background: #dc2626 !important;
         color: #ffffff !important;
     }
 
@@ -746,7 +757,7 @@
     body[data-layout-mode="dark"] .data-table .card,
     body.dark-mode .data-table .card {
         background-color: #1e293b !important;
-        border: none !important;
+        border-color: #334155 !important;
     }
     body[light-mode="dark"] .invoice-main-heading,
     body[data-layout-mode="dark"] .invoice-main-heading,
@@ -759,6 +770,17 @@
         background-color: #0f172a !important;
         border-color: #334155 !important;
         color: #c084fc !important;
+    }
+    body[light-mode="dark"] .supplier-tab-nav-wrap,
+    body[data-layout-mode="dark"] .supplier-tab-nav-wrap,
+    body.dark-mode .supplier-tab-nav-wrap {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .supplier-tab-btn:not(.active),
+    body[data-layout-mode="dark"] .supplier-tab-btn:not(.active),
+    body.dark-mode .supplier-tab-btn:not(.active) {
+        color: #cbd5e1 !important;
     }
     body[light-mode="dark"] .mobile-header-icon-btn,
     body[data-layout-mode="dark"] .mobile-header-icon-btn,
@@ -807,29 +829,41 @@
     body.dark-mode .summary-divider-bar {
         background-color: #334155 !important;
     }
-    body[light-mode="dark"] #printTable,
-    body[data-layout-mode="dark"] #printTable,
-    body.dark-mode #printTable {
+    body[light-mode="dark"] #dueTable,
+    body[light-mode="dark"] #collectionTable,
+    body[data-layout-mode="dark"] #dueTable,
+    body[data-layout-mode="dark"] #collectionTable,
+    body.dark-mode #dueTable,
+    body.dark-mode #collectionTable {
         color: #f1f5f9 !important;
         border-color: #334155 !important;
     }
-    body[light-mode="dark"] #printTable thead tr th,
-    body[data-layout-mode="dark"] #printTable thead tr th,
-    body.dark-mode #printTable thead tr th {
+    body[light-mode="dark"] #dueTable thead tr th,
+    body[light-mode="dark"] #collectionTable thead tr th,
+    body[data-layout-mode="dark"] #dueTable thead tr th,
+    body[data-layout-mode="dark"] #collectionTable thead tr th,
+    body.dark-mode #dueTable thead tr th,
+    body.dark-mode #collectionTable thead tr th {
         background-color: #0f172a !important;
         color: #cbd5e1 !important;
         border-color: #334155 !important;
     }
-    body[light-mode="dark"] #printTable tbody tr td,
-    body[data-layout-mode="dark"] #printTable tbody tr td,
-    body.dark-mode #printTable tbody tr td {
+    body[light-mode="dark"] #dueTable tbody tr td,
+    body[light-mode="dark"] #collectionTable tbody tr td,
+    body[data-layout-mode="dark"] #dueTable tbody tr td,
+    body[data-layout-mode="dark"] #collectionTable tbody tr td,
+    body.dark-mode #dueTable tbody tr td,
+    body.dark-mode #collectionTable tbody tr td {
         background-color: #1e293b !important;
         color: #f1f5f9 !important;
         border-color: #334155 !important;
     }
-    body[light-mode="dark"] #printTable tbody tr:hover td,
-    body[data-layout-mode="dark"] #printTable tbody tr:hover td,
-    body.dark-mode #printTable tbody tr:hover td {
+    body[light-mode="dark"] #dueTable tbody tr:hover td,
+    body[light-mode="dark"] #collectionTable tbody tr:hover td,
+    body[data-layout-mode="dark"] #dueTable tbody tr:hover td,
+    body[data-layout-mode="dark"] #collectionTable tbody tr:hover td,
+    body.dark-mode #dueTable tbody tr:hover td,
+    body.dark-mode #collectionTable tbody tr:hover td {
         background-color: #273549 !important;
     }
     body[light-mode="dark"] .invoice-mobile-card,
@@ -850,80 +884,36 @@
     body.dark-mode .invoice-summary-strip .summary-label {
         color: #94a3b8 !important;
     }
-    body[light-mode="dark"] .custom-pagination-btn,
-    body[data-layout-mode="dark"] .custom-pagination-btn,
-    body.dark-mode .custom-pagination-btn {
+    body[light-mode="dark"] #editModal .modal-content,
+    body[data-layout-mode="dark"] #editModal .modal-content,
+    body.dark-mode #editModal .modal-content {
         background-color: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] #editModal .modal-body .p-3,
+    body[data-layout-mode="dark"] #editModal .modal-body .p-3,
+    body.dark-mode #editModal .modal-body .p-3 {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] #editModal .payment-chip-btn,
+    body[data-layout-mode="dark"] #editModal .payment-chip-btn,
+    body.dark-mode #editModal .payment-chip-btn {
+        background-color: #0f172a !important;
         border-color: #334155 !important;
         color: #cbd5e1 !important;
     }
-    body[light-mode="dark"] .custom-pagination-btn:hover:not(.disabled):not(.active),
-    body[data-layout-mode="dark"] .custom-pagination-btn:hover:not(.disabled):not(.active),
-    body.dark-mode .custom-pagination-btn:hover:not(.disabled):not(.active) {
-        background-color: #334155 !important;
-        color: #ffffff !important;
+    body[light-mode="dark"] #editModal .payment-chip-btn.active,
+    body[data-layout-mode="dark"] #editModal .payment-chip-btn.active,
+    body.dark-mode #editModal .payment-chip-btn.active {
+        background: #334155 !important;
+        border-color: #8C56D4 !important;
+        color: #c084fc !important;
     }
-    body[light-mode="dark"] .custom-pagination-btn.disabled,
-    body[data-layout-mode="dark"] .custom-pagination-btn.disabled,
-    body.dark-mode .custom-pagination-btn.disabled {
-        background-color: #0f172a !important;
-        border-color: #1e293b !important;
-        color: #475569 !important;
-    }
-
-    /* ===== Payment Modal Styles (Supplier List) ===== */
-    .sl-btn-close-red {
-        background: #ef4444 !important;
-        color: #ffffff !important;
-        border-radius: 50% !important;
-        width: 30px !important;
-        height: 30px !important;
-        border: none !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        font-size: 14px !important;
-        cursor: pointer !important;
-        transition: all 0.2s ease !important;
-    }
-    .sl-btn-close-red:hover { background: #dc2626 !important; transform: rotate(90deg) scale(1.05); }
-    .sl-btn-cancel-red {
-        background: #ef4444 !important;
-        color: #ffffff !important;
-        border: 1px solid #dc2626 !important;
-        border-radius: 10px !important;
-        font-weight: 700 !important;
-        transition: all 0.2s ease !important;
-    }
-    .sl-btn-cancel-red:hover { background: #dc2626 !important; color: #ffffff !important; }
-    .sl-payment-chip {
-        padding: 7px 14px;
-        border-radius: 8px;
-        border: 1.5px solid #cbd5e1;
-        background: #ffffff;
-        color: #475569;
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        user-select: none;
-    }
-    .sl-payment-chip:hover { border-color: #8C56D4; color: #8C56D4; background: #FAF7FD; }
-    .sl-payment-chip.active { border-color: #8C56D4 !important; background: #F3ECFB !important; color: #8C56D4 !important; font-weight: 700; box-shadow: 0 2px 6px rgba(140,86,212,0.2); }
-    body[light-mode="dark"] #supplierDuePaymentModal .modal-content,
-    body[data-layout-mode="dark"] #supplierDuePaymentModal .modal-content,
-    body.dark-mode #supplierDuePaymentModal .modal-content { background-color: #1e293b !important; color: #f8fafc !important; }
-    body[light-mode="dark"] #supplierDuePaymentModal .sl-payment-chip,
-    body[data-layout-mode="dark"] #supplierDuePaymentModal .sl-payment-chip,
-    body.dark-mode #supplierDuePaymentModal .sl-payment-chip { background-color: #0f172a !important; border-color: #334155 !important; color: #cbd5e1 !important; }
-    body[light-mode="dark"] #supplierDuePaymentModal .sl-payment-chip.active,
-    body[data-layout-mode="dark"] #supplierDuePaymentModal .sl-payment-chip.active,
-    body.dark-mode #supplierDuePaymentModal .sl-payment-chip.active { background-color: #334155 !important; border-color: #8C56D4 !important; color: #c084fc !important; }
 
     @media screen and (max-width: 991.98px) {
-        #supplierDuePaymentModal.modal {
+        #editModal.modal {
             padding: 0 !important;
             position: fixed !important;
             top: 0 !important;
@@ -941,14 +931,14 @@
             z-index: 107000 !important;
         }
 
-        #supplierDuePaymentModal.modal.show {
+        #editModal.modal.show {
             display: flex !important;
             flex-direction: column !important;
             justify-content: flex-end !important;
             align-items: center !important;
         }
 
-        #supplierDuePaymentModal .modal-dialog {
+        #editModal .modal-dialog {
             margin: 0 !important;
             width: 100% !important;
             max-width: 100% !important;
@@ -965,7 +955,7 @@
             justify-content: flex-end !important;
         }
 
-        #supplierDuePaymentModal .modal-content {
+        #editModal .modal-content {
             border-radius: 0 !important;
             border-top-left-radius: 24px !important;
             border-top-right-radius: 24px !important;
@@ -984,7 +974,7 @@
             to { transform: translateY(0); }
         }
 
-        #supplierDuePaymentModal .modal-body {
+        #editModal .modal-body {
             flex: 1 1 auto !important;
             max-height: calc(85vh - 130px) !important;
             max-height: calc(85dvh - 130px) !important;
@@ -993,7 +983,7 @@
             padding: 14px 16px !important;
         }
 
-        #supplierDuePaymentModal .modal-sticky-footer {
+        #editModal .modal-sticky-footer {
             flex: 0 0 auto !important;
             position: sticky !important;
             bottom: 0 !important;
@@ -1005,122 +995,53 @@
         }
     }
 
-    body[light-mode="dark"] #supplierDuePaymentModal .modal-sticky-footer,
-    body[data-layout-mode="dark"] #supplierDuePaymentModal .modal-sticky-footer,
-    body.dark-mode #supplierDuePaymentModal .modal-sticky-footer {
+    body[light-mode="dark"] #editModal .modal-sticky-footer,
+    body[data-layout-mode="dark"] #editModal .modal-sticky-footer,
+    body.dark-mode #editModal .modal-sticky-footer {
         background: #1e293b !important;
         border-color: #334155 !important;
     }
 </style>
 
 <script>
+    let activeTab = 'dueList'; // 'dueList' or 'collectionList'
     let currentPage = 1;
     let pageSize = 50;
-    let rawSupplierData = [];
+    let rawDueData = [];
+    let rawCollectionData = [];
     let currentFilter = 'all';
 
     $(document).ready(function() {
         $("#entries").val("50");
-        getList();
+        
+        // Check if query or URL hash requests collection tab
+        if (window.location.pathname.includes('supplier-due-collection-page') || window.location.hash === '#collection') {
+            activeTab = 'collectionList';
+        }
+        
+        fetchBothLists();
 
-        // Close dropdowns when clicking outside
+        // Close dropdowns on outside click
         $(document).on('click', function(e) {
             if (!$(e.target).closest('.custom-dropdown-wrap').length) {
                 $('.custom-dropdown-wrap').removeClass('open');
                 $('.custom-dropdown-menu').removeClass('show');
             }
-            if (!$(e.target).closest('#mobileSearchInput, #searchInput, .search-live-dropdown').length) {
-                $('.search-live-dropdown').addClass('d-none').empty();
-            }
         });
 
-        function handleLiveSearch(term) {
-            let cleanTerm = (term || '').toLowerCase().trim();
-            renderLiveDropdown('mobileSearchDropdown', cleanTerm);
-            renderLiveDropdown('desktopSearchDropdown', cleanTerm);
-        }
-
-        // Sync mobile and desktop search
-        $("#searchInput").on("keyup search input", function () {
-            let val = $(this).val();
-            $("#mobileSearchInput").val(val);
-            handleLiveSearch(val);
-            currentPage = 1;
-            renderPaginatedList();
-        });
-
-        $("#mobileSearchInput").on("keyup search input", function () {
+        // Search inputs sync
+        $("#searchInput, #mobileSearchInput").on("keyup search input", function () {
             let val = $(this).val();
             $("#searchInput").val(val);
-            handleLiveSearch(val);
+            $("#mobileSearchInput").val(val);
             currentPage = 1;
-            renderPaginatedList();
+            renderCurrentActiveTab();
         });
+
+        // Set default date in modal
+        const today = new Date().toISOString().split('T')[0];
+        $('#DueCollectionDate').val(today);
     });
-
-    function renderLiveDropdown(containerId, cleanTerm) {
-        const dropdown = $('#' + containerId);
-        if (!cleanTerm || cleanTerm.length === 0 || !rawSupplierData || rawSupplierData.length === 0) {
-            dropdown.addClass('d-none').empty();
-            return;
-        }
-
-        let matches = rawSupplierData.filter(item => {
-            let supplierId = (item.supplier_id || "").toLowerCase();
-            let name = (item.name || "").toLowerCase();
-            let nameOrig = (item.name || "");
-            let company = (item.company || "").toLowerCase();
-            let companyOrig = (item.company || "");
-            let phone = (item.phone || item.mobile || "").toLowerCase();
-
-            return supplierId.includes(cleanTerm) ||
-                   name.includes(cleanTerm) ||
-                   nameOrig.includes(cleanTerm) ||
-                   company.includes(cleanTerm) ||
-                   companyOrig.includes(cleanTerm) ||
-                   phone.includes(cleanTerm);
-        }).slice(0, 8);
-
-        if (matches.length === 0) {
-            dropdown.html('<div class="p-3 text-center text-muted small"><i class="fa-solid fa-circle-exclamation me-1"></i>কোনো সাপ্লায়ার পাওয়া যায়নি</div>').removeClass('d-none');
-            return;
-        }
-
-        let html = '';
-        matches.forEach(item => {
-            const img = item.img_url ? item.img_url : "{{ asset('back-end/assets/img/demo-img.jpeg') }}";
-            const payable = parseFloat(item.purchase_payable_amount) || 0;
-            const dueDisplay = payable > 0 ? `<span class="text-danger fw-bold" style="font-size: 11.5px;">৳ ${payable.toFixed(2)}</span>` : '<span class="text-muted small" style="font-size: 11px;">পরিশোধিত</span>';
-            const companyText = item.company ? `<span class="text-muted small d-block text-truncate" style="font-size: 11px; max-width: 180px;"><i class="fa-solid fa-building me-1"></i>${item.company}</span>` : '';
-            const safeName = (item.name || '').replace(/'/g, "\\'");
-
-            html += `
-                <div class="search-live-item" onclick="selectSearchDropdownItem('${safeName}')">
-                    <div class="d-flex align-items-center gap-2 overflow-hidden">
-                        <img src="${img}" class="rounded-circle border flex-shrink-0" style="width: 32px; height: 32px; object-fit: cover;" onerror="this.src='{{ asset('back-end/assets/img/demo-img.jpeg') }}'">
-                        <div class="overflow-hidden">
-                            <span class="fw-bold text-dark d-block text-truncate" style="font-size: 13px;">${item.name}</span>
-                            ${companyText}
-                        </div>
-                    </div>
-                    <div class="text-end flex-shrink-0 ms-2">
-                        <span class="badge bg-light text-dark border mb-1 d-inline-block" style="font-size: 10px;">${item.supplier_id}</span>
-                        <div>${dueDisplay}</div>
-                    </div>
-                </div>
-            `;
-        });
-
-        dropdown.html(html).removeClass('d-none');
-    }
-
-    function selectSearchDropdownItem(name) {
-        $('#searchInput').val(name);
-        $('#mobileSearchInput').val(name);
-        $('.search-live-dropdown').addClass('d-none').empty();
-        currentPage = 1;
-        renderPaginatedList();
-    }
 
     function toggleCustomDropdown(menuId) {
         let menu = $('#' + menuId);
@@ -1145,7 +1066,7 @@
         $('.custom-dropdown-wrap').removeClass('open');
         $('.custom-dropdown-menu').removeClass('show');
         currentPage = 1;
-        renderPaginatedList();
+        renderCurrentActiveTab();
     }
 
     function selectFilterOption(filter, text, event) {
@@ -1157,7 +1078,7 @@
         $('.custom-dropdown-wrap').removeClass('open');
         $('.custom-dropdown-menu').removeClass('show');
         currentPage = 1;
-        renderPaginatedList();
+        renderCurrentActiveTab();
     }
 
     function toggleMobileSearchBar() {
@@ -1175,27 +1096,51 @@
         $('#mobileSearchWrap').addClass('d-none');
         $('#mobileSearchInput').val('');
         $('#searchInput').val('');
-        $('.search-live-dropdown').addClass('d-none').empty();
         $('#mobileSearchToggleBtn').removeClass('active');
         currentPage = 1;
-        renderPaginatedList();
+        renderCurrentActiveTab();
     }
 
-    // Function to fetch and display the supplier list
-    async function getList() {
+    function switchSupplierTab(tabName) {
+        activeTab = tabName;
+        currentPage = 1;
+
+        if (tabName === 'dueList') {
+            $('#tabDueListBtn').addClass('active');
+            $('#tabCollectionListBtn').removeClass('active');
+            $('#tabContentDueList').removeClass('d-none');
+            $('#tabContentCollectionList').addClass('d-none');
+            $('#topSummaryLabelLeft').text('মোট বকেয়া সাপ্লায়ার');
+            $('#topSummaryLabelRight').text('মোট বকেয়া দেনা');
+        } else {
+            $('#tabCollectionListBtn').addClass('active');
+            $('#tabDueListBtn').removeClass('active');
+            $('#tabContentCollectionList').removeClass('d-none');
+            $('#tabContentDueList').addClass('d-none');
+            $('#topSummaryLabelLeft').text('মোট কালেকশন/পরিশোধ');
+            $('#topSummaryLabelRight').text('মোট পরিশোধিত অর্থ');
+        }
+
+        renderCurrentActiveTab();
+    }
+
+    async function fetchBothLists() {
         try {
             showLoader();
-            let res = await axios.get("/api/supplier-list", HeaderToken());
+            const [dueRes, collRes] = await Promise.all([
+                axios.get("/api/supplier-due-list", HeaderToken()),
+                axios.get("/api/admin-dashboard-supplier-due-collection", HeaderToken())
+            ]);
             hideLoader();
 
-            if (Array.isArray(res.data['SupplierData'])) {
-                rawSupplierData = res.data['SupplierData'];
-            } else {
-                rawSupplierData = [];
-            }
+            rawDueData = Array.isArray(dueRes.data['SupplierData']) ? dueRes.data['SupplierData'] : [];
+            rawCollectionData = Array.isArray(collRes.data['SupplierDueCollectionData']) ? collRes.data['SupplierDueCollectionData'] : [];
 
-            currentPage = 1;
-            renderPaginatedList();
+            $('#dueListCountBadge').text(rawDueData.length);
+            $('#collectionListCountBadge').text(rawCollectionData.length);
+
+            // Set default tab view
+            switchSupplierTab(activeTab);
 
         } catch (e) {
             hideLoader();
@@ -1204,52 +1149,51 @@
         }
     }
 
-    function renderPaginatedList() {
-        if (!rawSupplierData) return;
+    function renderCurrentActiveTab() {
+        if (activeTab === 'dueList') {
+            renderDueList();
+        } else {
+            renderCollectionList();
+        }
+    }
 
-        let searchTerm = ($("#searchInput").val() || $("#mobileSearchInput").val() || "").toLowerCase().trim();
+    /* ================= 1. RENDER SUPPLIER DUE LIST ================= */
+    function renderDueList() {
+        let searchTerm = ($("#searchInput").val() || "").toLowerCase().trim();
 
-        // 1. Filter Suppliers
-        let filtered = rawSupplierData.filter(function (item) {
+        let filtered = rawDueData.filter(function (item) {
             let supplierId = (item.supplier_id || "").toLowerCase();
             let name = (item.name || "").toLowerCase();
             let company = (item.company || "").toLowerCase();
-            let companyOrig = (item.company || "");
             let status = (item.status || "").toLowerCase();
-            let phone = (item.phone || item.mobile || "").toLowerCase();
-            let payableAmount = parseFloat(item.purchase_payable_amount) || 0;
-            // Broad search: match in any field including Bengali names (case-insensitive for English, direct for Bengali)
-            let nameOrig = (item.name || "");
-            let matchesSearch = !searchTerm ||
-                supplierId.includes(searchTerm) ||
-                name.includes(searchTerm) ||
-                nameOrig.includes(searchTerm) ||
-                company.includes(searchTerm) ||
-                companyOrig.includes(searchTerm) ||
-                status.includes(searchTerm) ||
-                phone.includes(searchTerm);
+            let payable = parseFloat(item.purchase_payable_amount) || 0;
+            let totalDue = parseFloat(item.total_due_amount) || 0;
+            let sumDue = payable + totalDue;
+
+            let matchesSearch = !searchTerm || supplierId.includes(searchTerm) || name.includes(searchTerm) || company.includes(searchTerm) || status.includes(searchTerm);
 
             let matchesFilter = true;
-            if (currentFilter === 'Active') {
+            if (currentFilter === 'hasDue') {
+                matchesFilter = (sumDue > 0);
+            } else if (currentFilter === 'Active') {
                 matchesFilter = (item.status === 'Active');
-            } else if (currentFilter === 'Inactive') {
-                matchesFilter = (item.status !== 'Active');
-            } else if (currentFilter === 'due') {
-                matchesFilter = (payableAmount > 0);
             }
 
             return matchesSearch && matchesFilter;
         });
 
-        // 2. Calculate Totals for Top Summary Strip
-        let totalPayableAmount = 0;
+        // Totals
+        let totalSumDue = 0;
         filtered.forEach(item => {
-            totalPayableAmount += parseFloat(item['purchase_payable_amount']) || 0;
+            let payable = parseFloat(item.purchase_payable_amount) || 0;
+            let due = parseFloat(item.total_due_amount) || 0;
+            totalSumDue += (payable + due);
         });
-        $("#topSummaryTotalCount").text(filtered.length);
-        $("#topSummaryTotalAmount").text(`৳ ${totalPayableAmount.toFixed(2)}`);
 
-        // 3. Pagination Calculations
+        $('#topSummaryTotalCount').text(filtered.length);
+        $('#topSummaryTotalAmount').text(`৳ ${totalSumDue.toFixed(2)}`);
+
+        // Pagination
         let totalItems = filtered.length;
         let totalPages = Math.ceil(totalItems / pageSize) || 1;
         if (currentPage > totalPages) currentPage = totalPages;
@@ -1259,20 +1203,21 @@
         let endIndex = Math.min(startIndex + pageSize, totalItems);
         let pageItems = filtered.slice(startIndex, endIndex);
 
-        let tableList = $("#tableList");
-        let mobileCardList = $("#mobileCardList");
-
+        let tableList = $("#dueTableList");
+        let mobileCardList = $("#dueMobileCardList");
         tableList.empty();
         mobileCardList.empty();
 
         if (pageItems.length === 0) {
-            tableList.html('<tr><td colspan="8" class="text-center text-danger p-4 fw-bold">❌ কোনো সাপ্লায়ার পাওয়া যায়নি।</td></tr>');
-            mobileCardList.html('<div class="col-12 p-4 text-center text-danger fw-bold bg-white rounded-3 border shadow-sm">❌ কোনো সাপ্লায়ার পাওয়া যায়নি।</div>');
+            tableList.html('<tr><td colspan="10" class="text-center text-danger p-4 fw-bold">❌ কোনো বকেয়া তথ্য পাওয়া যায়নি।</td></tr>');
+            mobileCardList.html('<div class="col-12 p-4 text-center text-danger fw-bold bg-white rounded-3 border shadow-sm">❌ কোনো বকেয়া তথ্য পাওয়া যায়নি।</div>');
         } else {
             pageItems.forEach(function (item, idx) {
                 let realIndex = startIndex + idx;
                 const img_url = item['img_url'] ? item['img_url'] : "{{ asset('back-end/assets/img/demo-img.jpeg') }}";
                 let payableAmount = parseFloat(item['purchase_payable_amount']) || 0;
+                let invoiceDue = parseFloat(item['total_due_amount']) || 0;
+                let grandDue = payableAmount + invoiceDue;
 
                 let statusBadgeClass = item['status'] === 'Active' ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-danger-subtle text-danger border border-danger-subtle';
 
@@ -1281,20 +1226,9 @@
                     <tr data-row="${realIndex + 1}">
                         <td class="text-center fw-bold">${realIndex + 1}</td>
                         <td class="text-center">
-                            <div class="d-flex align-items-center justify-content-center gap-1">
-                                <a href="/supplier/profile/${item['id']}" class="btn btn-sm btn-outline-primary px-2 py-1" style="border-radius: 6px;" title="প্রোফাইল দেখুন">
-                                    <i class="fa-solid fa-user"></i>
-                                </a>
-                                <button type="button" onclick="slOpenPaymentModal(${item['id']})" class="btn btn-sm btn-outline-warning px-2 py-1" style="border-radius: 6px;" title="বকেয়া পরিশোধ">
-                                    <i class="fa-solid fa-money-bill-wave"></i>
-                                </button>
-                                <button type="button" onclick="openSupplierUpdateModal(${item['id']})" class="edit-link btn btn-sm btn-outline-success px-2 py-1" style="border-radius: 6px;" title="এডিট করুন">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                                <button type="button" data-id="${item['id']}" class="custom-delete-modal-btn btn btn-sm btn-outline-danger px-2 py-1" style="border-radius: 6px;" data-bs-toggle="modal" data-bs-target="#confirmationModal" title="মুছে ফেলুন">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
+                            <button type="button" class="btn btn-sm px-2.5 py-1 fw-bold text-white shadow-sm" style="background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); border-radius: 6px; font-size: 11.5px;" onclick="openPaymentModal(${item['id']})" title="বকেয়া পরিশোধ করুন">
+                                <i class="fa-solid fa-hand-holding-dollar"></i>
+                            </button>
                         </td>
                         <td>
                             <a href="/supplier/profile/${item['id']}" class="fw-bold text-decoration-none" style="color: #8C56D4;">
@@ -1308,22 +1242,22 @@
                             <a href="/supplier/profile/${item['id']}" class="text-dark fw-bold text-decoration-none">${item['name']}</a>
                         </td>
                         <td class="fw-medium text-secondary">${item['company'] || '-'}</td>
-                        <td class="text-end fw-bold ${payableAmount > 0 ? 'text-danger' : 'text-dark'}">৳ ${payableAmount.toFixed(2)}</td>
+                        <td class="text-end fw-semibold text-secondary">৳ ${payableAmount.toFixed(2)}</td>
+                        <td class="text-end fw-semibold text-secondary">৳ ${invoiceDue.toFixed(2)}</td>
+                        <td class="text-end fw-bold ${grandDue > 0 ? 'text-danger' : 'text-dark'}">৳ ${grandDue.toFixed(2)}</td>
                         <td class="text-center">
                             <span class="badge ${statusBadgeClass} px-2 py-1 fw-bold" style="font-size: 11px; border-radius: 12px;">
                                 ${item['status'] || 'Active'}
                             </span>
                         </td>
-                    </tr>`;
+                    </tr>` ;
                 tableList.append(row);
-
-                // Mobile & Tablet Card View (2-column on Tab >=768px, 1-col on Mobile)
                 let mobileCard = `
                     <div class="col-12 col-md-6">
                         <a href="/supplier/profile/${item['id']}" class="text-decoration-none d-block h-100">
                         <div class="invoice-mobile-card d-flex flex-column justify-content-between h-100">
                             <div>
-                                <!-- Card Header: ID & Status -->
+                                <!-- Header -->
                                 <div class="d-flex align-items-center justify-content-between pb-2 mb-2 border-bottom">
                                     <div class="d-flex align-items-center gap-1.5">
                                         <span class="badge bg-secondary-subtle text-secondary fw-bold" style="font-size: 10px;">#${realIndex + 1}</span>
@@ -1338,10 +1272,10 @@
                                     </div>
                                 </div>
 
-                                <!-- Card Body: Image+Name on Left | Due Amount on Right -->
-                                <div class="d-flex align-items-center justify-content-between gap-2 mb-0">
+                                <!-- Body: Profile Left | Due Amounts Right -->
+                                <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
                                     <div class="d-flex align-items-center gap-2 flex-shrink-1 overflow-hidden">
-                                        <img src="${img_url}" class="rounded-circle border shadow-sm flex-shrink-0" style="width: 44px; height: 44px; object-fit: cover;" onerror="this.src='{{ asset('back-end/assets/img/demo-img.jpeg') }}'">
+                                        <img src="${img_url}" class="rounded-circle border shadow-sm flex-shrink-0" style="width: 44px; height: 44px; object-fit: cover;" onerror="this.src='{{ asset('back-end/assets/img/demo-img.jpeg') }}'"></i>
                                         <div class="overflow-hidden">
                                             <h6 class="fw-bold text-dark mb-0 text-truncate" style="font-size: 13.5px;">${item['name']}</h6>
                                             <span class="text-muted text-truncate d-block" style="font-size: 11px;">
@@ -1349,26 +1283,27 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="text-end flex-shrink-0 ms-2">
-                                        <div style="font-size: 10px; color: #64748b; white-space: nowrap;">বকেয়া দেনা</div>
-                                        <div class="fw-bold ${payableAmount > 0 ? 'text-danger' : 'text-dark'}" style="font-size: 13.5px; white-space: nowrap;">৳ ${payableAmount.toFixed(2)}</div>
+                                    <div class="flex-shrink-0 ms-1 invoice-summary-strip rounded-3 p-1.5 px-2" style="min-width: 130px;">
+                                        <div class="d-flex align-items-center justify-content-between gap-2 pb-0.5 border-bottom">
+                                            <span style="font-size: 9.5px; color: #64748b; white-space: nowrap;">পূর্বের বকেয়া:</span>
+                                            <span class="fw-semibold text-secondary" style="font-size: 10.5px; white-space: nowrap;">৳ ${payableAmount.toFixed(2)}</span>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between gap-2 py-0.5 border-bottom">
+                                            <span style="font-size: 9.5px; color: #64748b; white-space: nowrap;">ইনভয়েস বকেয়া:</span>
+                                            <span class="fw-semibold text-secondary" style="font-size: 10.5px; white-space: nowrap;">৳ ${invoiceDue.toFixed(2)}</span>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between gap-2 pt-0.5">
+                                            <span style="font-size: 10px; color: #1e293b; font-weight: 700; white-space: nowrap;">মোট বকেয়া:</span>
+                                            <span class="fw-bold ${grandDue > 0 ? 'text-danger' : 'text-dark'}" style="font-size: 11px; white-space: nowrap;">৳ ${grandDue.toFixed(2)}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Icon-Only 4 Action Buttons -->
-                            <div class="mobile-card-actions pt-2 mt-2 border-top" onclick="event.stopPropagation(); event.preventDefault();">
-                                <a href="/supplier/profile/${item['id']}" class="mobile-action-btn action-btn-profile flex-grow-1" onclick="event.stopPropagation();" title="প্রোফাইল">
-                                    <i class="fa-solid fa-user"></i>
-                                </a>
-                                <button type="button" class="mobile-action-btn action-btn-due flex-grow-1" onclick="event.stopPropagation(); slOpenPaymentModal(${item['id']});" title="বকেয়া পরিশোধ">
-                                    <i class="fa-solid fa-money-bill-wave"></i>
-                                </button>
-                                <button type="button" class="mobile-action-btn action-btn-edit edit-link flex-grow-1" onclick="event.stopPropagation(); openSupplierUpdateModal(${item['id']});" title="এডিট">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                                <button type="button" class="mobile-action-btn action-btn-delete custom-delete-modal-btn flex-grow-1" data-id="${item['id']}" data-bs-toggle="modal" data-bs-target="#confirmationModal" title="মুছুন" onclick="event.stopPropagation();">
-                                    <i class="fa-solid fa-trash"></i>
+                            <!-- 1-Row Box Action Button -->
+                            <div class="mobile-card-actions pt-2 mt-1 border-top" onclick="event.stopPropagation(); event.preventDefault();">
+                                <button type="button" class="mobile-action-btn action-btn-pay flex-grow-1" onclick="event.stopPropagation(); openPaymentModal(${item['id']});" title="বকেয়া পরিশোধ করুন">
+                                    <i class="fa-solid fa-hand-holding-dollar"></i><span style="font-size: 12px; font-weight: 700; margin-left: 8px;">বকেয়া পরিশোধ</span>
                                 </button>
                             </div>
                         </div>
@@ -1378,30 +1313,160 @@
             });
         }
 
-        // Edit button listener
-        $('.edit-link').off('click').on('click', async function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            let id = $(this).data('id');
-            if (typeof openSupplierUpdateModal === 'function') {
-                await openSupplierUpdateModal(id);
-            } else if (typeof FillUpSupplierUpdateForm === 'function') {
-                await FillUpSupplierUpdateForm(id);
-                $('#supplierUpdateModal').show();
-            }
-        });
-
-        // Delete button listener
-        $('.custom-delete-modal-btn').off('click').on('click', function() {
-            let id = $(this).data('id');
-            $("#deleteID").val(id);
-            $("#confirmationModal").modal('show');
-        });
-
-        // 4. Update Display Info & Pagination UI
+        // Display Info
         let fromCount = totalItems > 0 ? startIndex + 1 : 0;
         let toCount = endIndex;
-        $("#display-info").html(`মোট <span class="badge bg-purple-subtle text-primary border px-2 py-1 mx-1 fw-bold fs-6" style="color: #8C56D4 !important;">${totalItems}</span> টির মধ্যে <span class="badge bg-light text-dark border px-2 py-1 mx-1 fw-bold fs-6">${fromCount} - ${toCount}</span> টি সাপ্লায়ার প্রদর্শিত হচ্ছে`);
+        $("#display-info").html(`মোট <span class="badge bg-purple-subtle text-primary border px-2 py-1 mx-1 fw-bold fs-6" style="color: #8C56D4 !important;">${totalItems}</span> টির মধ্যে <span class="badge bg-light text-dark border px-2 py-1 mx-1 fw-bold fs-6">${fromCount} - ${toCount}</span> টি বকেয়া তথ্য প্রদর্শিত হচ্ছে`);
+
+        renderPaginationControls(totalPages);
+    }
+
+    /* ================= 2. RENDER SUPPLIER DUE COLLECTION LIST ================= */
+    function renderCollectionList() {
+        let searchTerm = ($("#searchInput").val() || "").toLowerCase().trim();
+
+        let filtered = rawCollectionData.filter(function (item) {
+            let supplierName = item.supplier ? (item.supplier.name || "") : "";
+            let supplierId = item.supplier ? (item.supplier.supplier_id || "") : (item.supplier_id || "");
+            let paymentStatus = (item.payment_status || "").toLowerCase();
+            let date = item.date || item.created_at || "";
+
+            let matchesSearch = !searchTerm || supplierName.toLowerCase().includes(searchTerm) || supplierId.toLowerCase().includes(searchTerm) || date.toLowerCase().includes(searchTerm);
+
+            let matchesFilter = true;
+            if (currentFilter === 'hasDue') {
+                matchesFilter = (parseFloat(item.due_amount) > 0);
+            }
+
+            return matchesSearch && matchesFilter;
+        });
+
+        // Totals
+        let totalPaidSum = 0;
+        filtered.forEach(item => {
+            totalPaidSum += (parseFloat(item.paid_amount) || 0);
+        });
+
+        $('#topSummaryTotalCount').text(filtered.length);
+        $('#topSummaryTotalAmount').text(`৳ ${totalPaidSum.toFixed(2)}`);
+
+        // Pagination
+        let totalItems = filtered.length;
+        let totalPages = Math.ceil(totalItems / pageSize) || 1;
+        if (currentPage > totalPages) currentPage = totalPages;
+        if (currentPage < 1) currentPage = 1;
+
+        let startIndex = (currentPage - 1) * pageSize;
+        let endIndex = Math.min(startIndex + pageSize, totalItems);
+        let pageItems = filtered.slice(startIndex, endIndex);
+
+        let tableList = $("#collectionTableList");
+        let mobileCardList = $("#collectionMobileCardList");
+        tableList.empty();
+        mobileCardList.empty();
+
+        if (pageItems.length === 0) {
+            tableList.html('<tr><td colspan="8" class="text-center text-danger p-4 fw-bold">❌ কোনো কালেকশন তথ্য পাওয়া যায়নি।</td></tr>');
+            mobileCardList.html('<div class="col-12 p-4 text-center text-danger fw-bold bg-white rounded-3 border shadow-sm">❌ কোনো কালেকশন তথ্য পাওয়া যায়নি।</div>');
+        } else {
+            pageItems.forEach(function (item, idx) {
+                let realIndex = startIndex + idx;
+                let payableAmount = parseFloat(item.purchase_payable_amount) || 0;
+                let paidAmount = parseFloat(item.paid_amount) || 0;
+                let dueAmount = parseFloat(item.due_amount) || 0;
+
+                let supplierName = item.supplier ? item.supplier.name : 'N/A';
+                let supplierID = item.supplier ? item.supplier.supplier_id : (item.supplier_id || 'N/A');
+                let supplierDbId = item.supplier ? item.supplier.id : item.id;
+
+                let statusBadgeClass = (dueAmount === 0 && paidAmount > 0) ? 'bg-success-subtle text-success border border-success-subtle' :
+                                      (dueAmount > 0 && paidAmount > 0) ? 'bg-warning-subtle text-warning border border-warning-subtle' :
+                                      'bg-danger-subtle text-danger border border-danger-subtle';
+                let statusText = (dueAmount === 0 && paidAmount > 0) ? 'Fully Paid' : (dueAmount > 0 && paidAmount > 0) ? 'Partial Paid' : 'Unpaid';
+
+                // Desktop Row
+                let row = `
+                    <tr data-row="${realIndex + 1}">
+                        <td class="text-center fw-bold">${realIndex + 1}</td>
+                        <td class="text-start fw-medium text-secondary" style="white-space: nowrap;">${formatDate(item.created_at || item.date)}</td>
+                        <td>
+                            <a href="/supplier/profile/${supplierDbId}" class="fw-bold text-decoration-none" style="color: #8C56D4;">
+                                <i class="fa-solid fa-truck-field me-1"></i>${supplierID}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/supplier/profile/${supplierDbId}" class="text-dark fw-bold text-decoration-none">${supplierName}</a>
+                        </td>
+                        <td class="text-end fw-semibold text-secondary">৳ ${payableAmount.toFixed(2)}</td>
+                        <td class="text-end fw-bold text-success">৳ ${paidAmount.toFixed(2)}</td>
+                        <td class="text-end fw-bold ${dueAmount > 0 ? 'text-danger' : 'text-dark'}">৳ ${dueAmount.toFixed(2)}</td>
+                        <td class="text-center">
+                            <span class="badge ${statusBadgeClass} px-2 py-1 fw-bold" style="font-size: 11px; border-radius: 12px;">
+                                ${statusText}
+                            </span>
+                        </td>
+                    </tr>`;
+                tableList.append(row);
+
+                // Mobile & Tablet Card View (Collection List)
+                let mobileCard = `
+                    <div class="col-12 col-md-6">
+                        <a href="/supplier/profile/${supplierDbId}" class="text-decoration-none d-block h-100">
+                        <div class="invoice-mobile-card d-flex flex-column justify-content-between h-100">
+                            <div>
+                                <!-- Header -->
+                                <div class="d-flex align-items-center justify-content-between pb-2 mb-2 border-bottom">
+                                    <div class="d-flex align-items-center gap-1.5">
+                                        <span class="badge bg-secondary-subtle text-secondary fw-bold" style="font-size: 10px;">#${realIndex + 1}</span>
+                                        <span class="badge bg-light text-dark border fw-bold" style="font-size: 11px;">
+                                            <i class="fa-solid fa-truck-field me-1" style="color: #8C56D4;"></i>${supplierID}
+                                        </span>
+                                        <span class="badge bg-light text-muted border px-2 py-1" style="font-size: 10px;">${item.payment_type || item.payment_method || 'Cash'}</span>
+                                    </div>
+                                    <div>
+                                        <span class="badge ${statusBadgeClass} px-2 py-1 fw-bold" style="font-size: 10px; border-radius: 12px;">
+                                            ${statusText}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Body: Profile Left | Financial Strip Right -->
+                                <div class="d-flex align-items-start justify-content-between gap-2 mb-1">
+                                    <div class="d-flex align-items-center gap-2 flex-shrink-1 overflow-hidden">
+                                        <div class="overflow-hidden">
+                                            <h6 class="fw-bold text-dark mb-0 text-truncate" style="font-size: 13.5px;">${supplierName}</h6>
+                                            <span class="text-muted text-truncate d-block" style="font-size: 11px;">
+                                                <i class="fa-regular fa-calendar-days me-1"></i>${formatDate(item.created_at || item.date)}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0 ms-1 invoice-summary-strip rounded-3 p-1.5 px-2" style="min-width: 130px;">
+                                        <div class="d-flex align-items-center justify-content-between gap-2 pb-0.5 border-bottom">
+                                            <span style="font-size: 9.5px; color: #64748b; white-space: nowrap;">পূর্বের বকেয়া:</span>
+                                            <span class="fw-semibold text-secondary" style="font-size: 10.5px; white-space: nowrap;">৳ ${payableAmount.toFixed(2)}</span>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between gap-2 py-0.5 border-bottom">
+                                            <span style="font-size: 9.5px; color: #22c55e; white-space: nowrap;">পরিশোধ:</span>
+                                            <span class="fw-bold text-success" style="font-size: 10.5px; white-space: nowrap;">৳ ${paidAmount.toFixed(2)}</span>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between gap-2 pt-0.5">
+                                            <span style="font-size: 10px; color: #1e293b; font-weight: 700; white-space: nowrap;">অবশিষ্ট:</span>
+                                            <span class="fw-bold ${dueAmount > 0 ? 'text-danger' : 'text-dark'}" style="font-size: 11px; white-space: nowrap;">৳ ${dueAmount.toFixed(2)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>`;
+                mobileCardList.append(mobileCard);
+            });
+        }
+
+        // Display Info
+        let fromCount = totalItems > 0 ? startIndex + 1 : 0;
+        let toCount = endIndex;
+        $("#display-info").html(`মোট <span class="badge bg-purple-subtle text-primary border px-2 py-1 mx-1 fw-bold fs-6" style="color: #8C56D4 !important;">${totalItems}</span> টির মধ্যে <span class="badge bg-light text-dark border px-2 py-1 mx-1 fw-bold fs-6">${fromCount} - ${toCount}</span> টি কালেকশন তথ্য প্রদর্শিত হচ্ছে`);
 
         renderPaginationControls(totalPages);
     }
@@ -1453,37 +1518,43 @@
 
     function goToPage(page) {
         currentPage = page;
-        renderPaginatedList();
+        renderCurrentActiveTab();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /* ================= PAYMENT MODAL JS (Supplier List) ================= */
-    async function slOpenPaymentModal(id) {
-        $('#slUpdateID').val(id);
+    function formatDate(dateString) {
+        if (!dateString) return '';
+        const options = { year: 'numeric', month: 'short', day: '2-digit' };
+        return new Date(dateString).toLocaleDateString('en-US', options);
+    }
+
+    /* ================= PAYMENT MODAL & API LOGIC ================= */
+    async function openPaymentModal(id) {
+        $('#updateID').val(id);
 
         // 1. Reset values immediately
-        $('#slDiscountAmount').val('');
-        $('#slPayAmount').val('');
-        $('#slSupplierPreviousDue').text('লোড হচ্ছে...');
-        $('#slPurchasePreviousDue').text('লোড হচ্ছে...');
-        $('#slTotalPreviousDue').text('লোড হচ্ছে...').attr('data-raw', 0);
-        $('#slFinalDueAmount').text('লোড হচ্ছে...');
-        $('#slShowPaymentStatusDisplay').text('Pending').removeClass('bg-success bg-warning bg-danger').addClass('bg-secondary');
+        $('#DiscountAmount').val('');
+        $('#PayAmount').val('');
+        $('#SupplierPreviousDue').text('লোড হচ্ছে...');
+        $('#PurchasePreviousDue').text('লোড হচ্ছে...');
+        $('#TotalPreviousDue').text('লোড হচ্ছে...').attr('data-raw', 0);
+        $('#FinalDueAmount').text('লোড হচ্ছে...');
+        $('#ShowpaymentStatusDisplay').text('Pending').removeClass('bg-success bg-warning bg-danger').addClass('bg-secondary');
 
         // Set today's date
         const today = new Date().toISOString().split('T')[0];
-        $('#slDueCollectionDate').val(today);
+        $('#DueCollectionDate').val(today);
 
-        slSelectPaymentChip('cash');
-        $('#slTransactionInput').val('');
+        selectPaymentChip('cash');
+        $('#transactionInput').val('');
 
         // 2. Focus pay input synchronously in the click gesture so mobile keyboard triggers instantly
-        const payInput = document.getElementById('slPayAmount');
+        const payInput = document.getElementById('PayAmount');
         if (payInput) {
             try { payInput.focus(); } catch (_) {}
         }
 
-        $('#supplierDuePaymentModal').modal('show');
+        $('#editModal').modal('show');
 
         if (payInput) {
             payInput.focus();
@@ -1510,62 +1581,64 @@
             if (res.data.status === "success") {
                 const supplier_due = parseFloat(res.data.supplier_due ?? 0);
                 const purchase_due = parseFloat(res.data.purchase_due ?? 0);
-                const total_due   = parseFloat(res.data.total_due   ?? 0);
+                const total_due = parseFloat(res.data.total_due ?? 0);
 
-                const fc = (num) => `৳ ${num.toFixed(2)}`;
+                const formatCurrency = (num) => `৳ ${num.toFixed(2)}`;
 
-                $('#slSupplierPreviousDue').text(fc(supplier_due));
-                $('#slPurchasePreviousDue').text(fc(purchase_due));
-                $('#slTotalPreviousDue').text(fc(total_due)).attr('data-raw', total_due);
-                $('#slFinalDueAmount').text(fc(total_due));
+                $('#SupplierPreviousDue').text(formatCurrency(supplier_due));
+                $('#PurchasePreviousDue').text(formatCurrency(purchase_due));
+                $('#TotalPreviousDue').text(formatCurrency(total_due));
+                $('#TotalPreviousDue').attr('data-raw', total_due);
+                $('#FinalDueAmount').text(formatCurrency(total_due));
 
                 // Maintain focus on pay amount input
-                if (payInput && document.activeElement !== payInput && document.activeElement !== document.getElementById('slDiscountAmount')) {
+                if (payInput && document.activeElement !== payInput && document.activeElement !== document.getElementById('DiscountAmount')) {
                     payInput.focus();
                 }
             } else {
-                $('#supplierDuePaymentModal').modal('hide');
+                $('#editModal').modal('hide');
                 errorToast('❌ Supplier data not found.');
             }
         } catch (error) {
             console.error("API Error:", error);
-            $('#supplierDuePaymentModal').modal('hide');
+            $('#editModal').modal('hide');
             errorToast('Something went wrong. Please try again later.');
         }
     }
 
     // Ensure focus when modal finishes showing
-    $('#supplierDuePaymentModal').on('shown.bs.modal', function () {
-        const payInput = document.getElementById('slPayAmount');
+    $('#editModal').on('shown.bs.modal', function () {
+        const payInput = document.getElementById('PayAmount');
         if (payInput) {
             payInput.focus();
             payInput.click();
         }
     });
 
-    function slClosePaymentModal() {
-        $('#supplierDuePaymentModal').modal('hide');
+    function closePaymentModal() {
+        $('#editModal').modal('hide');
     }
 
-    function slSelectPaymentChip(method) {
-        $('.sl-payment-chip').removeClass('active');
-        $(`.sl-payment-chip input[value="${method}"]`).closest('.sl-payment-chip').addClass('active');
-        $(`#sl${method.charAt(0).toUpperCase() + method.slice(1)}`).prop('checked', true);
+    function selectPaymentChip(method) {
+        $('.payment-chip-btn').removeClass('active');
+        $(`.payment-chip-btn [value="${method}"]`).closest('.payment-chip-btn').addClass('active');
+        $(`#${method}`).prop('checked', true);
 
         if (method === 'cash') {
-            $('#slTransactionIdWrapper').hide();
+            $('#transactionIdWrapper').hide();
         } else {
-            $('#slTransactionIdWrapper').show();
-            $('#slTransactionInput').attr('placeholder', `Enter ${method.toUpperCase()} Transaction ID`);
+            $('#transactionIdWrapper').show();
+            $('#transactionInput').attr('placeholder', `Enter ${method.toUpperCase()} Transaction ID`);
         }
     }
 
-    function slCalculateDuePayment() {
-        const totalPreviousDue = parseFloat($('#slTotalPreviousDue').attr('data-raw')) || 0;
-        const discount   = parseFloat($('#slDiscountAmount').val()) || 0;
-        const payAmount  = parseFloat($('#slPayAmount').val()) || 0;
+    function calculateDuePayment() {
+        const totalPreviousDue = parseFloat($('#TotalPreviousDue').attr('data-raw')) || 0;
+        const discount = parseFloat($('#DiscountAmount').val()) || 0;
+        const payAmount = parseFloat($('#PayAmount').val()) || 0;
+
         const totalInput = discount + payAmount;
-        const submitBtn  = $('#slPaymentSubmitBtn');
+        const submitBtn = $('#paymentSubmitBtn');
 
         if (totalInput > totalPreviousDue) {
             errorToast("পরিশোধিত টাকা মোট বকেয়ার চেয়ে বেশি হতে পারে না!");
@@ -1576,10 +1649,12 @@
 
         let finalDue = totalPreviousDue - totalInput;
         if (finalDue < 0) finalDue = 0;
-        $('#slFinalDueAmount').text(`৳ ${finalDue.toFixed(2)}`);
 
-        const statusEl = $('#slShowPaymentStatusDisplay');
+        $('#FinalDueAmount').text(`৳ ${finalDue.toFixed(2)}`);
+
+        const statusEl = $('#ShowpaymentStatusDisplay');
         statusEl.removeClass('bg-secondary bg-success bg-warning bg-danger');
+
         if (finalDue === 0 && totalInput > 0) {
             statusEl.text("Fully Paid").addClass('bg-success');
         } else if (finalDue > 0 && totalInput > 0) {
@@ -1589,20 +1664,21 @@
         }
     }
 
-    async function slSavePaymentInfo(event) {
+    async function SavePaymentInfo(event) {
         event.preventDefault();
-        try {
-            const PayAmount            = parseFloat($('#slPayAmount').val()) || 0;
-            const DiscountAmount       = parseFloat($('#slDiscountAmount').val()) || 0;
-            const SupplierPreviousDue  = parseFloat($('#slSupplierPreviousDue').text().replace(/[^\d.-]/g, '')) || 0;
-            const PurchasePreviousDue  = parseFloat($('#slPurchasePreviousDue').text().replace(/[^\d.-]/g, '')) || 0;
-            const TotalPreviousDue     = parseFloat($('#slTotalPreviousDue').attr('data-raw')) || 0;
 
-            const dueAmount     = TotalPreviousDue - (PayAmount + DiscountAmount);
-            const transactionId = $('#slTransactionInput').val();
-            const paymentStatus = $('#slShowPaymentStatusDisplay').text().trim();
-            const updateID      = parseInt($('#slUpdateID').val()) || 0;
-            const paymentMethod = $('input[name="slPayment"]:checked').val() || 'cash';
+        try {
+            const PayAmount = parseFloat($('#PayAmount').val()) || 0;
+            const DiscountAmount = parseFloat($('#DiscountAmount').val()) || 0;
+            const SupplierPreviousDue = parseFloat($('#SupplierPreviousDue').text().replace(/[^\d.-]/g, '')) || 0;
+            const PurchasePreviousDue = parseFloat($('#PurchasePreviousDue').text().replace(/[^\d.-]/g, '')) || 0;
+            const TotalPreviousDue = parseFloat($('#TotalPreviousDue').attr('data-raw')) || 0;
+
+            const dueAmount = TotalPreviousDue - (PayAmount + DiscountAmount);
+            const transactionId = $('#transactionInput').val();
+            const paymentStatus = $('#ShowpaymentStatusDisplay').text().trim();
+            const updateID = parseInt($('#updateID').val()) || 0;
+            const paymentMethod = $('input[name="payment"]:checked').val() || 'cash';
 
             if (!PayAmount) return errorToast('অনুগ্রহ করে পরিশোধের পরিমাণ লিখুন।');
             if (!paymentStatus) return errorToast('পেমেন্ট স্ট্যাটাস অনুপস্থিত।');
@@ -1614,7 +1690,7 @@
             formData.append('due_amount', dueAmount > 0 ? dueAmount : 0);
             formData.append('purchase_payable_amount', PurchasePreviousDue);
             formData.append('supplier_previous_due', SupplierPreviousDue);
-            formData.append('due_collection_date', $('#slDueCollectionDate').val());
+            formData.append('due_collection_date', $('#DueCollectionDate').val());
             formData.append('discount_amount', DiscountAmount);
             formData.append('payment_status', paymentStatus);
             formData.append('transaction_id', transactionId);
@@ -1622,14 +1698,17 @@
 
             showLoader();
             let res = await axios.post("/api/supplier-payment-details-update", formData, {
-                headers: { 'Content-Type': 'multipart/form-data', ...HeaderToken().headers }
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    ...HeaderToken().headers
+                }
             });
             hideLoader();
 
             if (res.data.status === "success") {
                 successToast(res.data.message);
-                slClosePaymentModal();
-                fetchData(); // refresh supplier list
+                closePaymentModal();
+                fetchBothLists(); // refresh data
             } else {
                 errorToast(res.data.message);
             }
@@ -1640,4 +1719,3 @@
         }
     }
 </script>
-

@@ -496,7 +496,7 @@
 
   @media (max-width: 991px) {
     .page-content {
-      padding-bottom: 85px !important;
+      padding-bottom: 52px !important;
     }
   }
 

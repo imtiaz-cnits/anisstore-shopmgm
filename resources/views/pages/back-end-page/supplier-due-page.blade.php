@@ -1,6 +1,5 @@
 @extends('layouts.dashboard-sidenav')
-@section('title','Supplier Due Page')
+@section('title','Supplier Due & Collection')
 @section('content')
-    @include('components.back-end.Supplier.supplier-due.supplier-due-list')
-    @include('components.back-end.Supplier.supplier-due.supplier-due-collection')
+    @include('components.back-end.Supplier.supplier-due.supplier-due-combined')
 @endsection

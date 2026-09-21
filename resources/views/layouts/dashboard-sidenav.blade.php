@@ -224,6 +224,11 @@
       }
     }
 
+    /* Global: push content below fixed topbar (52px height) on ALL screen sizes */
+    .main-content {
+      padding-top: 52px !important;
+    }
+
     /* Desktop Main Content & Topbar offset for 250px sidebar with smooth transition */
     @media (min-width: 992px) {
       .main-content {
@@ -2146,7 +2151,7 @@
       body .page-content,
       body .main-content .page-content,
       div.page-content {
-        padding: 52px 0px 0px 0px !important;
+        padding: 0px 0px 0px 0px !important;
       }
     }
 
@@ -2745,8 +2750,7 @@
               </div>
               <ul class="py-0.5 px-1 space-y-0.5">
                 <li><a href="{{ url('admin-dashboard-supplier') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-supplier') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-truck text-[10px] text-purple-200/80 w-4 text-center"></i><span>সাপ্লায়ার তালিকা</span></a></li>
-                <li><a href="{{ url('supplier-due-page') }}" class="sidebar-flyout-link {{ request()->is('supplier-due-page') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-receipt text-[10px] text-purple-200/80 w-4 text-center"></i><span>সাপ্লায়ার বকেয়া তালিকা</span></a></li>
-                <li><a href="{{ url('supplier-due-collection-page') }}" class="sidebar-flyout-link {{ request()->is('supplier-due-collection-page') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-money-bill-wave text-[10px] text-purple-200/80 w-4 text-center"></i><span>বকেয়া পরিশোধ তালিকা</span></a></li>
+                <li><a href="{{ url('supplier-due-page') }}" class="sidebar-flyout-link {{ request()->is('supplier-due-page') || request()->is('supplier-due-collection-page') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-receipt text-[10px] text-purple-200/80 w-4 text-center"></i><span>সাপ্লায়ার বকেয়া ও পরিশোধ</span></a></li>
               </ul>
             </div>
           </li>
@@ -2927,18 +2931,11 @@
             <div class="sidebar-mini-tooltip">সাপ্লায়ার তালিকা</div>
           </li>
           <li class="relative group">
-            <a href="{{ url('supplier-due-page') }}" class="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] text-slate-200 hover:text-white hover:bg-white/10 transition-all duration-150 {{ request()->is('supplier-due-page') ? 'active-submenu-link' : '' }}">
+            <a href="{{ url('supplier-due-page') }}" class="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] text-slate-200 hover:text-white hover:bg-white/10 transition-all duration-150 {{ request()->is('supplier-due-page') || request()->is('supplier-due-collection-page') ? 'active-submenu-link' : '' }}">
               <i class="fa-solid fa-receipt text-xs text-purple-200/80 w-4 text-center"></i>
-              <span>সাপ্লায়ার বকেয়া তালিকা</span>
+              <span>সাপ্লায়ার বকেয়া ও পরিশোধ</span>
             </a>
-            <div class="sidebar-mini-tooltip">সাপ্লায়ার বকেয়া তালিকা</div>
-          </li>
-          <li class="relative group">
-            <a href="{{ url('supplier-due-collection-page') }}" class="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] text-slate-200 hover:text-white hover:bg-white/10 transition-all duration-150 {{ request()->is('supplier-due-collection-page') ? 'active-submenu-link' : '' }}">
-              <i class="fa-solid fa-money-bill-wave text-xs text-purple-200/80 w-4 text-center"></i>
-              <span>বকেয়া পরিশোধ তালিকা</span>
-            </a>
-            <div class="sidebar-mini-tooltip">বকেয়া পরিশোধ তালিকা</div>
+            <div class="sidebar-mini-tooltip">সাপ্লায়ার বকেয়া ও পরিশোধ</div>
           </li>
         </ul>
       </div>
@@ -3532,7 +3529,8 @@
         const elId = (el.id || '').toLowerCase();
         const elClass = (el.className || '').toLowerCase();
 
-        const isExcluded = (inputType === 'date' || inputType === 'time' || inputType === 'datetime-local' || inputType === 'password' || inputType === 'file' || inputType === 'checkbox' || inputType === 'radio' || elClass.includes('custom-flatpickr-input') || elClass.includes('flatpickr') || elId.includes('startdate') || elId.includes('enddate') || elId.includes('duecollectiondate'));
+        const isSearch = elId.includes('search') || elClass.includes('search') || inputType === 'search';
+        const isExcluded = (isSearch || inputType === 'date' || inputType === 'time' || inputType === 'datetime-local' || inputType === 'password' || inputType === 'file' || inputType === 'checkbox' || inputType === 'radio' || elClass.includes('custom-flatpickr-input') || elClass.includes('flatpickr') || elId.includes('startdate') || elId.includes('enddate') || elId.includes('duecollectiondate'));
         if (isExcluded) return;
 
         let val = el.value;
@@ -3541,7 +3539,7 @@
         const isNumericOnly = (inputMode === 'numeric' || inputMode === 'decimal' || inputType === 'number' || 
                                elClass.includes('calc-input') || elClass.includes('number-only') ||
                                elId.includes('qty') || elId.includes('price') || elId.includes('paid') || 
-                               elId.includes('due') || ((elId.includes('mobile') || elId.includes('phone')) && !elId.includes('date')) || 
+                               elId.includes('due') || ((elId.includes('mobile') || elId.includes('phone')) && !elId.includes('date') && !elId.includes('search')) || 
                                elId.includes('amount') || elId.includes('charge') || elId.includes('discount') || 
                                elId.includes('nid') || elId.includes('previousdue'));
 

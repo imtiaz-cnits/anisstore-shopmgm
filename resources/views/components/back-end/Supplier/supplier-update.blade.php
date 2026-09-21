@@ -79,19 +79,31 @@
         background: #ffffff !important;
     }
 
+    body[light-mode="dark"] #supplierUpdateModal .newbrand-content,
+    html[light-mode="dark"] #supplierUpdateModal .newbrand-content,
+    body[data-layout-mode="dark"] #supplierUpdateModal .newbrand-content,
     .dark-mode #supplierUpdateModal .newbrand-content {
         background: #1e293b !important;
         border-color: #334155 !important;
         color: #f1f5f9 !important;
     }
 
+    body[light-mode="dark"] #supplierUpdateModal .form-control,
+    html[light-mode="dark"] #supplierUpdateModal .form-control,
+    body[data-layout-mode="dark"] #supplierUpdateModal .form-control,
     .dark-mode #supplierUpdateModal .form-control,
+    body[light-mode="dark"] #supplierUpdateModal select,
+    html[light-mode="dark"] #supplierUpdateModal select,
+    body[data-layout-mode="dark"] #supplierUpdateModal select,
     .dark-mode #supplierUpdateModal select {
         background: #0f172a !important;
         border-color: #334155 !important;
         color: #f1f5f9 !important;
     }
 
+    body[light-mode="dark"] #supplierUpdateModal label,
+    html[light-mode="dark"] #supplierUpdateModal label,
+    body[data-layout-mode="dark"] #supplierUpdateModal label,
     .dark-mode #supplierUpdateModal label {
         color: #e2e8f0 !important;
     }
@@ -143,11 +155,22 @@
 
         #supplierUpdateModal .modal-body-scroll {
             flex: 1 1 auto !important;
-            max-height: calc(85vh - 60px) !important;
-            max-height: calc(85dvh - 60px) !important;
+            max-height: calc(85vh - 130px) !important;
+            max-height: calc(85dvh - 130px) !important;
             overflow-y: auto !important;
             -webkit-overflow-scrolling: touch;
             padding: 14px 16px 20px 16px !important;
+        }
+
+        #supplierUpdateModal .modal-sticky-footer {
+            flex: 0 0 auto !important;
+            position: sticky !important;
+            bottom: 0 !important;
+            background: #ffffff !important;
+            z-index: 100 !important;
+            border-top: 1px solid #e2e8f0 !important;
+            padding: 10px 16px !important;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05) !important;
         }
 
         #supplierUpdateModal .actions-btn-group {
@@ -155,8 +178,8 @@
             flex-direction: row !important;
             gap: 10px !important;
             width: 100% !important;
-            padding-top: 10px !important;
-            padding-bottom: 6px !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
 
         #supplierUpdateModal .actions-btn-group button {
@@ -165,6 +188,14 @@
             height: 46px !important;
             font-size: 14px !important;
         }
+    }
+
+    body[light-mode="dark"] #supplierUpdateModal .modal-sticky-footer,
+    html[light-mode="dark"] #supplierUpdateModal .modal-sticky-footer,
+    body[data-layout-mode="dark"] #supplierUpdateModal .modal-sticky-footer,
+    .dark-mode #supplierUpdateModal .modal-sticky-footer {
+        background: #1e293b !important;
+        border-color: #334155 !important;
     }
 </style>
 
@@ -181,10 +212,10 @@
             </button>
         </div>
 
-        <div id="popup-modal" class="modal-body-scroll p-3">
-            <form onsubmit="return SupplierDataUpdate(event)" id="supplierUpdateForm">
-                <input class="d-none" id="updateID">
+        <form onsubmit="return SupplierDataUpdate(event)" id="supplierUpdateForm" class="d-flex flex-column flex-grow-1 overflow-hidden m-0">
+            <input class="d-none" id="updateID">
 
+            <div id="popup-modal" class="modal-body-scroll p-3 flex-grow-1">
                 <div class="row g-2">
                     <div class="col-md-6 col-12">
                         <div class="form-row mb-2">
@@ -248,17 +279,17 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Action Buttons -->
-                    <div class="col-12 mt-2 pt-2 border-top">
-                        <div class="actions d-flex align-items-center justify-content-end gap-2 actions-btn-group">
-                            <button type="button" onclick="closeSupplierUpdateModal()" class="btn btn-cancel-red px-4 py-2.5 fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px;">বাতিল</button>
-                            <button type="button" onclick="SupplierDataUpdate(event)" class="btn-save btn btn-primary px-4 py-2.5 fw-bold" style="height: 44px; margin: 0; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); border: none; border-radius: 10px; font-size: 14px; color: #ffffff;">আপডেট করুন</button>
-                        </div>
-                    </div>
                 </div>
-            </form>
-        </div>
+            </div>
+
+            <!-- Sticky Bottom Action Buttons right above keyboard -->
+            <div class="modal-sticky-footer p-3 border-top">
+                <div class="actions d-flex align-items-center justify-content-end gap-2 actions-btn-group">
+                    <button type="button" onclick="closeSupplierUpdateModal()" class="btn btn-cancel-red px-4 py-2.5 fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px;">বাতিল</button>
+                    <button type="submit" class="btn-save btn btn-primary px-4 py-2.5 fw-bold" style="height: 44px; margin: 0; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); border: none; border-radius: 10px; font-size: 14px; color: #ffffff;">আপডেট করুন</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 

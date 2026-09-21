@@ -569,6 +569,40 @@
     background: #0f172a !important;
   }
 
+  /* Custom Confirmation Modal Styling */
+  #barcodeConfirmDeleteModal {
+    z-index: 105090 !important;
+  }
+  #barcodeConfirmDeleteModal .modal-content {
+    background-color: #ffffff;
+    border-radius: 18px !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3) !important;
+  }
+  body[light-mode="dark"] #barcodeConfirmDeleteModal .modal-content,
+  body[data-layout-mode="dark"] #barcodeConfirmDeleteModal .modal-content,
+  body.dark-mode #barcodeConfirmDeleteModal .modal-content {
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+    color: #f8fafc !important;
+  }
+  body[light-mode="dark"] #barcodeConfirmDeleteModal #barcodeConfirmDeleteModalLabel,
+  body[data-layout-mode="dark"] #barcodeConfirmDeleteModal #barcodeConfirmDeleteModalLabel,
+  body.dark-mode #barcodeConfirmDeleteModal #barcodeConfirmDeleteModalLabel {
+    color: #f8fafc !important;
+  }
+  body[light-mode="dark"] #barcodeConfirmDeleteModal .text-muted,
+  body[data-layout-mode="dark"] #barcodeConfirmDeleteModal .text-muted,
+  body.dark-mode #barcodeConfirmDeleteModal .text-muted {
+    color: #94a3b8 !important;
+  }
+  body[light-mode="dark"] #barcodeConfirmDeleteModal .delete-icon-circle,
+  body[data-layout-mode="dark"] #barcodeConfirmDeleteModal .delete-icon-circle,
+  body.dark-mode #barcodeConfirmDeleteModal .delete-icon-circle {
+    background-color: rgba(239, 68, 68, 0.18) !important;
+    color: #f87171 !important;
+  }
+
   /* Print Media Query */
   @media print {
     @page {
@@ -800,6 +834,28 @@
   </div>
 </div>
 
+<!-- Custom Delete Confirmation Modal matching Product Delete -->
+<section class="modal fade" id="barcodeConfirmDeleteModal" tabindex="-1" aria-labelledby="barcodeConfirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 380px;">
+    <div class="modal-content border-0 shadow-lg rounded-4 p-4 text-center">
+      <div class="delete-icon-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 64px; height: 64px; border-radius: 50%; background: #FEE2E2; color: #DC2626;">
+        <i class="fa-solid fa-trash-can fs-3"></i>
+      </div>
+      <h5 class="fw-bold text-dark mb-2" id="barcodeConfirmDeleteModalLabel">পণ্য মুছে ফেলতে চান?</h5>
+      <p class="text-muted small mb-4" id="barcodeConfirmDeleteModalDesc">আপনি কি নিশ্চিত যে নির্বাচিত পণ্যগুলো তালিকা থেকে মুছে ফেলতে চান?</p>
+      
+      <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn flex-grow-1 py-2 fw-bold text-white shadow-sm" data-bs-dismiss="modal" style="height: 42px; border-radius: 10px; background-color: #ef4444 !important; border: none;">
+          <i class="fa-solid fa-xmark me-1"></i> বাতিল
+        </button>
+        <button type="button" id="confirmDeleteExecuteBtn" class="btn flex-grow-1 py-2 fw-bold text-white shadow-sm" style="height: 42px; border-radius: 10px; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important; border: none; box-shadow: 0 4px 12px rgba(140, 86, 212, 0.25);">
+          <i class="fa-solid fa-trash-can me-1"></i> মুছে ফেলুন
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- JSBarcode CDN -->
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 
@@ -815,6 +871,12 @@
   const STORAGE_KEY_HISTORY = 'anisstore_barcode_history';
 
   $(document).ready(function() {
+    // Append modal to body to avoid z-index or stacking context overlay issues
+    const modalEl = document.getElementById('barcodeConfirmDeleteModal');
+    if (modalEl && modalEl.parentElement !== document.body) {
+      document.body.appendChild(modalEl);
+    }
+
     loadStoredData();
     fetchProductListForGenerator();
     renderHistoryView();
@@ -1004,11 +1066,22 @@
   }
 
   function clearAllHistory() {
-    if (confirm("আপনি কি সমস্ত বারকোড হিস্টোরি মুছে ফেলতে চান?")) {
+    if (!barcodeHistory || barcodeHistory.length === 0) return;
+
+    $("#barcodeConfirmDeleteModalLabel").text("সমস্ত হিস্টোরি মুছবেন?");
+    $("#barcodeConfirmDeleteModalDesc").text("আপনি কি সমস্ত বারকোড হিস্টোরি মুছে ফেলতে চান? এটি আর ফিরিয়ে আনা যাবে না।");
+
+    $("#confirmDeleteExecuteBtn").off("click").on("click", function() {
       barcodeHistory = [];
       saveHistoryToStorage();
       renderHistoryView();
-    }
+      $("#barcodeConfirmDeleteModal").modal("hide");
+      if (typeof successToast === 'function') {
+        successToast("সমস্ত হিস্টোরি মুছে ফেলা হয়েছে!");
+      }
+    });
+
+    $("#barcodeConfirmDeleteModal").modal("show");
   }
 
   function openBarcodeGeneratorView() {
@@ -1238,15 +1311,28 @@
   function deleteSelectedListItems() {
     let toKeep = currentBarcodeList.filter(item => item.selected === false);
     if (toKeep.length === currentBarcodeList.length) {
-      alert("মুছে ফেলার জন্য অন্তত একটি পণ্য নির্বাচন করুন!");
+      if (typeof errorToast === 'function') {
+        errorToast("মুছে ফেলার জন্য অন্তত একটি পণ্য নির্বাচন করুন!");
+      } else {
+        alert("মুছে ফেলার জন্য অন্তত একটি পণ্য নির্বাচন করুন!");
+      }
       return;
     }
 
-    if (confirm("আপনি কি নির্বাচিত পণ্যগুলো তালিকা থেকে মুছে ফেলতে চান?")) {
+    $("#barcodeConfirmDeleteModalLabel").text("পণ্য মুছে ফেলতে চান?");
+    $("#barcodeConfirmDeleteModalDesc").text("আপনি কি নিশ্চিত যে নির্বাচিত পণ্যগুলো তালিকা থেকে মুছে ফেলতে চান?");
+
+    $("#confirmDeleteExecuteBtn").off("click").on("click", function() {
       currentBarcodeList = toKeep;
       saveListToStorage();
       renderBarcodeListView();
-    }
+      $("#barcodeConfirmDeleteModal").modal("hide");
+      if (typeof successToast === 'function') {
+        successToast("নির্বাচিত পণ্য তালিকা থেকে মুছে ফেলা হয়েছে!");
+      }
+    });
+
+    $("#barcodeConfirmDeleteModal").modal("show");
   }
 
   // ========================================================
@@ -1255,7 +1341,11 @@
   function openPrintPreview() {
     let selectedItems = currentBarcodeList.filter(item => item.selected !== false);
     if (selectedItems.length === 0) {
-      alert("প্রিন্ট করার জন্য অন্তত একটি প্রোডাক্ট নির্বাচন করুন!");
+      if (typeof errorToast === 'function') {
+        errorToast("প্রিন্ট করার জন্য অন্তত একটি প্রোডাক্ট নির্বাচন করুন!");
+      } else {
+        alert("প্রিন্ট করার জন্য অন্তত একটি প্রোডাক্ট নির্বাচন করুন!");
+      }
       return;
     }
 

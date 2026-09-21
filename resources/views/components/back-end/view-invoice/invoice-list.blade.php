@@ -6,7 +6,7 @@
 
 <!-- Hero Main Content Start -->
 <div class="main-content">
-    <div class="page-content">
+    <div class="page-content" style="padding: 0px !important;">
         <!-- Table Start -->
         <div class="data-table">
             <div class="card border-0">
@@ -49,7 +49,7 @@
                     </div>
 
                     <!-- Mobile Expandable Search Bar (Appears on clicking search icon) -->
-                    <div id="mobileSearchWrap" class="mb-0 d-none position-relative">
+                    <div id="mobileSearchWrap" class="mb-3 d-none position-relative">
                         <div class="d-flex align-items-center gap-2 mb-0">
                             <div class="position-relative flex-grow-1 mb-0">
                                 <input type="text" id="mobileSearchInput" class="form-control invoice-search-input mb-0" placeholder="ইনভয়েস খুঁজুন..." autocomplete="off" />

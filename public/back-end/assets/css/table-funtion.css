@@ -143,6 +143,9 @@ Reset Default CSS End
 
 .data-table .card-body {
   overflow: hidden;
+  padding: 10px !important;
+  border-radius: 0px !important;
+  border: none !important;
 }
 
 .data-table .card-body .date-wrapper input,

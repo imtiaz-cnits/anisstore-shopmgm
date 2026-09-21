@@ -104,13 +104,15 @@ label {
 }
 
 .page-content {
-  padding: 90px 20px 0px 20px;
+  padding: 52px 20px 0px 20px;
   background: #ffffff;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 @media (max-width: 991.98px) {
   .page-content {
-    padding: 52px 0px 0px 0px !important;
+    padding: 0px 0px 0px 0px !important;
   }
 }
 
@@ -230,7 +232,7 @@ body[data-sidebar-size="sm"] .main-content {
   box-shadow: none !important;
   border: 0;
   border-radius: 0;
-  padding: 7.52px 12px;
+  /* padding: 7.52px 12px; */
 }
 
 .header-profile-user {
