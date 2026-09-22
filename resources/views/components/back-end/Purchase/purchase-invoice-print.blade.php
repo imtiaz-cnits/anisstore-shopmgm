@@ -1,191 +1,562 @@
-@extends('layouts.dashboard-sidenav')
-@section('title', 'Invoice Page')
-@section('content')
-
-<style>
-    .invoice-container .shop-details {
-        text-align: left;
-        align-items: start;
-    }
-</style>
-
-
-<div class="main-content">
-    <div class="page-content">
-        <div class="invoice-container">
-            <div class="billing-section">
-                <div class="wrapper">
-
-
-
-                    <div class="shop-details">
-
-                        <h3><strong>Billed To </strong></h3>
-                        <p>
-                            <strong id="SupplierName">{{ $purchaseinvoicedata->supplier->name ?? 'N/A' }}</strong>
-                        </p>
-                        <p id="SupplierAddress">{{ $purchaseinvoicedata->supplier->address ?? 'N/A' }}</p>
-                        <p>Phone:<span id="SupplierMobile">{{ $purchaseinvoicedata->supplier->mobile ?? 'N/A' }}</span></p>
-                    </div>
-
-                    <div class="invoice-wrapper">
-                        <table>
-                            <tr>
-                                <td class="number">Invoice No:</td>
-                                <td id="order_no">{{ $purchaseinvoicedata->purchase_id }}</td>
-                            </tr>
-                            <tr>
-                                <td class="date">Invoice Date:</td>
-                                <td id="invoice_date">{{ \Carbon\Carbon::parse($purchaseinvoicedata->created_at)->format('d-m-Y') }}
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="logo-wrapper">
-                    <h4><strong>Purchase Details</strong></h4>
-                    <img src="{{ asset('back-end/assets/img/anis-store-logo.png') }}" alt="Anis Store Logo" />
-                    <div class="button">
-                        <button class="print-icon" onclick="printMarksheet()">
-                            <span>
-                                <svg width="44" height="44" viewBox="0 0 44 44" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M29.817 17.0382H14.1692C13.8755 17.0382 13.5939 16.9216 13.3863 16.714C13.1787 16.5063 13.062 16.2247 13.062 15.9311V8.10716C13.062 7.81352 13.1787 7.53191 13.3863 7.32428C13.5939 7.11665 13.8755 7 14.1692 7H29.817C30.1107 7 30.3923 7.11665 30.5999 7.32428C30.8075 7.53191 30.9242 7.81352 30.9242 8.10716V15.9311C30.9242 16.2247 30.8075 16.5063 30.5999 16.714C30.3923 16.9216 30.1107 17.0382 29.817 17.0382ZM15.2763 14.8239H28.7099V9.21432H15.2763V14.8239Z"
-                                        fill="#192045" />
-                                    <path
-                                        d="M29.817 36.6719H14.1692C13.8755 36.6719 13.5939 36.5552 13.3863 36.3476C13.1787 36.14 13.062 35.8584 13.062 35.5647V23.5402C13.062 23.2466 13.1787 22.965 13.3863 22.7573C13.5939 22.5497 13.8755 22.4331 14.1692 22.4331H29.817C30.1107 22.4331 30.3923 22.5497 30.5999 22.7573C30.8075 22.965 30.9242 23.2466 30.9242 23.5402V35.5647C30.9242 35.8584 30.8075 36.14 30.5999 36.3476C30.3923 36.5552 30.1107 36.6719 29.817 36.6719ZM15.2763 34.4576H28.7099V24.6474H15.2763V34.4576Z"
-                                        fill="#192045" />
-                                    <path
-                                        d="M33.3784 31.4313H29.8171C29.5234 31.4313 29.2418 31.3147 29.0342 31.107C28.8266 30.8994 28.7099 30.6178 28.7099 30.3242C28.7099 30.0305 28.8266 29.7489 29.0342 29.5413C29.2418 29.3337 29.5234 29.217 29.8171 29.217H33.3784C33.7479 29.2166 34.1021 29.0697 34.3634 28.8084C34.6247 28.5472 34.7716 28.1929 34.772 27.8235V18.4325C34.7718 18.0629 34.6249 17.7085 34.3637 17.4471C34.1024 17.1857 33.748 17.0386 33.3784 17.0382H10.6079C10.2383 17.0386 9.88393 17.1857 9.62265 17.4471C9.36137 17.7085 9.21451 18.0629 9.21432 18.4325V27.8235C9.21471 28.1929 9.36165 28.5472 9.62291 28.8084C9.88417 29.0697 10.2384 29.2166 10.6079 29.217H14.1692C14.4629 29.217 14.7445 29.3337 14.9521 29.5413C15.1597 29.7489 15.2764 30.0305 15.2764 30.3242C15.2764 30.6178 15.1597 30.8994 14.9521 31.107C14.7445 31.3147 14.4629 31.4313 14.1692 31.4313H10.6079C9.65136 31.4302 8.73437 31.0497 8.05801 30.3733C7.38166 29.697 7.00117 28.78 7 27.8235V18.4325C7.00098 17.4759 7.38138 16.5587 8.05775 15.8822C8.73413 15.2057 9.65123 14.8251 10.6079 14.8239H33.3784C34.3351 14.8251 35.2522 15.2057 35.9286 15.8822C36.6049 16.5587 36.9853 17.4759 36.9863 18.4325V27.8235C36.9851 28.78 36.6046 29.697 35.9283 30.3733C35.2519 31.0497 34.335 31.4302 33.3784 31.4313Z"
-                                        fill="#192045" />
-                                    <path
-                                        d="M12.9884 20.8764C12.9519 20.8765 12.9155 20.8748 12.8792 20.8712C12.8437 20.8675 12.8054 20.8616 12.7721 20.855C12.7389 20.8484 12.6983 20.8388 12.6666 20.8284C12.6349 20.8181 12.598 20.8055 12.5647 20.7915C12.5315 20.7775 12.499 20.762 12.4673 20.745C12.435 20.7284 12.4037 20.7099 12.3736 20.6897C12.344 20.6697 12.3145 20.6483 12.2865 20.6254C12.2584 20.6026 12.2311 20.5775 12.2053 20.5516C12.1794 20.5258 12.1551 20.4985 12.1315 20.4704C12.1086 20.4425 12.0872 20.4135 12.0673 20.3833C12.0471 20.3528 12.0286 20.3218 12.0119 20.2903C11.9949 20.2586 11.9794 20.2254 11.9654 20.1922C11.9514 20.159 11.9396 20.1243 11.9285 20.0903C11.9174 20.0564 11.9093 20.0165 11.9019 19.9848C11.8945 19.953 11.8894 19.911 11.8857 19.8777C11.8786 19.8041 11.8786 19.73 11.8857 19.6563C11.8894 19.6209 11.8953 19.5825 11.9019 19.5493C11.9086 19.5161 11.9182 19.4755 11.9285 19.4437C11.9388 19.412 11.9514 19.3751 11.9654 19.3419C11.9794 19.3087 11.9949 19.2754 12.0119 19.2437C12.0289 19.212 12.0473 19.181 12.0673 19.1507C12.0872 19.1206 12.1086 19.0915 12.1315 19.0636C12.1543 19.0356 12.1794 19.0083 12.2053 18.9824C12.2311 18.9566 12.2584 18.9322 12.2865 18.9086C12.3145 18.885 12.344 18.8643 12.3736 18.8444C12.4037 18.8241 12.435 18.8056 12.4673 18.789C12.4993 18.7723 12.5318 18.7568 12.5647 18.7425C12.598 18.7285 12.6326 18.7167 12.6666 18.7056C12.7005 18.6946 12.7404 18.6864 12.7721 18.6791C12.8039 18.6717 12.846 18.6665 12.8792 18.6628C12.9516 18.6562 13.0245 18.6562 13.0969 18.6628C13.1331 18.6665 13.1707 18.6724 13.2047 18.6791C13.2386 18.6857 13.2785 18.6953 13.3095 18.7056C13.3405 18.716 13.3789 18.7285 13.4121 18.7425C13.4453 18.7566 13.4778 18.7721 13.5095 18.789C13.5417 18.8058 13.573 18.8243 13.6033 18.8444C13.6328 18.8643 13.6623 18.8857 13.6903 18.9086C13.7184 18.9315 13.7457 18.9566 13.7715 18.9824C13.7974 19.0083 13.821 19.0356 13.8454 19.0636C13.8697 19.0917 13.8896 19.1212 13.9096 19.1507C13.9295 19.1802 13.9479 19.212 13.9649 19.2437C13.9819 19.2754 13.9974 19.3087 14.0114 19.3419C14.0254 19.3751 14.0373 19.4098 14.0483 19.4437C14.0594 19.4777 14.0675 19.5175 14.0749 19.5493C14.0823 19.581 14.0875 19.6231 14.0911 19.6563C14.0982 19.73 14.0982 19.8041 14.0911 19.8777C14.0875 19.9132 14.0815 19.9516 14.0749 19.9848C14.0683 20.018 14.0587 20.0586 14.0483 20.0903C14.038 20.1221 14.0254 20.159 14.0114 20.1922C13.9974 20.2254 13.9819 20.2586 13.9649 20.2903C13.9479 20.3221 13.9295 20.3531 13.9096 20.3833C13.8896 20.4136 13.8675 20.4424 13.8454 20.4704C13.8232 20.4985 13.7974 20.5258 13.7715 20.5516C13.7457 20.5775 13.7184 20.6018 13.6903 20.6254C13.6623 20.6491 13.6328 20.6697 13.6033 20.6897C13.573 20.7098 13.5417 20.7283 13.5095 20.745C13.4775 20.7617 13.4451 20.7772 13.4121 20.7915C13.3789 20.8055 13.3442 20.8174 13.3095 20.8284C13.2748 20.8395 13.2401 20.8476 13.2047 20.855C13.1692 20.8624 13.1309 20.8675 13.0969 20.8712C13.0609 20.8748 13.0246 20.8765 12.9884 20.8764Z"
-                                        fill="#192045" />
-                                    <path
-                                        d="M16.236 20.8764C16.1998 20.8764 16.1622 20.8764 16.1267 20.8712C16.0913 20.8661 16.0529 20.8616 16.0197 20.855C15.9865 20.8484 15.9459 20.8388 15.9142 20.8284C15.8824 20.8181 15.8455 20.8055 15.8123 20.7915C15.7791 20.7775 15.7459 20.762 15.7141 20.745C15.6824 20.728 15.6514 20.7096 15.6211 20.6897C15.591 20.6698 15.5619 20.6483 15.534 20.6254C15.506 20.6026 15.4787 20.5775 15.4528 20.5516C15.427 20.5258 15.4026 20.4985 15.379 20.4704C15.3554 20.4424 15.3347 20.4129 15.3148 20.3833C15.2946 20.3531 15.2758 20.3218 15.2587 20.2896C15.2425 20.2579 15.227 20.2254 15.213 20.1922C15.1989 20.159 15.1871 20.1243 15.176 20.0903C15.165 20.0564 15.1569 20.0165 15.1495 19.9848C15.1421 19.953 15.1369 19.911 15.1332 19.8777C15.1262 19.8041 15.1262 19.7299 15.1332 19.6563C15.1369 19.6209 15.1428 19.5825 15.1495 19.5493C15.1561 19.5161 15.1657 19.4755 15.176 19.4437C15.1864 19.412 15.1989 19.3751 15.213 19.3419C15.227 19.3087 15.2425 19.2762 15.2587 19.2444C15.2758 19.2123 15.2946 19.181 15.3148 19.1507C15.3347 19.1212 15.3561 19.0917 15.379 19.0636C15.4019 19.0356 15.427 19.0083 15.4528 18.9824C15.4787 18.9566 15.506 18.9322 15.534 18.9086C15.5619 18.8857 15.591 18.8643 15.6211 18.8444C15.6516 18.8242 15.6826 18.8058 15.7141 18.789C15.7459 18.7721 15.7791 18.7566 15.8123 18.7425C15.8455 18.7285 15.8802 18.7167 15.9142 18.7056C15.9481 18.6946 15.988 18.6864 16.0197 18.6791C16.0514 18.6717 16.0935 18.6665 16.1267 18.6628C16.2004 18.656 16.2745 18.656 16.3482 18.6628C16.3836 18.6665 16.422 18.6724 16.4552 18.6791C16.4884 18.6857 16.529 18.6953 16.5607 18.7056C16.5925 18.716 16.6294 18.7285 16.6626 18.7425C16.6958 18.7566 16.7283 18.7721 16.76 18.789C16.7918 18.806 16.8235 18.8245 16.8538 18.8444C16.884 18.8643 16.9128 18.8857 16.9409 18.9086C16.9689 18.9315 16.9962 18.9566 17.0221 18.9824C17.0479 19.0083 17.0715 19.0356 17.0959 19.0636C17.1202 19.0917 17.1401 19.1212 17.1601 19.1507C17.1801 19.181 17.1986 19.2123 17.2154 19.2444C17.2322 19.2764 17.2477 19.3089 17.2619 19.3419C17.276 19.3751 17.2878 19.4098 17.2988 19.4437C17.3099 19.4777 17.318 19.5175 17.3254 19.5493C17.3328 19.581 17.338 19.6231 17.3417 19.6563C17.3487 19.7299 17.3487 19.8041 17.3417 19.8777C17.338 19.9132 17.3321 19.9516 17.3254 19.9848C17.3188 20.018 17.3092 20.0586 17.2988 20.0903C17.2885 20.1221 17.276 20.159 17.2619 20.1922C17.2479 20.2254 17.2324 20.2579 17.2154 20.2896C17.1986 20.3218 17.1801 20.3531 17.1601 20.3833C17.1401 20.4129 17.118 20.4424 17.0959 20.4704C17.0737 20.4985 17.0479 20.5258 17.0221 20.5516C16.9962 20.5775 16.9689 20.6018 16.9409 20.6254C16.9128 20.6491 16.8833 20.6697 16.8538 20.6897C16.8242 20.7096 16.7918 20.728 16.76 20.745C16.7283 20.762 16.6958 20.7775 16.6626 20.7915C16.6294 20.8055 16.5947 20.8174 16.5607 20.8284C16.5268 20.8395 16.4869 20.8476 16.4552 20.855C16.4234 20.8624 16.3814 20.8675 16.3482 20.8712C16.3149 20.8749 16.2721 20.8764 16.236 20.8764Z"
-                                        fill="#192045" />
-                                    <path
-                                        d="M26.3481 28.8479H17.6384C17.3448 28.8479 17.0632 28.7313 16.8555 28.5237C16.6479 28.316 16.5312 28.0344 16.5312 27.7408C16.5312 27.4472 16.6479 27.1655 16.8555 26.9579C17.0632 26.7503 17.3448 26.6336 17.6384 26.6336H26.3481C26.6417 26.6336 26.9233 26.7503 27.1309 26.9579C27.3386 27.1655 27.4552 27.4472 27.4552 27.7408C27.4552 28.0344 27.3386 28.316 27.1309 28.5237C26.9233 28.7313 26.6417 28.8479 26.3481 28.8479Z"
-                                        fill="#192045" />
-                                    <path
-                                        d="M26.3481 32.7599H17.6384C17.3448 32.7599 17.0632 32.6433 16.8555 32.4356C16.6479 32.228 16.5312 31.9464 16.5312 31.6528C16.5312 31.3591 16.6479 31.0775 16.8555 30.8699C17.0632 30.6622 17.3448 30.5456 17.6384 30.5456H26.3481C26.6417 30.5456 26.9233 30.6622 27.1309 30.8699C27.3386 31.0775 27.4552 31.3591 27.4552 31.6528C27.4552 31.9464 27.3386 32.228 27.1309 32.4356C26.9233 32.6433 26.6417 32.7599 26.3481 32.7599Z"
-                                        fill="#192045" />
-                                </svg>
-                            </span>
-                            <span class="text">Print</span>
-                        </button>
-                    </div>
-                </div>
-
-
-                <div class="billing-to">
-                    <p><strong>মেসার্স আনিস ষ্টোর</strong></p>
-                    <p style="font-size: 13px; color: #555; margin-bottom: 5px;">বিভিন্ন প্রকার দেশী বিদেশী কমেটিক, ষ্টেশনারী, ইমিটেশন, ব্রেসিয়ার, পেন্টি, বেল্ট পাইকারী ও খুচরা বিক্রেতা ।</p>
-                    <p style="font-size: 13px; color: #555; margin-bottom: 5px;">ঝালাইপট্টি, পাবনা ৷</p>
-                    <div class="contact" style="display: flex; gap: 4px">
-                        <p>মোবাইলঃ</p>
-                        <p>
-                            <span>০১৭৯২-৮৩৩৭৪৭, ০১৭১১-৪৫১৩৩৪</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Table Section -->
-            <table class="invoice_table_list">
-                <thead>
-                    <tr>
-                        <th>SL. No.</th>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody id="order_details">
-                    @foreach ($purchaseinvoicedata->orderDetails as $key => $orderDetail)
-                    <tr>
-                        <td>{{ $key + 1 }}</td>
-                        <td>{{ $orderDetail->product->product_name ?? 'N/A' }}</td>
-                        <td>{{ $orderDetail->quantity }}</td>
-                        <td style="text-align: right">৳ {{ number_format((float)($orderDetail->cost_price ?? 0), 2) }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-                <tr>
-                    <td colspan="1" rowspan="6" id="payment_status" class="full-paid">
-                        {{ $paymentDetailsStatus ?? 'Not Available' }}
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="amount_text" style="text-align: right">Sub Total:</td>
-                    <td class="amount" id="sub_total" style="text-align: right">৳ {{ number_format((float)($subTotal ?? 0), 2) }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="amount_text table_bg" style="text-align: right">Paid Amount:</td>
-                    <td class="amount table_bg" id="paidamount" style="text-align: right">৳ {{ number_format((float)($paidAmount ?? 0), 2) }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="amount_text" style="text-align: right">Due Amount:</td>
-                    <td id="due_amount" class="amount" style="text-align: right">৳ {{ number_format((float)($dueAmount ?? 0), 2) }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="amount_text" style="text-align: right">Previous Due Amount:</td>
-                    <td id="due_amount" class="amount" style="text-align: right">৳ {{ number_format((float)($PreviousDueAmount ?? 0), 2) }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="amount_text" style="text-align: right">Total Due Amount:</td>
-                    <td id="due_amount" class="amount" style="text-align: right">৳ {{ number_format((float)($PreviousDueAmount ?? 0) + (float)($dueAmount ?? 0), 2) }}</td>
-                </tr>
-            </table>
-
-            <!-- Footer Message -->
-            <div class="footer-message">
-                <!-- <p class="google-text">
-                    Joynal Complex Modupur Bazar Ataikula Pabna
-                </p> -->
-                <p>
-                    Powered by: CodeNext IT - www.codenextit.com
-                </p>
-            </div>
-        </div>
-        <div class="copyright">
-            <footer class="footer text-center py-3 mt-4 text-muted small border-top">&copy; 2026 মেসার্স আনিস ষ্টোর | Software By: <a href="https://www.codenextit.com" target="_blank" class="text-success fw-bold text-decoration-none">CodeNext IT</a></footer>
-        </div>
-    </div>
-</div>
-
-<script>
-    window.onload = function() {
-        window.print();
-    }
-</script>
-
-
-<style>
-    /* Hide print button during printing */
-    @media print {
-        .print-button {
-            display: none;
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="utf-8" />
+    <title>Purchase Details - মেসার্স আনিস ষ্টোর</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Bootstrap Css -->
+    <link href="{{ asset('back-end/assets/css/vendor/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
         }
 
-        /* You can add more custom styles to format the print output */
-        .invoice-container {
-            font-family: Arial, sans-serif;
+        body {
+            background-color: #eef2f6;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            font-family: 'Poppins', 'Noto Sans Bengali', 'Segoe UI', Tahoma, sans-serif;
+            color: #1e293b;
+            font-size: 12px;
         }
 
-        .footer-message {
-            margin-top: 20px;
+        /* Top Purple Navigation Bar (Screen Only) */
+        .invoice-top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%);
+            color: #ffffff !important;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .invoice-top-bar .back-link {
+            color: #ffffff !important;
+            font-size: 13.5px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.18);
+            padding: 6px 14px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+            cursor: pointer !important;
+            outline: none !important;
+            border: none;
+            font-family: inherit;
+        }
+
+        .invoice-top-bar .back-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: #ffffff !important;
+            transform: translateX(-2px);
+        }
+
+        .invoice-top-bar .top-title {
+            margin: 0;
+            font-weight: 700;
+            font-size: 17px;
+            color: #ffffff !important;
+            letter-spacing: 0.2px;
+        }
+
+        .invoice-top-bar .print-top-btn {
+            background: rgba(255, 255, 255, 0.18);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff !important;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .invoice-top-bar .print-top-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Printable Sheet Paper Container - 10px padding on all 4 sides */
+        .invoice-page-container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 210mm;
+            min-height: 297mm;
+            margin: 15px auto 70px auto;
+            padding: 10px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-radius: 4px;
+            box-sizing: border-box !important;
+            position: relative;
+        }
+
+        @media (max-width: 991px) {
+            .invoice-page-container {
+                width: 96%;
+                min-height: auto;
+                padding: 10px !important;
+                margin: 12px auto 70px auto;
+            }
+        }
+
+        .store-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.2;
+        }
+
+        .invoice-main-heading {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0;
+            line-height: 1.15;
+            white-space: nowrap;
+        }
+
+        .center-store-logo {
+            max-height: 48px;
+            max-width: 110px;
+            object-fit: contain;
+        }
+
+        @media (max-width: 768px) {
+            .invoice-main-heading {
+                font-size: 14px !important;
+                line-height: 1.2;
+            }
+            .center-store-logo {
+                max-height: 38px !important;
+                max-width: 85px !important;
+            }
+        }
+
+        /* Billed To Box - Transparent, zero border, zero shadow, zero padding, 10px bottom gap */
+        .billed-to-box {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin-bottom: 10px !important;
+            font-size: 12px;
+        }
+
+        /* Meta table (Invoice No & Date) */
+        .meta-table {
+            border-collapse: collapse !important;
+            font-size: 11.5px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            box-sizing: border-box;
+        }
+        .meta-table td {
+            border: 1px solid #000000 !important;
+            padding: 3px 8px;
+            font-weight: 600;
+            box-sizing: border-box;
+        }
+        .meta-table .meta-label {
+            background-color: #f8fafc;
+            color: #1e293b;
+            width: 85px;
+        }
+
+        /* Classic Purchase Details Table Styling (Bordered Black Style) */
+        .invoice_table_list {
+            width: 100% !important;
+            max-width: 100% !important;
+            border-collapse: collapse !important;
+            margin-top: 10px !important;
+            margin-bottom: 0px !important;
+            table-layout: fixed !important;
+            box-sizing: border-box !important;
+        }
+
+        .invoice_table_list th,
+        .invoice_table_list td {
+            border: 1px solid #000000 !important;
+            padding: 6px 8px;
+            font-size: 12px;
+            color: #000000;
+            box-sizing: border-box !important;
+            word-break: break-word;
+        }
+
+        .invoice_table_list th {
+            background-color: #f1f5f9;
+            font-weight: 700;
             text-align: center;
         }
 
-        .footer-message p {
-            font-size: 14px;
+        .invoice_table_list .full-paid {
+            font-weight: 800;
+            font-size: 15px;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap !important;
+            box-sizing: border-box;
         }
-    }
-</style>
 
-@endsection
+        .invoice_table_list .amount_text {
+            font-weight: 600;
+            text-align: right;
+            background-color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        .invoice_table_list .amount {
+            font-weight: 700;
+            text-align: right;
+            background-color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        .invoice_table_list .footer-powered-cell {
+            border: 1px solid #000000 !important;
+            border-top: 1px solid #000000 !important;
+            padding: 5px 8px !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            color: #334155 !important;
+            text-align: left !important;
+            background-color: #ffffff !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Bottom Fixed Action Toolbar */
+        .invoice-bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1050;
+            background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%);
+            color: #ffffff;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
+        }
+
+        .paper-select-dropdown {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .paper-select-dropdown option {
+            color: #0f172a;
+            background: #ffffff;
+        }
+
+        /* Print Specific Styling for A4 Full Width */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 6mm 6mm;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                box-sizing: border-box !important;
+            }
+
+            html, body {
+                background: #ffffff !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .no-print, .invoice-top-bar, .invoice-bottom-bar {
+                display: none !important;
+            }
+
+            .invoice-page-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-height: auto !important;
+                margin: 0 !important;
+                padding: 10px !important;
+                box-shadow: none !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-sizing: border-box !important;
+            }
+
+            .billed-to-box {
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin-bottom: 10px !important;
+            }
+
+            .invoice_table_list {
+                width: 100% !important;
+                max-width: 100% !important;
+                table-layout: fixed !important;
+                border-collapse: collapse !important;
+                box-sizing: border-box !important;
+                margin-top: 10px !important;
+            }
+
+            .invoice_table_list th,
+            .invoice_table_list td,
+            .meta-table td,
+            .footer-powered-box {
+                border: 1px solid #000000 !important;
+                border-color: #000000 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                box-sizing: border-box !important;
+            }
+
+            .footer-powered-box {
+                width: 100% !important;
+                max-width: 100% !important;
+                border-top: none !important;
+                box-sizing: border-box !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Top Purple App Navigation Header (Screen Mode) -->
+    <div class="invoice-top-bar no-print">
+        <button type="button" onclick="goBackToPreviousPage(event)" class="back-link" title="পেছনে যান">
+            <i class="fa-solid fa-arrow-left"></i> <span>পেছনে</span>
+        </button>
+        <h5 class="top-title">Purchase Details</h5>
+        <button type="button" class="print-top-btn" onclick="window.print()" title="প্রিন্ট করুন">
+            <i class="fa-solid fa-print fs-6"></i>
+        </button>
+    </div>
+
+    <!-- 2. Printable Sheet Paper Container (A4 Layout - 10px padding on all 4 sides) -->
+    <div class="invoice-page-container" id="printArea">
+        
+        <!-- Header 3-Column Grid: Billed To (Left), Purchase Details & Logo (Center), Store Info (Right) -->
+        <div class="d-flex justify-content-between align-items-start pb-0 mb-0" style="gap: 12px;">
+            
+            <!-- Left: Billed To / Supplier Info & Metadata -->
+            <div style="flex: 1; max-width: 32%;">
+                <!-- Billed To Box: Transparent background, zero border, zero padding, 10px bottom gap -->
+                <div class="billed-to-box">
+                    <div class="fw-bold text-dark fs-6 mb-1">Billed To</div>
+                    <div class="fw-bold text-dark">{{ $purchaseinvoicedata->supplier->name ?? 'N/A' }}</div>
+                    <div class="text-muted" style="font-size: 11px;">{{ $purchaseinvoicedata->supplier->address ?? 'N/A' }}</div>
+                    <div style="font-size: 11px;">Phone: <span class="fw-semibold">{{ $purchaseinvoicedata->supplier->mobile ?? 'N/A' }}</span></div>
+                </div>
+
+                <table class="meta-table">
+                    <tr>
+                        <td class="meta-label">Invoice No:</td>
+                        <td>{{ str_starts_with($purchaseinvoicedata->purchase_id, '#') ? $purchaseinvoicedata->purchase_id : '#' . $purchaseinvoicedata->purchase_id }}</td>
+                    </tr>
+                    <tr>
+                        <td class="meta-label">Invoice Date:</td>
+                        <td>{{ \Carbon\Carbon::parse($purchaseinvoicedata->date ?? $purchaseinvoicedata->created_at)->format('d-m-Y') }}</td>
+                    </tr>
+                    @if(!empty($purchaseinvoicedata->referance_no))
+                    <tr>
+                        <td class="meta-label">Ref:</td>
+                        <td>{{ $purchaseinvoicedata->referance_no }}</td>
+                    </tr>
+                    @endif
+                </table>
+            </div>
+
+            <!-- Center: Purchase Details Heading & Logo -->
+            <div class="text-center" style="flex: 1; max-width: 34%;">
+                <h1 class="invoice-main-heading mb-1.5">Purchase Details</h1>
+                <img src="{{ asset('back-end/assets/img/anis-store-logo.png') }}" alt="Anis Store Logo" class="center-store-logo" />
+            </div>
+
+            <!-- Right: Store Branding & Contact Details -->
+            <div class="text-end" style="flex: 1; max-width: 34%;">
+                <div class="store-name fw-extrabold mb-1">মেসার্স আনিস ষ্টোর</div>
+                <div class="text-muted" style="font-size: 10px; line-height: 1.35; color: #475569;">
+                    বিভিন্ন প্রকার দেশী বিদেশী কসমেটিক, ষ্টেশনারী, ইমিটেশন, ব্রেসিয়ার, পেন্টি, বেল্ট পাইকারী ও খুচরা বিক্রেতা ৷
+                </div>
+                <div class="text-dark fw-semibold mt-1" style="font-size: 10.5px;">
+                    <div>ঝালাইপট্টি, পাবনা ৷</div>
+                    <div>মোবাইলঃ ০১৭৯২-৮৩৩৭৪৭, ০১৭১১-৪৫১৩৩৪</div>
+                </div>
+            </div>
+        </div>
+
+        @php
+            $calcSubtotal = 0;
+            foreach ($purchaseinvoicedata->orderDetails as $od) {
+                $q = (float)($od->quantity ?? 1);
+                $p = (float)($od->cost_price ?? 0);
+                $calcSubtotal += (float)($od->subtotal ?? ($q * $p));
+            }
+            $finalSubtotal = (float)($subTotal ?? $purchaseinvoicedata->grand_subtotal ?? $calcSubtotal);
+            $finalPaid = (float)($paidAmount ?? $purchaseinvoicedata->paid_amount ?? 0);
+            $finalDue = (float)($dueAmount ?? $purchaseinvoicedata->due_amount ?? ($finalSubtotal - $finalPaid));
+            $finalPrevDue = (float)($PreviousDueAmount ?? 0);
+            $finalTotalDue = $finalPrevDue + $finalDue;
+
+            $statusLower = strtolower($statusText);
+            if ($finalDue <= 0 || str_contains($statusLower, 'fully') || $statusLower === 'paid' || $statusLower === 'fully paid') {
+                $statusText = 'Paid';
+                $statusColor = '#16a34a'; // Green
+            } elseif ($finalPaid > 0 || str_contains($statusLower, 'partial')) {
+                $statusText = 'Partial Paid';
+                $statusColor = '#d97706'; // Amber / Orange
+            } else {
+                $statusText = 'Unpaid';
+                $statusColor = '#dc2626'; // Red
+            }
+        @endphp
+
+        <!-- 3. Classic Purchase Table Section (Bordered 4-Column Design) - Exactly 10px top gap -->
+        <table class="invoice_table_list">
+            <thead>
+                <tr>
+                    <th style="width: 16%; text-align: center;">SL. No.</th>
+                    <th style="width: 44%; text-align: left;">Product</th>
+                    <th style="width: 16%; text-align: center;">Quantity</th>
+                    <th style="width: 24%; text-align: right;">Amount</th>
+                </tr>
+            </thead>
+            <tbody id="order_details">
+                @foreach ($purchaseinvoicedata->orderDetails as $key => $orderDetail)
+                    @php
+                        $qty = (float)($orderDetail->quantity ?? 1);
+                        $price = (float)($orderDetail->cost_price ?? 0);
+                        $lineTotal = (float)($orderDetail->subtotal ?? ($qty * $price));
+                    @endphp
+                    <tr>
+                        <td style="text-align: center;">{{ $key + 1 }}</td>
+                        <td style="text-align: left; font-weight: 500;">{{ $orderDetail->product->product_name ?? 'N/A' }}</td>
+                        <td style="text-align: center; font-weight: 600;">{{ $qty }}</td>
+                        <td style="text-align: right; font-weight: 600;">৳ {{ number_format($price, 2) }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td rowspan="5" class="full-paid" style="vertical-align: middle; text-align: center; font-weight: 800; font-size: 15px; white-space: nowrap !important; color: {{ $statusColor }} !important;">
+                        {{ $statusText }}
+                    </td>
+                    <td colspan="2" class="amount_text">Sub Total:</td>
+                    <td class="amount">৳ {{ number_format($finalSubtotal, 2) }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="amount_text">Paid Amount:</td>
+                    <td class="amount">৳ {{ number_format($finalPaid, 2) }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="amount_text">Due Amount:</td>
+                    <td class="amount">৳ {{ number_format($finalDue, 2) }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="amount_text">Previous Due Amount:</td>
+                    <td class="amount">৳ {{ number_format($finalPrevDue, 2) }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="amount_text" style="font-weight: 800;">Total Due Amount:</td>
+                    <td class="amount" style="font-weight: 800;">৳ {{ number_format($finalTotalDue, 2) }}</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="footer-powered-cell">
+                        Powered by: CodeNext IT - www.codenextit.com
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+    </div>
+
+    <!-- 4. Bottom Fixed Action Toolbar (Screen Mode) -->
+    <div class="invoice-bottom-bar no-print">
+        <button type="button" class="btn text-white p-0 d-flex align-items-center justify-content-center" title="শেয়ার করুন" onclick="navigator.share ? navigator.share({title: 'Purchase Details', url: window.location.href}) : alert('শেয়ার লিংক কপি করা হয়েছে!')" style="width: 38px; height: 38px; background: rgba(255,255,255,0.18); border-radius: 50%; transition: all 0.2s;">
+            <i class="fa-solid fa-share-nodes fs-6"></i>
+        </button>
+
+        <div class="d-flex align-items-center gap-3">
+            <select class="paper-select-dropdown" onchange="changePaperFormat(this.value)">
+                <option value="a4" selected>A4 (8.3 × 11.7 in)</option>
+                <option value="a5">A5 (5.8 × 8.3 in)</option>
+                <option value="pos">80mm POS Thermal</option>
+            </select>
+            <button type="button" class="btn btn-light btn-sm fw-bold px-3 py-1.5 d-flex align-items-center gap-1.5" onclick="window.print()" style="border-radius: 8px; color: #8C56D4; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                <i class="fa-solid fa-print"></i> <span>প্রিন্ট</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function goBackToPreviousPage(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            if (document.referrer && document.referrer.indexOf(window.location.host) !== -1 && document.referrer !== window.location.href) {
+                window.location.href = document.referrer;
+                return;
+            }
+            if (window.history && window.history.length > 1) {
+                window.history.back();
+                setTimeout(function() {
+                    window.location.href = '/supplier-list-page';
+                }, 300);
+                return;
+            }
+            window.location.href = '/supplier-list-page';
+        }
+
+        function changePaperFormat(fmt) {
+            const container = document.getElementById('printArea');
+            if (fmt === 'pos') {
+                container.style.width = '80mm';
+                container.style.maxWidth = '80mm';
+                container.style.minHeight = 'auto';
+                container.style.padding = '5mm';
+            } else if (fmt === 'a5') {
+                container.style.width = '5.8in';
+                container.style.maxWidth = '5.8in';
+                container.style.minHeight = '8.3in';
+                container.style.padding = '5mm 6mm';
+            } else {
+                container.style.width = '100%';
+                container.style.maxWidth = '210mm';
+                container.style.minHeight = '297mm';
+                container.style.padding = '10px';
+            }
+        }
+    </script>
+</body>
+</html>

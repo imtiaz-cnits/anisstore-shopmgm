@@ -1,3 +1,7 @@
+<!-- Flatpickr CSS & JS per rules.md -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 <!-- Hero Main Content Start -->
 <div class="main-content">
     <div class="page-content" style="padding: 0px !important;">
@@ -174,71 +178,76 @@
 
 <!-- ================= PAYMENT MODAL (Supplier Due Collection) ================= -->
 <div class="modal fade" id="supplierDuePaymentModal" aria-labelledby="supplierDuePaymentModalLabel" aria-hidden="true" style="z-index: 107000;">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 540px;">
-        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 520px; width: 100%;">
+        <div class="modal-content w-100 border-0 rounded-4 shadow-lg overflow-hidden p-0">
             <!-- Modal Header -->
             <div class="modal-header-purple p-3 px-4 d-flex align-items-center justify-content-between" style="background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important; color: #ffffff !important;">
-                <div class="d-flex align-items-center gap-2">
-                    <i class="fa-solid fa-hand-holding-dollar fs-5"></i>
-                    <h5 class="modal-title fw-bold m-0 text-white" id="supplierDuePaymentModalLabel" style="font-size: 17px;">সাপ্লায়ার বকেয়া পরিশোধ (Due Collection)</h5>
+                <div class="d-flex align-items-center gap-2 text-start flex-grow-1" style="min-width: 0; text-align: left !important;">
+                    <i class="fa-solid fa-hand-holding-dollar fs-5 flex-shrink-0"></i>
+                    <h5 class="modal-title fw-bold m-0 text-white text-start" id="supplierDuePaymentModalLabel" style="font-size: 16px; text-align: left !important; line-height: 1.3;">সাপ্লায়ার বকেয়া পরিশোধ (Due Collection)</h5>
                 </div>
-                <button type="button" class="sl-btn-close-red" data-bs-dismiss="modal" aria-label="Close" onclick="slClosePaymentModal()">
+                <button type="button" class="sl-btn-close-red flex-shrink-0 ms-2" data-bs-dismiss="modal" aria-label="Close" onclick="slClosePaymentModal()">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <!-- Modal Form with Scrollable Body and Sticky Bottom Action Buttons -->
-            <form id="slPaymentForm" onsubmit="slSavePaymentInfo(event)" class="d-flex flex-column flex-grow-1 overflow-hidden m-0">
+            <form id="slPaymentForm" onsubmit="slSavePaymentInfo(event)" class="d-flex flex-column w-100 flex-grow-1 overflow-hidden m-0 p-0">
                 <input type="hidden" id="slUpdateID">
 
                 <div class="modal-body p-3 p-md-4 flex-grow-1 overflow-y-auto">
                     <!-- Date & Dues Summary Card -->
-                    <div class="p-3 mb-3 rounded-3" style="background: #FAF7FD; border: 1.5px solid #E5D5F7;">
-                        <div class="mb-2">
-                            <label for="slDueCollectionDate" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">পরিশোধের তারিখ *</label>
-                            <input type="date" class="form-control invoice-search-input" id="slDueCollectionDate" required>
+                    <div class="modal-dues-summary-card p-3 mb-3 rounded-3 w-100">
+                        <div class="mb-2.5">
+                            <label for="slDueCollectionDate" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">পরিশোধের তারিখ *</label>
+                            <div class="position-relative w-100">
+                                <input type="text" class="form-control invoice-search-input custom-flatpickr-input text-start w-100 ps-3 pe-5" id="slDueCollectionDate" placeholder="DD-MM-YYYY" readonly autocomplete="off" required style="font-size: 14px; font-weight: 500; width: 100% !important;">
+                                <span class="position-absolute end-0 top-50 translate-middle-y me-3 text-muted" style="pointer-events: none;">
+                                    <i class="fa-regular fa-calendar-days" style="color: #8C56D4;"></i>
+                                </span>
+                            </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
-                            <span class="text-muted small">সাপ্লায়ার পূর্বের বকেয়া:</span>
-                            <span class="fw-bold text-dark" id="slSupplierPreviousDue">৳ ০.০০</span>
+                            <span class="text-muted small dues-label text-start">সাপ্লায়ার পূর্বের বকেয়া:</span>
+                            <span class="fw-bold text-dark dues-val" id="slSupplierPreviousDue">৳ ০.০০</span>
                         </div>
                         <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
-                            <span class="text-muted small">পারচেস পূর্বের বকেয়া:</span>
-                            <span class="fw-bold text-dark" id="slPurchasePreviousDue">৳ ০.০০</span>
+                            <span class="text-muted small dues-label text-start">পারচেস পূর্বের বকেয়া:</span>
+                            <span class="fw-bold text-dark dues-val" id="slPurchasePreviousDue">৳ ০.০০</span>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between py-1">
-                            <span class="fw-bold text-slate-800">মোট পূর্বের বকেয়া:</span>
+                        <div class="d-flex align-items-center justify-content-between py-1.5">
+                            <span class="fw-bold text-slate-800 dues-total-label text-start">মোট পূর্বের বকেয়া:</span>
                             <span class="fw-bold text-danger fs-6" id="slTotalPreviousDue" data-raw="0">৳ ০.০০</span>
                         </div>
                     </div>
 
                     <!-- Discount & Pay Amount -->
-                    <div class="row g-2 mb-3">
-                        <div class="col-6">
-                            <label for="slDiscountAmount" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">ছাড় (Discount)</label>
-                            <input type="number" inputmode="decimal" step="any" min="0" id="slDiscountAmount" class="form-control invoice-search-input" oninput="slCalculateDuePayment()" placeholder="৳ ০.০০">
+                    <div class="row g-2 mb-3 w-100 m-0">
+                        <div class="col-6 ps-0 pe-1">
+                            <label for="slDiscountAmount" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">ছাড় (Discount)</label>
+                            <input type="number" inputmode="decimal" pattern="[0-9]*" step="any" min="0" id="slDiscountAmount" class="form-control invoice-search-input text-start w-100 ps-3" oninput="slCalculateDuePayment()" placeholder="৳ ০.০০" style="width: 100% !important;">
                         </div>
-                        <div class="col-6">
-                            <label for="slPayAmount" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">পরিশোধিত টাকা *</label>
-                            <input type="number" inputmode="decimal" step="any" min="0" id="slPayAmount" class="form-control invoice-search-input" oninput="slCalculateDuePayment()" placeholder="৳ ০.০০" required>
+                        <div class="col-6 ps-1 pe-0">
+                            <label for="slPayAmount" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">পরিশোধিত টাকা *</label>
+                            <input type="number" inputmode="decimal" pattern="[0-9]*" step="any" min="0" id="slPayAmount" class="form-control invoice-search-input text-start fw-bold w-100 ps-3" oninput="slCalculateDuePayment()" placeholder="৳ ০.০০" required style="width: 100% !important;">
                         </div>
                     </div>
 
                     <!-- Calculation Status Box -->
-                    <div class="p-2 px-3 mb-3 rounded-3 d-flex align-items-center justify-content-between" style="background: #F3ECFB; border: 1px solid #E5D5F7;">
-                        <div>
-                            <span class="text-muted small d-block" style="font-size: 11px;">অবশিষ্ট বকেয়া:</span>
+                    <div class="modal-calc-status-box p-3 mb-3 rounded-3 d-flex align-items-center justify-content-between w-100">
+                        <div class="text-start">
+                            <span class="text-muted small d-block status-label text-start" style="font-size: 11px;">অবশিষ্ট বকেয়া:</span>
                             <span class="fw-bold text-danger fs-6" id="slFinalDueAmount">৳ ০.০০</span>
                         </div>
                         <div class="text-end">
-                            <span class="text-muted small d-block" style="font-size: 11px;">পেমেন্ট স্ট্যাটাস:</span>
-                            <span class="badge bg-secondary px-2 py-1 fw-bold" id="slShowPaymentStatusDisplay" style="font-size: 11px;">Pending</span>
+                            <span class="text-muted small d-block status-label" style="font-size: 11px;">পেমেন্ট স্ট্যাটাস:</span>
+                            <span class="badge bg-secondary px-2.5 py-1 fw-bold" id="slShowPaymentStatusDisplay" style="font-size: 11px; border-radius: 12px;">Pending</span>
                         </div>
                     </div>
 
                     <!-- Payment Method -->
-                    <div class="mb-3">
-                        <label class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">পেমেন্ট মাধ্যম *</label>
+                    <div class="mb-3 w-100">
+                        <label class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">পেমেন্ট মাধ্যম *</label>
                         <div class="d-flex flex-wrap gap-2">
                             <label class="sl-payment-chip active" onclick="slSelectPaymentChip('cash')">
                                 <input type="radio" name="slPayment" id="slCash" value="cash" checked style="display: none;">
@@ -268,15 +277,15 @@
                     </div>
 
                     <!-- Transaction ID (non-cash) -->
-                    <div class="mb-3" id="slTransactionIdWrapper" style="display: none;">
-                        <label for="slTransactionInput" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">ট্রানজেকশন আইডি</label>
-                        <input type="text" id="slTransactionInput" class="form-control invoice-search-input" placeholder="ট্রানজেকশন আইডি লিখুন...">
+                    <div class="mb-3 w-100" id="slTransactionIdWrapper" style="display: none;">
+                        <label for="slTransactionInput" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">ট্রানজেকশন আইডি</label>
+                        <input type="text" id="slTransactionInput" class="form-control invoice-search-input text-start w-100 ps-3" placeholder="ট্রানজেকশন আইডি লিখুন..." style="width: 100% !important;">
                     </div>
                 </div>
 
                 <!-- Sticky Bottom Action Buttons right above keyboard -->
-                <div class="modal-sticky-footer p-3 border-top">
-                    <div class="d-flex align-items-center gap-2">
+                <div class="modal-sticky-footer p-3 border-top w-100">
+                    <div class="d-flex align-items-center gap-2 w-100">
                         <button type="button" class="btn sl-btn-cancel-red py-2 px-3 fw-bold flex-grow-1" data-bs-dismiss="modal" onclick="slClosePaymentModal()" style="height: 44px; border-radius: 10px; font-size: 14px;">
                             <i class="fa-solid fa-xmark me-1"></i> বাতিল
                         </button>
@@ -647,6 +656,15 @@
         background: #8C56D4;
         color: #ffffff;
     }
+    .mobile-action-btn.action-btn-return {
+        background: #FEF9EC;
+        color: #D97706;
+        border-color: #FDE68A;
+    }
+    .mobile-action-btn.action-btn-return:hover {
+        background: #D97706;
+        color: #ffffff;
+    }
     .mobile-action-btn.action-btn-due {
         background: #FEF9EC;
         color: #D97706;
@@ -912,19 +930,452 @@
     }
     .sl-payment-chip:hover { border-color: #8C56D4; color: #8C56D4; background: #FAF7FD; }
     .sl-payment-chip.active { border-color: #8C56D4 !important; background: #F3ECFB !important; color: #8C56D4 !important; font-weight: 700; box-shadow: 0 2px 6px rgba(140,86,212,0.2); }
+    /* Modal Dues Summary Card & Calc Box (Light Mode Default) */
+    .modal-dues-summary-card {
+        background-color: #FAF7FD;
+        border: 1.5px solid #E5D5F7;
+    }
+    .modal-calc-status-box {
+        background-color: #F3ECFB;
+        border: 1px solid #E5D5F7;
+        padding: 6px !important;
+    }
+
+    /* Flatpickr Royal Purple Theme & High Z-Index for Modals */
+    .flatpickr-calendar {
+        background: #ffffff !important;
+        border: 1px solid #E5D5F7 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 16px 40px rgba(140, 86, 212, 0.25) !important;
+        font-family: inherit !important;
+        z-index: 999999 !important;
+    }
+    .flatpickr-calendar .flatpickr-months {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        border-top-left-radius: 11px !important;
+        border-top-right-radius: 11px !important;
+        color: #ffffff !important;
+        padding: 6px 0 !important;
+    }
+    .flatpickr-calendar .flatpickr-month {
+        color: #ffffff !important;
+        fill: #ffffff !important;
+    }
+    .flatpickr-current-month {
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        padding-top: 4px !important;
+    }
+    .flatpickr-current-month .cur-month {
+        font-weight: 700 !important;
+        color: #ffffff !important;
+        margin-right: 4px !important;
+    }
+    .flatpickr-current-month .flatpickr-monthDropdown-months,
+    .flatpickr-current-month input.cur-year {
+        color: #ffffff !important;
+        font-weight: 700 !important;
+    }
+    .flatpickr-calendar .flatpickr-prev-month,
+    .flatpickr-calendar .flatpickr-next-month {
+        fill: #ffffff !important;
+        color: #ffffff !important;
+        padding: 6px 10px !important;
+        top: 2px !important;
+    }
+    .flatpickr-calendar .flatpickr-prev-month svg,
+    .flatpickr-calendar .flatpickr-next-month svg {
+        fill: #ffffff !important;
+        width: 14px !important;
+        height: 14px !important;
+    }
+    .flatpickr-calendar .flatpickr-prev-month:hover svg,
+    .flatpickr-calendar .flatpickr-next-month:hover svg {
+        fill: #E5D5F7 !important;
+    }
+    .flatpickr-calendar .flatpickr-weekdays {
+        background-color: #793FC5 !important;
+        height: 30px !important;
+    }
+    .flatpickr-calendar span.flatpickr-weekday {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        font-size: 12px !important;
+    }
+    .flatpickr-calendar .flatpickr-day {
+        background-color: #ffffff;
+        border-radius: 8px !important;
+        color: #1e293b;
+        font-weight: 500;
+    }
+    .flatpickr-calendar .flatpickr-day:hover {
+        background-color: #F3ECFB !important;
+        color: #8C56D4 !important;
+        border-color: #E5D5F7 !important;
+    }
+    .flatpickr-calendar .flatpickr-day.selected,
+    .flatpickr-calendar .flatpickr-day.selected:hover {
+        background-color: #8C56D4 !important;
+        border-color: #8C56D4 !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+    }
+    .flatpickr-calendar .flatpickr-day.today {
+        border-color: #8C56D4 !important;
+    }
+    .flatpickr-calendar .flatpickr-arrow svg {
+        fill: #ffffff !important;
+    }
+
+    /* Dark Mode Flatpickr */
+    body[light-mode="dark"] .flatpickr-calendar,
+    html[light-mode="dark"] .flatpickr-calendar,
+    body[data-layout-mode="dark"] .flatpickr-calendar,
+    body.dark-mode .flatpickr-calendar {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important;
+    }
+    body[light-mode="dark"] .flatpickr-calendar .flatpickr-day,
+    html[light-mode="dark"] .flatpickr-calendar .flatpickr-day,
+    body[data-layout-mode="dark"] .flatpickr-calendar .flatpickr-day,
+    body.dark-mode .flatpickr-calendar .flatpickr-day {
+        background-color: #1e293b;
+        color: #f8fafc;
+    }
+    body[light-mode="dark"] .flatpickr-calendar .flatpickr-day:hover,
+    html[light-mode="dark"] .flatpickr-calendar .flatpickr-day:hover,
+    body[data-layout-mode="dark"] .flatpickr-calendar .flatpickr-day:hover,
+    body.dark-mode .flatpickr-calendar .flatpickr-day:hover {
+        background-color: #334155 !important;
+        color: #c084fc !important;
+    }
+    body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.selected,
+    html[light-mode="dark"] .flatpickr-calendar .flatpickr-day.selected,
+    body[data-layout-mode="dark"] .flatpickr-calendar .flatpickr-day.selected,
+    body.dark-mode .flatpickr-calendar .flatpickr-day.selected {
+        background-color: #8C56D4 !important;
+        color: #ffffff !important;
+    }
+
+    /* ===== Payment Modal Base Styles (Light Mode) ===== */
+    #supplierDuePaymentModal.modal {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    #supplierDuePaymentModal .modal-dialog {
+        padding: 0 !important;
+    }
+    #supplierDuePaymentModal .modal-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        padding: 0 !important;
+        border: none !important;
+    }
+    #supplierDuePaymentModal #slPaymentForm {
+        width: 100% !important;
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    #supplierDuePaymentModal .modal-body {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+    }
+    #supplierDuePaymentModal .modal-sticky-footer {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        border-top: 1px solid #e2e8f0 !important;
+    }
+
+    /* Standardized Form Inputs inside Modal - Full Width & Left Aligned */
+    #supplierDuePaymentModal .form-control,
+    #supplierDuePaymentModal .invoice-search-input,
+    #supplierDuePaymentModal .custom-flatpickr-input {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        height: 42px !important;
+        display: block !important;
+        text-align: left !important;
+        box-sizing: border-box !important;
+    }
+    #supplierDuePaymentModal .modal-title,
+    #supplierDuePaymentModal .modal-header-purple,
+    #supplierDuePaymentModal .modal-header-purple * {
+        text-align: left !important;
+    }
+    #supplierDuePaymentModal label:not(.sl-payment-chip),
+    #supplierDuePaymentModal .form-label:not(.sl-payment-chip),
+    #supplierDuePaymentModal .dues-label,
+    #supplierDuePaymentModal .dues-total-label,
+    #supplierDuePaymentModal .status-label {
+        text-align: left !important;
+        display: block !important;
+        width: 100% !important;
+    }
+    #supplierDuePaymentModal .sl-payment-chip {
+        display: inline-flex !important;
+        width: auto !important;
+        min-width: auto !important;
+        max-width: fit-content !important;
+        flex: 0 0 auto !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 7px 14px !important;
+        height: 38px !important;
+        margin: 0 !important;
+        cursor: pointer !important;
+        white-space: nowrap !important;
+    }
+
+    /* Modal Dark Mode Theme Overrides - Strict Fix for White Backgrounds & Dark Borders */
+    [data-bs-theme="dark"] #supplierDuePaymentModal *,
+    [data-theme="dark"] #supplierDuePaymentModal *,
+    html.dark #supplierDuePaymentModal *,
+    body.dark #supplierDuePaymentModal *,
+    body[light-mode="dark"] #supplierDuePaymentModal *,
+    html[light-mode="dark"] #supplierDuePaymentModal *,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal *,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal *,
+    body.dark-mode #supplierDuePaymentModal *,
+    html.dark-mode #supplierDuePaymentModal * {
+        --bs-border-color: #334155 !important;
+        --bs-border-color-translucent: #334155 !important;
+    }
+
+    [data-bs-theme="dark"] #supplierDuePaymentModal .modal-content,
+    [data-theme="dark"] #supplierDuePaymentModal .modal-content,
+    html.dark #supplierDuePaymentModal .modal-content,
+    body.dark #supplierDuePaymentModal .modal-content,
     body[light-mode="dark"] #supplierDuePaymentModal .modal-content,
+    html[light-mode="dark"] #supplierDuePaymentModal .modal-content,
     body[data-layout-mode="dark"] #supplierDuePaymentModal .modal-content,
-    body.dark-mode #supplierDuePaymentModal .modal-content { background-color: #1e293b !important; color: #f8fafc !important; }
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .modal-content,
+    body.dark-mode #supplierDuePaymentModal .modal-content,
+    html.dark-mode #supplierDuePaymentModal .modal-content {
+        background-color: #1e293b !important;
+        background: #1e293b !important;
+        border: 1px solid #334155 !important;
+        color: #f8fafc !important;
+    }
+    [data-bs-theme="dark"] #supplierDuePaymentModal #slPaymentForm,
+    [data-theme="dark"] #supplierDuePaymentModal #slPaymentForm,
+    html.dark #supplierDuePaymentModal #slPaymentForm,
+    body.dark #supplierDuePaymentModal #slPaymentForm,
+    body[light-mode="dark"] #supplierDuePaymentModal #slPaymentForm,
+    html[light-mode="dark"] #supplierDuePaymentModal #slPaymentForm,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal #slPaymentForm,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal #slPaymentForm,
+    body.dark-mode #supplierDuePaymentModal #slPaymentForm,
+    html.dark-mode #supplierDuePaymentModal #slPaymentForm {
+        background-color: #1e293b !important;
+        background: #1e293b !important;
+    }
+    [data-bs-theme="dark"] #supplierDuePaymentModal .modal-body,
+    [data-theme="dark"] #supplierDuePaymentModal .modal-body,
+    html.dark #supplierDuePaymentModal .modal-body,
+    body.dark #supplierDuePaymentModal .modal-body,
+    body[light-mode="dark"] #supplierDuePaymentModal .modal-body,
+    html[light-mode="dark"] #supplierDuePaymentModal .modal-body,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal .modal-body,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .modal-body,
+    body.dark-mode #supplierDuePaymentModal .modal-body,
+    html.dark-mode #supplierDuePaymentModal .modal-body {
+        background-color: #1e293b !important;
+        background: #1e293b !important;
+        color: #f8fafc !important;
+    }
+    [data-bs-theme="dark"] #supplierDuePaymentModal .modal-dues-summary-card,
+    [data-theme="dark"] #supplierDuePaymentModal .modal-dues-summary-card,
+    html.dark #supplierDuePaymentModal .modal-dues-summary-card,
+    body.dark #supplierDuePaymentModal .modal-dues-summary-card,
+    body[light-mode="dark"] #supplierDuePaymentModal .modal-dues-summary-card,
+    html[light-mode="dark"] #supplierDuePaymentModal .modal-dues-summary-card,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal .modal-dues-summary-card,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .modal-dues-summary-card,
+    body.dark-mode #supplierDuePaymentModal .modal-dues-summary-card,
+    html.dark-mode #supplierDuePaymentModal .modal-dues-summary-card,
+    [data-bs-theme="dark"] #supplierDuePaymentModal .modal-calc-status-box,
+    [data-theme="dark"] #supplierDuePaymentModal .modal-calc-status-box,
+    html.dark #supplierDuePaymentModal .modal-calc-status-box,
+    body.dark #supplierDuePaymentModal .modal-calc-status-box,
+    body[light-mode="dark"] #supplierDuePaymentModal .modal-calc-status-box,
+    html[light-mode="dark"] #supplierDuePaymentModal .modal-calc-status-box,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal .modal-calc-status-box,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .modal-calc-status-box,
+    body.dark-mode #supplierDuePaymentModal .modal-calc-status-box,
+    html.dark-mode #supplierDuePaymentModal .modal-calc-status-box {
+        background-color: #0f172a !important;
+        background: #0f172a !important;
+        border: 1px solid #334155 !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    [data-bs-theme="dark"] #supplierDuePaymentModal .border-bottom,
+    [data-theme="dark"] #supplierDuePaymentModal .border-bottom,
+    html.dark #supplierDuePaymentModal .border-bottom,
+    body.dark #supplierDuePaymentModal .border-bottom,
+    body[light-mode="dark"] #supplierDuePaymentModal .border-bottom,
+    html[light-mode="dark"] #supplierDuePaymentModal .border-bottom,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal .border-bottom,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .border-bottom,
+    body.dark-mode #supplierDuePaymentModal .border-bottom,
+    html.dark-mode #supplierDuePaymentModal .border-bottom {
+        border-bottom: 1px solid #334155 !important;
+        border-color: #334155 !important;
+    }
+    [data-bs-theme="dark"] #supplierDuePaymentModal .border-top,
+    [data-theme="dark"] #supplierDuePaymentModal .border-top,
+    html.dark #supplierDuePaymentModal .border-top,
+    body.dark #supplierDuePaymentModal .border-top,
+    body[light-mode="dark"] #supplierDuePaymentModal .border-top,
+    html[light-mode="dark"] #supplierDuePaymentModal .border-top,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal .border-top,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .border-top,
+    body.dark-mode #supplierDuePaymentModal .border-top,
+    html.dark-mode #supplierDuePaymentModal .border-top {
+        border-top: 1px solid #334155 !important;
+        border-color: #334155 !important;
+    }
+    [data-bs-theme="dark"] #supplierDuePaymentModal table,
+    [data-bs-theme="dark"] #supplierDuePaymentModal th,
+    [data-bs-theme="dark"] #supplierDuePaymentModal td,
+    [data-bs-theme="dark"] #supplierDuePaymentModal tr,
+    body[light-mode="dark"] #supplierDuePaymentModal table,
+    body[light-mode="dark"] #supplierDuePaymentModal th,
+    body[light-mode="dark"] #supplierDuePaymentModal td,
+    body[light-mode="dark"] #supplierDuePaymentModal tr,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal table,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal th,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal td,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal tr,
+    body.dark-mode #supplierDuePaymentModal table,
+    body.dark-mode #supplierDuePaymentModal th,
+    body.dark-mode #supplierDuePaymentModal td,
+    body.dark-mode #supplierDuePaymentModal tr {
+        border-color: #334155 !important;
+    }
+    [data-bs-theme="dark"] #supplierDuePaymentModal label,
+    [data-theme="dark"] #supplierDuePaymentModal label,
+    html.dark #supplierDuePaymentModal label,
+    body.dark #supplierDuePaymentModal label,
+    body[light-mode="dark"] #supplierDuePaymentModal label,
+    html[light-mode="dark"] #supplierDuePaymentModal label,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal label,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal label,
+    body.dark-mode #supplierDuePaymentModal label,
+    html.dark-mode #supplierDuePaymentModal label {
+        color: #cbd5e1 !important;
+    }
+    [data-bs-theme="dark"] #supplierDuePaymentModal .dues-val,
+    [data-theme="dark"] #supplierDuePaymentModal .dues-val,
+    html.dark #supplierDuePaymentModal .dues-val,
+    body.dark #supplierDuePaymentModal .dues-val,
+    body[light-mode="dark"] #supplierDuePaymentModal .dues-val,
+    html[light-mode="dark"] #supplierDuePaymentModal .dues-val,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal .dues-val,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .dues-val,
+    body.dark-mode #supplierDuePaymentModal .dues-val,
+    html.dark-mode #supplierDuePaymentModal .dues-val,
+    [data-bs-theme="dark"] #supplierDuePaymentModal .dues-total-label,
+    [data-theme="dark"] #supplierDuePaymentModal .dues-total-label,
+    html.dark #supplierDuePaymentModal .dues-total-label,
+    body.dark #supplierDuePaymentModal .dues-total-label,
+    body[light-mode="dark"] #supplierDuePaymentModal .dues-total-label,
+    html[light-mode="dark"] #supplierDuePaymentModal .dues-total-label,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal .dues-total-label,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .dues-total-label,
+    body.dark-mode #supplierDuePaymentModal .dues-total-label,
+    html.dark-mode #supplierDuePaymentModal .dues-total-label {
+        color: #f8fafc !important;
+    }
+    [data-bs-theme="dark"] #supplierDuePaymentModal .status-label,
+    [data-theme="dark"] #supplierDuePaymentModal .status-label,
+    html.dark #supplierDuePaymentModal .status-label,
+    body.dark #supplierDuePaymentModal .status-label,
+    body[light-mode="dark"] #supplierDuePaymentModal .status-label,
+    html[light-mode="dark"] #supplierDuePaymentModal .status-label,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal .status-label,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .status-label,
+    body.dark-mode #supplierDuePaymentModal .status-label,
+    html.dark-mode #supplierDuePaymentModal .status-label,
+    [data-bs-theme="dark"] #supplierDuePaymentModal .dues-label,
+    [data-theme="dark"] #supplierDuePaymentModal .dues-label,
+    html.dark #supplierDuePaymentModal .dues-label,
+    body.dark #supplierDuePaymentModal .dues-label,
+    body[light-mode="dark"] #supplierDuePaymentModal .dues-label,
+    html[light-mode="dark"] #supplierDuePaymentModal .dues-label,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal .dues-label,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .dues-label,
+    body.dark-mode #supplierDuePaymentModal .dues-label,
+    html.dark-mode #supplierDuePaymentModal .dues-label {
+        color: #94a3b8 !important;
+    }
+    [data-bs-theme="dark"] #supplierDuePaymentModal .text-danger,
+    [data-theme="dark"] #supplierDuePaymentModal .text-danger,
+    html.dark #supplierDuePaymentModal .text-danger,
+    body.dark #supplierDuePaymentModal .text-danger,
+    body[light-mode="dark"] #supplierDuePaymentModal .text-danger,
+    html[light-mode="dark"] #supplierDuePaymentModal .text-danger,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal .text-danger,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .text-danger,
+    body.dark-mode #supplierDuePaymentModal .text-danger,
+    html.dark-mode #supplierDuePaymentModal .text-danger {
+        color: #f87171 !important;
+    }
+    [data-bs-theme="dark"] #supplierDuePaymentModal .invoice-search-input,
+    [data-theme="dark"] #supplierDuePaymentModal .invoice-search-input,
+    html.dark #supplierDuePaymentModal .invoice-search-input,
+    body.dark #supplierDuePaymentModal .invoice-search-input,
+    body[light-mode="dark"] #supplierDuePaymentModal .invoice-search-input,
+    html[light-mode="dark"] #supplierDuePaymentModal .invoice-search-input,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal .invoice-search-input,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .invoice-search-input,
+    body.dark-mode #supplierDuePaymentModal .invoice-search-input,
+    html.dark-mode #supplierDuePaymentModal .invoice-search-input,
+    [data-bs-theme="dark"] #supplierDuePaymentModal .form-control,
+    [data-theme="dark"] #supplierDuePaymentModal .form-control,
+    html.dark #supplierDuePaymentModal .form-control,
+    body.dark #supplierDuePaymentModal .form-control,
+    body[light-mode="dark"] #supplierDuePaymentModal .form-control,
+    html[light-mode="dark"] #supplierDuePaymentModal .form-control,
+    body[data-layout-mode="dark"] #supplierDuePaymentModal .form-control,
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .form-control,
+    body.dark-mode #supplierDuePaymentModal .form-control,
+    html.dark-mode #supplierDuePaymentModal .form-control {
+        background-color: #0f172a !important;
+        background: #0f172a !important;
+        border: 1px solid #334155 !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    [data-bs-theme="dark"] #supplierDuePaymentModal .sl-payment-chip,
     body[light-mode="dark"] #supplierDuePaymentModal .sl-payment-chip,
     body[data-layout-mode="dark"] #supplierDuePaymentModal .sl-payment-chip,
-    body.dark-mode #supplierDuePaymentModal .sl-payment-chip { background-color: #0f172a !important; border-color: #334155 !important; color: #cbd5e1 !important; }
+    body.dark-mode #supplierDuePaymentModal .sl-payment-chip {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #cbd5e1 !important;
+    }
+    [data-bs-theme="dark"] #supplierDuePaymentModal .sl-payment-chip.active,
     body[light-mode="dark"] #supplierDuePaymentModal .sl-payment-chip.active,
     body[data-layout-mode="dark"] #supplierDuePaymentModal .sl-payment-chip.active,
-    body.dark-mode #supplierDuePaymentModal .sl-payment-chip.active { background-color: #334155 !important; border-color: #8C56D4 !important; color: #c084fc !important; }
+    body.dark-mode #supplierDuePaymentModal .sl-payment-chip.active {
+        background-color: #334155 !important;
+        border-color: #8C56D4 !important;
+        color: #c084fc !important;
+    }
 
     @media screen and (max-width: 991.98px) {
         #supplierDuePaymentModal.modal {
             padding: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
             position: fixed !important;
             top: 0 !important;
             left: 0 !important;
@@ -935,7 +1386,7 @@
             height: 100dvh !important;
             display: none;
             overflow: hidden !important;
-            background: rgba(15, 23, 42, 0.65) !important;
+            background: rgba(15, 23, 42, 0.75) !important;
             backdrop-filter: blur(8px) !important;
             -webkit-backdrop-filter: blur(8px) !important;
             z-index: 107000 !important;
@@ -950,6 +1401,7 @@
 
         #supplierDuePaymentModal .modal-dialog {
             margin: 0 !important;
+            padding: 0 !important;
             width: 100% !important;
             max-width: 100% !important;
             position: fixed !important;
@@ -967,15 +1419,19 @@
 
         #supplierDuePaymentModal .modal-content {
             border-radius: 0 !important;
-            border-top-left-radius: 24px !important;
-            border-top-right-radius: 24px !important;
-            max-height: 85vh !important;
-            max-height: 85dvh !important;
+            border-top-left-radius: 20px !important;
+            border-top-right-radius: 20px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            max-height: 90vh !important;
+            max-height: 90dvh !important;
             display: flex !important;
             flex-direction: column !important;
             overflow: hidden !important;
             margin: 0 !important;
-            box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.35) !important;
+            padding: 0 !important;
+            border: none !important;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35) !important;
             animation: slideUpSupplierDueModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
 
@@ -986,8 +1442,8 @@
 
         #supplierDuePaymentModal .modal-body {
             flex: 1 1 auto !important;
-            max-height: calc(85vh - 130px) !important;
-            max-height: calc(85dvh - 130px) !important;
+            max-height: calc(90vh - 130px) !important;
+            max-height: calc(90dvh - 130px) !important;
             overflow-y: auto !important;
             -webkit-overflow-scrolling: touch;
             padding: 14px 16px !important;
@@ -997,17 +1453,24 @@
             flex: 0 0 auto !important;
             position: sticky !important;
             bottom: 0 !important;
-            background: #ffffff !important;
+            width: 100% !important;
             z-index: 100 !important;
-            border-top: 1px solid #e2e8f0 !important;
             padding: 10px 16px !important;
             box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05) !important;
         }
     }
 
+    [data-bs-theme="dark"] #supplierDuePaymentModal .modal-sticky-footer,
+    [data-theme="dark"] #supplierDuePaymentModal .modal-sticky-footer,
+    html.dark #supplierDuePaymentModal .modal-sticky-footer,
+    body.dark #supplierDuePaymentModal .modal-sticky-footer,
     body[light-mode="dark"] #supplierDuePaymentModal .modal-sticky-footer,
+    html[light-mode="dark"] #supplierDuePaymentModal .modal-sticky-footer,
     body[data-layout-mode="dark"] #supplierDuePaymentModal .modal-sticky-footer,
-    body.dark-mode #supplierDuePaymentModal .modal-sticky-footer {
+    html[data-layout-mode="dark"] #supplierDuePaymentModal .modal-sticky-footer,
+    body.dark-mode #supplierDuePaymentModal .modal-sticky-footer,
+    html.dark-mode #supplierDuePaymentModal .modal-sticky-footer {
+        background-color: #1e293b !important;
         background: #1e293b !important;
         border-color: #334155 !important;
     }
@@ -1018,10 +1481,26 @@
     let pageSize = 50;
     let rawSupplierData = [];
     let currentFilter = 'all';
+    let slDueDatePicker = null;
+
+    function initSlDueDatePicker() {
+        if (typeof flatpickr !== 'undefined') {
+            slDueDatePicker = flatpickr("#slDueCollectionDate", {
+                dateFormat: "d-m-Y",
+                defaultDate: new Date(),
+                disableMobile: true,
+                allowInput: true,
+                monthSelectorType: "static"
+            });
+        } else {
+            setTimeout(initSlDueDatePicker, 100);
+        }
+    }
 
     $(document).ready(function() {
         $("#entries").val("50");
         getList();
+        initSlDueDatePicker();
 
         // Close dropdowns when clicking outside
         $(document).on('click', function(e) {
@@ -1285,6 +1764,9 @@
                                 <a href="/supplier/profile/${item['id']}" class="btn btn-sm btn-outline-primary px-2 py-1" style="border-radius: 6px;" title="প্রোফাইল দেখুন">
                                     <i class="fa-solid fa-user"></i>
                                 </a>
+                                <button type="button" onclick="openSupplierReturn('${item['id']}', '${item['supplier_id']}', '${item['name']}')" class="btn btn-sm px-2 py-1 action-btn-return" style="border-radius: 6px; border: 1.5px solid #FDE68A; background: #FEF9EC; color: #D97706;" title="পণ্য ফেরত">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                </button>
                                 <button type="button" onclick="slOpenPaymentModal(${item['id']})" class="btn btn-sm btn-outline-warning px-2 py-1" style="border-radius: 6px;" title="বকেয়া পরিশোধ">
                                     <i class="fa-solid fa-money-bill-wave"></i>
                                 </button>
@@ -1356,11 +1838,14 @@
                                 </div>
                             </div>
 
-                            <!-- Icon-Only 4 Action Buttons -->
+                            <!-- Icon-Only 5 Action Buttons (Profile, Return, Due, Edit, Delete) -->
                             <div class="mobile-card-actions pt-2 mt-2 border-top" onclick="event.stopPropagation(); event.preventDefault();">
                                 <a href="/supplier/profile/${item['id']}" class="mobile-action-btn action-btn-profile flex-grow-1" onclick="event.stopPropagation();" title="প্রোফাইল">
                                     <i class="fa-solid fa-user"></i>
                                 </a>
+                                <button type="button" class="mobile-action-btn action-btn-return flex-grow-1" onclick="event.stopPropagation(); openSupplierReturn('${item['id']}', '${item['supplier_id']}', '${item['name']}');" title="পণ্য ফেরত">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                </button>
                                 <button type="button" class="mobile-action-btn action-btn-due flex-grow-1" onclick="event.stopPropagation(); slOpenPaymentModal(${item['id']});" title="বকেয়া পরিশোধ">
                                     <i class="fa-solid fa-money-bill-wave"></i>
                                 </button>
@@ -1470,9 +1955,13 @@
         $('#slFinalDueAmount').text('লোড হচ্ছে...');
         $('#slShowPaymentStatusDisplay').text('Pending').removeClass('bg-success bg-warning bg-danger').addClass('bg-secondary');
 
-        // Set today's date
-        const today = new Date().toISOString().split('T')[0];
-        $('#slDueCollectionDate').val(today);
+        // Set today's date via Flatpickr
+        if (slDueDatePicker) {
+            slDueDatePicker.setDate(new Date());
+        } else {
+            const today = new Date().toISOString().split('T')[0];
+            $('#slDueCollectionDate').val(today);
+        }
 
         slSelectPaymentChip('cash');
         $('#slTransactionInput').val('');
@@ -1608,13 +2097,23 @@
             if (!paymentStatus) return errorToast('পেমেন্ট স্ট্যাটাস অনুপস্থিত।');
             if (!paymentMethod) return errorToast('অনুগ্রহ করে পেমেন্ট মাধ্যম সিলেক্ট করুন।');
 
+            let rawDate = $('#slDueCollectionDate').val();
+            let formattedDate = rawDate;
+            if (rawDate && rawDate.includes('-')) {
+                let parts = rawDate.split('-');
+                if (parts.length === 3 && parts[0].length === 2 && parts[2].length === 4) {
+                    // Convert d-m-Y to Y-m-d for backend database compatibility
+                    formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                }
+            }
+
             let formData = new FormData();
             formData.append('id', updateID);
             formData.append('paid_amount', PayAmount);
             formData.append('due_amount', dueAmount > 0 ? dueAmount : 0);
             formData.append('purchase_payable_amount', PurchasePreviousDue);
             formData.append('supplier_previous_due', SupplierPreviousDue);
-            formData.append('due_collection_date', $('#slDueCollectionDate').val());
+            formData.append('due_collection_date', formattedDate);
             formData.append('discount_amount', DiscountAmount);
             formData.append('payment_status', paymentStatus);
             formData.append('transaction_id', transactionId);
@@ -1637,6 +2136,23 @@
             hideLoader();
             console.error(e);
             unauthorized(e.response?.status || 500);
+        }
+    }
+
+    // Open Purchase Return Page for Supplier
+    async function openSupplierReturn(id, supplierId, name) {
+        showLoader();
+        try {
+            let res = await axios.get(`/api/search-purchase-for-return?supplier_id=${encodeURIComponent(id)}&purchase_no=${encodeURIComponent(supplierId || name || '')}`, HeaderToken());
+            hideLoader();
+            if (res.data.status === 'success' && res.data.purchase && res.data.purchase.id) {
+                window.location.href = `/purchase-return/${res.data.purchase.id}`;
+            } else {
+                window.location.href = '/admin-dashboard-return-list';
+            }
+        } catch (e) {
+            hideLoader();
+            window.location.href = '/admin-dashboard-return-list';
         }
     }
 </script>

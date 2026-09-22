@@ -17,6 +17,10 @@
     --text-muted: #64748b;
   }
 
+  .page-content {
+    padding-top: 0px !important;
+  }
+
   .barcode-app-container {
     padding: 10px !important;
     max-width: 900px;
@@ -654,7 +658,7 @@
 </style>
 
 <div class="main-content">
-  <div class="page-content" style="padding-top: 52px !important;">
+  <div class="page-content" style="padding-top: 0px !important;">
     <div class="barcode-app-container">
 
       <!-- ========================================================

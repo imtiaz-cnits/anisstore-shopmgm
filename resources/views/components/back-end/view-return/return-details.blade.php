@@ -5,10 +5,10 @@
     <!-- Scoped Styles for Modern Return Invoice -->
     <style>
         .return-page-header {
-            max-width: 900px;
-            margin: 0 auto 16px auto;
+            max-width: 98%;
+            margin: 0 10px 10px 10px;
             position: sticky !important;
-            top: 72px !important;
+            top: 60px !important;
             z-index: 1040 !important;
             background: #ffffff !important;
             padding: 10px 16px !important;
@@ -18,12 +18,13 @@
             transition: all 0.2s ease;
         }
         .invoice-container {
-            max-width: 900px;
-            margin: 0 auto;
+           max-width: 98%;
+            margin: 0 10px;
             background: #ffffff;
             border: 1px solid #e2e8f0;
             border-radius: 14px;
-            padding: 24px;
+            padding: 10px;
+            margin-top: 20px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
         }
         .invoice-container .billing-section {
@@ -58,11 +59,14 @@
             border: 1px solid #e2e8f0;
             padding: 6px 10px;
             font-size: 13px;
+            text-align: left !important;
         }
         .invoice-container .invoice-wrapper .number,
         .invoice-container .invoice-wrapper .date {
             background: #f1f5f9;
             font-weight: 600;
+            text-align: left !important;
+            width: 42%;
         }
         .invoice-container .logo-wrapper {
             flex: 1 1 200px;
@@ -150,6 +154,26 @@
         .return-submit-btn:active {
             transform: translateY(0);
         }
+        .return-invoice-list-btn {
+            color: #793FC5 !important;
+            background: transparent !important;
+            border: 1.5px solid #E5D5F7 !important;
+            border-radius: 8px !important;
+            padding: 8px 14px !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
+            transition: all 0.2s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .return-invoice-list-btn:hover {
+            background: #FAF5FF !important;
+            border-color: #8C56D4 !important;
+            color: #8C56D4 !important;
+        }
         .invoice-container .return-quantity {
             width: 70px;
             height: 34px;
@@ -196,19 +220,19 @@
                 padding: 82px 10px 24px 10px !important;
                 overflow-x: clip !important;
             }
-            .return-page-header {
-                width: 100% !important;
-                top: 72px !important;
-                margin-bottom: 12px !important;
-                padding: 10px 12px !important;
-                border-radius: 10px !important;
-                display: flex !important;
-                flex-direction: row !important;
-                align-items: center !important;
-                justify-content: space-between !important;
-                flex-wrap: nowrap !important;
-                gap: 8px !important;
-            }
+             .return-page-header {
+            max-width: 98%;
+            margin: 0 10px 10px 10px;
+            position: sticky !important;
+            top: 60px !important;
+            z-index: 1040 !important;
+            background: #ffffff !important;
+            padding: 10px 16px !important;
+            border-radius: 12px !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05) !important;
+            transition: all 0.2s ease;
+        }
             .return-page-header .d-flex {
                 width: auto !important;
                 justify-content: flex-end !important;
@@ -227,22 +251,22 @@
                 white-space: nowrap !important;
                 flex-shrink: 0 !important;
             }
-            .invoice-container {
-                width: 100% !important;
-                max-width: 100% !important;
-                padding: 12px 10px !important;
-                border-radius: 12px !important;
-                box-sizing: border-box !important;
-                overflow: hidden !important;
-                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05) !important;
-            }
+             .invoice-container {
+    max-width: 98%;
+    margin: 0 10px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 10px;
+    margin-top: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
             .invoice-container .billing-section {
                 flex-direction: column;
                 gap: 12px;
             }
             .invoice-container .billing-section .wrapper,
-            .invoice-container .shop-details,
-            .invoice-container .logo-wrapper {
+            .invoice-container .shop-details {
                 width: 100%;
                 flex: 1 1 100%;
             }
@@ -254,58 +278,67 @@
                 justify-content: flex-start;
             }
             .invoice-container .logo-wrapper {
-                order: -1;
-                padding-bottom: 12px;
-                border-bottom: 1px dashed #e2e8f0;
-            }
-            .invoice-container .logo-wrapper .button {
-                display: none !important; /* Header button handles it on mobile */
+                display: none !important;
             }
             .invoice-container .invoice_table_list {
-                min-width: 100% !important;
                 width: 100% !important;
-                table-layout: auto !important;
+                min-width: 100% !important;
+                max-width: 100% !important;
+                table-layout: fixed !important;
+                margin: 0 !important;
             }
             .invoice-container .invoice_table_list th,
             .invoice-container .invoice_table_list td {
-                padding: 6px 3px !important;
+                padding: 6px 2px !important;
                 font-size: 11.5px !important;
+                word-break: break-word !important;
             }
             .invoice-container .invoice_table_list th:nth-child(1),
             .invoice-container .invoice_table_list td:nth-child(1) {
-                width: 28px !important;
+                width: 10% !important;
                 text-align: center;
+            }
+            .invoice-container .invoice_table_list th:nth-child(2),
+            .invoice-container .invoice_table_list td:nth-child(2) {
+                width: 36% !important;
+                text-align: left;
+                padding-left: 4px !important;
             }
             .invoice-container .invoice_table_list th:nth-child(3),
             .invoice-container .invoice_table_list td:nth-child(3) {
-                width: 36px !important;
+                width: 12% !important;
                 text-align: center;
             }
             .invoice-container .invoice_table_list th:nth-child(4),
             .invoice-container .invoice_table_list td:nth-child(4) {
-                width: 54px !important;
+                width: 18% !important;
                 text-align: center;
                 font-size: 11px !important;
             }
             .invoice-container .invoice_table_list th:nth-child(5),
             .invoice-container .invoice_table_list td:nth-child(5) {
-                width: 52px !important;
+                width: 14% !important;
                 text-align: center;
             }
             .invoice-container .invoice_table_list th:nth-child(6),
             .invoice-container .invoice_table_list td:nth-child(6) {
-                width: 32px !important;
+                width: 10% !important;
                 text-align: center;
             }
             .invoice-container .return-quantity {
-                width: 44px !important;
+                width: 100% !important;
+                max-width: 40px !important;
                 height: 28px !important;
                 font-size: 12px !important;
                 padding: 2px !important;
+                margin: 0 auto;
+                display: block;
             }
             .invoice-container .return-checkbox {
                 width: 17px !important;
                 height: 17px !important;
+                margin: 0 auto;
+                display: block;
             }
         }
 
@@ -316,29 +349,8 @@
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
-        body[light-mode="dark"] .mobile-invoice-summary-card,
-        html[light-mode="dark"] .mobile-invoice-summary-card {
-            background: #1e293b !important;
-            border-color: #334155 !important;
-        }
-        body[light-mode="dark"] .mobile-invoice-summary-card .border-bottom {
-            border-color: #334155 !important;
-        }
-        body[light-mode="dark"] .mobile-invoice-summary-card .text-dark,
-        html[light-mode="dark"] .mobile-invoice-summary-card .text-dark {
-            color: #f8fafc !important;
-        }
-        .mobile-invoice-summary-card .bg-total-box {
-            padding: 14px 16px !important;
-            border-radius: 10px !important;
-            margin-top: 14px !important;
-        }
-        body[light-mode="dark"] .mobile-invoice-summary-card .bg-total-box {
-            background: rgba(239, 68, 68, 0.15) !important;
-            border-color: rgba(239, 68, 68, 0.35) !important;
-        }
 
-        /* Terms & Conditions Footer Message Border Fix: Soft, clean border instead of black */
+        /* Terms & Conditions Footer Message */
         .invoice-container .footer-message {
             border: 1px solid #e2e8f0 !important;
             border-radius: 10px !important;
@@ -346,26 +358,246 @@
             margin-top: 18px !important;
             background: #f8fafc !important;
         }
+
+        /* ================= DARK MODE STYLES ================= */
+        body[light-mode="dark"] .return-page-header,
+        html[light-mode="dark"] .return-page-header,
+        body.dark-mode .return-page-header,
+        body[data-layout-mode="dark"] .return-page-header {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+        }
+
+        body[light-mode="dark"] .return-back-btn,
+        html[light-mode="dark"] .return-back-btn,
+        body.dark-mode .return-back-btn,
+        body[data-layout-mode="dark"] .return-back-btn {
+            background: #334155 !important;
+            color: #f8fafc !important;
+            border-color: #475569 !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+        }
+        body[light-mode="dark"] .return-back-btn:hover,
+        html[light-mode="dark"] .return-back-btn:hover,
+        body.dark-mode .return-back-btn:hover,
+        body[data-layout-mode="dark"] .return-back-btn:hover {
+            background: #475569 !important;
+            color: #c084fc !important;
+            border-color: #c084fc !important;
+        }
+
+        body[light-mode="dark"] .return-invoice-list-btn,
+        html[light-mode="dark"] .return-invoice-list-btn,
+        body.dark-mode .return-invoice-list-btn,
+        body[data-layout-mode="dark"] .return-invoice-list-btn {
+            background: rgba(140, 86, 212, 0.15) !important;
+            color: #c084fc !important;
+            border-color: #7c3aed !important;
+        }
+        body[light-mode="dark"] .return-invoice-list-btn:hover,
+        html[light-mode="dark"] .return-invoice-list-btn:hover,
+        body.dark-mode .return-invoice-list-btn:hover,
+        body[data-layout-mode="dark"] .return-invoice-list-btn:hover {
+            background: #7c3aed !important;
+            color: #ffffff !important;
+            border-color: #7c3aed !important;
+        }
+
+        body[light-mode="dark"] .invoice-container,
+        html[light-mode="dark"] .invoice-container,
+        body.dark-mode .invoice-container,
+        body[data-layout-mode="dark"] .invoice-container {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+            color: #f8fafc !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .billing-to,
+        html[light-mode="dark"] .invoice-container .billing-to,
+        body.dark-mode .invoice-container .billing-to,
+        body[data-layout-mode="dark"] .invoice-container .billing-to,
+        body[light-mode="dark"] .invoice-container .shop-details,
+        html[light-mode="dark"] .invoice-container .shop-details,
+        body.dark-mode .invoice-container .shop-details,
+        body[data-layout-mode="dark"] .invoice-container .shop-details {
+            background: #0f172a !important;
+            border-color: #334155 !important;
+            color: #f8fafc !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .billing-to h3,
+        html[light-mode="dark"] .invoice-container .billing-to h3,
+        body.dark-mode .invoice-container .billing-to h3,
+        body[data-layout-mode="dark"] .invoice-container .billing-to h3,
+        body[light-mode="dark"] .invoice-container .shop-details h3,
+        html[light-mode="dark"] .invoice-container .shop-details h3,
+        body.dark-mode .invoice-container .shop-details h3,
+        body[data-layout-mode="dark"] .invoice-container .shop-details h3 {
+            color: #c084fc !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .billing-to p,
+        html[light-mode="dark"] .invoice-container .billing-to p,
+        body.dark-mode .invoice-container .billing-to p,
+        body[data-layout-mode="dark"] .invoice-container .billing-to p,
+        body[light-mode="dark"] .invoice-container .shop-details p,
+        html[light-mode="dark"] .invoice-container .shop-details p,
+        body.dark-mode .invoice-container .shop-details p,
+        body[data-layout-mode="dark"] .invoice-container .shop-details p {
+            color: #cbd5e1 !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .billing-to strong,
+        html[light-mode="dark"] .invoice-container .billing-to strong,
+        body.dark-mode .invoice-container .billing-to strong,
+        body[data-layout-mode="dark"] .invoice-container .billing-to strong,
+        body[light-mode="dark"] .invoice-container .shop-details strong,
+        html[light-mode="dark"] .invoice-container .shop-details strong,
+        body.dark-mode .invoice-container .shop-details strong,
+        body[data-layout-mode="dark"] .invoice-container .shop-details strong,
+        body[light-mode="dark"] .invoice-container .text-dark,
+        html[light-mode="dark"] .invoice-container .text-dark,
+        body.dark-mode .invoice-container .text-dark,
+        body[data-layout-mode="dark"] .invoice-container .text-dark {
+            color: #f8fafc !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .text-muted,
+        html[light-mode="dark"] .invoice-container .text-muted,
+        body.dark-mode .invoice-container .text-muted,
+        body[data-layout-mode="dark"] .invoice-container .text-muted {
+            color: #94a3b8 !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .invoice-wrapper td,
+        html[light-mode="dark"] .invoice-container .invoice-wrapper td,
+        body.dark-mode .invoice-container .invoice-wrapper td,
+        body[data-layout-mode="dark"] .invoice-container .invoice-wrapper td {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            color: #f8fafc !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .invoice-wrapper .number,
+        html[light-mode="dark"] .invoice-container .invoice-wrapper .number,
+        body.dark-mode .invoice-container .invoice-wrapper .number,
+        body[data-layout-mode="dark"] .invoice-container .invoice-wrapper .number,
+        body[light-mode="dark"] .invoice-container .invoice-wrapper .date,
+        html[light-mode="dark"] .invoice-container .invoice-wrapper .date,
+        body.dark-mode .invoice-container .invoice-wrapper .date,
+        body[data-layout-mode="dark"] .invoice-container .invoice-wrapper .date {
+            background: #0f172a !important;
+            color: #cbd5e1 !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .logo-wrapper h2,
+        html[light-mode="dark"] .invoice-container .logo-wrapper h2,
+        body.dark-mode .invoice-container .logo-wrapper h2,
+        body[data-layout-mode="dark"] .invoice-container .logo-wrapper h2 {
+            color: #c084fc !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .invoice_table_list,
+        html[light-mode="dark"] .invoice-container .invoice_table_list,
+        body.dark-mode .invoice-container .invoice_table_list,
+        body[data-layout-mode="dark"] .invoice-container .invoice_table_list {
+            border-color: #334155 !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .invoice_table_list th,
+        html[light-mode="dark"] .invoice-container .invoice_table_list th,
+        body.dark-mode .invoice-container .invoice_table_list th,
+        body[data-layout-mode="dark"] .invoice-container .invoice_table_list th {
+            background-color: #0f172a !important;
+            color: #e2e8f0 !important;
+            border-color: #334155 !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .invoice_table_list td,
+        html[light-mode="dark"] .invoice-container .invoice_table_list td,
+        body.dark-mode .invoice-container .invoice_table_list td,
+        body[data-layout-mode="dark"] .invoice-container .invoice_table_list td {
+            background-color: #1e293b !important;
+            color: #f8fafc !important;
+            border-color: #334155 !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .invoice_table_list .amount_text,
+        html[light-mode="dark"] .invoice-container .invoice_table_list .amount_text,
+        body.dark-mode .invoice-container .invoice_table_list .amount_text,
+        body[data-layout-mode="dark"] .invoice-container .invoice_table_list .amount_text,
+        body[light-mode="dark"] .invoice-container .invoice_table_list .amount,
+        html[light-mode="dark"] .invoice-container .invoice_table_list .amount,
+        body.dark-mode .invoice-container .invoice_table_list .amount,
+        body[data-layout-mode="dark"] .invoice-container .invoice_table_list .amount {
+            background-color: #0f172a !important;
+            color: #f8fafc !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .return-quantity,
+        html[light-mode="dark"] .invoice-container .return-quantity,
+        body.dark-mode .invoice-container .return-quantity,
+        body[data-layout-mode="dark"] .invoice-container .return-quantity {
+            background: #0f172a !important;
+            color: #f8fafc !important;
+            border-color: #475569 !important;
+        }
+
+        body[light-mode="dark"] .invoice-container .return-quantity:focus,
+        html[light-mode="dark"] .invoice-container .return-quantity:focus,
+        body.dark-mode .invoice-container .return-quantity:focus,
+        body[data-layout-mode="dark"] .invoice-container .return-quantity:focus {
+            border-color: #8C56D4 !important;
+            box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.3) !important;
+        }
+
+        body[light-mode="dark"] .mobile-invoice-summary-card,
+        html[light-mode="dark"] .mobile-invoice-summary-card,
+        body.dark-mode .mobile-invoice-summary-card,
+        body[data-layout-mode="dark"] .mobile-invoice-summary-card {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        body[light-mode="dark"] .mobile-invoice-summary-card .border-bottom,
+        html[light-mode="dark"] .mobile-invoice-summary-card .border-bottom,
+        body.dark-mode .mobile-invoice-summary-card .border-bottom,
+        body[data-layout-mode="dark"] .mobile-invoice-summary-card .border-bottom {
+            border-color: #334155 !important;
+        }
+        body[light-mode="dark"] .mobile-invoice-summary-card .text-dark,
+        html[light-mode="dark"] .mobile-invoice-summary-card .text-dark,
+        body.dark-mode .mobile-invoice-summary-card .text-dark,
+        body[data-layout-mode="dark"] .mobile-invoice-summary-card .text-dark {
+            color: #f8fafc !important;
+        }
+        body[light-mode="dark"] .mobile-invoice-summary-card .bg-total-box,
+        html[light-mode="dark"] .mobile-invoice-summary-card .bg-total-box,
+        body.dark-mode .mobile-invoice-summary-card .bg-total-box,
+        body[data-layout-mode="dark"] .mobile-invoice-summary-card .bg-total-box {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border-color: rgba(239, 68, 68, 0.35) !important;
+        }
+
         body[light-mode="dark"] .invoice-container .footer-message,
-        html[light-mode="dark"] .invoice-container .footer-message {
+        html[light-mode="dark"] .invoice-container .footer-message,
+        body.dark-mode .invoice-container .footer-message,
+        body[data-layout-mode="dark"] .invoice-container .footer-message {
             background: #1e293b !important;
             border-color: #334155 !important;
         }
         body[light-mode="dark"] .invoice-container .footer-message p,
-        html[light-mode="dark"] .invoice-container .footer-message p {
+        html[light-mode="dark"] .invoice-container .footer-message p,
+        body.dark-mode .invoice-container .footer-message p,
+        body[data-layout-mode="dark"] .invoice-container .footer-message p {
             color: #94a3b8 !important;
         }
         body[light-mode="dark"] .invoice-container .footer-message strong,
-        html[light-mode="dark"] .invoice-container .footer-message strong {
+        html[light-mode="dark"] .invoice-container .footer-message strong,
+        body.dark-mode .invoice-container .footer-message strong,
+        body[data-layout-mode="dark"] .invoice-container .footer-message strong {
             color: #f8fafc !important;
-        }
-
-        /* Dark mode for Sticky Header */
-        body[light-mode="dark"] .return-page-header,
-        html[light-mode="dark"] .return-page-header {
-            background: #1e293b !important;
-            border-color: #334155 !important;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
         }
     </style>
 
@@ -374,14 +606,15 @@
         <div class="page-content">
             <!-- Top Header & Back Button -->
             <div class="return-page-header d-flex align-items-center justify-content-between flex-nowrap gap-2">
-                <a href="/admin-dashboard-invoice" class="return-back-btn" title="ইনভয়েস তালিকায় ফিরে যান">
+                <button type="button" onclick="handleReturnPageBack()" class="return-back-btn" title="তালিকায় ফিরে যান">
                     <i class="fa-solid fa-arrow-left"></i>
                     <span>ফিরে যান</span>
-                </a>
+                </button>
                 <div class="d-flex align-items-center gap-2 flex-nowrap">
-                    <span class="badge bg-purple-subtle text-purple border border-purple-subtle px-3 py-2 fw-bold d-none d-sm-inline-flex" style="font-size: 13px; border-radius: 8px;">
-                        <i class="fa-solid fa-rotate-left me-1"></i> পণ্য ফেরত ইনভয়েস
-                    </span>
+                    <a href="/admin-dashboard-return-list" class="return-invoice-list-btn d-none d-sm-inline-flex" title="পণ্য ফেরত ইনভয়েস তালিকায় যান">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span>পণ্য ফেরত ইনভয়েস</span>
+                    </a>
                     <button type="button" class="return-submit-btn" onclick="ReturnProductSave(event)">
                         <i class="fa-solid fa-rotate-left"></i>
                         <span>ফেরত নিশ্চিত করুন</span>
@@ -414,7 +647,7 @@
                     </div>
 
                     <div class="logo-wrapper">
-                        <h2>Invoice Return</h2>
+                        <h2>পণ্য ফেরত</h2>
                         <img src="{{ asset('back-end/assets/img/anis-store-logo.png') }}" alt="Anis Store Logo" />
                         <div class="button mt-2">
                             <button class="return-submit-btn" onclick="ReturnProductSave(event)">
@@ -596,8 +829,17 @@
     <!-- Hero Main Content End -->
 
     <script>
+        function handleReturnPageBack() {
+            if (document.referrer && document.referrer.includes(window.location.host) && document.referrer !== window.location.href) {
+                window.location.href = document.referrer;
+            } else if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/admin-dashboard-invoice';
+            }
+        }
 
-      async function ReturnProductSave(event) {
+        async function ReturnProductSave(event) {
             event.preventDefault();
 
             try {

@@ -5,4 +5,5 @@
     @include('components.back-end.Supplier.supplier-create')
     @include('components.back-end.Supplier.supplier-update')
     @include('components.back-end.Supplier.supplier-delete')
+    @include('components.back-end.Return.return-create')
 @endsection

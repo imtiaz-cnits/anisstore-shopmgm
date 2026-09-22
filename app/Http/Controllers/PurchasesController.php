@@ -48,7 +48,7 @@ class PurchasesController extends Controller
 public function PurchaseShowDetails($id)
 {
     // Fetch purchase invoice data with related supplier, order details, and payment details
-    $purchaseinvoicedata = Purchase::with(['supplier', 'orderDetails', 'paymentDetails'])->findOrFail($id);
+    $purchaseinvoicedata = Purchase::with(['supplier', 'orderDetails.product', 'paymentDetails'])->findOrFail($id);
 
     // Calculate Subtotal from Order Details
     $subTotal = $purchaseinvoicedata->orderDetails->sum(function ($orderDetail) {

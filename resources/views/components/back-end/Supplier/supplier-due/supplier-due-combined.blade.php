@@ -1,10 +1,14 @@
+<!-- Flatpickr CSS & JS per rules.md -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 <!-- Hero Main Content Start -->
 <div class="main-content">
     <div class="page-content" style="padding: 0px !important;">
         <!-- Table Start -->
-        <div class="data-table">
-            <div class="card border-0">
-                <div class="card-body p-3 p-lg-4">
+        <div class="data-table border-0 shadow-none bg-transparent">
+            <div class="card border-0 border-none shadow-none bg-transparent">
+                <div class="card-body border-0 p-0">
                     <!-- 1. Header: Left Title, Right Tab Switcher + Search & Filter on Mobile -->
                     <div class="invoice-card-header mb-3 pb-2 border-bottom d-flex align-items-start justify-content-between gap-2">
                         <div class="d-flex align-items-center gap-3 flex-grow-1" style="min-width: 0;">
@@ -201,71 +205,76 @@
 
 <!-- ================= MODERN PAYMENT COLLECTION MODAL ================= -->
 <div class="modal fade" id="editModal" aria-labelledby="editModalLabel" aria-hidden="true" style="z-index: 107000;">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 540px;">
-        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 520px; width: 100%;">
+        <div class="modal-content w-100 border-0 rounded-4 shadow-lg overflow-hidden p-0">
             <!-- Modal Header -->
             <div class="modal-header-purple p-3 px-4 d-flex align-items-center justify-content-between" style="background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important; color: #ffffff !important;">
-                <div class="d-flex align-items-center gap-2">
-                    <i class="fa-solid fa-hand-holding-dollar fs-5"></i>
-                    <h5 class="modal-title fw-bold m-0 text-white" id="editModalLabel" style="font-size: 17px;">সাপ্লায়ার বকেয়া পরিশোধ (Due Collection)</h5>
+                <div class="d-flex align-items-center gap-2 text-start flex-grow-1" style="min-width: 0; text-align: left !important;">
+                    <i class="fa-solid fa-hand-holding-dollar fs-5 flex-shrink-0"></i>
+                    <h5 class="modal-title fw-bold m-0 text-white text-start" id="editModalLabel" style="font-size: 16px; text-align: left !important; line-height: 1.3;">সাপ্লায়ার বকেয়া পরিশোধ (Due Collection)</h5>
                 </div>
-                <button type="button" class="btn-close-red" data-bs-dismiss="modal" aria-label="Close" onclick="closePaymentModal()">
+                <button type="button" class="btn-close-red flex-shrink-0 ms-2" data-bs-dismiss="modal" aria-label="Close" onclick="closePaymentModal()">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <!-- Modal Form with Scrollable Body and Sticky Bottom Action Buttons -->
-            <form id="paymentForm" onsubmit="SavePaymentInfo(event)" class="d-flex flex-column flex-grow-1 overflow-hidden m-0">
+            <form id="paymentForm" onsubmit="SavePaymentInfo(event)" class="d-flex flex-column w-100 flex-grow-1 overflow-hidden m-0 p-0">
                 <input type="hidden" id="updateID">
 
                 <div class="modal-body p-3 p-md-4 flex-grow-1 overflow-y-auto">
                     <!-- Date & Dues Summary Card -->
-                    <div class="p-3 mb-3 rounded-3" style="background: #FAF7FD; border: 1.5px solid #E5D5F7;">
+                    <div class="modal-dues-summary-card p-3 mb-3 rounded-3 w-100">
                         <div class="mb-2.5">
-                            <label for="DueCollectionDate" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">পরিশোধের তারিখ *</label>
-                            <input type="date" class="form-control invoice-search-input" id="DueCollectionDate" required>
+                            <label for="DueCollectionDate" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">পরিশোধের তারিখ *</label>
+                            <div class="position-relative w-100">
+                                <input type="text" class="form-control invoice-search-input custom-flatpickr-input text-start w-100 ps-3 pe-5" id="DueCollectionDate" placeholder="DD-MM-YYYY" readonly autocomplete="off" required style="font-size: 14px; font-weight: 500; width: 100% !important;">
+                                <span class="position-absolute end-0 top-50 translate-middle-y me-3 text-muted" style="pointer-events: none;">
+                                    <i class="fa-regular fa-calendar-days" style="color: #8C56D4;"></i>
+                                </span>
+                            </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
-                            <span class="text-muted small">সাপ্লায়ার পূর্বের বকেয়া:</span>
-                            <span class="fw-bold text-dark" id="SupplierPreviousDue">৳ ০.০০</span>
+                            <span class="text-muted small dues-label text-start">সাপ্লায়ার পূর্বের বকেয়া:</span>
+                            <span class="fw-bold text-dark dues-val" id="SupplierPreviousDue">৳ ০.০০</span>
                         </div>
                         <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
-                            <span class="text-muted small">পারচেস পূর্বের বকেয়া:</span>
-                            <span class="fw-bold text-dark" id="PurchasePreviousDue">৳ ০.০০</span>
+                            <span class="text-muted small dues-label text-start">পারচেস পূর্বের বকেয়া:</span>
+                            <span class="fw-bold text-dark dues-val" id="PurchasePreviousDue">৳ ০.০০</span>
                         </div>
                         <div class="d-flex align-items-center justify-content-between py-1.5">
-                            <span class="fw-bold text-slate-800">মোট পূর্বের বকেয়া:</span>
+                            <span class="fw-bold text-slate-800 dues-total-label text-start">মোট পূর্বের বকেয়া:</span>
                             <span class="fw-bold text-danger fs-6" id="TotalPreviousDue" data-raw="0">৳ ০.০০</span>
                         </div>
                     </div>
 
                     <!-- Discount & Pay Amount Inputs -->
-                    <div class="row g-2 mb-3">
-                        <div class="col-6">
-                            <label for="DiscountAmount" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">ছাড় (Discount)</label>
-                            <input type="number" inputmode="decimal" step="any" min="0" id="DiscountAmount" class="form-control invoice-search-input" oninput="calculateDuePayment()" placeholder="৳ ০.০০">
+                    <div class="row g-2 mb-3 w-100 m-0">
+                        <div class="col-6 ps-0 pe-1">
+                            <label for="DiscountAmount" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">ছাড় (Discount)</label>
+                            <input type="number" inputmode="decimal" pattern="[0-9]*" step="any" min="0" id="DiscountAmount" class="form-control invoice-search-input text-start w-100 ps-3" oninput="calculateDuePayment()" placeholder="৳ ০.০০" style="width: 100% !important;">
                         </div>
-                        <div class="col-6">
-                            <label for="PayAmount" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">পরিশোধিত টাকা *</label>
-                            <input type="number" inputmode="decimal" step="any" min="0" id="PayAmount" class="form-control invoice-search-input" oninput="calculateDuePayment()" placeholder="৳ ০.০০" required>
+                        <div class="col-6 ps-1 pe-0">
+                            <label for="PayAmount" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">পরিশোধিত টাকা *</label>
+                            <input type="number" inputmode="decimal" pattern="[0-9]*" step="any" min="0" id="PayAmount" class="form-control invoice-search-input text-start fw-bold w-100 ps-3" oninput="calculateDuePayment()" placeholder="৳ ০.০০" required style="width: 100% !important;">
                         </div>
                     </div>
 
                     <!-- Calculation Status Box -->
-                    <div class="p-2.5 px-3 mb-3 rounded-3 d-flex align-items-center justify-content-between" style="background: #F3ECFB; border: 1px solid #E5D5F7;">
-                        <div>
-                            <span class="text-muted small d-block" style="font-size: 11px;">অবশিষ্ট বকেয়া:</span>
+                    <div class="modal-calc-status-box p-2.5 px-3 mb-3 rounded-3 d-flex align-items-center justify-content-between w-100">
+                        <div class="text-start">
+                            <span class="text-muted small d-block status-label text-start" style="font-size: 11px;">অবশিষ্ট বকেয়া:</span>
                             <span class="fw-bold text-danger fs-6" id="FinalDueAmount">৳ ০.০০</span>
                         </div>
                         <div class="text-end">
-                            <span class="text-muted small d-block" style="font-size: 11px;">পেমেন্ট স্ট্যাটাস:</span>
-                            <span class="badge bg-secondary px-2.5 py-1 fw-bold" id="ShowpaymentStatusDisplay" style="font-size: 11px;">Pending</span>
+                            <span class="text-muted small d-block status-label" style="font-size: 11px;">পেমেন্ট স্ট্যাটাস:</span>
+                            <span class="badge bg-secondary px-2.5 py-1 fw-bold" id="ShowpaymentStatusDisplay" style="font-size: 11px; border-radius: 12px;">Pending</span>
                         </div>
                     </div>
 
                     <!-- Payment Method Select -->
-                    <div class="mb-3">
-                        <label class="form-label mb-1.5 fw-semibold text-slate-700 small" style="font-size: 12.5px;">পেমেন্ট মাধ্যম *</label>
+                    <div class="mb-3 w-100">
+                        <label class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">পেমেন্ট মাধ্যম *</label>
                         <div class="payment-method-grid d-flex flex-wrap gap-2">
                             <label class="payment-chip-btn active" onclick="selectPaymentChip('cash')">
                                 <input type="radio" name="payment" id="cash" value="cash" checked style="display: none;">
@@ -295,15 +304,15 @@
                     </div>
 
                     <!-- Transaction ID Field (Shown for non-cash) -->
-                    <div class="mb-3" id="transactionIdWrapper" style="display: none;">
-                        <label for="transactionInput" class="form-label mb-1 fw-semibold text-slate-700 small" style="font-size: 12.5px;">ট্রানজেকশন আইডি (Transaction ID)</label>
-                        <input type="text" id="transactionInput" class="form-control invoice-search-input" placeholder="ট্রানজেকশন আইডি লিখুন...">
+                    <div class="mb-3 w-100" id="transactionIdWrapper" style="display: none;">
+                        <label for="transactionInput" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">ট্রানজেকশন আইডি</label>
+                        <input type="text" id="transactionInput" class="form-control invoice-search-input text-start w-100 ps-3" placeholder="ট্রানজেকশন আইডি লিখুন..." style="width: 100% !important;">
                     </div>
                 </div>
 
                 <!-- Sticky Bottom Action Buttons right above keyboard -->
-                <div class="modal-sticky-footer p-3 border-top">
-                    <div class="d-flex align-items-center gap-2">
+                <div class="modal-sticky-footer p-3 border-top w-100">
+                    <div class="d-flex align-items-center gap-2 w-100">
                         <button type="button" class="btn btn-cancel-red py-2 px-3 fw-bold flex-grow-1" data-bs-dismiss="modal" onclick="closePaymentModal()" style="height: 44px; border-radius: 10px; font-size: 14px;">
                             <i class="fa-solid fa-xmark me-1"></i> বাতিল
                         </button>
@@ -314,6 +323,8 @@
                 </div>
             </form>
         </div>
+    </div>
+</div>
     </div>
 </div>
 
@@ -884,19 +895,431 @@
     body.dark-mode .invoice-summary-strip .summary-label {
         color: #94a3b8 !important;
     }
+    /* Modal Dues Summary Card & Calc Box (Light Mode Default) */
+    .modal-dues-summary-card {
+        background-color: #FAF7FD;
+        border: 1.5px solid #E5D5F7;
+    }
+    .modal-calc-status-box {
+        background-color: #F3ECFB;
+        border: 1px solid #E5D5F7;
+        padding: 6px !important;
+    }
+
+    /* Flatpickr Royal Purple Theme & High Z-Index for Modals */
+    .flatpickr-calendar {
+        background: #ffffff !important;
+        border: 1px solid #E5D5F7 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 16px 40px rgba(140, 86, 212, 0.25) !important;
+        font-family: inherit !important;
+        z-index: 999999 !important;
+    }
+    .flatpickr-calendar .flatpickr-months {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        border-top-left-radius: 11px !important;
+        border-top-right-radius: 11px !important;
+        color: #ffffff !important;
+        padding: 6px 0 !important;
+    }
+    .flatpickr-calendar .flatpickr-month {
+        color: #ffffff !important;
+        fill: #ffffff !important;
+    }
+    .flatpickr-current-month {
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        padding-top: 4px !important;
+    }
+    .flatpickr-current-month .cur-month {
+        font-weight: 700 !important;
+        color: #ffffff !important;
+        margin-right: 4px !important;
+    }
+    .flatpickr-current-month .flatpickr-monthDropdown-months,
+    .flatpickr-current-month input.cur-year {
+        color: #ffffff !important;
+        font-weight: 700 !important;
+    }
+    .flatpickr-calendar .flatpickr-prev-month,
+    .flatpickr-calendar .flatpickr-next-month {
+        fill: #ffffff !important;
+        color: #ffffff !important;
+        padding: 6px 10px !important;
+        top: 2px !important;
+    }
+    .flatpickr-calendar .flatpickr-prev-month svg,
+    .flatpickr-calendar .flatpickr-next-month svg {
+        fill: #ffffff !important;
+        width: 14px !important;
+        height: 14px !important;
+    }
+    .flatpickr-calendar .flatpickr-prev-month:hover svg,
+    .flatpickr-calendar .flatpickr-next-month:hover svg {
+        fill: #E5D5F7 !important;
+    }
+    .flatpickr-calendar .flatpickr-weekdays {
+        background-color: #793FC5 !important;
+        height: 30px !important;
+    }
+    .flatpickr-calendar span.flatpickr-weekday {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        font-size: 12px !important;
+    }
+    .flatpickr-calendar .flatpickr-day {
+        background-color: #ffffff;
+        border-radius: 8px !important;
+        color: #1e293b;
+        font-weight: 500;
+    }
+    .flatpickr-calendar .flatpickr-day:hover {
+        background-color: #F3ECFB !important;
+        color: #8C56D4 !important;
+        border-color: #E5D5F7 !important;
+    }
+    .flatpickr-calendar .flatpickr-day.selected,
+    .flatpickr-calendar .flatpickr-day.selected:hover {
+        background-color: #8C56D4 !important;
+        border-color: #8C56D4 !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+    }
+    .flatpickr-calendar .flatpickr-day.today {
+        border-color: #8C56D4 !important;
+    }
+    .flatpickr-calendar .flatpickr-arrow svg {
+        fill: #ffffff !important;
+    }
+
+    /* Dark Mode Flatpickr */
+    body[light-mode="dark"] .flatpickr-calendar,
+    html[light-mode="dark"] .flatpickr-calendar,
+    body[data-layout-mode="dark"] .flatpickr-calendar,
+    body.dark-mode .flatpickr-calendar {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important;
+    }
+    body[light-mode="dark"] .flatpickr-calendar .flatpickr-day,
+    html[light-mode="dark"] .flatpickr-calendar .flatpickr-day,
+    body[data-layout-mode="dark"] .flatpickr-calendar .flatpickr-day,
+    body.dark-mode .flatpickr-calendar .flatpickr-day {
+        background-color: #1e293b;
+        color: #f8fafc;
+    }
+    body[light-mode="dark"] .flatpickr-calendar .flatpickr-day:hover,
+    html[light-mode="dark"] .flatpickr-calendar .flatpickr-day:hover,
+    body[data-layout-mode="dark"] .flatpickr-calendar .flatpickr-day:hover,
+    body.dark-mode .flatpickr-calendar .flatpickr-day:hover {
+        background-color: #334155 !important;
+        color: #c084fc !important;
+    }
+    body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.selected,
+    html[light-mode="dark"] .flatpickr-calendar .flatpickr-day.selected,
+    body[data-layout-mode="dark"] .flatpickr-calendar .flatpickr-day.selected,
+    body.dark-mode .flatpickr-calendar .flatpickr-day.selected {
+        background-color: #8C56D4 !important;
+        color: #ffffff !important;
+    }
+
+    /* ===== Payment Modal Base Styles (Light Mode) ===== */
+    #editModal.modal {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    #editModal .modal-dialog {
+        padding: 0 !important;
+    }
+    #editModal .modal-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        padding: 0 !important;
+        border: none !important;
+    }
+    #editModal #paymentForm {
+        width: 100% !important;
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    #editModal .modal-body {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+    }
+    #editModal .modal-sticky-footer {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        border-top: 1px solid #e2e8f0 !important;
+    }
+
+    /* Standardized Form Inputs inside Modal - Full Width & Left Aligned */
+    #editModal .form-control,
+    #editModal .invoice-search-input,
+    #editModal .custom-flatpickr-input {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        height: 42px !important;
+        display: block !important;
+        text-align: left !important;
+        box-sizing: border-box !important;
+    }
+    #editModal .modal-title,
+    #editModal .modal-header-purple,
+    #editModal .modal-header-purple * {
+        text-align: left !important;
+    }
+    #editModal label:not(.payment-chip-btn),
+    #editModal .form-label:not(.payment-chip-btn),
+    #editModal .dues-label,
+    #editModal .dues-total-label,
+    #editModal .status-label {
+        text-align: left !important;
+        display: block !important;
+        width: 100% !important;
+    }
+    #editModal .payment-chip-btn {
+        display: inline-flex !important;
+        width: auto !important;
+        min-width: auto !important;
+        max-width: fit-content !important;
+        flex: 0 0 auto !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 7px 14px !important;
+        height: 38px !important;
+        margin: 0 !important;
+        cursor: pointer !important;
+        white-space: nowrap !important;
+    }
+
+    /* Modal Dark Mode Theme Overrides - Strict Fix for White Backgrounds & Dark Borders */
+    [data-bs-theme="dark"] #editModal *,
+    [data-theme="dark"] #editModal *,
+    html.dark #editModal *,
+    body.dark #editModal *,
+    body[light-mode="dark"] #editModal *,
+    html[light-mode="dark"] #editModal *,
+    body[data-layout-mode="dark"] #editModal *,
+    html[data-layout-mode="dark"] #editModal *,
+    body.dark-mode #editModal *,
+    html.dark-mode #editModal * {
+        --bs-border-color: #334155 !important;
+        --bs-border-color-translucent: #334155 !important;
+    }
+
+    [data-bs-theme="dark"] #editModal .modal-content,
+    [data-theme="dark"] #editModal .modal-content,
+    html.dark #editModal .modal-content,
+    body.dark #editModal .modal-content,
     body[light-mode="dark"] #editModal .modal-content,
+    html[light-mode="dark"] #editModal .modal-content,
     body[data-layout-mode="dark"] #editModal .modal-content,
-    body.dark-mode #editModal .modal-content {
+    html[data-layout-mode="dark"] #editModal .modal-content,
+    body.dark-mode #editModal .modal-content,
+    html.dark-mode #editModal .modal-content {
         background-color: #1e293b !important;
+        background: #1e293b !important;
+        border: 1px solid #334155 !important;
+        color: #f8fafc !important;
+    }
+    [data-bs-theme="dark"] #editModal #paymentForm,
+    [data-theme="dark"] #editModal #paymentForm,
+    html.dark #editModal #paymentForm,
+    body.dark #editModal #paymentForm,
+    body[light-mode="dark"] #editModal #paymentForm,
+    html[light-mode="dark"] #editModal #paymentForm,
+    body[data-layout-mode="dark"] #editModal #paymentForm,
+    html[data-layout-mode="dark"] #editModal #paymentForm,
+    body.dark-mode #editModal #paymentForm,
+    html.dark-mode #editModal #paymentForm {
+        background-color: #1e293b !important;
+        background: #1e293b !important;
+    }
+    [data-bs-theme="dark"] #editModal .modal-body,
+    [data-theme="dark"] #editModal .modal-body,
+    html.dark #editModal .modal-body,
+    body.dark #editModal .modal-body,
+    body[light-mode="dark"] #editModal .modal-body,
+    html[light-mode="dark"] #editModal .modal-body,
+    body[data-layout-mode="dark"] #editModal .modal-body,
+    html[data-layout-mode="dark"] #editModal .modal-body,
+    body.dark-mode #editModal .modal-body,
+    html.dark-mode #editModal .modal-body {
+        background-color: #1e293b !important;
+        background: #1e293b !important;
+        color: #f8fafc !important;
+    }
+    [data-bs-theme="dark"] #editModal .modal-dues-summary-card,
+    [data-theme="dark"] #editModal .modal-dues-summary-card,
+    html.dark #editModal .modal-dues-summary-card,
+    body.dark #editModal .modal-dues-summary-card,
+    body[light-mode="dark"] #editModal .modal-dues-summary-card,
+    html[light-mode="dark"] #editModal .modal-dues-summary-card,
+    body[data-layout-mode="dark"] #editModal .modal-dues-summary-card,
+    html[data-layout-mode="dark"] #editModal .modal-dues-summary-card,
+    body.dark-mode #editModal .modal-dues-summary-card,
+    html.dark-mode #editModal .modal-dues-summary-card,
+    [data-bs-theme="dark"] #editModal .modal-calc-status-box,
+    [data-theme="dark"] #editModal .modal-calc-status-box,
+    html.dark #editModal .modal-calc-status-box,
+    body.dark #editModal .modal-calc-status-box,
+    body[light-mode="dark"] #editModal .modal-calc-status-box,
+    html[light-mode="dark"] #editModal .modal-calc-status-box,
+    body[data-layout-mode="dark"] #editModal .modal-calc-status-box,
+    html[data-layout-mode="dark"] #editModal .modal-calc-status-box,
+    body.dark-mode #editModal .modal-calc-status-box,
+    html.dark-mode #editModal .modal-calc-status-box {
+        background-color: #0f172a !important;
+        background: #0f172a !important;
+        border: 1px solid #334155 !important;
         border-color: #334155 !important;
         color: #f8fafc !important;
     }
-    body[light-mode="dark"] #editModal .modal-body .p-3,
-    body[data-layout-mode="dark"] #editModal .modal-body .p-3,
-    body.dark-mode #editModal .modal-body .p-3 {
-        background-color: #0f172a !important;
+    [data-bs-theme="dark"] #editModal .border-bottom,
+    [data-theme="dark"] #editModal .border-bottom,
+    html.dark #editModal .border-bottom,
+    body.dark #editModal .border-bottom,
+    body[light-mode="dark"] #editModal .border-bottom,
+    html[light-mode="dark"] #editModal .border-bottom,
+    body[data-layout-mode="dark"] #editModal .border-bottom,
+    html[data-layout-mode="dark"] #editModal .border-bottom,
+    body.dark-mode #editModal .border-bottom,
+    html.dark-mode #editModal .border-bottom {
+        border-bottom: 1px solid #334155 !important;
         border-color: #334155 !important;
     }
+    [data-bs-theme="dark"] #editModal .border-top,
+    [data-theme="dark"] #editModal .border-top,
+    html.dark #editModal .border-top,
+    body.dark #editModal .border-top,
+    body[light-mode="dark"] #editModal .border-top,
+    html[light-mode="dark"] #editModal .border-top,
+    body[data-layout-mode="dark"] #editModal .border-top,
+    html[data-layout-mode="dark"] #editModal .border-top,
+    body.dark-mode #editModal .border-top,
+    html.dark-mode #editModal .border-top {
+        border-top: 1px solid #334155 !important;
+        border-color: #334155 !important;
+    }
+    [data-bs-theme="dark"] #editModal table,
+    [data-bs-theme="dark"] #editModal th,
+    [data-bs-theme="dark"] #editModal td,
+    [data-bs-theme="dark"] #editModal tr,
+    body[light-mode="dark"] #editModal table,
+    body[light-mode="dark"] #editModal th,
+    body[light-mode="dark"] #editModal td,
+    body[light-mode="dark"] #editModal tr,
+    body[data-layout-mode="dark"] #editModal table,
+    body[data-layout-mode="dark"] #editModal th,
+    body[data-layout-mode="dark"] #editModal td,
+    body[data-layout-mode="dark"] #editModal tr,
+    body.dark-mode #editModal table,
+    body.dark-mode #editModal th,
+    body.dark-mode #editModal td,
+    body.dark-mode #editModal tr {
+        border-color: #334155 !important;
+    }
+    [data-bs-theme="dark"] #editModal label,
+    [data-theme="dark"] #editModal label,
+    html.dark #editModal label,
+    body.dark #editModal label,
+    body[light-mode="dark"] #editModal label,
+    html[light-mode="dark"] #editModal label,
+    body[data-layout-mode="dark"] #editModal label,
+    html[data-layout-mode="dark"] #editModal label,
+    body.dark-mode #editModal label,
+    html.dark-mode #editModal label {
+        color: #cbd5e1 !important;
+    }
+    [data-bs-theme="dark"] #editModal .dues-val,
+    [data-theme="dark"] #editModal .dues-val,
+    html.dark #editModal .dues-val,
+    body.dark #editModal .dues-val,
+    body[light-mode="dark"] #editModal .dues-val,
+    html[light-mode="dark"] #editModal .dues-val,
+    body[data-layout-mode="dark"] #editModal .dues-val,
+    html[data-layout-mode="dark"] #editModal .dues-val,
+    body.dark-mode #editModal .dues-val,
+    html.dark-mode #editModal .dues-val,
+    [data-bs-theme="dark"] #editModal .dues-total-label,
+    [data-theme="dark"] #editModal .dues-total-label,
+    html.dark #editModal .dues-total-label,
+    body.dark #editModal .dues-total-label,
+    body[light-mode="dark"] #editModal .dues-total-label,
+    html[light-mode="dark"] #editModal .dues-total-label,
+    body[data-layout-mode="dark"] #editModal .dues-total-label,
+    html[data-layout-mode="dark"] #editModal .dues-total-label,
+    body.dark-mode #editModal .dues-total-label,
+    html.dark-mode #editModal .dues-total-label {
+        color: #f8fafc !important;
+    }
+    [data-bs-theme="dark"] #editModal .status-label,
+    [data-theme="dark"] #editModal .status-label,
+    html.dark #editModal .status-label,
+    body.dark #editModal .status-label,
+    body[light-mode="dark"] #editModal .status-label,
+    html[light-mode="dark"] #editModal .status-label,
+    body[data-layout-mode="dark"] #editModal .status-label,
+    html[data-layout-mode="dark"] #editModal .status-label,
+    body.dark-mode #editModal .status-label,
+    html.dark-mode #editModal .status-label,
+    [data-bs-theme="dark"] #editModal .dues-label,
+    [data-theme="dark"] #editModal .dues-label,
+    html.dark #editModal .dues-label,
+    body.dark #editModal .dues-label,
+    body[light-mode="dark"] #editModal .dues-label,
+    html[light-mode="dark"] #editModal .dues-label,
+    body[data-layout-mode="dark"] #editModal .dues-label,
+    html[data-layout-mode="dark"] #editModal .dues-label,
+    body.dark-mode #editModal .dues-label,
+    html.dark-mode #editModal .dues-label {
+        color: #94a3b8 !important;
+    }
+    [data-bs-theme="dark"] #editModal .text-danger,
+    [data-theme="dark"] #editModal .text-danger,
+    html.dark #editModal .text-danger,
+    body.dark #editModal .text-danger,
+    body[light-mode="dark"] #editModal .text-danger,
+    html[light-mode="dark"] #editModal .text-danger,
+    body[data-layout-mode="dark"] #editModal .text-danger,
+    html[data-layout-mode="dark"] #editModal .text-danger,
+    body.dark-mode #editModal .text-danger,
+    html.dark-mode #editModal .text-danger {
+        color: #f87171 !important;
+    }
+    [data-bs-theme="dark"] #editModal .invoice-search-input,
+    [data-theme="dark"] #editModal .invoice-search-input,
+    html.dark #editModal .invoice-search-input,
+    body.dark #editModal .invoice-search-input,
+    body[light-mode="dark"] #editModal .invoice-search-input,
+    html[light-mode="dark"] #editModal .invoice-search-input,
+    body[data-layout-mode="dark"] #editModal .invoice-search-input,
+    html[data-layout-mode="dark"] #editModal .invoice-search-input,
+    body.dark-mode #editModal .invoice-search-input,
+    html.dark-mode #editModal .invoice-search-input,
+    [data-bs-theme="dark"] #editModal .form-control,
+    [data-theme="dark"] #editModal .form-control,
+    html.dark #editModal .form-control,
+    body.dark #editModal .form-control,
+    body[light-mode="dark"] #editModal .form-control,
+    html[light-mode="dark"] #editModal .form-control,
+    body[data-layout-mode="dark"] #editModal .form-control,
+    html[data-layout-mode="dark"] #editModal .form-control,
+    body.dark-mode #editModal .form-control,
+    html.dark-mode #editModal .form-control {
+        background-color: #0f172a !important;
+        background: #0f172a !important;
+        border: 1px solid #334155 !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    [data-bs-theme="dark"] #editModal .payment-chip-btn,
     body[light-mode="dark"] #editModal .payment-chip-btn,
     body[data-layout-mode="dark"] #editModal .payment-chip-btn,
     body.dark-mode #editModal .payment-chip-btn {
@@ -904,6 +1327,7 @@
         border-color: #334155 !important;
         color: #cbd5e1 !important;
     }
+    [data-bs-theme="dark"] #editModal .payment-chip-btn.active,
     body[light-mode="dark"] #editModal .payment-chip-btn.active,
     body[data-layout-mode="dark"] #editModal .payment-chip-btn.active,
     body.dark-mode #editModal .payment-chip-btn.active {
@@ -915,6 +1339,8 @@
     @media screen and (max-width: 991.98px) {
         #editModal.modal {
             padding: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
             position: fixed !important;
             top: 0 !important;
             left: 0 !important;
@@ -925,7 +1351,7 @@
             height: 100dvh !important;
             display: none;
             overflow: hidden !important;
-            background: rgba(15, 23, 42, 0.65) !important;
+            background: rgba(15, 23, 42, 0.75) !important;
             backdrop-filter: blur(8px) !important;
             -webkit-backdrop-filter: blur(8px) !important;
             z-index: 107000 !important;
@@ -940,6 +1366,7 @@
 
         #editModal .modal-dialog {
             margin: 0 !important;
+            padding: 0 !important;
             width: 100% !important;
             max-width: 100% !important;
             position: fixed !important;
@@ -957,15 +1384,19 @@
 
         #editModal .modal-content {
             border-radius: 0 !important;
-            border-top-left-radius: 24px !important;
-            border-top-right-radius: 24px !important;
-            max-height: 85vh !important;
-            max-height: 85dvh !important;
+            border-top-left-radius: 20px !important;
+            border-top-right-radius: 20px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            max-height: 90vh !important;
+            max-height: 90dvh !important;
             display: flex !important;
             flex-direction: column !important;
             overflow: hidden !important;
             margin: 0 !important;
-            box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.35) !important;
+            padding: 0 !important;
+            border: none !important;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35) !important;
             animation: slideUpSupplierDueModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
 
@@ -976,8 +1407,8 @@
 
         #editModal .modal-body {
             flex: 1 1 auto !important;
-            max-height: calc(85vh - 130px) !important;
-            max-height: calc(85dvh - 130px) !important;
+            max-height: calc(90vh - 130px) !important;
+            max-height: calc(90dvh - 130px) !important;
             overflow-y: auto !important;
             -webkit-overflow-scrolling: touch;
             padding: 14px 16px !important;
@@ -987,17 +1418,24 @@
             flex: 0 0 auto !important;
             position: sticky !important;
             bottom: 0 !important;
-            background: #ffffff !important;
+            width: 100% !important;
             z-index: 100 !important;
-            border-top: 1px solid #e2e8f0 !important;
             padding: 10px 16px !important;
             box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05) !important;
         }
     }
 
+    [data-bs-theme="dark"] #editModal .modal-sticky-footer,
+    [data-theme="dark"] #editModal .modal-sticky-footer,
+    html.dark #editModal .modal-sticky-footer,
+    body.dark #editModal .modal-sticky-footer,
     body[light-mode="dark"] #editModal .modal-sticky-footer,
+    html[light-mode="dark"] #editModal .modal-sticky-footer,
     body[data-layout-mode="dark"] #editModal .modal-sticky-footer,
-    body.dark-mode #editModal .modal-sticky-footer {
+    html[data-layout-mode="dark"] #editModal .modal-sticky-footer,
+    body.dark-mode #editModal .modal-sticky-footer,
+    html.dark-mode #editModal .modal-sticky-footer {
+        background-color: #1e293b !important;
         background: #1e293b !important;
         border-color: #334155 !important;
     }
@@ -1010,9 +1448,25 @@
     let rawDueData = [];
     let rawCollectionData = [];
     let currentFilter = 'all';
+    let dueDatePicker = null;
+
+    function initDueDatePicker() {
+        if (typeof flatpickr !== 'undefined') {
+            dueDatePicker = flatpickr("#DueCollectionDate", {
+                dateFormat: "d-m-Y",
+                defaultDate: new Date(),
+                disableMobile: true,
+                allowInput: true,
+                monthSelectorType: "static"
+            });
+        } else {
+            setTimeout(initDueDatePicker, 100);
+        }
+    }
 
     $(document).ready(function() {
         $("#entries").val("50");
+        initDueDatePicker();
         
         // Check if query or URL hash requests collection tab
         if (window.location.pathname.includes('supplier-due-collection-page') || window.location.hash === '#collection') {
@@ -1254,60 +1708,61 @@
                 tableList.append(row);
                 let mobileCard = `
                     <div class="col-12 col-md-6">
-                        <a href="/supplier/profile/${item['id']}" class="text-decoration-none d-block h-100">
                         <div class="invoice-mobile-card d-flex flex-column justify-content-between h-100">
-                            <div>
-                                <!-- Header -->
-                                <div class="d-flex align-items-center justify-content-between pb-2 mb-2 border-bottom">
-                                    <div class="d-flex align-items-center gap-1.5">
-                                        <span class="badge bg-secondary-subtle text-secondary fw-bold" style="font-size: 10px;">#${realIndex + 1}</span>
-                                        <span class="badge bg-light text-dark border fw-bold" style="font-size: 11px;">
-                                            <i class="fa-solid fa-truck-field me-1" style="color: #8C56D4;"></i>${item['supplier_id']}
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span class="badge ${statusBadgeClass} px-2 py-1 fw-bold" style="font-size: 10px; border-radius: 12px;">
-                                            ${item['status'] || 'Active'}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <!-- Body: Profile Left | Due Amounts Right -->
-                                <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
-                                    <div class="d-flex align-items-center gap-2 flex-shrink-1 overflow-hidden">
-                                        <img src="${img_url}" class="rounded-circle border shadow-sm flex-shrink-0" style="width: 44px; height: 44px; object-fit: cover;" onerror="this.src='{{ asset('back-end/assets/img/demo-img.jpeg') }}'"></i>
-                                        <div class="overflow-hidden">
-                                            <h6 class="fw-bold text-dark mb-0 text-truncate" style="font-size: 13.5px;">${item['name']}</h6>
-                                            <span class="text-muted text-truncate d-block" style="font-size: 11px;">
-                                                <i class="fa-solid fa-building me-1"></i>${item['company'] || 'কোম্পানি নেই'}
+                            <!-- Clickable Card Body Linking to Profile -->
+                            <a href="/supplier/profile/${item['id']}" class="text-decoration-none d-block flex-grow-1">
+                                <div>
+                                    <!-- Header -->
+                                    <div class="d-flex align-items-center justify-content-between pb-2 mb-2 border-bottom">
+                                        <div class="d-flex align-items-center gap-1.5">
+                                            <span class="badge bg-secondary-subtle text-secondary fw-bold" style="font-size: 10px;">#${realIndex + 1}</span>
+                                            <span class="badge bg-light text-dark border fw-bold" style="font-size: 11px;">
+                                                <i class="fa-solid fa-truck-field me-1" style="color: #8C56D4;"></i>${item['supplier_id']}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span class="badge ${statusBadgeClass} px-2 py-1 fw-bold" style="font-size: 10px; border-radius: 12px;">
+                                                ${item['status'] || 'Active'}
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="flex-shrink-0 ms-1 invoice-summary-strip rounded-3 p-1.5 px-2" style="min-width: 130px;">
-                                        <div class="d-flex align-items-center justify-content-between gap-2 pb-0.5 border-bottom">
-                                            <span style="font-size: 9.5px; color: #64748b; white-space: nowrap;">পূর্বের বকেয়া:</span>
-                                            <span class="fw-semibold text-secondary" style="font-size: 10.5px; white-space: nowrap;">৳ ${payableAmount.toFixed(2)}</span>
+
+                                    <!-- Body: Profile Left | Due Amounts Right -->
+                                    <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                                        <div class="d-flex align-items-center gap-2 flex-shrink-1 overflow-hidden">
+                                            <img src="${img_url}" class="rounded-circle border shadow-sm flex-shrink-0" style="width: 44px; height: 44px; object-fit: cover;" onerror="this.src='{{ asset('back-end/assets/img/demo-img.jpeg') }}'">
+                                            <div class="overflow-hidden">
+                                                <h6 class="fw-bold text-dark mb-0 text-truncate" style="font-size: 13.5px;">${item['name']}</h6>
+                                                <span class="text-muted text-truncate d-block" style="font-size: 11px;">
+                                                    <i class="fa-solid fa-building me-1"></i>${item['company'] || 'কোম্পানি নেই'}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div class="d-flex align-items-center justify-content-between gap-2 py-0.5 border-bottom">
-                                            <span style="font-size: 9.5px; color: #64748b; white-space: nowrap;">ইনভয়েস বকেয়া:</span>
-                                            <span class="fw-semibold text-secondary" style="font-size: 10.5px; white-space: nowrap;">৳ ${invoiceDue.toFixed(2)}</span>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between gap-2 pt-0.5">
-                                            <span style="font-size: 10px; color: #1e293b; font-weight: 700; white-space: nowrap;">মোট বকেয়া:</span>
-                                            <span class="fw-bold ${grandDue > 0 ? 'text-danger' : 'text-dark'}" style="font-size: 11px; white-space: nowrap;">৳ ${grandDue.toFixed(2)}</span>
+                                        <div class="flex-shrink-0 ms-1 invoice-summary-strip rounded-3 p-1.5 px-2" style="min-width: 130px;">
+                                            <div class="d-flex align-items-center justify-content-between gap-2 pb-0.5 border-bottom">
+                                                <span style="font-size: 9.5px; color: #64748b; white-space: nowrap;">পূর্বের বকেয়া:</span>
+                                                <span class="fw-semibold text-secondary" style="font-size: 10.5px; white-space: nowrap;">৳ ${payableAmount.toFixed(2)}</span>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between gap-2 py-0.5 border-bottom">
+                                                <span style="font-size: 9.5px; color: #64748b; white-space: nowrap;">ইনভয়েস বকেয়া:</span>
+                                                <span class="fw-semibold text-secondary" style="font-size: 10.5px; white-space: nowrap;">৳ ${invoiceDue.toFixed(2)}</span>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between gap-2 pt-0.5">
+                                                <span style="font-size: 10px; color: #1e293b; font-weight: 700; white-space: nowrap;">মোট বকেয়া:</span>
+                                                <span class="fw-bold ${grandDue > 0 ? 'text-danger' : 'text-dark'}" style="font-size: 11px; white-space: nowrap;">৳ ${grandDue.toFixed(2)}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
 
-                            <!-- 1-Row Box Action Button -->
-                            <div class="mobile-card-actions pt-2 mt-1 border-top" onclick="event.stopPropagation(); event.preventDefault();">
-                                <button type="button" class="mobile-action-btn action-btn-pay flex-grow-1" onclick="event.stopPropagation(); openPaymentModal(${item['id']});" title="বকেয়া পরিশোধ করুন">
+                            <!-- 1-Row Box Action Button (Independent of Profile Link) -->
+                            <div class="mobile-card-actions pt-2 mt-1 border-top">
+                                <button type="button" class="mobile-action-btn action-btn-pay flex-grow-1" onclick="openPaymentModal(${item['id']});" title="বকেয়া পরিশোধ করুন">
                                     <i class="fa-solid fa-hand-holding-dollar"></i><span style="font-size: 12px; font-weight: 700; margin-left: 8px;">বকেয়া পরিশোধ</span>
                                 </button>
                             </div>
                         </div>
-                        </a>
                     </div>`;
                 mobileCardList.append(mobileCard);
             });
@@ -1541,9 +1996,13 @@
         $('#FinalDueAmount').text('লোড হচ্ছে...');
         $('#ShowpaymentStatusDisplay').text('Pending').removeClass('bg-success bg-warning bg-danger').addClass('bg-secondary');
 
-        // Set today's date
-        const today = new Date().toISOString().split('T')[0];
-        $('#DueCollectionDate').val(today);
+        // Set today's date via Flatpickr
+        if (dueDatePicker) {
+            dueDatePicker.setDate(new Date());
+        } else {
+            const today = new Date().toISOString().split('T')[0];
+            $('#DueCollectionDate').val(today);
+        }
 
         selectPaymentChip('cash');
         $('#transactionInput').val('');
@@ -1684,13 +2143,23 @@
             if (!paymentStatus) return errorToast('পেমেন্ট স্ট্যাটাস অনুপস্থিত।');
             if (!paymentMethod) return errorToast('অনুগ্রহ করে পেমেন্ট মাধ্যম সিলেক্ট করুন।');
 
+            let rawDate = $('#DueCollectionDate').val();
+            let formattedDate = rawDate;
+            if (rawDate && rawDate.includes('-')) {
+                let parts = rawDate.split('-');
+                if (parts.length === 3 && parts[0].length === 2 && parts[2].length === 4) {
+                    // Convert d-m-Y to Y-m-d for backend database compatibility
+                    formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                }
+            }
+
             let formData = new FormData();
             formData.append('id', updateID);
             formData.append('paid_amount', PayAmount);
             formData.append('due_amount', dueAmount > 0 ? dueAmount : 0);
             formData.append('purchase_payable_amount', PurchasePreviousDue);
             formData.append('supplier_previous_due', SupplierPreviousDue);
-            formData.append('due_collection_date', $('#DueCollectionDate').val());
+            formData.append('due_collection_date', formattedDate);
             formData.append('discount_amount', DiscountAmount);
             formData.append('payment_status', paymentStatus);
             formData.append('transaction_id', transactionId);

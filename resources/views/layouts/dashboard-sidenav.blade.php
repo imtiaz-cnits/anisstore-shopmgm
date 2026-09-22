@@ -3522,15 +3522,17 @@
     // Universal Auto-Convert English Digits -> Bangla Digits & Strict Field Validation
     document.addEventListener('input', function(e) {
         const el = e.target;
-        if (!el || (el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA')) return;
+        // Textareas are for text, notes, remarks, addresses etc. - never restrict them
+        if (!el || el.tagName !== 'INPUT') return;
 
         const inputType = el.getAttribute('type');
         const inputMode = el.getAttribute('inputmode');
         const elId = (el.id || '').toLowerCase();
         const elClass = (el.className || '').toLowerCase();
 
+        const isTextOrDesc = elId.includes('note') || elId.includes('address') || elId.includes('desc') || elId.includes('name') || elId.includes('title') || elId.includes('remark') || elClass.includes('note') || elClass.includes('address');
         const isSearch = elId.includes('search') || elClass.includes('search') || inputType === 'search';
-        const isExcluded = (isSearch || inputType === 'date' || inputType === 'time' || inputType === 'datetime-local' || inputType === 'password' || inputType === 'file' || inputType === 'checkbox' || inputType === 'radio' || elClass.includes('custom-flatpickr-input') || elClass.includes('flatpickr') || elId.includes('startdate') || elId.includes('enddate') || elId.includes('duecollectiondate'));
+        const isExcluded = (isSearch || isTextOrDesc || inputType === 'date' || inputType === 'time' || inputType === 'datetime-local' || inputType === 'password' || inputType === 'file' || inputType === 'checkbox' || inputType === 'radio' || elClass.includes('custom-flatpickr-input') || elClass.includes('flatpickr') || elId.includes('startdate') || elId.includes('enddate') || elId.includes('duecollectiondate'));
         if (isExcluded) return;
 
         let val = el.value;

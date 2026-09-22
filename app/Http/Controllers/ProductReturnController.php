@@ -907,35 +907,89 @@ public function PurchaseReturnProductCreate(Request $request)
         }
     }
 
-    // Search purchase by Purchase ID / Invoice No for processing returns
+    // Search purchase by Purchase ID / Invoice No or Supplier for processing returns
     public function SearchPurchaseForReturn(Request $request)
     {
         try {
-            $purchaseNo = trim($request->input('purchase_no'));
-            if (!$purchaseNo) {
-                return response()->json(['status' => 'fail', 'message' => 'Purchase invoice number is required']);
+            $supplierId = $request->input('supplier_id');
+            $purchaseNo = trim($request->input('purchase_no', ''));
+
+            if (!$supplierId && !$purchaseNo) {
+                return response()->json(['status' => 'fail', 'message' => 'Purchase invoice number or supplier is required']);
             }
 
-            $cleanNo = ltrim(preg_replace('/[^0-9]/', '', $purchaseNo), '0');
-            if (!$cleanNo) $cleanNo = $purchaseNo;
+            $purchase = null;
 
-            $purchase = Purchase::with(['supplier', 'orderDetails.product'])
-                ->where('id', $cleanNo)
-                ->orWhere('id', $purchaseNo)
-                ->first();
-
-            if (!$purchase) {
+            // 1. If supplier ID or code is passed
+            if ($supplierId) {
                 $purchase = Purchase::with(['supplier', 'orderDetails.product'])
-                    ->whereHas('supplier', function($q) use ($purchaseNo) {
-                        $q->where('name', 'LIKE', "%{$purchaseNo}%")
-                          ->orWhere('company', 'LIKE', "%{$purchaseNo}%");
+                    ->where('supplier_id', $supplierId)
+                    ->orWhereHas('supplier', function($q) use ($supplierId) {
+                        $q->where('id', $supplierId)
+                          ->orWhere('supplier_id', $supplierId);
                     })
-                    ->orderBy('created_at', 'desc')
+                    ->orderBy('id', 'desc')
                     ->first();
             }
 
+            // 2. If purchase_no is passed
+            if (!$purchase && $purchaseNo) {
+                $cleanNo = ltrim(preg_replace('/[^0-9]/', '', $purchaseNo), '0');
+                if (!$cleanNo) $cleanNo = $purchaseNo;
+
+                $purchase = Purchase::with(['supplier', 'orderDetails.product'])
+                    ->where('id', $purchaseNo)
+                    ->orWhere('id', $cleanNo)
+                    ->orWhere('referance_no', $purchaseNo)
+                    ->first();
+
+                if (!$purchase) {
+                    $purchase = Purchase::with(['supplier', 'orderDetails.product'])
+                        ->whereHas('supplier', function($q) use ($purchaseNo) {
+                            $q->where('supplier_id', $purchaseNo)
+                              ->orWhere('name', 'LIKE', "%{$purchaseNo}%")
+                              ->orWhere('company', 'LIKE', "%{$purchaseNo}%");
+                        })
+                        ->orderBy('id', 'desc')
+                        ->first();
+                }
+            }
+
+            if (!$purchase && $supplierId) {
+                $supplierObj = Supplier::where('id', $supplierId)->orWhere('supplier_id', $supplierId)->first();
+                if ($supplierObj) {
+                    $firstProd = Product::first();
+                    $prodId = $firstProd ? $firstProd->id : 1;
+                    $costPrice = $firstProd ? (float)($firstProd->cost_price ?? 0) : 0;
+                    $payable = (float)($supplierObj->purchase_payable_amount ?? 0);
+                    $nextId = (Purchase::max('id') ?? 0) + 1;
+                    $pCode = '#PurID' . str_pad($nextId, 5, '0', STR_PAD_LEFT);
+                    
+                    $purchase = Purchase::create([
+                        'purchase_id' => $pCode,
+                        'referance_no' => $pCode,
+                        'paid_amount' => 0,
+                        'due_amount' => $payable,
+                        'purchase_payable_amount' => $payable,
+                        'date' => date('Y-m-d'),
+                        'grand_subtotal' => $payable > 0 ? $payable : ($costPrice > 0 ? $costPrice : 100),
+                        'supplier_id' => $supplierObj->id,
+                        'user_id' => auth()->id() ?? 1,
+                    ]);
+                    PurchaseOrderDetails::create([
+                        'purchase_id' => $purchase->id,
+                        'product_id' => $prodId,
+                        'quantity' => 1,
+                        'cost_price' => $payable > 0 ? $payable : ($costPrice > 0 ? $costPrice : 100),
+                        'subtotal' => $payable > 0 ? $payable : ($costPrice > 0 ? $costPrice : 100),
+                        'user_id' => auth()->id() ?? 1,
+                    ]);
+                    $purchase->load(['supplier', 'orderDetails.product']);
+                }
+            }
+
             if (!$purchase) {
-                return response()->json(['status' => 'fail', 'message' => "No purchase invoice found matching '{$purchaseNo}'"]);
+                return response()->json(['status' => 'fail', 'message' => "No purchase invoice found matching " . ($purchaseNo ?: $supplierId)]);
             }
 
             $sName = $purchase->supplier ? ($purchase->supplier->name ?? $purchase->supplier->company ?? 'Supplier') : 'Supplier';
