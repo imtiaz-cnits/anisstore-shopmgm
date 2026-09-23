@@ -1251,13 +1251,9 @@
         }
     }
 
-    // Print Single Purchase Invoice
+    // Print Single Purchase Invoice in Same Tab
     function printSinglePurchase(id) {
-        const printUrl = `/purchase-invoice/${id}`;
-        const printWin = window.open(printUrl, '_blank');
-        if (printWin) {
-            printWin.focus();
-        }
+        window.location.href = `/purchase-invoice/${id}`;
     }
 
     // Print Entire Active Table in CURRENT TAB with Anis Store Header & Supplier Details

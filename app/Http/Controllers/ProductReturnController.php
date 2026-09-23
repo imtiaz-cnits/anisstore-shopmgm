@@ -934,21 +934,35 @@ public function PurchaseReturnProductCreate(Request $request)
 
             // 2. If purchase_no is passed
             if (!$purchase && $purchaseNo) {
-                $cleanNo = ltrim(preg_replace('/[^0-9]/', '', $purchaseNo), '0');
-                if (!$cleanNo) $cleanNo = $purchaseNo;
+                $cleanNo = ltrim($purchaseNo, '#');
+                $digitsOnly = ltrim(preg_replace('/[^0-9]/', '', $purchaseNo), '0');
 
                 $purchase = Purchase::with(['supplier', 'orderDetails.product'])
-                    ->where('id', $purchaseNo)
-                    ->orWhere('id', $cleanNo)
+                    ->where('purchase_id', $purchaseNo)
+                    ->orWhere('purchase_id', '#' . $cleanNo)
+                    ->orWhere('purchase_id', $cleanNo)
                     ->orWhere('referance_no', $purchaseNo)
+                    ->orWhere('referance_no', '#' . $cleanNo)
+                    ->orWhere('referance_no', $cleanNo)
+                    ->orWhere('id', $purchaseNo)
+                    ->orWhere('id', $digitsOnly ?: $cleanNo)
                     ->first();
 
                 if (!$purchase) {
                     $purchase = Purchase::with(['supplier', 'orderDetails.product'])
-                        ->whereHas('supplier', function($q) use ($purchaseNo) {
+                        ->where('purchase_id', 'LIKE', "%{$cleanNo}%")
+                        ->orWhere('referance_no', 'LIKE', "%{$cleanNo}%")
+                        ->first();
+                }
+
+                if (!$purchase) {
+                    $purchase = Purchase::with(['supplier', 'orderDetails.product'])
+                        ->whereHas('supplier', function($q) use ($purchaseNo, $cleanNo) {
                             $q->where('supplier_id', $purchaseNo)
+                              ->orWhere('supplier_id', $cleanNo)
                               ->orWhere('name', 'LIKE', "%{$purchaseNo}%")
-                              ->orWhere('company', 'LIKE', "%{$purchaseNo}%");
+                              ->orWhere('company', 'LIKE', "%{$purchaseNo}%")
+                              ->orWhere('mobile', 'LIKE', "%{$cleanNo}%");
                         })
                         ->orderBy('id', 'desc')
                         ->first();
@@ -1081,4 +1095,83 @@ public function PurchaseReturnProductCreate(Request $request)
         }
     }
 
+    // View & Print Return Statement matching purchase-invoice-print
+    public function ReturnInvoicePrint($type, $id)
+    {
+        if ($type === 'purchase') {
+            $returnData = PurchaseReturn::with(['supplier', 'purchase', 'product'])->findOrFail($id);
+            $partyName = $returnData->supplier ? ($returnData->supplier->name ?? $returnData->supplier->company) : 'সাপ্লায়ার';
+            $partyAddress = $returnData->supplier->address ?? 'ঠিকানা নেই';
+            $partyMobile = $returnData->supplier->mobile ?? 'মোবাইল নেই';
+            $refNo = $returnData->purchase ? ('#PurID' . str_pad($returnData->purchase->id, 5, '0', STR_PAD_LEFT)) : 'N/A';
+            $returnNo = '#PRetID' . str_pad($returnData->id, 5, '0', STR_PAD_LEFT);
+            $productName = $returnData->product->product_name ?? 'N/A';
+            $qty = (int) ($returnData->quantity ?? 1);
+            $amount = (float) $returnData->amount;
+            $dueAmount = (float) $returnData->due_amount;
+            $date = $returnData->date ?? $returnData->created_at->format('Y-m-d');
+            $returnTypeLabel = 'ক্রয় রিটার্ন';
+            $partyTypeLabel = 'সাপ্লায়ার নাম';
+        } else {
+            $returnData = ProductReturn::with(['customer', 'order', 'product'])->findOrFail($id);
+            $partyName = $returnData->customer ? ($returnData->customer->name ?? $returnData->customer->customer_name) : 'কাস্টমার';
+            $partyAddress = $returnData->customer->address ?? 'ঠিকানা নেই';
+            $partyMobile = $returnData->customer->mobile ?? 'মোবাইল নেই';
+            $refNo = $returnData->order ? ($returnData->order->order_no ?? ('#InvID' . str_pad($returnData->order->id, 5, '0', STR_PAD_LEFT))) : 'N/A';
+            $returnNo = '#SRetID' . str_pad($returnData->id, 5, '0', STR_PAD_LEFT);
+            $productName = $returnData->product->product_name ?? 'N/A';
+            $qty = (int) ($returnData->quantity ?? 1);
+            $amount = (float) $returnData->amount;
+            $dueAmount = (float) $returnData->due_amount;
+            $date = $returnData->date ?? $returnData->created_at->format('Y-m-d');
+            $returnTypeLabel = 'বিক্রি রিটার্ন';
+            $partyTypeLabel = 'গ্রাহক / কাস্টমার নাম';
+        }
+
+        return view('components.back-end.Return.return-invoice-print', compact(
+            'returnData',
+            'type',
+            'partyName',
+            'partyAddress',
+            'partyMobile',
+            'partyTypeLabel',
+            'refNo',
+            'returnNo',
+            'productName',
+            'qty',
+            'amount',
+            'dueAmount',
+            'date',
+            'returnTypeLabel'
+        ));
+    }
+
+    // Delete Return Item (Sales or Purchase)
+    public function DeleteReturn(Request $request)
+    {
+        try {
+            $id = $request->id;
+            $mode = $request->mode ?? 'sales';
+
+            if ($mode === 'purchase') {
+                $item = PurchaseReturn::find($id);
+                if (!$item) {
+                    return response()->json(['status' => 'fail', 'message' => 'ক্রয় রিটার্ন রেকর্ড পাওয়া যায়নি।']);
+                }
+                $item->delete();
+                return response()->json(['status' => 'success', 'message' => 'ক্রয় রিটার্ন রেকর্ড সফলভাবে মুছে ফেলা হয়েছে।']);
+            } else {
+                $item = ProductReturn::find($id);
+                if (!$item) {
+                    return response()->json(['status' => 'fail', 'message' => 'বিক্রি রিটার্ন রেকর্ড পাওয়া যায়নি।']);
+                }
+                $item->delete();
+                return response()->json(['status' => 'success', 'message' => 'বিক্রি রিটার্ন রেকর্ড সফলভাবে মুছে ফেলা হয়েছে।']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'fail', 'message' => $e->getMessage()]);
+        }
+    }
+
 }
+

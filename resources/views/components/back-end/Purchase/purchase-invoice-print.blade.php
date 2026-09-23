@@ -2,8 +2,13 @@
 <html lang="bn">
 <head>
     <meta charset="utf-8" />
-    <title>Purchase Details - মেসার্স আনিস ষ্টোর</title>
+    <title>ক্রয় বিবরণী - মেসার্স আনিস ষ্টোর</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- App Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('back-end/assets/img/anis-store-icon.png') }}" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('back-end/assets/img/anis-store-icon.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('back-end/assets/img/anis-store-icon.png') }}" />
     
     <!-- Bootstrap Css -->
     <link href="{{ asset('back-end/assets/css/vendor/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -356,7 +361,7 @@
         <button type="button" onclick="goBackToPreviousPage(event)" class="back-link" title="পেছনে যান">
             <i class="fa-solid fa-arrow-left"></i> <span>পেছনে</span>
         </button>
-        <h5 class="top-title">Purchase Details</h5>
+        <h5 class="top-title">ক্রয় বিবরণী</h5>
         <button type="button" class="print-top-btn" onclick="window.print()" title="প্রিন্ট করুন">
             <i class="fa-solid fa-print fs-6"></i>
         </button>
@@ -381,7 +386,7 @@
                 <table class="meta-table">
                     <tr>
                         <td class="meta-label">Invoice No:</td>
-                        <td>{{ str_starts_with($purchaseinvoicedata->purchase_id, '#') ? $purchaseinvoicedata->purchase_id : '#' . $purchaseinvoicedata->purchase_id }}</td>
+                        <td>{{ str_starts_with((string)($purchaseinvoicedata->purchase_id ?? $purchaseinvoicedata->id), '#') ? ($purchaseinvoicedata->purchase_id ?? $purchaseinvoicedata->id) : '#' . ($purchaseinvoicedata->purchase_id ?? $purchaseinvoicedata->id) }}</td>
                     </tr>
                     <tr>
                         <td class="meta-label">Invoice Date:</td>
@@ -398,7 +403,7 @@
 
             <!-- Center: Purchase Details Heading & Logo -->
             <div class="text-center" style="flex: 1; max-width: 34%;">
-                <h1 class="invoice-main-heading mb-1.5">Purchase Details</h1>
+                <h1 class="invoice-main-heading mb-1.5">ক্রয় বিবরণী</h1>
                 <img src="{{ asset('back-end/assets/img/anis-store-logo.png') }}" alt="Anis Store Logo" class="center-store-logo" />
             </div>
 
@@ -428,7 +433,7 @@
             $finalPrevDue = (float)($PreviousDueAmount ?? 0);
             $finalTotalDue = $finalPrevDue + $finalDue;
 
-            $statusLower = strtolower($statusText);
+            $statusLower = strtolower((string)($statusText ?? $paymentDetailsStatus ?? ''));
             if ($finalDue <= 0 || str_contains($statusLower, 'fully') || $statusLower === 'paid' || $statusLower === 'fully paid') {
                 $statusText = 'Paid';
                 $statusColor = '#16a34a'; // Green
@@ -502,7 +507,7 @@
 
     <!-- 4. Bottom Fixed Action Toolbar (Screen Mode) -->
     <div class="invoice-bottom-bar no-print">
-        <button type="button" class="btn text-white p-0 d-flex align-items-center justify-content-center" title="শেয়ার করুন" onclick="navigator.share ? navigator.share({title: 'Purchase Details', url: window.location.href}) : alert('শেয়ার লিংক কপি করা হয়েছে!')" style="width: 38px; height: 38px; background: rgba(255,255,255,0.18); border-radius: 50%; transition: all 0.2s;">
+        <button type="button" class="btn text-white p-0 d-flex align-items-center justify-content-center" title="শেয়ার করুন" onclick="navigator.share ? navigator.share({title: 'ক্রয় বিবরণী', url: window.location.href}) : alert('শেয়ার লিংক কপি করা হয়েছে!')" style="width: 38px; height: 38px; background: rgba(255,255,255,0.18); border-radius: 50%; transition: all 0.2s;">
             <i class="fa-solid fa-share-nodes fs-6"></i>
         </button>
 

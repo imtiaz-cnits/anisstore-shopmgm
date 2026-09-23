@@ -5,12 +5,12 @@
 @endonce
 
 <style>
-    /* Ultra-Responsive Modal Styling for Opening Balance Create */
-    #createOpeningBalanceModal {
-        z-index: 105070 !important;
+    /* Ultra-Responsive Modal Styling for Opening Balance Update */
+    #updateOpeningBalanceModal {
+        z-index: 105080 !important;
     }
 
-    #createOpeningBalanceModal.modal {
+    #updateOpeningBalanceModal.modal {
         position: fixed !important;
         inset: 0 !important;
         top: 0 !important;
@@ -29,7 +29,7 @@
         -webkit-backdrop-filter: blur(4px);
     }
 
-    #createOpeningBalanceModal .modal-dialog {
+    #updateOpeningBalanceModal .modal-dialog {
         position: relative !important;
         width: 100% !important;
         max-width: 540px !important;
@@ -39,7 +39,7 @@
         justify-content: center !important;
     }
 
-    #createOpeningBalanceModal .modal-content {
+    #updateOpeningBalanceModal .modal-content {
         background-color: #ffffff !important;
         border-radius: 18px !important;
         border: 1px solid rgba(226, 232, 240, 0.9) !important;
@@ -51,7 +51,7 @@
     }
 
     /* Fixed Sticky Header */
-    #createOpeningBalanceModal .modal-header-purple {
+    #updateOpeningBalanceModal .modal-header-purple {
         background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
         padding: 14px 18px !important;
         display: flex !important;
@@ -62,7 +62,7 @@
         flex-shrink: 0;
     }
 
-    #createOpeningBalanceModal .btn-close-red {
+    #updateOpeningBalanceModal .btn-close-red {
         background: #ef4444 !important;
         color: #ffffff !important;
         border-radius: 50% !important;
@@ -77,13 +77,13 @@
         transition: all 0.2s ease !important;
     }
 
-    #createOpeningBalanceModal .btn-close-red:hover {
+    #updateOpeningBalanceModal .btn-close-red:hover {
         background: #dc2626 !important;
         transform: rotate(90deg) scale(1.05);
     }
 
     /* Fixed Sticky Footer */
-    #createOpeningBalanceModal .modal-footer-custom {
+    #updateOpeningBalanceModal .modal-footer-custom {
         position: sticky;
         bottom: 0;
         z-index: 10;
@@ -93,15 +93,15 @@
         flex-shrink: 0;
     }
 
-    /* Scoped Input Wrapper (Protects against global .input-group layout corruption) */
-    .ob-input-box {
+    /* Scoped Input Wrapper */
+    #updateOpeningBalanceModal .ob-input-box {
         position: relative !important;
         width: 100% !important;
         display: flex !important;
         align-items: center !important;
     }
 
-    .ob-input-box-icon {
+    #updateOpeningBalanceModal .ob-input-box-icon {
         position: absolute !important;
         left: 14px !important;
         top: 50% !important;
@@ -112,7 +112,7 @@
         z-index: 5 !important;
     }
 
-    .ob-input-box-currency {
+    #updateOpeningBalanceModal .ob-input-box-currency {
         position: absolute !important;
         left: 14px !important;
         top: 50% !important;
@@ -124,7 +124,7 @@
         z-index: 5 !important;
     }
 
-    .ob-modal-input {
+    #updateOpeningBalanceModal .ob-modal-input {
         height: 44px !important;
         width: 100% !important;
         border-radius: 10px !important;
@@ -138,15 +138,15 @@
         box-shadow: none !important;
     }
 
-    .ob-modal-input:focus,
-    .ob-modal-textarea:focus {
+    #updateOpeningBalanceModal .ob-modal-input:focus,
+    #updateOpeningBalanceModal .ob-modal-textarea:focus {
         border-color: #8C56D4 !important;
         box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.15) !important;
         background: #ffffff !important;
         outline: none !important;
     }
 
-    .ob-modal-textarea {
+    #updateOpeningBalanceModal .ob-modal-textarea {
         width: 100% !important;
         border-radius: 10px !important;
         border: 1.5px solid #cbd5e1 !important;
@@ -158,7 +158,7 @@
     }
 
     /* Flatpickr input generated altInput */
-    .ob-input-box input.flatpickr-input {
+    #updateOpeningBalanceModal .ob-input-box input.flatpickr-input {
         height: 44px !important;
         width: 100% !important;
         border-radius: 10px !important;
@@ -171,63 +171,13 @@
         display: block !important;
     }
 
-    /* Universal Flatpickr Calendar High Z-Index & Theme per rules.md 51-57 */
-    .flatpickr-calendar {
-        z-index: 2000000000 !important;
-        border-radius: 12px !important;
-        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25) !important;
-        border: 1px solid #e2e8f0 !important;
-    }
-    .flatpickr-calendar.arrowTop:before,
-    .flatpickr-calendar.arrowTop:after {
-        z-index: 2000000001 !important;
-    }
-    .flatpickr-months {
-        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
-        border-top-left-radius: 12px !important;
-        border-top-right-radius: 12px !important;
-    }
-    .flatpickr-months .flatpickr-month,
-    .flatpickr-current-month,
-    .flatpickr-current-month .cur-month {
-        color: #ffffff !important;
-        fill: #ffffff !important;
-        font-weight: 700 !important;
-    }
-    .flatpickr-months .flatpickr-prev-month,
-    .flatpickr-months .flatpickr-next-month {
-        color: #ffffff !important;
-        fill: #ffffff !important;
-    }
-    .flatpickr-months .flatpickr-prev-month:hover svg,
-    .flatpickr-months .flatpickr-next-month:hover svg {
-        fill: #f3ecfb !important;
-    }
-    .flatpickr-day.selected,
-    .flatpickr-day.startRange,
-    .flatpickr-day.endRange,
-    .flatpickr-day.selected.inRange,
-    .flatpickr-day.selected:focus,
-    .flatpickr-day.selected:hover,
-    .flatpickr-day.prevMonthDay.selected,
-    .flatpickr-day.nextMonthDay.selected {
-        background: #8C56D4 !important;
-        border-color: #8C56D4 !important;
-        color: #ffffff !important;
-    }
-    .flatpickr-day:hover {
-        background: #F3ECFB !important;
-        border-color: #E5D5F7 !important;
-        color: #8C56D4 !important;
-    }
-
     /* Mobile & Tablet Bottom Sheet (< 992px) */
     @media (max-width: 991.98px) {
-        #createOpeningBalanceModal {
+        #updateOpeningBalanceModal {
             padding: 0 !important;
         }
 
-        #createOpeningBalanceModal .modal-dialog {
+        #updateOpeningBalanceModal .modal-dialog {
             margin: 0 !important;
             margin-top: auto !important;
             width: 100% !important;
@@ -237,7 +187,7 @@
             align-items: flex-end !important;
         }
 
-        #createOpeningBalanceModal .modal-content {
+        #updateOpeningBalanceModal .modal-content {
             border-bottom-left-radius: 0 !important;
             border-bottom-right-radius: 0 !important;
             border-top-left-radius: 20px !important;
@@ -246,103 +196,77 @@
             max-height: 90vh !important;
             max-height: 90dvh !important;
             box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.25) !important;
-            animation: slideUpCreateModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            animation: slideUpUpdateModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
 
-        #createOpeningBalanceModal .modal-body {
+        #updateOpeningBalanceModal .modal-body {
             overflow-y: auto !important;
             -webkit-overflow-scrolling: touch !important;
         }
     }
 
-    @keyframes slideUpCreateModal {
+    @keyframes slideUpUpdateModal {
         from { transform: translateY(100%); }
         to { transform: translateY(0); }
     }
 
     /* Universal Dark Mode Rules per rules.md */
-    body[light-mode="dark"] #createOpeningBalanceModal .modal-content,
-    body[data-layout-mode="dark"] #createOpeningBalanceModal .modal-content,
-    body.dark-mode #createOpeningBalanceModal .modal-content,
-    html[light-mode="dark"] #createOpeningBalanceModal .modal-content,
-    html[data-layout-mode="dark"] #createOpeningBalanceModal .modal-content,
-    html.dark #createOpeningBalanceModal .modal-content {
+    body[light-mode="dark"] #updateOpeningBalanceModal .modal-content,
+    body[data-layout-mode="dark"] #updateOpeningBalanceModal .modal-content,
+    body.dark-mode #updateOpeningBalanceModal .modal-content,
+    html[light-mode="dark"] #updateOpeningBalanceModal .modal-content,
+    html[data-layout-mode="dark"] #updateOpeningBalanceModal .modal-content,
+    html.dark #updateOpeningBalanceModal .modal-content {
         background-color: #1e293b !important;
         border-color: #334155 !important;
         color: #f8fafc !important;
     }
 
-    body[light-mode="dark"] #createOpeningBalanceModal .modal-body,
-    body[data-layout-mode="dark"] #createOpeningBalanceModal .modal-body,
-    body.dark-mode #createOpeningBalanceModal .modal-body {
+    body[light-mode="dark"] #updateOpeningBalanceModal .modal-body,
+    body[data-layout-mode="dark"] #updateOpeningBalanceModal .modal-body,
+    body.dark-mode #updateOpeningBalanceModal .modal-body {
         background-color: #1e293b !important;
         color: #f8fafc !important;
     }
 
-    body[light-mode="dark"] #createOpeningBalanceModal .modal-footer-custom,
-    body[data-layout-mode="dark"] #createOpeningBalanceModal .modal-footer-custom,
-    body.dark-mode #createOpeningBalanceModal .modal-footer-custom {
+    body[light-mode="dark"] #updateOpeningBalanceModal .modal-footer-custom,
+    body[data-layout-mode="dark"] #updateOpeningBalanceModal .modal-footer-custom,
+    body.dark-mode #updateOpeningBalanceModal .modal-footer-custom {
         background-color: #1e293b !important;
         border-top-color: #334155 !important;
     }
 
-    body[light-mode="dark"] .ob-modal-input,
-    body[data-layout-mode="dark"] .ob-modal-input,
-    body.dark-mode .ob-modal-input,
-    body[light-mode="dark"] .ob-modal-textarea,
-    body[data-layout-mode="dark"] .ob-modal-textarea,
-    body.dark-mode .ob-modal-textarea,
-    body[light-mode="dark"] .ob-input-box input.flatpickr-input,
-    body[data-layout-mode="dark"] .ob-input-box input.flatpickr-input,
-    body.dark-mode .ob-input-box input.flatpickr-input {
+    body[light-mode="dark"] #updateOpeningBalanceModal .ob-modal-input,
+    body[data-layout-mode="dark"] #updateOpeningBalanceModal .ob-modal-input,
+    body.dark-mode #updateOpeningBalanceModal .ob-modal-input,
+    body[light-mode="dark"] #updateOpeningBalanceModal .ob-modal-textarea,
+    body[data-layout-mode="dark"] #updateOpeningBalanceModal .ob-modal-textarea,
+    body.dark-mode #updateOpeningBalanceModal .ob-modal-textarea,
+    body[light-mode="dark"] #updateOpeningBalanceModal .ob-input-box input.flatpickr-input,
+    body[data-layout-mode="dark"] #updateOpeningBalanceModal .ob-input-box input.flatpickr-input,
+    body.dark-mode #updateOpeningBalanceModal .ob-input-box input.flatpickr-input {
         background-color: #0f172a !important;
         border-color: #334155 !important;
         color: #f8fafc !important;
     }
 
-    body[light-mode="dark"] .flatpickr-calendar,
-    body[data-layout-mode="dark"] .flatpickr-calendar,
-    body.dark-mode .flatpickr-calendar,
-    html[light-mode="dark"] .flatpickr-calendar,
-    html[data-layout-mode="dark"] .flatpickr-calendar,
-    html.dark .flatpickr-calendar {
-        background: #1e293b !important;
-        border-color: #334155 !important;
-        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5) !important;
-    }
-    body[light-mode="dark"] .flatpickr-calendar .flatpickr-day,
-    body[data-layout-mode="dark"] .flatpickr-calendar .flatpickr-day,
-    body.dark-mode .flatpickr-calendar .flatpickr-day,
-    html[light-mode="dark"] .flatpickr-calendar .flatpickr-day {
-        color: #f8fafc !important;
-    }
-    body[light-mode="dark"] .flatpickr-calendar .flatpickr-day.flatpickr-disabled,
-    body[data-layout-mode="dark"] .flatpickr-calendar .flatpickr-day.flatpickr-disabled {
-        color: #475569 !important;
-    }
-    body[light-mode="dark"] .flatpickr-calendar .flatpickr-day:hover,
-    body[data-layout-mode="dark"] .flatpickr-calendar .flatpickr-day:hover {
-        background: #334155 !important;
-        color: #D2B7F1 !important;
-    }
-
-    body[light-mode="dark"] #createOpeningBalanceModal label,
-    body[data-layout-mode="dark"] #createOpeningBalanceModal label,
-    body.dark-mode #createOpeningBalanceModal label {
+    body[light-mode="dark"] #updateOpeningBalanceModal label,
+    body[data-layout-mode="dark"] #updateOpeningBalanceModal label,
+    body.dark-mode #updateOpeningBalanceModal label {
         color: #e2e8f0 !important;
     }
 </style>
 
-<div class="modal fade" id="createOpeningBalanceModal" tabindex="-1" aria-labelledby="createOpeningBalanceModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateOpeningBalanceModal" tabindex="-1" aria-labelledby="updateOpeningBalanceModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0">
             <!-- Header -->
             <div class="modal-header-purple">
                 <div class="d-flex align-items-center gap-2">
                     <div class="d-flex align-items-center justify-content-center bg-white bg-opacity-25 rounded-circle" style="width: 32px; height: 32px;">
-                        <i class="fa-solid fa-wallet text-white fs-6"></i>
+                        <i class="fa-solid fa-pen-to-square text-white fs-6"></i>
                     </div>
-                    <h5 class="m-0 fw-bold text-white fs-6" id="createOpeningBalanceModalLabel">নতুন প্রারম্ভিক ব্যালেন্স যুক্ত করুন</h5>
+                    <h5 class="m-0 fw-bold text-white fs-6" id="updateOpeningBalanceModalLabel">প্রারম্ভিক ব্যালেন্স সম্পাদনা</h5>
                 </div>
                 <button type="button" class="btn-close-red" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fa-solid fa-xmark"></i>
@@ -350,8 +274,10 @@
             </div>
 
             <!-- Body -->
-            <form id="createOpeningBalanceForm" onsubmit="return handleCreateOpeningBalance(event)">
+            <form id="updateOpeningBalanceForm" onsubmit="return handleUpdateOpeningBalance(event)">
                 <div class="modal-body p-3 p-md-4">
+                    <input type="hidden" id="updateOpeningBalanceId" />
+
                     <!-- 2 Inputs in 1 Row: তারিখ ও পরিমাণ -->
                     <div class="row g-2 mb-3">
                         <!-- তারিখ (Flatpickr) -->
@@ -359,7 +285,7 @@
                             <label class="form-label fw-bold small text-muted mb-1">তারিখ <span class="text-danger">*</span></label>
                             <div class="ob-input-box">
                                 <i class="fa-solid fa-calendar-days ob-input-box-icon"></i>
-                                <input type="text" id="createObDate" class="ob-modal-input" placeholder="DD-MM-YYYY" readonly required />
+                                <input type="text" id="updateObDate" class="ob-modal-input" placeholder="DD-MM-YYYY" readonly required />
                             </div>
                         </div>
 
@@ -368,7 +294,7 @@
                             <label class="form-label fw-bold small text-muted mb-1">ব্যালেন্স পরিমাণ <span class="text-danger">*</span></label>
                             <div class="ob-input-box">
                                 <span class="ob-input-box-currency">৳</span>
-                                <input type="number" step="any" inputmode="decimal" pattern="[0-9]*" id="createObAmount" class="ob-modal-input fw-bold" placeholder="০.০০" required />
+                                <input type="number" step="any" inputmode="decimal" pattern="[0-9]*" id="updateObAmount" class="ob-modal-input fw-bold" placeholder="০.০০" required />
                             </div>
                         </div>
                     </div>
@@ -376,7 +302,7 @@
                     <!-- নোট (বিবরণ) -->
                     <div class="mb-2">
                         <label class="form-label fw-bold small text-muted mb-1">নোট বা বিবরণ (ঐচ্ছিক)</label>
-                        <textarea id="createObNote" class="ob-modal-textarea" rows="3" placeholder="প্রারম্ভিক ব্যালেন্স সংক্রান্ত কোনো মন্তব্য বা বিবরণ লিখুন..."></textarea>
+                        <textarea id="updateObNote" class="ob-modal-textarea" rows="3" placeholder="প্রারম্ভিক ব্যালেন্স সংক্রান্ত কোনো মন্তব্য বা নোট লিখুন..."></textarea>
                     </div>
                 </div>
 
@@ -386,7 +312,7 @@
                         <i class="fa-solid fa-xmark me-1"></i> বাতিল
                     </button>
                     <button type="submit" class="btn flex-grow-1 py-2 fw-bold text-white shadow-sm" style="height: 44px; border-radius: 10px; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important; border: none; box-shadow: 0 4px 12px rgba(140, 86, 212, 0.25);">
-                        <i class="fa-solid fa-plus me-1"></i> সংরক্ষণ করুন
+                        <i class="fa-solid fa-check me-1"></i> আপডেট করুন
                     </button>
                 </div>
             </form>
@@ -395,17 +321,17 @@
 </div>
 
 <script>
-    let createFlatpickrInstance = null;
+    let updateFlatpickrInstance = null;
 
     document.addEventListener('DOMContentLoaded', function() {
-        const modalEl = document.getElementById('createOpeningBalanceModal');
+        const modalEl = document.getElementById('updateOpeningBalanceModal');
         if (modalEl && modalEl.parentElement !== document.body) {
             document.body.appendChild(modalEl);
         }
 
-        // Initialize Flatpickr for create datepicker per rules.md 51-57 with high z-index & appendTo body
+        // Initialize Flatpickr for update datepicker per rules.md 51-57 with high z-index & appendTo body
         if (typeof flatpickr !== 'undefined') {
-            createFlatpickrInstance = flatpickr("#createObDate", {
+            updateFlatpickrInstance = flatpickr("#updateObDate", {
                 dateFormat: "Y-m-d",
                 altInput: true,
                 altFormat: "d-m-Y",
@@ -421,7 +347,7 @@
         if (modalEl) {
             modalEl.addEventListener('shown.bs.modal', function() {
                 setTimeout(() => {
-                    const amountInput = document.getElementById('createObAmount');
+                    const amountInput = document.getElementById('updateObAmount');
                     if (amountInput) {
                         amountInput.focus();
                     }
@@ -430,26 +356,60 @@
         }
     });
 
-    function triggerCreateOpeningBalanceModal() {
-        // Reset form
-        const form = document.getElementById('createOpeningBalanceForm');
-        if (form) form.reset();
+    // Populate and open edit modal
+    async function openEditOpeningBalanceModal(id) {
+        try {
+            if (!id) return;
+            showLoader();
 
-        if (createFlatpickrInstance) {
-            createFlatpickrInstance.setDate(new Date());
+            let res = await axios.post(
+                "/api/opening-balance-by-id",
+                { id: id },
+                typeof HeaderToken === 'function' ? HeaderToken() : {}
+            );
+
+            hideLoader();
+
+            if (res.data && res.data.status === "success" && res.data.data) {
+                const item = res.data.data;
+                document.getElementById('updateOpeningBalanceId').value = item.id;
+                document.getElementById('updateObAmount').value = item.amount || '';
+                document.getElementById('updateObNote').value = item.note || '';
+
+                if (updateFlatpickrInstance && item.date) {
+                    updateFlatpickrInstance.setDate(item.date);
+                } else {
+                    document.getElementById('updateObDate').value = item.date || '';
+                }
+
+                $("#updateOpeningBalanceModal").modal('show');
+            } else {
+                if (typeof errorToast === 'function') {
+                    errorToast(res.data ? res.data.message : "ডাটা লোড করতে ব্যর্থ হয়েছে।");
+                }
+            }
+        } catch (e) {
+            hideLoader();
+            console.error(e);
+            if (typeof errorToast === 'function') {
+                errorToast("একটি সমস্যা দেখা দিয়েছে।");
+            }
         }
-
-        $("#createOpeningBalanceModal").modal('show');
     }
 
-    // Submit Create
-    async function handleCreateOpeningBalance(event) {
+    // Submit Update
+    async function handleUpdateOpeningBalance(event) {
         event.preventDefault();
 
-        const date = document.getElementById('createObDate').value;
-        const amount = document.getElementById('createObAmount').value;
-        const note = document.getElementById('createObNote').value.trim();
+        const id = document.getElementById('updateOpeningBalanceId').value;
+        const date = document.getElementById('updateObDate').value;
+        const amount = document.getElementById('updateObAmount').value;
+        const note = document.getElementById('updateObNote').value.trim();
 
+        if (!id) {
+            if (typeof errorToast === 'function') errorToast("আইডি পাওয়া যায়নি!");
+            return false;
+        }
         if (!date) {
             if (typeof errorToast === 'function') errorToast("তারিখ আবশ্যক!");
             return false;
@@ -463,8 +423,9 @@
             showLoader();
 
             let res = await axios.post(
-                "/api/create-opening-balance",
+                "/api/update-opening-balance",
                 {
+                    id: id,
                     date: date,
                     amount: amount,
                     note: note
@@ -476,15 +437,9 @@
 
             if (res.data && res.data.status === "success") {
                 if (typeof successToast === 'function') {
-                    successToast("প্রারম্ভিক ব্যালেন্স সফলভাবে সংরক্ষিত হয়েছে!");
+                    successToast("প্রারম্ভিক ব্যালেন্স সফলভাবে আপডেট করা হয়েছে!");
                 }
-                $("#createOpeningBalanceModal").modal('hide');
-
-                // Reset form
-                document.getElementById('createOpeningBalanceForm').reset();
-                if (createFlatpickrInstance) {
-                    createFlatpickrInstance.setDate(new Date());
-                }
+                $("#updateOpeningBalanceModal").modal('hide');
 
                 if (typeof getList === 'function') {
                     await getList();
@@ -493,7 +448,7 @@
                 }
             } else {
                 if (typeof errorToast === 'function') {
-                    errorToast(res.data ? res.data.message : "সংরক্ষণ করতে ব্যর্থ হয়েছে!");
+                    errorToast(res.data ? res.data.message : "আপডেট করতে ব্যর্থ হয়েছে!");
                 }
             }
         } catch (e) {

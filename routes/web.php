@@ -154,6 +154,9 @@ Route::prefix('purchase-return')->group(function () {
     Route::post('/purchase-return-details-by-id', [ProductReturnController::class, 'PurchaseReturnDetailsById'])->name('purchase-return.details');
 });
 
+// Standalone Return Statement View & Print (title: রিটার্ন বিবরণী)
+Route::get('/return-invoice/{type}/{id}', [ProductReturnController::class, 'ReturnInvoicePrint'])->name('return.invoice.print');
+
 
 
 // Expence View Page Route Start

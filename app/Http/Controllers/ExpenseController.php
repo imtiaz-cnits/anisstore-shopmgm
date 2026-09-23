@@ -167,20 +167,23 @@ class ExpenseController extends Controller
         try {
             $user_id = Auth::id();
 
-            // Check if batch payload (items array) sent
-            if ($request->has('items') && is_array($request->input('items'))) {
-                $items = $request->input('items');
+            // Check if batch payload (items or expenses array) sent
+            $items = $request->input('items') ?: $request->input('expenses');
+            if (!empty($items) && is_array($items)) {
                 $createdCount = 0;
+                $defaultDate = $request->input('date') ?: date('Y-m-d');
 
                 foreach ($items as $item) {
-                    if (empty($item['expense_type_id']) || empty($item['expense_amount'])) continue;
+                    $typeId = $item['expense_type_id'] ?? $item['type_id'] ?? null;
+                    $amount = $item['expense_amount'] ?? $item['amount'] ?? null;
+                    if (empty($typeId) || empty($amount)) continue;
 
                     Expense::create([
-                        'expense_type_id' => $item['expense_type_id'],
+                        'expense_type_id' => $typeId,
                         'staff_id'        => !empty($item['staff_id']) ? $item['staff_id'] : null,
-                        'expense_amount'  => $item['expense_amount'],
-                        'expense_details' => $item['expense_details'] ?? '',
-                        'date'            => !empty($item['date']) ? $item['date'] : date('Y-m-d'),
+                        'expense_amount'  => $amount,
+                        'expense_details' => $item['expense_details'] ?? $item['details'] ?? '',
+                        'date'            => !empty($item['date']) ? $item['date'] : $defaultDate,
                         'user_id'         => $user_id
                     ]);
                     $createdCount++;
@@ -193,10 +196,10 @@ class ExpenseController extends Controller
             $expenseDate = $request->input('date') ?: date('Y-m-d');
 
             Expense::create([
-                'expense_type_id' => $request->input('expense_type_id'),
+                'expense_type_id' => $request->input('expense_type_id') ?: $request->input('type_id'),
                 'staff_id'        => $request->input('staff_id') ?: null,
-                'expense_amount'  => $request->input('expense_amount'),
-                'expense_details' => $request->input('expense_details'),
+                'expense_amount'  => $request->input('expense_amount') ?: $request->input('amount'),
+                'expense_details' => $request->input('expense_details') ?: $request->input('details'),
                 'date'            => $expenseDate,
                 'user_id'         => $user_id
             ]);

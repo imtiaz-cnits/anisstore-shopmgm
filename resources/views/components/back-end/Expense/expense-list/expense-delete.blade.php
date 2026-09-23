@@ -1,14 +1,54 @@
 <style>
     #confirmationModal {
-        z-index: 1060 !important;
+        z-index: 108000 !important;
+    }
+    .modal-backdrop {
+        z-index: 106500 !important;
     }
     #confirmationModal .modal-dialog {
         max-width: 440px;
     }
     #confirmationModal .modal-content {
-        border-radius: 14px;
+        border-radius: 16px;
         border: none;
+        overflow: hidden;
+        background-color: #ffffff !important;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+    #confirmationModal .modal-footer {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
+    #confirmationModal .modal-footer .btn {
+        flex: 1 1 0 !important;
+        white-space: nowrap !important;
+        height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+    body[light-mode="dark"] #confirmationModal .modal-content,
+    body[data-layout-mode="dark"] #confirmationModal .modal-content,
+    html[light-mode="dark"] #confirmationModal .modal-content,
+    html[data-layout-mode="dark"] #confirmationModal .modal-content,
+    body.dark-mode #confirmationModal .modal-content,
+    html.dark #confirmationModal .modal-content {
+        background-color: #1e293b !important;
+        color: #F3ECFB !important;
+    }
+    body[light-mode="dark"] #confirmationModal .text-dark,
+    body[data-layout-mode="dark"] #confirmationModal .text-dark,
+    html[light-mode="dark"] #confirmationModal .text-dark,
+    html[data-layout-mode="dark"] #confirmationModal .text-dark,
+    body.dark-mode #confirmationModal .text-dark,
+    html.dark #confirmationModal .text-dark {
+        color: #F3ECFB !important;
     }
 </style>
 
@@ -21,14 +61,14 @@
                 </div>
             </div>
             <div class="modal-body py-2">
-                <h5 class="fw-bold text-dark mb-2">Delete Expense?</h5>
-                <p class="text-secondary small mb-0">Are you sure you want to delete this expense record? This action cannot be undone.</p>
+                <h5 class="fw-bold text-dark mb-2">খরচ মুছে ফেলবেন?</h5>
+                <p class="text-secondary small mb-0">আপনি কি নিশ্চিত যে এই খরচের রেকর্ডটি মুছে ফেলতে চান? এটি আর ফিরিয়ে আনা যাবে না।</p>
                 <input type="hidden" id="deleteID" />
             </div>
-            <div class="modal-footer border-0 justify-content-center gap-2 pt-2">
-                <button type="button" class="btn btn-light px-4 py-2 fw-bold text-secondary" data-bs-dismiss="modal" style="border-radius: 8px;">Cancel</button>
-                <button type="button" onclick="itemDelete()" class="btn btn-danger px-4 py-2 fw-bold" style="border-radius: 8px;">
-                    <i class="fa-solid fa-trash me-1"></i> Yes, Delete
+            <div class="modal-footer border-0 justify-content-center p-0 pt-2 gap-2 w-100 flex-nowrap">
+                <button type="button" class="btn py-2 px-3 fw-bold text-white shadow-sm" data-bs-dismiss="modal" style="border-radius: 8px; background-color: #ef4444 !important; border: none;">বাতিল</button>
+                <button type="button" onclick="itemDelete()" class="btn btn-outline-danger py-2 px-3 fw-bold" style="border-radius: 8px;">
+                    <i class="fa-solid fa-trash me-1"></i> হ্যাঁ, মুছে ফেলুন
                 </button>
             </div>
         </div>

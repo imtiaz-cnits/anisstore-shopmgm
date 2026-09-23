@@ -210,8 +210,7 @@ Route::get("/search-invoice-for-return", [ProductReturnController::class, 'Searc
 Route::get("/purchase-return-list", [ProductReturnController::class, 'PurchaseReturnList'])->middleware('auth:sanctum');
 Route::get("/search-purchase-for-return", [ProductReturnController::class, 'SearchPurchaseForReturn'])->middleware('auth:sanctum');
 Route::post("/create-purchase-return", [ProductReturnController::class, 'PurchaseReturnProductCreate'])->middleware('auth:sanctum');
-
-
+Route::post("/delete-return", [ProductReturnController::class, 'DeleteReturn'])->middleware('auth:sanctum');
 
 //Product Return  API End
 

@@ -62,20 +62,24 @@ public function PurchaseShowDetails($id)
     $paymentDetailsStatus = $purchaseinvoicedata->paymentDetails->pluck('payment_status')->first();
 
     // Previous due amount from the current purchase (stored in DB)
-    $PreviousDueAmount = $purchaseinvoicedata->supplier->purchase_payable_amount;
+    $PreviousDueAmount = $purchaseinvoicedata->supplier ? $purchaseinvoicedata->supplier->purchase_payable_amount : 0;
 
     // Calculate Due Amount (in case it's not stored directly)
     $dueAmount = $subTotal - $paidAmount;
-    $supplierDueAmount = $purchaseinvoicedata->supplier->sum('purchase_payable_amount');
+    $supplierDueAmount = $purchaseinvoicedata->supplier ? $purchaseinvoicedata->supplier->sum('purchase_payable_amount') : 0;
     $purchaseDueAmount = Purchase::sum('due_amount');
 
     // NEW: Calculate total due from all purchases
     $totalDueFromAllPurchases = $supplierDueAmount + $purchaseDueAmount;
 
+    // Payment status text
+    $statusText = $paymentDetailsStatus ?? ($dueAmount <= 0 ? 'Paid' : ($paidAmount > 0 ? 'Partial Paid' : 'Unpaid'));
+
     // Return view with all variables
     return view('components.back-end.Purchase.purchase-invoice-print', compact(
         'purchaseinvoicedata',
         'paymentDetailsStatus',
+        'statusText',
         'PreviousDueAmount',
         'subTotal',
         'paidAmount',
