@@ -25,14 +25,14 @@
 
             <div class="mb-3">
                 <input type="text" id="otp_code" class="form-control text-center fw-bold fs-4"
-                       maxlength="6" placeholder="Enter OTP" required>
+                       maxlength="6" placeholder="Enter OTP" required style="border-radius: 10px; border: 1.5px solid #cbd5e1;">
             </div>
 
-            <button type="submit" class="btn btn-primary w-100">Verify OTP</button>
+            <button type="submit" class="btn text-white w-100 fw-bold py-2.5" style="background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important; border: none; border-radius: 10px; box-shadow: 0 4px 14px rgba(140, 86, 212, 0.35);">Verify OTP</button>
         </form>
 
         <div class="mt-3 text-center">
-            <small>Didn't receive the code? <a href="#" onclick="resendOtp()">Resend</a></small>
+            <small>Didn't receive the code? <a href="#" onclick="resendOtp()" style="color: #8C56D4; font-weight: 600;">Resend</a></small>
         </div>
     </div>
 </div>

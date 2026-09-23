@@ -3,13 +3,13 @@
 @section('content')
 
 <style>
-  /* Base Container & Background */
+  /* Base Container & Background (Primary Royal Purple Theme per rules.md) */
   .admin-login-wrapper {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #042f2e 0%, #064e3b 30%, #047857 65%, #0d9488 100%);
+    background: linear-gradient(135deg, #1e0b36 0%, #2f1057 35%, #581c87 70%, #7e22ce 100%);
     position: relative;
     overflow: hidden;
     padding: 24px;
@@ -31,7 +31,7 @@
   .admin-login-wrapper::before {
     width: 420px;
     height: 420px;
-    background: #10b981;
+    background: #8C56D4;
     top: -100px;
     left: -100px;
   }
@@ -39,7 +39,7 @@
   .admin-login-wrapper::after {
     width: 450px;
     height: 450px;
-    background: #34d399;
+    background: #a855f7;
     bottom: -120px;
     right: -120px;
     animation-delay: 4s;
@@ -59,7 +59,7 @@
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 24px;
-    box-shadow: 0 25px 60px -15px rgba(4, 120, 87, 0.45), 0 0 30px rgba(16, 185, 129, 0.15);
+    box-shadow: 0 25px 60px -15px rgba(140, 86, 212, 0.45), 0 0 30px rgba(168, 85, 247, 0.2);
     overflow: hidden;
     position: relative;
     z-index: 2;
@@ -74,7 +74,7 @@
   /* Left Hero Branding Section */
   .hero-sidebar {
     width: 45%;
-    background: linear-gradient(165deg, #064e3b 0%, #047857 40%, #0d9488 75%, #0f766e 100%);
+    background: linear-gradient(165deg, #2e1065 0%, #4c1d95 40%, #6b21a8 75%, #8C56D4 100%);
     padding: 44px 36px;
     color: #ffffff;
     display: flex;
@@ -88,7 +88,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 20% 20%, rgba(52, 211, 153, 0.15) 0%, transparent 60%);
+    background: radial-gradient(circle at 20% 20%, rgba(216, 180, 254, 0.2) 0%, transparent 60%);
     pointer-events: none;
   }
 
@@ -113,9 +113,9 @@
 
   .hero-tag {
     display: inline-block;
-    background: rgba(52, 211, 153, 0.2);
-    border: 1px solid rgba(52, 211, 153, 0.4);
-    color: #a7f3d0;
+    background: rgba(140, 86, 212, 0.25);
+    border: 1px solid rgba(216, 180, 254, 0.4);
+    color: #f3e8ff;
     padding: 5px 14px;
     border-radius: 20px;
     font-size: 12px;
@@ -134,7 +134,7 @@
   }
 
   .hero-desc {
-    color: #d1fae5;
+    color: #e9d5ff;
     font-size: 14px;
     line-height: 1.6;
     margin-bottom: 30px;
@@ -152,7 +152,7 @@
     gap: 12px;
     margin-bottom: 14px;
     font-size: 13px;
-    color: #e6f4ea;
+    color: #f5f3ff;
   }
 
   .feature-icon {
@@ -163,7 +163,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #6ee7b7;
+    color: #d8b4fe;
     flex-shrink: 0;
   }
 
@@ -184,7 +184,7 @@
   .form-header h3 {
     font-size: 24px;
     font-weight: 700;
-    color: #064e3b;
+    color: #3b0764;
     margin-bottom: 6px;
   }
 
@@ -217,7 +217,7 @@
   .input-icon-wrapper .field-icon {
     position: absolute;
     left: 14px;
-    color: #0d9488;
+    color: #8C56D4;
     width: 20px;
     height: 20px;
     pointer-events: none;
@@ -237,10 +237,10 @@
   }
 
   .custom-input:focus {
-    border-color: #10b981;
+    border-color: #8C56D4;
     background-color: #ffffff;
     outline: none;
-    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.18);
+    box-shadow: 0 0 0 4px rgba(140, 86, 212, 0.18);
   }
 
   .custom-input::placeholder {
@@ -276,14 +276,14 @@
   .btn-submit-theme {
     width: 100%;
     height: 48px;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%);
     color: #ffffff;
     font-size: 15px;
     font-weight: 700;
     border: none;
     border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+    box-shadow: 0 8px 20px rgba(140, 86, 212, 0.35);
     transition: all 0.25s ease-in-out;
     display: flex;
     align-items: center;
@@ -293,9 +293,9 @@
   }
 
   .btn-submit-theme:hover {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    background: linear-gradient(135deg, #793FC5 0%, #672EB0 100%);
     transform: translateY(-2px);
-    box-shadow: 0 12px 25px rgba(16, 185, 129, 0.45);
+    box-shadow: 0 12px 25px rgba(140, 86, 212, 0.45);
   }
 
   .btn-submit-theme:active {
@@ -311,7 +311,7 @@
   }
 
   .form-switch-footer a {
-    color: #059669;
+    color: #8C56D4;
     font-weight: 600;
     text-decoration: none;
     transition: color 0.2s;
@@ -319,22 +319,44 @@
   }
 
   .form-switch-footer a:hover {
-    color: #047857;
+    color: #793FC5;
     text-decoration: underline !important;
   }
 
-  /* Responsive Design */
-  @media (max-width: 820px) {
+  /* Responsive Design: On Tablet & Mobile view show only Logo and 'মেসার্স আনিস ষ্টোর' */
+  @media (max-width: 991.98px) {
     .hero-sidebar {
       width: 100%;
-      padding: 32px 24px;
+      padding: 22px 20px !important;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-sidebar .brand-logo-box {
+      margin-bottom: 12px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      padding: 10px 18px !important;
+    }
+    .hero-sidebar .brand-logo-box img {
+      max-height: 52px !important;
+    }
+    .hero-sidebar .hero-tag,
+    .hero-sidebar .hero-desc,
+    .hero-sidebar .feature-list {
+      display: none !important;
+    }
+    .hero-sidebar .hero-title {
+      font-size: 20px !important;
+      margin-bottom: 0 !important;
+      text-align: center;
     }
     .form-section {
       width: 100%;
-      padding: 32px 24px;
+      padding: 28px 22px !important;
     }
     .login-card-container {
-      max-width: 500px;
+      max-width: 520px;
     }
   }
 </style>
@@ -430,7 +452,7 @@
             <img src="{{asset('back-end/assets/img/anis-store-logo.png')}}" alt="Anis Store Logo" />
           </div>
           <span class="hero-tag">নতুন ইউজার রেজিস্ট্রেশন</span>
-          <h2 class="hero-title">অ্যাডমিন রেজিস্ট্রেশন</h2>
+          <h2 class="hero-title"><span class="d-none d-lg-inline">অ্যাডমিন রেজিস্ট্রেশন</span><span class="d-lg-none">মেসার্স আনিস ষ্টোর</span></h2>
           <p class="hero-desc">মেসার্স আনিস ষ্টোর ম্যানেজমেন্ট সিস্টেমে নতুন অ্যাডমিন অ্যাকাউন্ট খুলুন।</p>
         </div>
 
@@ -503,7 +525,7 @@
           <div class="custom-form-group">
             <label>প্রোফাইল ছবি (Profile Image)</label>
             <div class="d-flex align-items-center gap-3">
-              <img id="newImg" src="{{asset('images/default.jpg')}}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #10b981;" />
+              <img id="newImg" src="{{asset('images/default.jpg')}}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #8C56D4;" />
               <input oninput="newImg.src=window.URL.createObjectURL(this.files[0])" type="file" class="form-control form-control-sm" id="img_url" />
             </div>
           </div>
