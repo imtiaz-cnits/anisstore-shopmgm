@@ -1,5 +1,5 @@
 @extends('layouts.dashboard-sidenav')
-@section('title','Customer Page')
+@section('title','কাস্টমার তালিকা')
 @section('content')
     @include('components.back-end.Customer.customer-list')
     @include('components.back-end.Customer.customer-create')

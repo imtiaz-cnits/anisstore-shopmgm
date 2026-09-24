@@ -2351,19 +2351,71 @@
     }
 
     body[light-mode="dark"] .table,
-    body[data-layout-mode="dark"] .table {
-      color: #F3ECFB !important;
+    body[data-layout-mode="dark"] .table,
+    body.dark-mode .table,
+    html[light-mode="dark"] .table,
+    [data-bs-theme="dark"] .table,
+    body[light-mode="dark"] .table-bordered,
+    body[data-layout-mode="dark"] .table-bordered,
+    body.dark-mode .table-bordered,
+    html[light-mode="dark"] .table-bordered,
+    [data-bs-theme="dark"] .table-bordered {
+      --bs-table-bg: transparent !important;
+      --bs-table-color: #f1f5f9 !important;
+      --bs-table-border-color: #334155 !important;
+      border-color: #334155 !important;
+      color: #f1f5f9 !important;
       background-color: #1e293b !important;
+    }
+    body[light-mode="dark"] .table > :not(caption) > * > *,
+    body[data-layout-mode="dark"] .table > :not(caption) > * > *,
+    body.dark-mode .table > :not(caption) > * > *,
+    html[light-mode="dark"] .table > :not(caption) > * > *,
+    [data-bs-theme="dark"] .table > :not(caption) > * > *,
+    body[light-mode="dark"] .table-bordered > :not(caption) > * > *,
+    body[data-layout-mode="dark"] .table-bordered > :not(caption) > * > *,
+    body.dark-mode .table-bordered > :not(caption) > * > *,
+    html[light-mode="dark"] .table-bordered > :not(caption) > * > *,
+    [data-bs-theme="dark"] .table-bordered > :not(caption) > * > * {
+      border-color: #334155 !important;
+      color: inherit;
     }
     body[light-mode="dark"] .table th,
     body[light-mode="dark"] .table td,
     body[data-layout-mode="dark"] .table th,
     body[data-layout-mode="dark"] .table td,
-    body[light-mode="dark"] .table thead.bg-light th,
-    body[data-layout-mode="dark"] .table thead.bg-light th {
+    body.dark-mode .table th,
+    body.dark-mode .table td,
+    html[light-mode="dark"] .table th,
+    html[light-mode="dark"] .table td,
+    [data-bs-theme="dark"] .table th,
+    [data-bs-theme="dark"] .table td {
+      border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .table thead th,
+    body[data-layout-mode="dark"] .table thead th,
+    body.dark-mode .table thead th,
+    html[light-mode="dark"] .table thead th,
+    [data-bs-theme="dark"] .table thead th {
       background-color: #0f172a !important;
-      color: #F3ECFB !important;
-      border-color: rgba(255, 255, 255, 0.08) !important;
+      color: #cbd5e1 !important;
+      border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .table tbody td,
+    body[data-layout-mode="dark"] .table tbody td,
+    body.dark-mode .table tbody td,
+    html[light-mode="dark"] .table tbody td,
+    [data-bs-theme="dark"] .table tbody td {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+      border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .table-hover tbody tr:hover td,
+    body[data-layout-mode="dark"] .table-hover tbody tr:hover td,
+    body.dark-mode .table-hover tbody tr:hover td,
+    [data-bs-theme="dark"] .table-hover tbody tr:hover td {
+      background-color: #273549 !important;
+      color: #f8fafc !important;
     }
   </style>
 </head>
@@ -2787,7 +2839,6 @@
               <ul class="py-0.5 px-1 space-y-0.5">
                 <li><a href="{{ url('admin-dashboard-customer') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-customer') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-address-book text-[10px] text-purple-200/80 w-4 text-center"></i><span>কাস্টমার তালিকা</span></a></li>
                 <li><a href="{{ url('admin-dashboard-customer-due-list') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-customer-due-list') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-file-invoice-dollar text-[10px] text-purple-200/80 w-4 text-center"></i><span>কাস্টমার বকেয়া তালিকা</span></a></li>
-                <li><a href="{{ url('customer-due-collection-page') }}" class="sidebar-flyout-link {{ request()->is('customer-due-collection-page') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-hand-holding-dollar text-[10px] text-purple-200/80 w-4 text-center"></i><span>বকেয়া আদায় তালিকা</span></a></li>
               </ul>
             </div>
           </li>
@@ -2965,13 +3016,6 @@
               <span>কাস্টমার বকেয়া তালিকা</span>
             </a>
             <div class="sidebar-mini-tooltip">কাস্টমার বকেয়া তালিকা</div>
-          </li>
-          <li class="relative group">
-            <a href="{{ url('customer-due-collection-page') }}" class="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] text-slate-200 hover:text-white hover:bg-white/10 transition-all duration-150 {{ request()->is('customer-due-collection-page') ? 'active-submenu-link' : '' }}">
-              <i class="fa-solid fa-hand-holding-dollar text-xs text-purple-200/80 w-4 text-center"></i>
-              <span>বকেয়া আদায় তালিকা</span>
-            </a>
-            <div class="sidebar-mini-tooltip">বকেয়া আদায় তালিকা</div>
           </li>
         </ul>
       </div>

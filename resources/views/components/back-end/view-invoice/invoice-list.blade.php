@@ -53,6 +53,7 @@
                         <div class="d-flex align-items-center gap-2 mb-0">
                             <div class="position-relative flex-grow-1 mb-0">
                                 <input type="text" id="mobileSearchInput" class="form-control invoice-search-input mb-0" placeholder="ইনভয়েস খুঁজুন..." autocomplete="off" />
+                                <div id="mobileSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
                             </div>
                             <button type="button" class="mobile-search-close-btn mb-0" onclick="closeMobileSearchBar()" title="বন্ধ করুন">
                                 <i class="fa-solid fa-xmark"></i>
@@ -97,6 +98,7 @@
                     <div class="invoice-search-box-wrap mb-3 position-relative d-none d-lg-block">
                         <input type="text" id="searchInput" class="form-control invoice-search-input" placeholder="ইনভয়েস খুঁজুন..." autocomplete="off" />
                         <i class="fa-solid fa-magnifying-glass invoice-search-addon-icon"></i>
+                        <div id="desktopSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
                     </div>
 
                     <!-- 3. Toolbar Section: Desktop only >= 992px (Row 1: Entry & Filter, Row 2: PDF & Print) -->
@@ -1504,6 +1506,62 @@
     body[data-layout-mode="dark"] .invoice-summary-grid .summary-price.text-dark {
         color: #f8fafc !important;
     }
+
+    /* Live Search Dropdown Styles */
+    .search-live-dropdown {
+        top: calc(100% + 4px);
+        background: #ffffff;
+        border: 1.5px solid #E5D5F7;
+        z-index: 1060;
+        max-height: 280px;
+        overflow-y: auto;
+        box-shadow: 0 12px 32px rgba(140, 86, 212, 0.18) !important;
+    }
+    .search-live-item {
+        padding: 9px 14px;
+        border-bottom: 1px solid #f1f5f9;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .search-live-item:last-child {
+        border-bottom: none;
+    }
+    .search-live-item:hover {
+        background: #F3ECFB;
+    }
+    body[light-mode="dark"] .search-live-dropdown,
+    body[data-layout-mode="dark"] .search-live-dropdown,
+    body.dark-mode .search-live-dropdown,
+    html[light-mode="dark"] .search-live-dropdown,
+    html[data-layout-mode="dark"] .search-live-dropdown,
+    html.dark .search-live-dropdown,
+    [data-bs-theme="dark"] .search-live-dropdown {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+    }
+    body[light-mode="dark"] .search-live-item,
+    body[data-layout-mode="dark"] .search-live-item,
+    body.dark-mode .search-live-item,
+    html[light-mode="dark"] .search-live-item,
+    html[data-layout-mode="dark"] .search-live-item,
+    html.dark .search-live-item,
+    [data-bs-theme="dark"] .search-live-item {
+        border-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+    body[light-mode="dark"] .search-live-item:hover,
+    body[data-layout-mode="dark"] .search-live-item:hover,
+    body.dark-mode .search-live-item:hover,
+    html[light-mode="dark"] .search-live-item:hover,
+    html[data-layout-mode="dark"] .search-live-item:hover,
+    html.dark .search-live-item:hover,
+    [data-bs-theme="dark"] .search-live-item:hover {
+        background: #334155 !important;
+    }
 </style>
 
 <script>
@@ -1621,12 +1679,11 @@
     function closeMobileSearchBar() {
         $("#mobileSearchWrap").addClass("d-none");
         $("#mobileSearchToggleBtn").removeClass("active");
-        if ($("#mobileSearchInput").val()) {
-            $("#mobileSearchInput").val('');
-            $("#searchInput").val('');
-            currentPage = 1;
-            renderPaginatedList();
-        }
+        $("#mobileSearchInput").val('');
+        $("#searchInput").val('');
+        $(".search-live-dropdown").addClass("d-none").empty();
+        currentPage = 1;
+        renderPaginatedList();
     }
 
     // Custom Date Modal Actions
@@ -2097,12 +2154,109 @@
             e.stopImmediatePropagation();
             printInvoiceListTable();
         });
+
+        // Close live search dropdown when clicked outside
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest("#searchInput, #mobileSearchInput, #desktopSearchDropdown, #mobileSearchDropdown").length) {
+                $(".search-live-dropdown").addClass("d-none").empty();
+            }
+        });
+
+        $("#searchInput").on("keyup search input focus", function () {
+            let val = $(this).val();
+            $("#mobileSearchInput").val(val);
+            handleLiveSearch(val);
+            currentPage = 1;
+            renderPaginatedList();
+        });
+
+        $("#mobileSearchInput").on("keyup search input focus", function () {
+            let val = $(this).val();
+            $("#searchInput").val(val);
+            handleLiveSearch(val);
+            currentPage = 1;
+            renderPaginatedList();
+        });
     });
 
-    $(document).on("keyup search input", "#searchInput, #mobileSearchInput", function () {
+    function handleLiveSearch(term) {
+        let cleanTerm = (term || "").toLowerCase().trim();
+        renderLiveDropdown("mobileSearchDropdown", cleanTerm);
+        renderLiveDropdown("desktopSearchDropdown", cleanTerm);
+    }
+
+    function renderLiveDropdown(containerId, cleanTerm) {
+        const dropdown = $("#" + containerId);
+        if (!cleanTerm || cleanTerm.length === 0 || !rawInvoiceData || rawInvoiceData.length === 0) {
+            dropdown.addClass("d-none").empty();
+            return;
+        }
+
+        let termEng = banglaToEngNum(cleanTerm);
+        let termBn = engToBanglaNum(cleanTerm);
+
+        let matches = rawInvoiceData.filter(item => {
+            let orderNo = String(item.order_no || "").toLowerCase();
+            let customerName = String(item.customer?.customer_name || "").toLowerCase();
+            let customerMobile = String(item.customer?.mobile || "").toLowerCase();
+            let customerId = String(item.customer?.customer_id || "").toLowerCase();
+
+            return orderNo.includes(cleanTerm) || orderNo.includes(termEng) || orderNo.includes(termBn) ||
+                   customerName.includes(cleanTerm) ||
+                   customerMobile.includes(cleanTerm) || customerMobile.includes(termEng) ||
+                   customerId.includes(cleanTerm) || customerId.includes(termEng);
+        }).slice(0, 8);
+
+        if (matches.length === 0) {
+            dropdown.html('<div class="p-3 text-center text-muted small"><i class="fa-solid fa-circle-exclamation me-1"></i>কোনো ইনভয়েস পাওয়া যায়নি</div>').removeClass("d-none");
+            return;
+        }
+
+        let html = '';
+        matches.forEach(item => {
+            const subTotalNum = item['sub_total'] ? parseFloat(item['sub_total']) : 0;
+            const dueAmountNum = item['due_amount'] ? parseFloat(item['due_amount']) : 0;
+            const subTotalFormatted = subTotalNum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const dueFormatted = dueAmountNum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            const custName = item['customer']?.customer_name || 'সাধারণ কাস্টমার';
+            const orderNoDisp = item.order_no ? '#' + item.order_no : '#' + item.id;
+            const safeSearchTerm = (item.order_no || custName).replace(/'/g, "\\'");
+            const mobileText = item['customer']?.mobile ? `<span class="text-muted small d-block text-truncate" style="font-size: 11px;"><i class="fa-solid fa-phone me-1"></i>${item['customer'].mobile}</span>` : '';
+
+            const amountDisplay = dueAmountNum > 0
+                ? `<div class="text-danger fw-bold" style="font-size: 11.5px;">বাকি: ৳ ${engToBanglaNum(dueFormatted)}</div>`
+                : `<div class="text-success fw-bold" style="font-size: 11.5px;">৳ ${engToBanglaNum(subTotalFormatted)}</div>`;
+
+            html += `
+                <div class="search-live-item" onclick="selectSearchDropdownItem('${safeSearchTerm}')">
+                    <div class="d-flex align-items-center gap-2 overflow-hidden">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px; background: #F3ECFB; color: #8C56D4; font-size: 13px;">
+                            <i class="fa-solid fa-file-invoice"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <span class="fw-bold text-dark d-block text-truncate" style="font-size: 13px;">${custName}</span>
+                            ${mobileText}
+                        </div>
+                    </div>
+                    <div class="text-end flex-shrink-0 ms-2">
+                        <span class="badge bg-light text-dark border mb-1 d-inline-block" style="font-size: 10px;">${orderNoDisp}</span>
+                        <div>${amountDisplay}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        dropdown.html(html).removeClass("d-none");
+    }
+
+    function selectSearchDropdownItem(name) {
+        $("#searchInput").val(name);
+        $("#mobileSearchInput").val(name);
+        $(".search-live-dropdown").addClass("d-none").empty();
         currentPage = 1;
         renderPaginatedList();
-    });
+    }
 
     function viewReturn(id) {
         window.location.href = `/return/${id}`;

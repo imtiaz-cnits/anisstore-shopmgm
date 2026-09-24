@@ -56,6 +56,7 @@
                         <div class="d-flex align-items-center gap-2 mb-0">
                             <div class="position-relative flex-grow-1 mb-0">
                                 <input type="text" id="mobileSearchInput" class="form-control invoice-search-input mb-0" placeholder="অনুসন্ধান করুন..." autocomplete="off" />
+                                <div id="mobileSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
                             </div>
                             <button type="button" class="mobile-search-close-btn mb-0" onclick="closeMobileSearchBar()" title="বন্ধ করুন">
                                 <i class="fa-solid fa-xmark"></i>
@@ -70,6 +71,7 @@
                             <div class="invoice-search-box-wrap position-relative flex-grow-1" style="max-width: 420px;">
                                 <input type="text" id="searchInput" class="form-control invoice-search-input" placeholder="অনুসন্ধান করুন (নাম, আইডি, কোম্পানি)..." autocomplete="off" />
                                 <i class="fa-solid fa-magnifying-glass invoice-search-addon-icon"></i>
+                                <div id="desktopSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
                             </div>
 
                             <!-- Right: Entries & Filter Dropdowns -->
@@ -252,11 +254,11 @@
                     <div class="row g-2 mb-3 w-100 m-0">
                         <div class="col-6 ps-0 pe-1">
                             <label for="DiscountAmount" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">ছাড় (Discount)</label>
-                            <input type="number" inputmode="decimal" pattern="[0-9]*" step="any" min="0" id="DiscountAmount" class="form-control invoice-search-input text-start w-100 ps-3" oninput="calculateDuePayment()" placeholder="৳ ০.০০" style="width: 100% !important;">
+                            <input type="number" inputmode="decimal" step="any" min="0" id="DiscountAmount" class="form-control invoice-search-input text-start w-100 ps-3" oninput="calculateDuePayment()" placeholder="৳ ০.০০" style="width: 100% !important;">
                         </div>
                         <div class="col-6 ps-1 pe-0">
                             <label for="PayAmount" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">পরিশোধিত টাকা *</label>
-                            <input type="number" inputmode="decimal" pattern="[0-9]*" step="any" min="0" id="PayAmount" class="form-control invoice-search-input text-start fw-bold w-100 ps-3" oninput="calculateDuePayment()" placeholder="৳ ০.০০" required style="width: 100% !important;">
+                            <input type="number" inputmode="decimal" step="any" min="0" id="PayAmount" class="form-control invoice-search-input text-start fw-bold w-100 ps-3" oninput="calculateDuePayment()" placeholder="৳ ০.০০" required style="width: 100% !important;">
                         </div>
                     </div>
 
@@ -1425,6 +1427,126 @@
         }
     }
 
+    /* Search Live Dropdown */
+    .search-live-dropdown {
+        top: calc(100% + 4px);
+        background: #ffffff;
+        border: 1.5px solid #E5D5F7;
+        z-index: 1060;
+        max-height: 280px;
+        overflow-y: auto;
+        box-shadow: 0 12px 32px rgba(140, 86, 212, 0.18) !important;
+    }
+    .search-live-item {
+        padding: 9px 14px;
+        border-bottom: 1px solid #f1f5f9;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .search-live-item:last-child {
+        border-bottom: none;
+    }
+    .search-live-item:hover {
+        background: #F3ECFB;
+    }
+
+    /* Dark Mode Universal Border & Color Harmonization */
+    body[light-mode="dark"] .search-live-dropdown,
+    body[data-layout-mode="dark"] .search-live-dropdown,
+    body.dark-mode .search-live-dropdown,
+    [data-bs-theme="dark"] .search-live-dropdown {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+    }
+    body[light-mode="dark"] .search-live-item,
+    body[data-layout-mode="dark"] .search-live-item,
+    body.dark-mode .search-live-item,
+    [data-bs-theme="dark"] .search-live-item {
+        border-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+    body[light-mode="dark"] .search-live-item:hover,
+    body[data-layout-mode="dark"] .search-live-item:hover,
+    body.dark-mode .search-live-item:hover,
+    [data-bs-theme="dark"] .search-live-item:hover {
+        background: #334155 !important;
+    }
+    body[light-mode="dark"] .border,
+    html[light-mode="dark"] .border,
+    body[data-layout-mode="dark"] .border,
+    html[data-layout-mode="dark"] .border,
+    body.dark-mode .border,
+    html.dark-mode .border,
+    body.dark .border,
+    html.dark .border,
+    [data-bs-theme="dark"] .border,
+    [data-theme="dark"] .border,
+    body[light-mode="dark"] .border-bottom,
+    html[light-mode="dark"] .border-bottom,
+    body[data-layout-mode="dark"] .border-bottom,
+    html[data-layout-mode="dark"] .border-bottom,
+    body.dark-mode .border-bottom,
+    html.dark-mode .border-bottom,
+    body.dark .border-bottom,
+    html.dark .border-bottom,
+    [data-bs-theme="dark"] .border-bottom,
+    [data-theme="dark"] .border-bottom,
+    body[light-mode="dark"] .border-top,
+    html[light-mode="dark"] .border-top,
+    body[data-layout-mode="dark"] .border-top,
+    html[data-layout-mode="dark"] .border-top,
+    body.dark-mode .border-top,
+    html.dark-mode .border-top,
+    body.dark .border-top,
+    html.dark .border-top,
+    [data-bs-theme="dark"] .border-top,
+    [data-theme="dark"] .border-top,
+    body[light-mode="dark"] .border-start,
+    html[light-mode="dark"] .border-start,
+    body[data-layout-mode="dark"] .border-start,
+    html[data-layout-mode="dark"] .border-start,
+    body.dark-mode .border-start,
+    html.dark-mode .border-start,
+    [data-bs-theme="dark"] .border-start,
+    [data-theme="dark"] .border-start,
+    body[light-mode="dark"] .border-end,
+    html[light-mode="dark"] .border-end,
+    body[data-layout-mode="dark"] .border-end,
+    html[data-layout-mode="dark"] .border-end,
+    body.dark-mode .border-end,
+    html.dark-mode .border-end,
+    [data-bs-theme="dark"] .border-end,
+    [data-theme="dark"] .border-end,
+    body[light-mode="dark"] .invoice-mobile-card,
+    html[light-mode="dark"] .invoice-mobile-card,
+    body[data-layout-mode="dark"] .invoice-mobile-card,
+    html[data-layout-mode="dark"] .invoice-mobile-card,
+    body.dark-mode .invoice-mobile-card,
+    html.dark-mode .invoice-mobile-card,
+    [data-bs-theme="dark"] .invoice-mobile-card,
+    body[light-mode="dark"] .supplier-tab-nav-wrap,
+    body[data-layout-mode="dark"] .supplier-tab-nav-wrap,
+    body.dark-mode .supplier-tab-nav-wrap,
+    [data-bs-theme="dark"] .supplier-tab-nav-wrap,
+    body[light-mode="dark"] .invoice-top-summary-strip,
+    body[data-layout-mode="dark"] .invoice-top-summary-strip,
+    body.dark-mode .invoice-top-summary-strip,
+    [data-bs-theme="dark"] .invoice-top-summary-strip,
+    body[light-mode="dark"] .badge.bg-light,
+    body[data-layout-mode="dark"] .badge.bg-light,
+    body.dark-mode .badge.bg-light,
+    [data-bs-theme="dark"] .badge.bg-light,
+    body[light-mode="dark"] .mobile-action-btn,
+    body[data-layout-mode="dark"] .mobile-action-btn,
+    body.dark-mode .mobile-action-btn,
+    [data-bs-theme="dark"] .mobile-action-btn {
+        border-color: #334155 !important;
+    }
+
     [data-bs-theme="dark"] #editModal .modal-sticky-footer,
     [data-theme="dark"] #editModal .modal-sticky-footer,
     html.dark #editModal .modal-sticky-footer,
@@ -1481,13 +1603,23 @@
                 $('.custom-dropdown-wrap').removeClass('open');
                 $('.custom-dropdown-menu').removeClass('show');
             }
+            if (!$(e.target).closest('#mobileSearchWrap, #searchInput, .search-live-dropdown').length) {
+                $('.search-live-dropdown').addClass('d-none').empty();
+            }
         });
+
+        function handleLiveSearch(term) {
+            let cleanTerm = (term || '').toLowerCase().trim();
+            renderLiveDropdown('mobileSearchDropdown', cleanTerm);
+            renderLiveDropdown('desktopSearchDropdown', cleanTerm);
+        }
 
         // Search inputs sync
         $("#searchInput, #mobileSearchInput").on("keyup search input", function () {
             let val = $(this).val();
             $("#searchInput").val(val);
             $("#mobileSearchInput").val(val);
+            handleLiveSearch(val);
             currentPage = 1;
             renderCurrentActiveTab();
         });
@@ -1551,6 +1683,118 @@
         $('#mobileSearchInput').val('');
         $('#searchInput').val('');
         $('#mobileSearchToggleBtn').removeClass('active');
+        $('#mobileSearchDropdown, #desktopSearchDropdown').addClass('d-none').empty();
+        currentPage = 1;
+        renderCurrentActiveTab();
+    }
+
+    function renderLiveDropdown(containerId, cleanTerm) {
+        const dropdown = $('#' + containerId);
+        if (!cleanTerm || cleanTerm.length === 0) {
+            dropdown.addClass('d-none').empty();
+            return;
+        }
+
+        if (activeTab === 'dueList') {
+            if (!rawDueData || rawDueData.length === 0) {
+                dropdown.addClass('d-none').empty();
+                return;
+            }
+
+            let matches = rawDueData.filter(item => {
+                let supplierId = (item.supplier_id || "").toLowerCase();
+                let name = (item.name || "").toLowerCase();
+                let company = (item.company || "").toLowerCase();
+
+                return supplierId.includes(cleanTerm) ||
+                       name.includes(cleanTerm) ||
+                       company.includes(cleanTerm);
+            }).slice(0, 8);
+
+            if (matches.length === 0) {
+                dropdown.html('<div class="p-3 text-center text-muted small"><i class="fa-solid fa-circle-exclamation me-1"></i>কোনো সাপ্লায়ার পাওয়া যায়নি</div>').removeClass('d-none');
+                return;
+            }
+
+            let html = '';
+            matches.forEach(item => {
+                const img = item.img_url ? item.img_url : "{{ asset('back-end/assets/img/demo-img.jpeg') }}";
+                const payable = parseFloat(item.purchase_payable_amount) || 0;
+                const totalDue = parseFloat(item.total_due_amount) || 0;
+                const grandDue = payable + totalDue;
+                const dueDisplay = grandDue > 0 ? `<span class="text-danger fw-bold" style="font-size: 11.5px;">৳ ${grandDue.toFixed(2)}</span>` : '<span class="text-muted small" style="font-size: 11px;">পরিশোধিত</span>';
+                const companyText = item.company ? `<span class="text-muted small d-block text-truncate" style="font-size: 11px; max-width: 180px;"><i class="fa-solid fa-building me-1"></i>${item.company}</span>` : '';
+                const safeName = (item.name || '').replace(/'/g, "\\'");
+
+                html += `
+                    <div class="search-live-item" onclick="selectSearchDropdownItem('${safeName}')">
+                        <div class="d-flex align-items-center gap-2 overflow-hidden">
+                            <img src="${img}" class="rounded-circle border flex-shrink-0" style="width: 32px; height: 32px; object-fit: cover;" onerror="this.src='{{ asset('back-end/assets/img/demo-img.jpeg') }}'">
+                            <div class="overflow-hidden">
+                                <span class="fw-bold text-dark d-block text-truncate" style="font-size: 13px;">${item.name}</span>
+                                ${companyText}
+                            </div>
+                        </div>
+                        <div class="text-end flex-shrink-0 ms-2">
+                            <span class="badge bg-light text-dark border mb-1 d-inline-block" style="font-size: 10px;">${item.supplier_id}</span>
+                            <div>${dueDisplay}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            dropdown.html(html).removeClass('d-none');
+        } else {
+            // Collection List
+            if (!rawCollectionData || rawCollectionData.length === 0) {
+                dropdown.addClass('d-none').empty();
+                return;
+            }
+
+            let matches = rawCollectionData.filter(item => {
+                let supplierName = item.supplier ? (item.supplier.name || "") : "";
+                let supplierId = item.supplier ? (item.supplier.supplier_id || "") : (item.supplier_id || "");
+                let date = item.date || item.created_at || "";
+
+                return supplierName.toLowerCase().includes(cleanTerm) ||
+                       supplierId.toLowerCase().includes(cleanTerm) ||
+                       date.toLowerCase().includes(cleanTerm);
+            }).slice(0, 8);
+
+            if (matches.length === 0) {
+                dropdown.html('<div class="p-3 text-center text-muted small"><i class="fa-solid fa-circle-exclamation me-1"></i>কোনো পেমেন্ট তথ্য পাওয়া যায়নি</div>').removeClass('d-none');
+                return;
+            }
+
+            let html = '';
+            matches.forEach(item => {
+                let sName = item.supplier ? item.supplier.name : (item.supplier_id || 'N/A');
+                let sId = item.supplier ? (item.supplier.supplier_id || 'ID N/A') : (item.supplier_id || 'ID N/A');
+                let paid = parseFloat(item.paid_amount) || 0;
+                let safeName = sName.replace(/'/g, "\\'");
+
+                html += `
+                    <div class="search-live-item" onclick="selectSearchDropdownItem('${safeName}')">
+                        <div class="overflow-hidden">
+                            <span class="fw-bold text-dark d-block text-truncate" style="font-size: 13px;">${sName}</span>
+                            <span class="text-muted small" style="font-size: 11px;"><i class="fa-regular fa-calendar me-1"></i>${item.due_collection_date || item.date || ''}</span>
+                        </div>
+                        <div class="text-end flex-shrink-0 ms-2">
+                            <span class="badge bg-light text-dark border mb-1 d-inline-block" style="font-size: 10px;">${sId}</span>
+                            <div class="text-success fw-bold" style="font-size: 11.5px;">৳ ${paid.toFixed(2)}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            dropdown.html(html).removeClass('d-none');
+        }
+    }
+
+    function selectSearchDropdownItem(name) {
+        $('#searchInput').val(name);
+        $('#mobileSearchInput').val(name);
+        $('.search-live-dropdown').addClass('d-none').empty();
         currentPage = 1;
         renderCurrentActiveTab();
     }

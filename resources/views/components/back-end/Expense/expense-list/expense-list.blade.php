@@ -41,6 +41,7 @@
             <div class="d-flex align-items-center gap-2 mb-0">
                 <div class="position-relative flex-grow-1 mb-0">
                     <input type="text" id="searchInput" class="form-control invoice-search-input mb-0" placeholder="🔍 টাইপ / বিবরণ / স্টাফ খুঁজুন..." autocomplete="off" />
+                    <div id="searchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
                 </div>
                 <button type="button" class="mobile-search-close-btn mb-0" onclick="closeMobileSearchBar()" title="বন্ধ করুন">
                     <i class="fa-solid fa-xmark"></i>
@@ -647,6 +648,61 @@
         color: #F3ECFB !important;
     }
 
+    /* Live Search Dropdown Styles */
+    .search-live-dropdown {
+        top: calc(100% + 4px);
+        background: #ffffff;
+        border: 1.5px solid #E5D5F7;
+        z-index: 1060;
+        max-height: 280px;
+        overflow-y: auto;
+        box-shadow: 0 12px 32px rgba(140, 86, 212, 0.18) !important;
+    }
+    .search-live-item {
+        padding: 9px 14px;
+        border-bottom: 1px solid #f1f5f9;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .search-live-item:last-child {
+        border-bottom: none;
+    }
+    .search-live-item:hover {
+        background: #F3ECFB;
+    }
+    body[light-mode="dark"] .search-live-dropdown,
+    body[data-layout-mode="dark"] .search-live-dropdown,
+    body.dark-mode .search-live-dropdown,
+    html[light-mode="dark"] .search-live-dropdown,
+    html[data-layout-mode="dark"] .search-live-dropdown,
+    html.dark .search-live-dropdown,
+    [data-bs-theme="dark"] .search-live-dropdown {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+    }
+    body[light-mode="dark"] .search-live-item,
+    body[data-layout-mode="dark"] .search-live-item,
+    body.dark-mode .search-live-item,
+    html[light-mode="dark"] .search-live-item,
+    html[data-layout-mode="dark"] .search-live-item,
+    html.dark .search-live-item,
+    [data-bs-theme="dark"] .search-live-item {
+        border-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+    body[light-mode="dark"] .search-live-item:hover,
+    body[data-layout-mode="dark"] .search-live-item:hover,
+    body.dark-mode .search-live-item:hover,
+    html[light-mode="dark"] .search-live-item:hover,
+    html[data-layout-mode="dark"] .search-live-item:hover,
+    html.dark .search-live-item:hover,
+    [data-bs-theme="dark"] .search-live-item:hover {
+        background: #334155 !important;
+    }
 </style>
 
 <script>
@@ -689,13 +745,29 @@
     document.addEventListener("DOMContentLoaded", function () {
         getExpenseList();
 
-        document.getElementById('searchInput')?.addEventListener('keyup', filterExpenseTable);
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                handleLiveSearch(this.value);
+                filterExpenseTable();
+            });
+            searchInput.addEventListener('focus', function() {
+                handleLiveSearch(this.value);
+            });
+        }
 
         // Close dropdown when clicked outside
         document.addEventListener('click', function(e) {
             const container = document.getElementById('mobileFilterDropdownContainer');
             if (container && !container.contains(e.target)) {
                 document.getElementById('mobileFilterDropdownMenu')?.classList.remove('show');
+            }
+            if (!e.target.closest('#searchInput, #searchDropdown')) {
+                const dd = document.getElementById('searchDropdown');
+                if (dd) {
+                    dd.classList.add('d-none');
+                    dd.innerHTML = '';
+                }
             }
         });
 
@@ -706,6 +778,73 @@
         dmObserver.observe(document.body, { attributes: true, attributeFilter: ['light-mode', 'data-layout-mode', 'class'] });
         dmObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['light-mode', 'data-layout-mode', 'class'] });
     });
+
+    function handleLiveSearch(term) {
+        const dropdown = document.getElementById('searchDropdown');
+        if (!dropdown) return;
+        const cleanTerm = (term || '').toLowerCase().trim();
+        if (!cleanTerm || !rawExpenseList || rawExpenseList.length === 0) {
+            dropdown.classList.add('d-none');
+            dropdown.innerHTML = '';
+            return;
+        }
+
+        const matches = rawExpenseList.filter(item => {
+            const type = (item.type_name || '').toLowerCase();
+            const details = (item.expense_details || '').toLowerCase();
+            const staff = (item.staff_name || '').toLowerCase();
+            const amount = (item.expense_amount || '').toString();
+
+            return type.includes(cleanTerm) || details.includes(cleanTerm) || staff.includes(cleanTerm) || amount.includes(cleanTerm);
+        }).slice(0, 8);
+
+        if (matches.length === 0) {
+            dropdown.innerHTML = '<div class="p-3 text-center text-muted small"><i class="fa-solid fa-circle-exclamation me-1"></i>কোনো খরচ পাওয়া যায়নি</div>';
+            dropdown.classList.remove('d-none');
+            return;
+        }
+
+        let html = '';
+        matches.forEach(item => {
+            const typeName = item.type_name || 'সাধারণ খরচ';
+            const staffText = item.staff_name ? `<span class="text-muted small d-block text-truncate" style="font-size: 11px;"><i class="fa-solid fa-user-tie me-1"></i>${item.staff_name}</span>` : (item.expense_details ? `<span class="text-muted small d-block text-truncate" style="font-size: 11px;">${item.expense_details}</span>` : '');
+            const amount = parseFloat(item.expense_amount || 0).toLocaleString('en-IN', {minimumFractionDigits: 2});
+            const dateStr = item.date ? new Date(item.date).toLocaleDateString('en-GB') : '';
+            const safeSearchTerm = (item.type_name || item.staff_name || item.expense_details || '').replace(/'/g, "\\'");
+
+            html += `
+                <div class="search-live-item" onclick="selectSearchDropdownItem('${safeSearchTerm}')">
+                    <div class="d-flex align-items-center gap-2 overflow-hidden">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px; background: #FEE2E2; color: #DC2626; font-size: 13px;">
+                            <i class="fa-solid fa-receipt"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <span class="fw-bold text-dark d-block text-truncate" style="font-size: 13px;">${typeName}</span>
+                            ${staffText}
+                        </div>
+                    </div>
+                    <div class="text-end flex-shrink-0 ms-2">
+                        ${dateStr ? `<span class="badge bg-light text-dark border mb-1 d-inline-block" style="font-size: 10px;">${dateStr}</span>` : ''}
+                        <div class="text-danger fw-bold" style="font-size: 11.5px;">৳ ${amount}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        dropdown.innerHTML = html;
+        dropdown.classList.remove('d-none');
+    }
+
+    function selectSearchDropdownItem(name) {
+        const input = document.getElementById('searchInput');
+        if (input) input.value = name;
+        const dropdown = document.getElementById('searchDropdown');
+        if (dropdown) {
+            dropdown.classList.add('d-none');
+            dropdown.innerHTML = '';
+        }
+        filterExpenseTable();
+    }
 
     function toggleMobileSearchBar() {
         const wrap = document.getElementById('mobileSearchWrap');
@@ -724,8 +863,13 @@
         const wrap = document.getElementById('mobileSearchWrap');
         const btn = document.getElementById('mobileSearchToggleBtn');
         const input = document.getElementById('searchInput');
+        const dropdown = document.getElementById('searchDropdown');
         if (wrap) wrap.classList.add('d-none');
         if (btn) btn.classList.remove('active');
+        if (dropdown) {
+            dropdown.classList.add('d-none');
+            dropdown.innerHTML = '';
+        }
         if (input) {
             input.value = '';
             filterExpenseTable();

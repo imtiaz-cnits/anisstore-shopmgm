@@ -827,33 +827,53 @@ public function PurchaseReturnProductCreate(Request $request)
         }
     }
 
-    // Search invoice by Order No for processing returns
+    // Search invoice by Order No or Customer for processing returns
     public function SearchInvoiceForReturn(Request $request)
     {
         try {
-            $orderNo = trim($request->input('order_no'));
-            if (!$orderNo) {
-                return response()->json(['status' => 'fail', 'message' => 'Invoice number is required']);
+            $customerId = $request->input('customer_id');
+            $orderNo = trim($request->input('order_no', ''));
+            if (!$orderNo && !$customerId) {
+                return response()->json(['status' => 'fail', 'message' => 'Invoice number or customer is required']);
             }
 
-            // Remove leading # if present or try matching
-            $cleanNo = ltrim($orderNo, '#');
+            $order = null;
 
-            $order = Order::with(['customer', 'details.product'])
-                ->where('order_no', $orderNo)
-                ->orWhere('order_no', '#' . $cleanNo)
-                ->orWhere('order_no', $cleanNo)
-                ->orWhere('id', $cleanNo)
-                ->first();
-
-            if (!$order) {
+            // 1. If customer ID is provided, look for latest order
+            if ($customerId) {
                 $order = Order::with(['customer', 'details.product'])
-                    ->where('order_no', 'LIKE', "%{$cleanNo}%")
+                    ->where(function($query) use ($customerId) {
+                        $query->where('customer_id', $customerId)
+                            ->orWhereHas('customer', function($q) use ($customerId) {
+                                $q->where('id', $customerId)
+                                  ->orWhere('customer_id', $customerId);
+                            });
+                    })
+                    ->orderBy('id', 'desc')
                     ->first();
             }
 
+            // 2. If order_no is passed or order not found yet
+            if (!$order && $orderNo) {
+                // Remove leading # if present or try matching
+                $cleanNo = ltrim($orderNo, '#');
+
+                $order = Order::with(['customer', 'details.product'])
+                    ->where('order_no', $orderNo)
+                    ->orWhere('order_no', '#' . $cleanNo)
+                    ->orWhere('order_no', $cleanNo)
+                    ->orWhere('id', $cleanNo)
+                    ->first();
+
+                if (!$order) {
+                    $order = Order::with(['customer', 'details.product'])
+                        ->where('order_no', 'LIKE', "%{$cleanNo}%")
+                        ->first();
+                }
+            }
+
             if (!$order) {
-                return response()->json(['status' => 'fail', 'message' => "No invoice found matching '{$orderNo}'"]);
+                return response()->json(['status' => 'fail', 'message' => "No invoice found for return"]);
             }
 
             $cName = $order->customer ? ($order->customer->name ?? $order->customer->customer_name) : 'Guest Customer';

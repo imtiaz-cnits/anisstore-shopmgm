@@ -1842,6 +1842,79 @@
             border-top: 1px solid #334155 !important;
         }
 
+        /* Mobile Item Line Modal Dark Mode Overrides */
+        body[light-mode="dark"] #mobileItemLineModal .modal-content,
+        body[data-layout-mode="dark"] #mobileItemLineModal .modal-content,
+        body.dark-mode #mobileItemLineModal .modal-content,
+        [data-bs-theme="dark"] #mobileItemLineModal .modal-content {
+            background-color: #1e293b !important;
+            color: #f8fafc !important;
+        }
+
+        body[light-mode="dark"] #mobileItemLineModal .bg-white,
+        body[data-layout-mode="dark"] #mobileItemLineModal .bg-white,
+        body.dark-mode #mobileItemLineModal .bg-white,
+        [data-bs-theme="dark"] #mobileItemLineModal .bg-white {
+            background-color: #1e293b !important;
+        }
+
+        body[light-mode="dark"] #mobileItemLineModal .itemline-input,
+        body[data-layout-mode="dark"] #mobileItemLineModal .itemline-input,
+        body.dark-mode #mobileItemLineModal .itemline-input,
+        [data-bs-theme="dark"] #mobileItemLineModal .itemline-input {
+            background-color: #0f172a !important;
+            border-color: #334155 !important;
+            color: #f8fafc !important;
+        }
+
+        body[light-mode="dark"] #mobileItemLineModal .itemline-input:focus,
+        body[data-layout-mode="dark"] #mobileItemLineModal .itemline-input:focus,
+        body.dark-mode #mobileItemLineModal .itemline-input:focus,
+        [data-bs-theme="dark"] #mobileItemLineModal .itemline-input:focus {
+            border-color: #8C56D4 !important;
+            box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.2) !important;
+        }
+
+        body[light-mode="dark"] #mobileItemLineModal .itemline-input[readonly],
+        body[data-layout-mode="dark"] #mobileItemLineModal .itemline-input[readonly],
+        body.dark-mode #mobileItemLineModal .itemline-input[readonly],
+        [data-bs-theme="dark"] #mobileItemLineModal .itemline-input[readonly] {
+            background-color: #0f172a !important;
+            border-color: #334155 !important;
+            color: #cbd5e1 !important;
+        }
+
+        body[light-mode="dark"] #mobileItemLineModal .form-label,
+        body[data-layout-mode="dark"] #mobileItemLineModal .form-label,
+        body.dark-mode #mobileItemLineModal .form-label,
+        [data-bs-theme="dark"] #mobileItemLineModal .form-label {
+            color: #94a3b8 !important;
+        }
+
+        body[light-mode="dark"] #mobileItemLineModal div[style*="background: #FAF7FD"],
+        body[data-layout-mode="dark"] #mobileItemLineModal div[style*="background: #FAF7FD"],
+        body.dark-mode #mobileItemLineModal div[style*="background: #FAF7FD"],
+        [data-bs-theme="dark"] #mobileItemLineModal div[style*="background: #FAF7FD"] {
+            background: #0f172a !important;
+            border-color: #334155 !important;
+        }
+
+        body[light-mode="dark"] #mobileItemLineModal .text-dark,
+        body[data-layout-mode="dark"] #mobileItemLineModal .text-dark,
+        body.dark-mode #mobileItemLineModal .text-dark,
+        [data-bs-theme="dark"] #mobileItemLineModal .text-dark {
+            color: #f8fafc !important;
+        }
+
+        body[light-mode="dark"] #mobileItemLineModal button[data-bs-dismiss="modal"],
+        body[data-layout-mode="dark"] #mobileItemLineModal button[data-bs-dismiss="modal"],
+        body.dark-mode #mobileItemLineModal button[data-bs-dismiss="modal"],
+        [data-bs-theme="dark"] #mobileItemLineModal button[data-bs-dismiss="modal"] {
+            background-color: #0f172a !important;
+            border-color: #8C56D4 !important;
+            color: #D2B7F1 !important;
+        }
+
         /* =========================================================
            Fullscreen Slide-Up Modals (নতুন পার্টি & নতুন পণ্য) Dark Mode
            Strictly follows rules.md (Surface #121212 / Card #1e293b / Border #334155 / Text #f8fafc / Brand #8C56D4)
@@ -2042,8 +2115,11 @@
         <!-- 3. Customer Selection Box ("কাস্টমার যোগ করুন") -->
         <div class="pos-mobile-customer-box" onclick="openMobileCustomerSearchModal()">
             <div class="d-flex align-items-center justify-content-between">
-                <span id="mobileCustomerPlaceholder" class="customer-placeholder">কাস্টমার যোগ করুন</span>
-                <i class="fa-solid fa-circle-info customer-info-icon"></i>
+                <div class="d-flex flex-column flex-grow-1 overflow-hidden pe-2" id="mobileCustomerContentWrap">
+                    <span id="mobileCustomerPlaceholder" class="customer-placeholder">কাস্টমার যোগ করুন</span>
+                    <div id="mobileCustomerSubDisplay" class="d-none small text-muted text-truncate mt-0.5" style="font-size: 11.5px;"></div>
+                </div>
+                <i class="fa-solid fa-circle-info customer-info-icon flex-shrink-0"></i>
             </div>
             <input type="hidden" id="mobileCustomerDate" value="{{ date('Y-m-d') }}" />
         </div>
@@ -2418,22 +2494,22 @@
 
                 <div class="p-3 bg-white">
                     <!-- Outlined Field 1: পণ্য/সার্ভিস নাম -->
-                    <div class="pos-mobile-field-group mb-3">
-                        <label class="field-group-label">পণ্য/সার্ভিস নাম</label>
-                        <input type="text" id="itemLineProductName" readonly class="form-control border-0 bg-transparent fw-bold text-dark p-0" style="font-size: 15px;" />
+                    <div class="mb-3">
+                        <label class="form-label mb-1 fw-bold text-muted" style="font-size: 13px;">পণ্য/সার্ভিস নাম</label>
+                        <input type="text" id="itemLineProductName" readonly class="form-control itemline-input fw-bold text-dark" style="font-size: 15px; height: 44px; border-radius: 10px; border: 1.5px solid #cbd5e1; background: #f8fafc; padding: 8px 12px;" />
                         <input type="hidden" id="itemLineProductId" />
                     </div>
 
-                    <!-- Outlined Field 2: পরিমাণ -->
-                    <div class="pos-mobile-field-group mb-3">
-                        <label class="field-group-label">পরিমাণ</label>
-                        <input type="text" inputmode="numeric" pattern="[0-9]*" id="itemLineQty" value="১" oninput="enforceBanglaNumberInput(this); calculateItemLineTotal()" class="form-control border-0 bg-transparent fw-bold text-dark p-0" style="font-size: 16px;" />
-                    </div>
-
-                    <!-- Outlined Field 3: মূল্য -->
-                    <div class="pos-mobile-field-group mb-3">
-                        <label class="field-group-label">মূল্য</label>
-                        <input type="text" inputmode="decimal" pattern="[0-9]*" id="itemLinePrice" value="০.০০" oninput="enforceBanglaNumberInput(this); calculateItemLineTotal()" class="form-control border-0 bg-transparent fw-bold text-dark p-0" style="font-size: 16px;" />
+                    <!-- 1 Row, 2 Columns: পরিমাণ & মূল্য -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label mb-1 fw-bold text-muted" style="font-size: 13px;">পরিমাণ</label>
+                            <input type="text" inputmode="numeric" pattern="[0-9]*" id="itemLineQty" value="১" oninput="enforceBanglaNumberInput(this); calculateItemLineTotal()" class="form-control itemline-input fw-bold text-dark" style="font-size: 16px; height: 44px; border-radius: 10px; border: 1.5px solid #cbd5e1; background: #ffffff; padding: 8px 12px;" />
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label mb-1 fw-bold text-muted" style="font-size: 13px;">মূল্য</label>
+                            <input type="text" inputmode="decimal" pattern="[0-9]*" id="itemLinePrice" value="০.০০" oninput="enforceBanglaNumberInput(this); calculateItemLineTotal()" class="form-control itemline-input fw-bold text-dark" style="font-size: 16px; height: 44px; border-radius: 10px; border: 1.5px solid #cbd5e1; background: #ffffff; padding: 8px 12px;" />
+                        </div>
                     </div>
 
                     <!-- Sub-Total & Total Price Summary Card -->
@@ -2449,14 +2525,14 @@
                     </div>
 
                     <!-- Action Buttons: বাতিল & ঠিক আছে -->
-                    <div class="row g-2">
+                    <div class="row g-2 pt-2">
                         <div class="col-6">
-                            <button type="button" data-bs-dismiss="modal" class="btn w-100 py-2.5 fw-bold" style="border-radius: 12px; border: 1.5px solid #8C56D4; color: #8C56D4; font-size: 15px; background: #ffffff;">
+                            <button type="button" data-bs-dismiss="modal" class="btn w-100 py-3 fw-bold shadow-xs" style="border-radius: 12px; border: 1.5px solid #8C56D4; color: #8C56D4; font-size: 15px; background: #ffffff; height: 48px; display: inline-flex; align-items: center; justify-content: center;">
                                 বাতিল
                             </button>
                         </div>
                         <div class="col-6">
-                            <button type="button" onclick="confirmAddItemLineToCart()" class="btn w-100 py-2.5 fw-bold text-white" style="border-radius: 12px; background: #8C56D4; border: none; font-size: 15px;">
+                            <button type="button" onclick="confirmAddItemLineToCart()" class="btn w-100 py-3 fw-bold text-white shadow-xs" style="border-radius: 12px; background: #8C56D4; border: none; font-size: 15px; height: 48px; display: inline-flex; align-items: center; justify-content: center;">
                                 ঠিক আছে
                             </button>
                         </div>
@@ -3277,6 +3353,36 @@
             const bnMob = engMob ? (typeof engToBanglaNum === 'function' ? engToBanglaNum(engMob) : engMob) : '';
             const addrStr = (address && address !== '-') ? address : '';
 
+            // 1. Update the main Customer Selection Box ("কাস্টমার যোগ করুন" -> Customer Name + Details)
+            const placeholder = document.getElementById("mobileCustomerPlaceholder");
+            const subBox = document.getElementById("mobileCustomerSubDisplay");
+
+            if (name && name !== 'কাস্টমার যোগ করুন' && name !== 'কাস্টমার সিলেক্ট করুন') {
+                if (placeholder) {
+                    placeholder.textContent = name;
+                    placeholder.classList.remove('customer-placeholder');
+                    placeholder.classList.add('customer-selected-name', 'fw-bold', 'text-dark');
+                }
+                if (subBox) {
+                    let infoParts = [];
+                    if (bnMob || mobile) infoParts.push(`<i class="fa-solid fa-phone me-1 text-success"></i>${bnMob || mobile}`);
+                    if (addrStr) infoParts.push(`<i class="fa-solid fa-location-dot me-0.5 text-danger"></i>${addrStr}`);
+                    if (due > 0) infoParts.push(`<span class="text-danger fw-bold"><i class="fa-solid fa-wallet me-1"></i>বকেয়া: ${formattedDue}</span>`);
+                    subBox.innerHTML = infoParts.join(' &nbsp;•&nbsp; ');
+                    subBox.classList.remove("d-none");
+                }
+            } else {
+                if (placeholder) {
+                    placeholder.textContent = 'কাস্টমার যোগ করুন';
+                    placeholder.classList.add('customer-placeholder');
+                    placeholder.classList.remove('customer-selected-name', 'fw-bold', 'text-dark');
+                }
+                if (subBox) {
+                    subBox.innerHTML = '';
+                    subBox.classList.add("d-none");
+                }
+            }
+
             if (document.getElementById("mobileCustomerNameDisplay")) {
                 document.getElementById("mobileCustomerNameDisplay").textContent = name || 'কাস্টমার সিলেক্ট করুন';
             }
@@ -3291,21 +3397,6 @@
             }
             if (document.getElementById("mobileCustomerDueVal")) {
                 document.getElementById("mobileCustomerDueVal").textContent = formattedDue;
-            }
-
-            // Update sub info line in main select box
-            const subBox = document.getElementById("mobileCustomerSubDisplay");
-            if (subBox) {
-                if (name && name !== 'কাস্টমার সিলেক্ট করুন') {
-                    let infoParts = [];
-                    if (bnMob || mobile) infoParts.push(`<i class="fa-solid fa-phone me-1 text-primary"></i>${bnMob || mobile}`);
-                    if (addrStr) infoParts.push(`<i class="fa-solid fa-location-dot me-1 text-secondary"></i>${addrStr}`);
-                    infoParts.push(`<i class="fa-solid fa-wallet me-1 text-danger"></i>পূর্বের বকেয়া: <span class="text-danger fw-bold">${formattedDue}</span>`);
-                    subBox.innerHTML = infoParts.join(' &nbsp;|&nbsp; ');
-                    subBox.classList.remove("d-none");
-                } else {
-                    subBox.classList.add("d-none");
-                }
             }
 
             const mobileDetailsCard = document.getElementById("mobileCustomerDetailsCard");
@@ -4809,27 +4900,29 @@ function hideMobileModal(modalId) {
 
     try {
         if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-            const bsModal = bootstrap.Modal.getInstance(modalEl) || bootstrap.Modal.getOrCreateInstance(modalEl);
-            if (bsModal) bsModal.hide();
-        } else if (typeof $ !== 'undefined' && $.fn && $.fn.modal) {
-            $(`#${modalId}`).modal('hide');
-        } else {
-            modalEl.classList.remove('show');
-            modalEl.style.display = 'none';
-            document.body.classList.remove('modal-open');
+            const bsModal = bootstrap.Modal.getInstance(modalEl);
+            if (bsModal) {
+                bsModal.hide();
+            } else {
+                const newBsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                if (newBsModal) newBsModal.hide();
+            }
         }
     } catch(e) {
-        if (typeof $ !== 'undefined' && $.fn && $.fn.modal) {
-            $(`#${modalId}`).modal('hide');
-        } else {
-            modalEl.classList.remove('show');
-            modalEl.style.display = 'none';
-            document.body.classList.remove('modal-open');
-        }
+        console.warn("hideMobileModal bootstrap error:", e);
     }
 
+    if (typeof $ !== 'undefined' && $.fn && $.fn.modal) {
+        try { $(`#${modalId}`).modal('hide'); } catch(_) {}
+    }
+
+    modalEl.classList.remove('show');
+    modalEl.style.display = 'none';
+    modalEl.setAttribute('aria-hidden', 'true');
+    modalEl.removeAttribute('aria-modal');
+
     setTimeout(() => {
-        const remainingShow = document.querySelectorAll('.modal.show');
+        const remainingShow = document.querySelectorAll('.modal.show:not(#' + modalId + ')');
         if (remainingShow.length === 0) {
             document.body.classList.remove('modal-open');
             document.body.style.overflow = '';
@@ -4837,7 +4930,7 @@ function hideMobileModal(modalId) {
             const backdrops = document.querySelectorAll('.modal-backdrop');
             backdrops.forEach(b => b.remove());
         }
-    }, 250);
+    }, 150);
 }
 
 function openMobileProductSearchModal() {
@@ -5125,29 +5218,33 @@ function calculateItemLineTotal() {
 }
 
 function confirmAddItemLineToCart() {
-    const productId = document.getElementById("itemLineProductId")?.value;
-    const qty = parseBanglaFloat(document.getElementById("itemLineQty")?.value) || 1;
-    const price = parseBanglaFloat(document.getElementById("itemLinePrice")?.value) || 0;
+    try {
+        const productId = document.getElementById("itemLineProductId")?.value;
+        const qty = parseBanglaFloat(document.getElementById("itemLineQty")?.value) || 1;
+        const price = parseBanglaFloat(document.getElementById("itemLinePrice")?.value) || 0;
 
-    let product = (allProducts || []).find(p => p.id == productId);
-    if (!product) {
-        const existingCartItem = (cartItems || []).find(ci => ci.id == productId);
-        if (existingCartItem) {
-            product = {
-                id: existingCartItem.id,
-                product_name: existingCartItem.product_name,
-                sell_price: existingCartItem.sellingPrice,
-                cost_price: existingCartItem.cost_price,
-                price: existingCartItem.price
-            };
+        let product = (allProducts || []).find(p => p.id == productId);
+        if (!product) {
+            const existingCartItem = (cartItems || []).find(ci => ci.id == productId);
+            if (existingCartItem) {
+                product = {
+                    id: existingCartItem.id,
+                    product_name: existingCartItem.product_name,
+                    sell_price: existingCartItem.sellingPrice,
+                    cost_price: existingCartItem.cost_price,
+                    price: existingCartItem.price
+                };
+            }
         }
-    }
 
-    if (product) {
-        addProductToCartCustom(product, qty, price);
+        if (product) {
+            addProductToCartCustom(product, qty, price);
+        }
+    } catch(err) {
+        console.error("confirmAddItemLineToCart error:", err);
+    } finally {
+        hideMobileModal("mobileItemLineModal");
     }
-
-    hideMobileModal("mobileItemLineModal");
 }
 
 function openCreateProductModalFromMobile() {
@@ -5260,24 +5357,13 @@ function filterMobileCustomers(val) {
 }
 
 function selectCustomerFromMobileModal(customerId) {
-    const itemEl = document.querySelector(`#CustomerSelectData .dropdown-item[data-id="${customerId}"]`);
-    if (itemEl) {
-        itemEl.click();
+    const cust = (window.allCustomersList || []).find(c => c.id == customerId);
+    if (cust) {
+        selectCustomer(cust);
     } else {
-        const cust = (window.allCustomersList || []).find(c => c.id == customerId);
-        if (cust) {
-            const name = cust.customer_name || 'Walk in Customer';
-            const mobile = cust.mobile || '-';
-            const address = cust.address_details || '-';
-            const due = parseBanglaFloat(cust.previous_due_amount || cust.total_due || 0);
-
-            if (document.getElementById("CustomerName")) document.getElementById("CustomerName").value = name;
-            if (document.getElementById("CustomerID")) document.getElementById("CustomerID").value = cust.id;
-            if (document.getElementById("CustomerMobileNumber")) document.getElementById("CustomerMobileNumber").value = cust.mobile || '';
-            if (document.getElementById("CustomerAddress")) document.getElementById("CustomerAddress").value = cust.address_details || '';
-            if (document.getElementById("totalPreviousDueAmount")) document.getElementById("totalPreviousDueAmount").value = cust.previous_due_amount || 0;
-
-            updateMobileCustomerDisplay(name, mobile, address, due);
+        const itemEl = document.querySelector(`#CustomerSelectData .dropdown-item[data-id="${customerId}"]`);
+        if (itemEl) {
+            itemEl.click();
         }
     }
 

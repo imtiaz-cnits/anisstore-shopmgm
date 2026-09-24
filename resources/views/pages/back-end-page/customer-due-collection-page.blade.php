@@ -1,5 +1,5 @@
 @extends('layouts.dashboard-sidenav')
-@section('title','Customer Due Collection Page')
+@section('title','কাস্টমার বকেয়া ও কালেকশন')
 @section('content')
-    @include('components.back-end.Customer.customer-due-collection.customer-due-collection-list')
+    @include('components.back-end.Customer.customer-due.customer-due-combined')
 @endsection

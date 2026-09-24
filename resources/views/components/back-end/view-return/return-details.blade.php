@@ -606,7 +606,7 @@
         <div class="page-content">
             <!-- Top Header & Back Button -->
             <div class="return-page-header d-flex align-items-center justify-content-between flex-nowrap gap-2">
-                <button type="button" onclick="handleReturnPageBack()" class="return-back-btn" title="তালিকায় ফিরে যান">
+                <button type="button" onclick="handleReturnPageBack()" ontouchend="handleReturnPageBack()" class="return-back-btn" title="তালিকায় ফিরে যান">
                     <i class="fa-solid fa-arrow-left"></i>
                     <span>ফিরে যান</span>
                 </button>
@@ -830,13 +830,26 @@
 
     <script>
         function handleReturnPageBack() {
-            if (document.referrer && document.referrer.includes(window.location.host) && document.referrer !== window.location.href) {
+            try {
+                let savedUrl = sessionStorage.getItem('return_back_url') || sessionStorage.getItem('invoice_back_url');
+                if (savedUrl && savedUrl !== window.location.href && savedUrl.indexOf('/return/') === -1) {
+                    sessionStorage.removeItem('return_back_url');
+                    window.location.href = savedUrl;
+                    return;
+                }
+            } catch (e) {}
+
+            if (document.referrer && document.referrer.indexOf(window.location.host) !== -1 && document.referrer !== window.location.href) {
                 window.location.href = document.referrer;
-            } else if (window.history.length > 1) {
-                window.history.back();
-            } else {
-                window.location.href = '/admin-dashboard-invoice';
+                return;
             }
+
+            if (window.history && window.history.length > 1) {
+                window.history.back();
+                return;
+            }
+
+            window.location.href = '/customer-list';
         }
 
         async function ReturnProductSave(event) {

@@ -1,200 +1,821 @@
-    <!-- Hero Main Content Start -->
-    <div class="main-content">
-        <div class="page-content">
-            <!-- Table Start -->
-            <div class="bredcam">
-                <div class="bredcam-title">
-                    <h1>Customer List</h1>
-                </div>
-            </div>
-            <div class="data-table">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="button-wrapper mb-3">
-                            <!-- Search and Filter Bar -->
-                            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-                                <div class="input-group" style="max-width: 320px;">
-                                    <input type="text" id="searchInput" class="form-control"
-                                        placeholder="Search Customer..." />
+<!-- Flatpickr CSS & JS per rules.md -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<!-- Hero Main Content Start -->
+<div class="main-content">
+    <div class="page-content" style="padding: 0px !important;">
+        <!-- Table Start -->
+        <div class="data-table border-0 shadow-none bg-transparent">
+            <div class="card border-0 border-none shadow-none bg-transparent">
+                <div class="card-body border-0 p-0">
+                    <!-- 1. Header: Mobile/Tab: Title on left, Search & Filter icon buttons on right. Desktop: Icon + Title -->
+                    <div class="invoice-card-header mb-3 pb-2 border-bottom d-flex align-items-center justify-content-between gap-2">
+                        <div class="d-flex align-items-center gap-2 flex-grow-1 overflow-hidden">
+                            <div class="invoice-title-icon-box rounded-3 d-none d-lg-flex align-items-center justify-content-center flex-shrink-0">
+                                <i class="fa-solid fa-users fs-5"></i>
+                            </div>
+                            <h4 class="invoice-main-heading m-0 p-0 fw-bold">কাস্টমার তালিকা</h4>
+                        </div>
+
+                        <!-- Mobile & Tab Action Buttons (Search & Filter) -->
+                        <div class="d-flex align-items-center gap-2 d-lg-none flex-shrink-0">
+                            <!-- Mobile Search Toggle Button -->
+                            <button type="button" id="mobileSearchToggleBtn" class="mobile-header-icon-btn" onclick="toggleMobileSearchBar()" title="অনুসন্ধান">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+
+                            <!-- Mobile Filter Dropdown -->
+                            <div class="custom-dropdown-wrap position-relative" id="mobileFilterDropdownContainer">
+                                <button type="button" class="mobile-header-icon-btn" id="mobileFilterDropdownToggle" onclick="toggleCustomDropdown('mobileFilterDropdownMenu')" title="ফিল্টার">
+                                    <i class="fa-solid fa-filter"></i>
+                                </button>
+                                <div class="custom-dropdown-menu dropdown-menus end-0 shadow-lg" id="mobileFilterDropdownMenu" style="min-width: 175px;">
+                                    <a href="#" class="custom-dropdown-item active" data-filter="all" onclick="selectFilterOption('all', 'সব কাস্টমার', event)">সব কাস্টমার</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="Active" onclick="selectFilterOption('Active', 'সক্রিয় (Active)', event)">সক্রিয় (Active)</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="Inactive" onclick="selectFilterOption('Inactive', 'নিষ্ক্রিয় (Inactive)', event)">নিষ্ক্রিয় (Inactive)</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="due" onclick="selectFilterOption('due', 'বকেয়া রয়েছে', event)">বকেয়া রয়েছে</a>
                                 </div>
-                                <div class="entries-page ms-auto d-flex align-items-center gap-1">
-                                    <label for="entries" class="mr-2 mb-0 fw-bold">Entries:</label>
-                                    <div class="select-container">
-                                        <select id="entries" class="form-control fw-bold text-success border-success" style="width: auto; border-radius: 6px;">
-                                            <option value="10">10</option>
-                                            <option value="50" selected>50</option>
-                                            <option value="100">100</option>
-                                            <option value="200">200</option>
-                                            <option value="500">500</option>
-                                        </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Expandable Search Bar -->
+                    <div id="mobileSearchWrap" class="mb-3 d-none position-relative">
+                        <div class="d-flex align-items-center gap-2 mb-0">
+                            <div class="position-relative flex-grow-1 mb-0">
+                                <input type="text" id="mobileSearchInput" class="form-control invoice-search-input mb-0" placeholder="কাস্টমার খুঁজুন (নাম, মোবাইল, আইডি)..." autocomplete="off" />
+                                <div id="mobileSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
+                            </div>
+                            <button type="button" class="mobile-search-close-btn mb-0" onclick="closeMobileSearchBar()" title="বন্ধ করুন">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Search & Toolbar Section (>= 992px) -->
+                    <div class="invoice-toolbar-section mb-3 d-none d-lg-flex flex-column gap-2">
+                        <div class="d-flex align-items-center justify-content-between gap-3 w-100">
+                            <!-- Left: Search Input Box -->
+                            <div class="invoice-search-box-wrap position-relative flex-grow-1" style="max-width: 420px;">
+                                <input type="text" id="searchInput" class="form-control invoice-search-input" placeholder="কাস্টমার খুঁজুন (নাম, মোবাইল, আইডি)..." autocomplete="off" />
+                                <i class="fa-solid fa-magnifying-glass invoice-search-addon-icon"></i>
+                                <div id="desktopSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
+                            </div>
+
+                            <!-- Right: Entries & Filter Dropdowns -->
+                            <div class="d-flex align-items-center gap-2">
+                                <!-- Entries Dropdown -->
+                                <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                                    <span class="fw-semibold text-slate-700 dark:text-slate-200 small" style="font-size: 13.5px; white-space: nowrap;">এন্ট্রি:</span>
+                                    <div class="custom-dropdown-wrap position-relative" id="entriesDropdownContainer" style="width: auto !important;">
+                                        <button type="button" class="toolbar-control-btn d-inline-flex align-items-center justify-content-between px-3 gap-2" id="entriesDropdownToggle" onclick="toggleCustomDropdown('entriesDropdownMenu')" style="width: auto !important; min-width: 80px;">
+                                            <span id="currentEntriesText" class="fw-bold fs-7 fs-sm-6">৫০</span>
+                                            <i class="fa-solid fa-chevron-down dropdown-arrow-icon"></i>
+                                        </button>
+                                        <input type="hidden" id="entries" value="50">
+                                        <div class="custom-dropdown-menu" id="entriesDropdownMenu">
+                                            <div class="custom-dropdown-item" data-value="10" onclick="selectEntriesOption(10, '১০')">১০ টি</div>
+                                            <div class="custom-dropdown-item active" data-value="50" onclick="selectEntriesOption(50, '৫০')">৫০ টি</div>
+                                            <div class="custom-dropdown-item" data-value="100" onclick="selectEntriesOption(100, '১০০')">১০০ টি</div>
+                                            <div class="custom-dropdown-item" data-value="200" onclick="selectEntriesOption(200, '২০০')">২০০ টি</div>
+                                            <div class="custom-dropdown-item" data-value="500" onclick="selectEntriesOption(500, '৫০০')">৫০০ টি</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="button-item">
-                                <button id="openModalBtns" type="button" class="create-invoice">
-                                    + Create Customer
-                                </button>
-                                <div class="icon-buttons">
-                                    <button id="copyBtn">
-                                        <svg width="32" height="32" viewBox="0 0 44 44" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect x="0.5" y="0.5" width="43" height="43" rx="5.5"
-                                                stroke="#192045" />
-                                            <path
-                                                d="M33.3002 17.45H21.1502C19.659 17.45 18.4502 18.6588 18.4502 20.15V32.3C18.4502 33.7912 19.659 35 21.1502 35H33.3002C34.7914 35 36.0002 33.7912 36.0002 32.3V20.15C36.0002 18.6588 34.7914 17.45 33.3002 17.45Z"
-                                                stroke="#192045" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M13.05 25.55H11.7C10.9839 25.55 10.2972 25.2655 9.79081 24.7592C9.28446 24.2528 9 23.5661 9 22.85V10.7C9 9.98392 9.28446 9.29716 9.79081 8.79081C10.2972 8.28446 10.9839 8 11.7 8H23.85C24.5661 8 25.2528 8.28446 25.7592 8.79081C26.2655 9.29716 26.55 9.98392 26.55 10.7V12.05"
-                                                stroke="#192045" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
+                                <!-- Filter Dropdown -->
+                                <div class="custom-dropdown-wrap position-relative" id="filterDropdownContainer" style="min-width: 170px;">
+                                    <button type="button" class="toolbar-control-btn w-100 d-flex align-items-center justify-content-between px-3" id="filterDropdownToggle" onclick="toggleCustomDropdown('filterDropdownMenu')">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa-solid fa-filter me-2" style="color: #8C56D4; font-size: 13px;"></i>
+                                            <span id="currentFilterText" class="fw-bold fs-7 fs-sm-6 text-truncate">সব কাস্টমার</span>
+                                        </div>
+                                        <i class="fa-solid fa-chevron-down dropdown-arrow-icon ms-1"></i>
                                     </button>
-                                    <button id="csvBtn">
-                                        <svg width="32" height="32" viewBox="0 0 44 44" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect x="0.5" y="0.5" width="43" height="43" rx="5.5"
-                                                stroke="#192045" />
-                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M36 14.7144V33.1114C36 34.1386 35.5936 35.1238 34.8703 35.8501C34.1469 36.5765 33.1658 36.9845 32.1429 36.9845H30.2143V35.048H32.1429C32.6543 35.048 33.1449 34.8439 33.5066 34.4808C33.8682 34.1176 34.0714 33.625 34.0714 33.1114V14.7144H30.2143C29.4471 14.7144 28.7112 14.4084 28.1687 13.8636C27.6262 13.3188 27.3214 12.58 27.3214 11.8096V7.93653H16.7143C16.2028 7.93653 15.7123 8.14056 15.3506 8.50373C14.9889 8.8669 14.7857 9.35946 14.7857 9.87306V27.3018H12.8571V9.87306C12.8571 8.84586 13.2635 7.86073 13.9869 7.13439C14.7102 6.40805 15.6913 6 16.7143 6H27.3214L36 14.7144ZM15.7828 34.7401C15.7938 35.0452 15.8683 35.3446 16.0015 35.6191C16.1347 35.8936 16.3236 36.1371 16.5561 36.3338C16.8069 36.543 17.1135 36.7056 17.478 36.8218C17.8444 36.94 18.2706 36.9981 18.7605 36.9981C19.4124 36.9981 19.9639 36.8954 20.4171 36.6921C20.8723 36.4888 21.2194 36.2041 21.4566 35.84C21.6977 35.474 21.8173 35.0499 21.8173 34.5697C21.8173 34.1359 21.7305 33.7757 21.5589 33.4852C21.3823 33.195 21.1329 32.9566 20.8356 32.7939C20.494 32.6043 20.1261 32.4673 19.7441 32.3872L18.5464 32.1083C18.2641 32.0562 17.9975 31.9396 17.7673 31.7675C17.6793 31.6994 17.6084 31.6115 17.5602 31.511C17.5119 31.4105 17.4878 31.3 17.4896 31.1885C17.4896 30.8864 17.6091 30.6385 17.8464 30.4448C18.0874 30.2493 18.4172 30.1505 18.8338 30.1505C19.1096 30.1505 19.3468 30.195 19.5474 30.2822C19.732 30.3577 19.895 30.4782 20.0218 30.6327C20.1405 30.7764 20.2202 30.9485 20.2532 31.1323H21.6996C21.6756 30.7379 21.5419 30.3582 21.3139 30.0362C21.0702 29.6886 20.7368 29.4142 20.3496 29.2423C19.8761 29.0336 19.3623 28.9331 18.8454 28.9479C18.2803 28.9479 17.7827 29.0447 17.3488 29.2384C16.9149 29.4301 16.5774 29.7031 16.3324 30.0537C16.0875 30.4061 15.966 30.8186 15.966 31.2911C15.966 31.6803 16.0431 32.0192 16.2013 32.3058C16.3594 32.5944 16.587 32.8287 16.8801 33.0166C17.1733 33.2005 17.5204 33.34 17.9196 33.429L19.1115 33.7079C19.5107 33.8028 19.8077 33.9267 20.0044 34.0816C20.1005 34.1552 20.1774 34.2511 20.2285 34.361C20.2795 34.471 20.3033 34.5918 20.2976 34.713C20.3013 34.9126 20.2441 35.1085 20.1336 35.2745C20.0095 35.4446 19.8385 35.5745 19.6419 35.6483C19.4278 35.7393 19.1616 35.7839 18.8454 35.7839C18.6197 35.7839 18.4153 35.7587 18.2282 35.7064C18.0577 35.659 17.8961 35.5837 17.7499 35.4837C17.6215 35.4003 17.5116 35.2912 17.427 35.1632C17.3424 35.0353 17.2849 34.8913 17.2581 34.7401H15.7828ZM10.5544 32.5169C10.5544 32.0367 10.62 31.6261 10.7511 31.2911C10.8655 30.9817 11.0681 30.713 11.3336 30.5184C11.6042 30.3368 11.9243 30.2441 12.2496 30.2531C12.5389 30.2531 12.7954 30.3151 13.0172 30.441C13.2346 30.5576 13.416 30.7317 13.5418 30.9445C13.6762 31.1685 13.7555 31.4214 13.7732 31.6823H15.2486V31.5429C15.2358 31.1861 15.1493 30.836 14.9946 30.5146C14.8399 30.1933 14.6203 29.9077 14.3499 29.676C14.0728 29.4403 13.7524 29.2613 13.4068 29.1493C13.0305 29.0214 12.6354 28.9579 12.2381 28.9615C11.5515 28.9615 10.9652 29.1048 10.4811 29.3933C9.999 29.6799 9.63257 30.0885 9.378 30.6172C9.12729 31.1478 9 31.7791 9 32.5131V33.4774C9 34.2114 9.12343 34.8408 9.37221 35.3675C9.62486 35.8923 9.99321 36.297 10.4754 36.5798C10.9575 36.8606 11.5438 37 12.2381 37C12.8031 37 13.3065 36.8935 13.752 36.6824C14.1956 36.4694 14.5504 36.1789 14.8127 35.8032C15.0788 35.4187 15.23 34.9659 15.2486 34.498V34.3508H13.7751C13.757 34.6002 13.6789 34.8414 13.5476 35.0538C13.419 35.2594 13.2379 35.4266 13.023 35.5379C12.7822 35.6549 12.5171 35.7127 12.2496 35.7064C11.9238 35.7157 11.6027 35.6266 11.3278 35.4508C11.0637 35.262 10.8627 34.9973 10.7511 34.6917C10.6101 34.3029 10.5434 33.891 10.5544 33.4774V32.5189V32.5169ZM26.4439 36.8509H24.606L22.0256 29.1067H23.7941L25.5221 35.1835H25.5954L27.3079 29.1067H29.0031L26.4439 36.8528V36.8509Z"
-                                                fill="#192045" />
-                                        </svg>
-                                    </button>
-                                    <button id="pdfBtn">
-                                        <svg width="32" height="32" viewBox="0 0 44 44" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect x="0.5" y="0.5" width="43" height="43" rx="5.5"
-                                                stroke="#192045" />
-                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M36 15V34C36 35.0609 35.5936 36.0783 34.8703 36.8284C34.1469 37.5786 33.1658 38 32.1429 38H30.2143V36H32.1429C32.6543 36 33.1449 35.7893 33.5066 35.4142C33.8682 35.0391 34.0714 34.5304 34.0714 34V15H30.2143C29.4471 15 28.7112 14.6839 28.1687 14.1213C27.6262 13.5587 27.3214 12.7956 27.3214 12V8H16.7143C16.2028 8 15.7123 8.21071 15.3506 8.58579C14.9889 8.96086 14.7857 9.46957 14.7857 10V28H12.8571V10C12.8571 8.93913 13.2635 7.92172 13.9869 7.17157C14.7102 6.42143 15.6913 6 16.7143 6H27.3214L36 15ZM12.0857 29.7H9V37.698H10.5255V35.014H12.0741C12.6276 35.014 13.0982 34.9 13.4859 34.668C13.8774 34.434 14.1763 34.118 14.3788 33.72C14.589 33.3024 14.6957 32.8371 14.6893 32.366C14.6893 31.866 14.5871 31.414 14.3846 31.012C14.1832 30.6124 13.8752 30.2812 13.4974 30.058C13.1117 29.818 12.6431 29.7 12.0857 29.7ZM13.1368 32.366C13.1437 32.6295 13.0874 32.8907 12.9729 33.126C12.8701 33.3309 12.7101 33.4989 12.5139 33.608C12.2893 33.7232 12.041 33.7795 11.7906 33.772H10.5197V30.96H11.7926C12.213 30.96 12.5428 31.08 12.78 31.322C13.0172 31.566 13.1368 31.914 13.1368 32.366ZM15.4839 29.7V37.698H18.2996C19.0729 37.698 19.7151 37.538 20.2243 37.224C20.7395 36.9043 21.1419 36.4212 21.3718 35.846C21.6225 35.246 21.7498 34.522 21.7498 33.678C21.7498 32.838 21.6244 32.122 21.3718 35.28C21.1446 30.9594 20.7461 30.4824 20.2359 30.168C19.7267 29.856 19.0806 29.7 18.2976 29.7H15.4839ZM17.0094 30.99H18.0951C18.5734 30.99 18.963 31.09 19.2696 31.294C19.5879 31.5099 19.8281 31.8293 19.9524 32.202C20.1047 32.604 20.1799 33.106 20.1799 33.708C20.1859 34.1069 20.1418 34.5049 20.0488 34.892C19.9801 35.1973 19.8514 35.4846 19.6708 35.736C19.503 35.9603 19.2807 36.1342 19.0266 36.24C18.729 36.3555 18.4129 36.4111 18.0951 36.404H17.0094V30.99ZM24.228 34.516V37.698H22.7044V29.7H27.6184V31.006H24.228V33.24H27.3253V34.516H24.228Z"
-                                                fill="#192045" />
-                                        </svg>
-                                    </button>
-                                    <button id="printBtn">
-                                        <svg width="32" height="32" viewBox="0 0 44 44" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect x="0.5" y="0.5" width="43" height="43" rx="5.5"
-                                                stroke="#192045" />
-                                            <path
-                                                d="M29.817 17.0382H14.1692C13.8755 17.0382 13.5939 16.9216 13.3863 16.714C13.1787 16.5063 13.062 16.2247 13.062 15.9311V8.10716C13.062 7.81352 13.1787 7.53191 13.3863 7.32428C13.5939 7.11665 13.8755 7 14.1692 7H29.817C30.1107 7 30.3923 7.11665 30.5999 7.32428C30.8075 7.53191 30.9242 7.81352 30.9242 8.10716V15.9311C30.9242 16.2247 30.8075 16.5063 30.5999 16.714C30.3923 16.9216 30.1107 17.0382 29.817 17.0382ZM15.2763 14.8239H28.7099V9.21432H15.2763V14.8239Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M29.817 36.6719H14.1692C13.8755 36.6719 13.5939 36.5552 13.3863 36.3476C13.1787 36.14 13.062 35.8584 13.062 35.5647V23.5402C13.062 23.2466 13.1787 22.965 13.3863 22.7573C13.5939 22.5497 13.8755 22.4331 14.1692 22.4331H29.817C30.1107 22.4331 30.3923 22.5497 30.5999 22.7573C30.8075 22.965 30.9242 23.2466 30.9242 23.5402V35.5647C30.9242 35.8584 30.8075 36.14 30.5999 36.3476C30.3923 36.5552 30.1107 36.6719 29.817 36.6719ZM15.2763 34.4576H28.7099V24.6474H15.2763V34.4576Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M33.3784 31.4313H29.8171C29.5234 31.4313 29.2418 31.3147 29.0342 31.107C28.8266 30.8994 28.7099 30.6178 28.7099 30.3242C28.7099 30.0305 28.8266 29.7489 29.0342 29.5413C29.2418 29.3337 29.5234 29.217 29.8171 29.217H33.3784C33.7479 29.2166 34.1021 29.0697 34.3634 28.8084C34.6247 28.5472 34.7716 28.1929 34.772 27.8235V18.4325C34.7718 18.0629 34.6249 17.7085 34.3637 17.4471C34.1024 17.1857 33.748 17.0386 33.3784 17.0382H10.6079C10.2383 17.0386 9.88393 17.1857 9.62265 17.4471C9.36137 17.7085 9.21451 18.0629 9.21432 18.4325V27.8235C9.21471 28.1929 9.36165 28.5472 9.62291 28.8084C9.88417 29.0697 10.2384 29.2166 10.6079 29.217H14.1692C14.4629 29.217 14.7445 29.3337 14.9521 29.5413C15.1597 29.7489 15.2764 30.0305 15.2764 30.3242C15.2764 30.6178 15.1597 30.8994 14.9521 31.107C14.7445 31.3147 14.4629 31.4313 14.1692 31.4313H10.6079C9.65136 31.4302 8.73437 31.0497 8.05801 30.3733C7.38166 29.697 7.00117 28.78 7 27.8235V18.4325C7.00098 17.4759 7.38138 16.5587 8.05775 15.8822C8.73413 15.2057 9.65123 14.8251 10.6079 14.8239H33.3784C34.3351 14.8251 35.2522 15.2057 35.9286 15.8822C36.6049 16.5587 36.9853 17.4759 36.9863 18.4325V27.8235C36.9851 28.78 36.6046 29.697 35.9283 30.3733C35.2519 31.0497 34.335 31.4302 33.3784 31.4313Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M12.9884 20.8764C12.9519 20.8765 12.9155 20.8748 12.8792 20.8712C12.8437 20.8675 12.8054 20.8616 12.7721 20.855C12.7389 20.8484 12.6983 20.8388 12.6666 20.8284C12.6349 20.8181 12.598 20.8055 12.5647 20.7915C12.5315 20.7775 12.499 20.762 12.4673 20.745C12.435 20.7284 12.4037 20.7099 12.3736 20.6897C12.344 20.6697 12.3145 20.6483 12.2865 20.6254C12.2584 20.6026 12.2311 20.5775 12.2053 20.5516C12.1794 20.5258 12.1551 20.4985 12.1315 20.4704C12.1086 20.4425 12.0872 20.4135 12.0673 20.3833C12.0471 20.3528 12.0286 20.3218 12.0119 20.2903C11.9949 20.2586 11.9794 20.2254 11.9654 20.1922C11.9514 20.159 11.9396 20.1243 11.9285 20.0903C11.9174 20.0564 11.9093 20.0165 11.9019 19.9848C11.8945 19.953 11.8894 19.911 11.8857 19.8777C11.8786 19.8041 11.8786 19.73 11.8857 19.6563C11.8894 19.6209 11.8953 19.5825 11.9019 19.5493C11.9086 19.5161 11.9182 19.4755 11.9285 19.4437C11.9388 19.412 11.9514 19.3751 11.9654 19.3419C11.9794 19.3087 11.9949 19.2754 12.0119 19.2437C12.0289 19.212 12.0473 19.181 12.0673 19.1507C12.0872 19.1206 12.1086 19.0915 12.1315 19.0636C12.1543 19.0356 12.1794 19.0083 12.2053 18.9824C12.2311 18.9566 12.2584 18.9322 12.2865 18.9086C12.3145 18.885 12.344 18.8643 12.3736 18.8444C12.4037 18.8241 12.435 18.8056 12.4673 18.789C12.4993 18.7723 12.5318 18.7568 12.5647 18.7425C12.598 18.7285 12.6326 18.7167 12.6666 18.7056C12.7005 18.6946 12.7404 18.6864 12.7721 18.6791C12.8039 18.6717 12.846 18.6665 12.8792 18.6628C12.9516 18.6562 13.0245 18.6562 13.0969 18.6628C13.1331 18.6665 13.1707 18.6724 13.2047 18.6791C13.2386 18.6857 13.2785 18.6953 13.3095 18.7056C13.3405 18.716 13.3789 18.7285 13.4121 18.7425C13.4453 18.7566 13.4778 18.7721 13.5095 18.789C13.5417 18.8058 13.573 18.8243 13.6033 18.8444C13.6328 18.8643 13.6623 18.8857 13.6903 18.9086C13.7184 18.9315 13.7457 18.9566 13.7715 18.9824C13.7974 19.0083 13.821 19.0356 13.8454 19.0636C13.8697 19.0917 13.8896 19.1212 13.9096 19.1507C13.9295 19.1802 13.9479 19.212 13.9649 19.2437C13.9819 19.2754 13.9974 19.3087 14.0114 19.3419C14.0254 19.3751 14.0373 19.4098 14.0483 19.4437C14.0594 19.4777 14.0675 19.5175 14.0749 19.5493C14.0823 19.581 14.0875 19.6231 14.0911 19.6563C14.0982 19.73 14.0982 19.8041 14.0911 19.8777C14.0875 19.9132 14.0815 19.9516 14.0749 19.9848C14.0683 20.018 14.0587 20.0586 14.0483 20.0903C14.038 20.1221 14.0254 20.159 14.0114 20.1922C13.9974 20.2254 13.9819 20.2586 13.9649 20.2903C13.9479 20.3221 13.9295 20.3531 13.9096 20.3833C13.8896 20.4136 13.8675 20.4424 13.8454 20.4704C13.8232 20.4985 13.7974 20.5258 13.7715 20.5516C13.7457 20.5775 13.7184 20.6018 13.6903 20.6254C13.6623 20.6491 13.6328 20.6697 13.6033 20.6897C13.573 20.7098 13.5417 20.728 13.5095 20.745C13.4775 20.7617 13.4451 20.7772 13.4121 20.7915C13.3789 20.8055 13.3442 20.8174 13.3095 20.8284C13.2748 20.8395 13.2401 20.8476 13.2047 20.855C13.1692 20.8624 13.1309 20.8675 13.0969 20.8712C13.0609 20.8748 13.0246 20.8765 12.9884 20.8764Z"
-                                                fill="#192045" />
-                                        </svg>
-                                    </button>
-                                    <button id="xlsxBtn">
-                                        <svg width="32" height="32" viewBox="0 0 44 44" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect x="0.5" y="0.5" width="43" height="43" rx="5.5"
-                                                stroke="#192045" />
-                                            <path
-                                                d="M31.311 37.6837H12.689C11.4457 37.6821 10.2539 37.1874 9.37488 36.3082C8.49586 35.429 8.00142 34.2371 8 32.9938V10.689C8.00165 9.44591 8.4962 8.25421 9.3752 7.37521C10.2542 6.49621 11.4459 6.00166 12.689 6.00001H24.5811C25.1989 5.99879 25.8107 6.11998 26.3814 6.35658C26.9521 6.59318 27.4702 6.94051 27.9059 7.37849L34.6206 14.087C35.5011 14.9717 35.9968 16.1681 36 17.4162V32.9938C35.9986 34.2371 35.5041 35.429 34.6251 36.3082C33.7461 37.1874 32.5543 37.6821 31.311 37.6837ZM12.689 8.23201C12.0376 8.23272 11.413 8.49181 10.9524 8.95243C10.4918 9.41305 10.2327 10.0376 10.232 10.689V32.9938C10.2327 33.6453 10.4918 34.27 10.9524 34.7307C11.413 35.1915 12.0375 35.4508 12.689 35.4517H31.311C31.9625 35.4508 32.587 35.1915 33.0476 34.7307C33.5082 34.27 33.7673 33.6453 33.768 32.9938V17.4136C33.7664 16.7578 33.5059 16.1292 33.043 15.6646L26.3274 8.95518C26.0986 8.7252 25.8264 8.54287 25.5267 8.41874C25.2269 8.29461 24.9055 8.23114 24.5811 8.23201H12.689Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M33.8932 17.1279H29.7363C28.4971 17.1267 27.309 16.6339 26.4327 15.7576C25.5565 14.8814 25.0637 13.6933 25.0625 12.4541V7.11958H27.2945V12.4541C27.2952 13.1014 27.5527 13.7221 28.0105 14.1799C28.4682 14.6377 29.0889 14.8952 29.7363 14.8959H33.8932V17.1279Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M30.0858 31.4564H13.9136V16.7431H30.0858V31.4564ZM16.1456 29.2244H27.8538V18.9751H16.1456V29.2244Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M28.6242 25.2157H15.4643C15.1792 25.1996 14.9111 25.075 14.715 24.8675C14.5189 24.66 14.4097 24.3853 14.4097 24.0997C14.4097 23.8142 14.5189 23.5395 14.715 23.332C14.9111 23.1245 15.1792 22.9999 15.4643 22.9837H28.6242C28.9092 22.9999 29.1773 23.1245 29.3734 23.332C29.5695 23.5395 29.6788 23.8142 29.6788 24.0997C29.6788 24.3853 29.5695 24.66 29.3734 24.8675C29.1773 25.075 28.9092 25.1996 28.6242 25.2157Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M20.2146 31.2511C19.8916 31.2209 19.5934 31.0648 19.3846 30.8165C19.1757 30.5683 19.073 30.2478 19.0986 29.9244V18.2751C19.073 17.9517 19.1757 17.6312 19.3846 17.383C19.5934 17.1347 19.8916 16.9786 20.2146 16.9484C20.5376 16.9786 20.8357 17.1347 21.0446 17.383C21.2534 17.6312 21.3561 17.9517 21.3306 18.2751V29.9244C21.3561 30.2478 21.2534 30.5683 21.0446 30.8165C20.8357 31.0648 20.5376 31.2209 20.2146 31.2511Z"
-                                                fill="#192045" />
-                                        </svg>
-                                    </button>
+                                    <div class="custom-dropdown-menu dropdown-menus end-0" id="filterDropdownMenu">
+                                        <a href="#" class="custom-dropdown-item active" data-filter="all" onclick="selectFilterOption('all', 'সব কাস্টমার', event)">সব কাস্টমার</a>
+                                        <a href="#" class="custom-dropdown-item" data-filter="Active" onclick="selectFilterOption('Active', 'সক্রিয় (Active)', event)">সক্রিয় (Active)</a>
+                                        <a href="#" class="custom-dropdown-item" data-filter="Inactive" onclick="selectFilterOption('Inactive', 'নিষ্ক্রিয় (Inactive)', event)">নিষ্ক্রিয় (Inactive)</a>
+                                        <a href="#" class="custom-dropdown-item" data-filter="due" onclick="selectFilterOption('due', 'বকেয়া রয়েছে', event)">বকেয়া রয়েছে</a>
+                                    </div>
                                 </div>
+
+                                <!-- Create Customer Button -->
+                                <button type="button" class="invoice-search-submit-btn px-3 fw-bold d-inline-flex align-items-center justify-content-center gap-1.5 shadow-sm" onclick="openCustomerCreateModal()">
+                                    <i class="fa-solid fa-plus"></i>
+                                    <span>নতুন কাস্টমার</span>
+                                </button>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Table View (Desktop screens >= 992px) -->
-                        <div class="table-responsive d-none d-lg-block">
-                            <table id="printTable" class="table table-bordered table-hover align-middle">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th class="text-center" style="width: 50px;">Serial No</th>
-                                        <th class="text-center" style="width: 90px;">Action</th>
-                                        <th class="text-start" style="width: 120px;">Customer ID</th>
-                                        <th class="text-center" style="width: 70px;">Image</th>
-                                        <th class="text-start">Customer Name</th>
-                                        <th class="text-start">Mobile</th>
-                                        <th class="text-end">Total Due Amount</th>
-                                        <th class="text-center" style="width: 90px;">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tableList"></tbody>
-                                <tfoot class="table-light fw-bold">
-                                    <tr>
-                                        <td colspan="6" class="text-end fw-bold">Total Due Amount:</td>
-                                        <td id="total_previous_due_amount" class="text-end fw-bold text-danger">৳ 0.00</td>
-                                        <td></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-
-                        <!-- Mobile Card List View (Shown on Mobile Screens < 992px) -->
-                        <div id="mobileCardList" class="d-block d-lg-none mb-3"></div>
-
-                        <!-- Smart Pagination & Display Info Footer -->
-                        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between pt-3 mt-3 border-top gap-2">
-                            <div class="text-muted small fw-medium" id="display-info">
-                                Showing <strong>0</strong> to <strong>0</strong> of <strong>0</strong> entries
+                    <!-- Top Summary Stats Strip (1 Row, 2 Columns, Vertical Divider, Purple Color) -->
+                    <div class="invoice-top-summary-strip mb-3 p-2.5 px-3 bg-white dark:bg-slate-800" style="border-radius: 6px !important; border: none !important; box-shadow: 0 4px 18px rgba(140, 86, 212, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <!-- Left: মোট কাস্টমার -->
+                            <div class="d-flex flex-column text-start ps-1 flex-grow-1">
+                                <span class="text-muted small fw-medium" style="font-size: 12px;">মোট কাস্টমার</span>
+                                <span class="fw-bold" id="topSummaryTotalCount" style="font-size: 15.5px; color: #8C56D4; font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;">০</span>
                             </div>
-                            <div id="pagination" class="d-flex align-items-center gap-1 flex-wrap justify-content-center"></div>
+
+                            <!-- Middle Vertical Divider Bar -->
+                            <div class="summary-divider-bar" style="width: 1.5px; height: 32px; background-color: #E5D5F7; flex-shrink: 0; margin: 0 16px;"></div>
+
+                            <!-- Right: মোট বকেয়া পাওনা -->
+                            <div class="d-flex flex-column text-end pe-1 flex-grow-1">
+                                <span class="text-muted small fw-medium" style="font-size: 12px;">মোট বকেয়া পাওনা</span>
+                                <span class="fw-bold" id="topSummaryTotalAmount" style="font-size: 15.5px; color: #8C56D4; font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;">৳ ০.০০</span>
+                            </div>
                         </div>
+                    </div>
+
+                    <!-- Desktop Table View (>= 992px) -->
+                    <div class="table-responsive d-none d-lg-block">
+                        <table id="printTable" class="table table-bordered table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-center" style="width: 55px;">ক্রমিক</th>
+                                    <th class="text-center" style="width: 130px;">অ্যাকশন</th>
+                                    <th class="text-start" style="width: 130px;">কাস্টমার আইডি</th>
+                                    <th class="text-center" style="width: 65px;">ছবি</th>
+                                    <th class="text-start">নাম</th>
+                                    <th class="text-start">মোবাইল নম্বর</th>
+                                    <th class="text-end" style="width: 140px;">বকেয়া পাওনা</th>
+                                    <th class="text-center" style="width: 100px;">স্ট্যাটাস</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableList"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mobile & Tablet Responsive Card List View (< 992px) -->
+                    <div id="mobileCardList" class="d-flex flex-wrap d-lg-none mb-3 align-items-start" style="gap: 8px !important;"></div>
+
+                    <!-- Smart Pagination & Display Info Footer -->
+                    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between pt-3 mt-3 border-top gap-2">
+                        <div class="text-muted small fw-medium" id="display-info" style="font-size: 13px;">
+                            মোট ০ টির মধ্যে ০ - ০ টি কাস্টমার প্রদর্শিত হচ্ছে
+                        </div>
+                        <div id="pagination" class="d-flex align-items-center gap-1.5 flex-wrap justify-content-center"></div>
                     </div>
                 </div>
             </div>
-            <div class="copyright">
-                <footer class="footer text-center py-3 mt-4 text-muted small border-top">&copy; 2026 মেসার্স আনিস ষ্টোর | Software By: <a href="https://www.codenextit.com" target="_blank" class="text-success fw-bold text-decoration-none">CodeNext IT</a></footer>
-            </div>
         </div>
         <!-- Table End -->
+
+        <div class="copyright">
+            <footer class="footer text-center py-3 mt-4 text-muted small border-top">&copy; {{ date('Y') }} মেসার্স আনিস ষ্টোর | Software By: <a href="https://www.codenextit.com" target="_blank" class="text-primary fw-bold text-decoration-none" style="color: #8C56D4 !important;">CodeNext IT</a></footer>
+        </div>
+
+        <!-- Floating Add Customer FAB Button -->
+        <button type="button" onclick="openCustomerCreateModal()" class="floating-add-invoice-btn" title="নতুন কাস্টমার যোগ করুন">
+            <i class="fa-solid fa-plus"></i>
+        </button>
     </div>
 </div>
 <!-- Hero Main Content End -->
 
+<!-- ================= PAYMENT MODAL (Customer Due Collection) ================= -->
+<div class="modal fade" id="customerDuePaymentModal" aria-labelledby="customerDuePaymentModalLabel" aria-hidden="true" style="z-index: 107000;">
+<div class="modal-dialog" style="width: 100%;">
+        <div class="modal-content w-100 border-0 rounded-4 shadow-lg overflow-hidden p-0">
+            <!-- Modal Header -->
+            <div class="modal-header-purple p-3 px-4 d-flex align-items-center justify-content-between" style="background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important; color: #ffffff !important;">
+                <div class="d-flex align-items-center gap-2 text-start flex-grow-1" style="min-width: 0; text-align: left !important;">
+                    <i class="fa-solid fa-hand-holding-dollar fs-5 flex-shrink-0"></i>
+                    <h5 class="modal-title fw-bold m-0 text-white text-start" id="customerDuePaymentModalLabel" style="font-size: 16px; text-align: left !important; line-height: 1.3;">কাস্টমার বকেয়া আদায় (Due Collection)</h5>
+                </div>
+                <button type="button" class="btn-close-red flex-shrink-0 ms-2" data-bs-dismiss="modal" aria-label="Close" onclick="clClosePaymentModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Form with Scrollable Body and Sticky Bottom Action Buttons -->
+            <form id="clPaymentForm" onsubmit="clSavePaymentInfo(event)" class="d-flex flex-column w-100 flex-grow-1 overflow-hidden m-0 p-0">
+                <input type="hidden" id="clUpdateID">
+
+                <div class="modal-body p-3 p-md-4 flex-grow-1 overflow-y-auto">
+                    <!-- Date & Dues Summary Card -->
+                    <div class="modal-dues-summary-card p-3 mb-3 rounded-3 w-100">
+                        <div class="mb-2.5">
+                            <label for="clDueCollectionDate" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">আদায়ের তারিখ *</label>
+                            <div class="position-relative w-100">
+                                <input type="text" class="form-control invoice-search-input custom-flatpickr-input text-start w-100 ps-3 pe-5" id="clDueCollectionDate" placeholder="DD-MM-YYYY" readonly autocomplete="off" required style="font-size: 14px; font-weight: 500; width: 100% !important;">
+                                <span class="position-absolute end-0 top-50 translate-middle-y me-3 text-muted" style="pointer-events: none;">
+                                    <i class="fa-regular fa-calendar-days" style="color: #8C56D4;"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+                            <span class="text-muted small dues-label text-start">কাস্টমার পূর্বের বকেয়া:</span>
+                            <span class="fw-bold text-dark dues-val" id="clCustomerPreviousDue">৳ ০.০০</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+                            <span class="text-muted small dues-label text-start">ইনভয়েস পূর্বের বকেয়া:</span>
+                            <span class="fw-bold text-dark dues-val" id="clOrderPreviousDue">৳ ০.০০</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between py-1.5">
+                            <span class="fw-bold text-slate-800 dues-total-label text-start">মোট পূর্বের বকেয়া:</span>
+                            <span class="fw-bold text-danger fs-6" id="clTotalPreviousDue" data-raw="0">৳ ০.০০</span>
+                        </div>
+                    </div>
+
+                    <!-- Discount & Pay Amount -->
+                    <div class="row g-2 mb-3 w-100 m-0">
+                        <div class="col-6 ps-0 pe-1">
+                            <label for="clDiscountAmount" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">ছাড় (Discount)</label>
+                            <input type="number" inputmode="decimal" step="any" min="0" id="clDiscountAmount" class="form-control invoice-search-input text-start w-100 ps-3" oninput="clCalculateDuePayment()" placeholder="৳ ০.০০" style="width: 100% !important;">
+                        </div>
+                        <div class="col-6 ps-1 pe-0">
+                            <label for="clPayAmount" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">আদায়কৃত টাকা *</label>
+                            <input type="number" inputmode="decimal" step="any" min="0" id="clPayAmount" class="form-control invoice-search-input text-start fw-bold w-100 ps-3" oninput="clCalculateDuePayment()" placeholder="৳ ০.০০" required style="width: 100% !important;">
+                        </div>
+                    </div>
+
+                    <!-- Calculation Status Box -->
+                    <div class="modal-calc-status-box p-3 mb-3 rounded-3 d-flex align-items-center justify-content-between w-100">
+                        <div class="text-start">
+                            <span class="text-muted small d-block status-label text-start" style="font-size: 11px;">অবশিষ্ট বকেয়া:</span>
+                            <span class="fw-bold text-danger fs-6" id="clFinalDueAmount">৳ ০.০০</span>
+                        </div>
+                        <div class="text-end">
+                            <span class="text-muted small d-block status-label" style="font-size: 11px;">পেমেন্ট স্ট্যাটাস:</span>
+                            <span class="badge bg-secondary px-2.5 py-1 fw-bold" id="clShowPaymentStatusDisplay" style="font-size: 11px; border-radius: 12px;">Pending</span>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="mb-3 w-100">
+                        <label class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">পেমেন্ট মাধ্যম *</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <label class="cl-payment-chip active" onclick="clSelectPaymentChip('cash')">
+                                <input type="radio" name="clPayment" id="clCash" value="cash" checked style="display: none;">
+                                <i class="fa-solid fa-money-bill-wave me-1"></i> Cash
+                            </label>
+                            <label class="cl-payment-chip" onclick="clSelectPaymentChip('bkash')">
+                                <input type="radio" name="clPayment" id="clBkash" value="bkash" style="display: none;">
+                                <i class="fa-solid fa-mobile-screen me-1"></i> bKash
+                            </label>
+                            <label class="cl-payment-chip" onclick="clSelectPaymentChip('nagad')">
+                                <input type="radio" name="clPayment" id="clNagad" value="nagad" style="display: none;">
+                                <i class="fa-solid fa-mobile-screen me-1"></i> Nagad
+                            </label>
+                            <label class="cl-payment-chip" onclick="clSelectPaymentChip('rocket')">
+                                <input type="radio" name="clPayment" id="clRocket" value="rocket" style="display: none;">
+                                <i class="fa-solid fa-mobile-screen me-1"></i> Rocket
+                            </label>
+                            <label class="cl-payment-chip" onclick="clSelectPaymentChip('bank')">
+                                <input type="radio" name="clPayment" id="clBank" value="bank" style="display: none;">
+                                <i class="fa-solid fa-building-columns me-1"></i> Bank
+                            </label>
+                            <label class="cl-payment-chip" onclick="clSelectPaymentChip('mastercard')">
+                                <input type="radio" name="clPayment" id="clMastercard" value="mastercard" style="display: none;">
+                                <i class="fa-solid fa-credit-card me-1"></i> Card
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Transaction ID (non-cash) -->
+                    <div class="mb-3 w-100" id="clTransactionIdWrapper" style="display: none;">
+                        <label for="clTransactionInput" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">ট্রানজেকশন আইডি</label>
+                        <input type="text" id="clTransactionInput" class="form-control invoice-search-input text-start w-100 ps-3" placeholder="ট্রানজেকশন আইডি লিখুন..." style="width: 100% !important;">
+                    </div>
+                </div>
+
+                <!-- Sticky Bottom Action Buttons right above keyboard -->
+                <div class="modal-sticky-footer p-3 border-top w-100">
+                    <div class="d-flex align-items-center gap-2 w-100">
+                        <button type="button" class="btn btn-cancel-red py-2 px-3 fw-bold flex-grow-1" data-bs-dismiss="modal" onclick="clClosePaymentModal()" style="height: 44px; border-radius: 10px; font-size: 14px;">
+                            <i class="fa-solid fa-xmark me-1"></i> বাতিল
+                        </button>
+                        <button type="submit" id="clPaymentSubmitBtn" class="invoice-search-submit-btn flex-grow-1 py-2 px-3 fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px;">
+                            <i class="fa-solid fa-check me-1"></i> আদায় নিশ্চিত করুন
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <style>
-    /* Customer Mobile Card & Dark Mode Styling */
-    body[light-mode="dark"] .customer-mobile-card {
+    /* 0. Card & Border Cleanup */
+    .data-table,
+    .data-table .card,
+    .data-table .card.border-none,
+    .data-table .card.border-0,
+    .data-table .card-body {
+        border: none !important;
+        border-width: 0 !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    /* Customer Due Payment Modal - Full Bottom Sheet on ALL screens */
+    #customerDuePaymentModal.modal {
+        padding: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        height: 100dvh !important;
+        display: none;
+        overflow: hidden !important;
+        background: rgba(15, 23, 42, 0.75) !important;
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+        z-index: 107000 !important;
+    }
+
+    #customerDuePaymentModal.modal.show {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+    }
+
+    #customerDuePaymentModal .modal-dialog {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        top: auto !important;
+        min-height: auto !important;
+        height: auto !important;
+        transform: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
+    }
+
+    #customerDuePaymentModal .modal-content {
+        border-radius: 0 !important;
+        border-top-left-radius: 20px !important;
+        border-top-right-radius: 20px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 90vh !important;
+        max-height: 90dvh !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35) !important;
+        animation: slideUpCustomerDueModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    @keyframes slideUpCustomerDueModal {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+    }
+
+    #customerDuePaymentModal .modal-body {
+        flex: 1 1 auto !important;
+        max-height: calc(90vh - 130px) !important;
+        max-height: calc(90dvh - 130px) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        padding: 14px 16px !important;
+    }
+
+    #customerDuePaymentModal .modal-sticky-footer {
+        flex: 0 0 auto !important;
+        position: sticky !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        z-index: 100 !important;
+        padding: 10px 16px !important;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    [data-bs-theme="dark"] #customerDuePaymentModal .modal-sticky-footer,
+    body[light-mode="dark"] #customerDuePaymentModal .modal-sticky-footer,
+    body.dark-mode #customerDuePaymentModal .modal-sticky-footer {
         background-color: #1e293b !important;
         border-color: #334155 !important;
-        color: #F3ECFB !important;
     }
 
-    body[light-mode="dark"] .customer-mobile-card .text-dark,
-    body[light-mode="dark"] .customer-mobile-card h6 {
-        color: #F3ECFB !important;
+    @media (max-width: 991.98px) {
+        .page-content {
+            background-color: #ffffff !important;
+            padding: 0 !important;
+        }
+        body[light-mode="dark"] .page-content,
+        html[light-mode="dark"] .page-content {
+            background-color: #0f172a !important;
+        }
     }
 
-    body[light-mode="dark"] .customer-mobile-card .bg-light {
-        background-color: #0f172a !important;
+    /* 1. Header & Title Box */
+    .invoice-card-header {
+        border-color: #f1f5f9;
+    }
+    .invoice-title-icon-box {
+        width: 42px;
+        height: 42px;
+        background: #F3ECFB;
+        color: #8C56D4;
+        border: 1px solid #E5D5F7;
+        flex-shrink: 0;
+    }
+    .invoice-main-heading {
+        color: #1e293b;
+        font-size: 19px;
+        letter-spacing: -0.2px;
+        font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;
+        border-left: 4px solid #8C56D4 !important;
+        padding-left: 10px !important;
+        line-height: 1.3 !important;
+        display: block !important;
+        word-break: break-word;
+    }
+    #mobileSearchWrap:not(.d-none) {
+        margin-bottom: 14px !important;
+    }
+    .search-live-dropdown {
+        top: calc(100% + 4px);
+        background: #ffffff;
+        border: 1.5px solid #E5D5F7;
+        z-index: 1060;
+        max-height: 280px;
+        overflow-y: auto;
+        box-shadow: 0 12px 32px rgba(140, 86, 212, 0.18) !important;
+    }
+    .search-live-item {
+        padding: 9px 14px;
+        border-bottom: 1px solid #f1f5f9;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .search-live-item:last-child {
+        border-bottom: none;
+    }
+    .search-live-item:hover {
+        background: #F3ECFB;
+    }
+    body[light-mode="dark"] .search-live-dropdown,
+    body[data-layout-mode="dark"] .search-live-dropdown,
+    body.dark-mode .search-live-dropdown {
+        background: #1e293b !important;
         border-color: #334155 !important;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+    }
+    body[light-mode="dark"] .search-live-item,
+    body[data-layout-mode="dark"] .search-live-item,
+    body.dark-mode .search-live-item {
+        border-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+    body[light-mode="dark"] .search-live-item:hover,
+    body[data-layout-mode="dark"] .search-live-item:hover,
+    body.dark-mode .search-live-item:hover {
+        background: #334155 !important;
     }
 
-    body[light-mode="dark"] .customer-mobile-card .text-muted {
-        color: #94a3b8 !important;
+    /* 2. Standardized Form Inputs */
+    .invoice-search-input {
+        height: 42px !important;
+        min-height: 42px !important;
+        border: 1.5px solid #cbd5e1 !important;
+        border-radius: 10px !important;
+        padding: 8px 14px !important;
+        font-size: 14px !important;
+        color: #1e293b !important;
+        background: #ffffff !important;
+        transition: all 0.2s ease-in-out !important;
+        font-family: 'Noto Sans Bengali', 'Poppins', sans-serif !important;
+        box-shadow: none !important;
+    }
+    .invoice-search-input:focus {
+        border-color: #8C56D4 !important;
+        box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.2) !important;
+        outline: none !important;
+    }
+    .invoice-search-addon-icon {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 15px;
+        pointer-events: none;
     }
 
-    /* Modern Smart Pagination Button Styles */
-    .custom-pagination-btn {
-        min-width: 36px;
-        height: 36px;
-        padding: 0 12px;
+    .invoice-search-submit-btn {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        height: 42px !important;
+        border-radius: 10px !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.3px;
+        transition: all 0.2s ease-in-out !important;
+        box-shadow: 0 2px 8px rgba(140, 86, 212, 0.25) !important;
+        cursor: pointer !important;
+    }
+    .invoice-search-submit-btn:hover {
+        background: linear-gradient(135deg, #793FC5 0%, #672EB0 100%) !important;
+        box-shadow: 0 4px 14px rgba(140, 86, 212, 0.4) !important;
+        transform: translateY(-1px);
+        color: #ffffff !important;
+    }
+
+    /* Mobile Header Icon Buttons */
+    .mobile-header-icon-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: #ffffff;
+        border: 1.5px solid #cbd5e1;
+        color: #8C56D4;
+        font-size: 14.5px;
+        cursor: pointer;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 13px;
+        transition: all 0.2s ease-in-out;
+        outline: none !important;
+        box-shadow: 0 1px 3px rgba(140, 86, 212, 0.08);
+    }
+    .mobile-header-icon-btn:hover,
+    .mobile-header-icon-btn:active,
+    .mobile-header-icon-btn.active {
+        background: #F3ECFB;
+        border-color: #8C56D4;
+        color: #793FC5;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(140, 86, 212, 0.2);
+    }
+
+    .toolbar-control-btn {
+        height: 42px !important;
+        min-height: 42px !important;
+        background: #ffffff !important;
+        border: 1.5px solid #cbd5e1 !important;
+        border-radius: 10px !important;
+        color: #1e293b !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease-in-out !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+        outline: none !important;
+        user-select: none;
+    }
+    .toolbar-control-btn:hover {
+        border-color: #8C56D4 !important;
+        background: #FAF7FD !important;
+        color: #8C56D4 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 10px rgba(140, 86, 212, 0.15) !important;
+    }
+    .dropdown-arrow-icon {
+        font-size: 11px;
+        color: #94a3b8;
+        transition: transform 0.2s ease;
+        flex-shrink: 0;
+    }
+    .custom-dropdown-wrap.open .dropdown-arrow-icon {
+        transform: rotate(180deg);
+        color: #8C56D4;
+    }
+
+    /* Custom Dropdown Menus */
+    .custom-dropdown-menu {
+        display: none;
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        min-width: 175px;
+        width: max-content;
+        max-width: 220px;
+        background: #ffffff;
+        border: 1px solid #E5D5F7;
+        border-radius: 6px !important;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(140, 86, 212, 0.18) !important;
+        z-index: 1005 !important;
+        overflow: hidden;
+        padding: 5px;
+    }
+    .custom-dropdown-menu.end-0,
+    #mobileFilterDropdownMenu {
+        left: auto !important;
+        right: 0 !important;
+        z-index: 1005 !important;
+    }
+    .custom-dropdown-menu.show {
+        display: block;
+        animation: dropdownFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes dropdownFadeIn {
+        from { opacity: 0; transform: translateY(-6px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .custom-dropdown-item {
+        padding: 8px 12px;
+        font-size: 13.5px;
+        font-weight: 500;
+        color: #334155;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        transition: all 0.15s ease;
+        display: block;
+        text-decoration: none !important;
+    }
+    .custom-dropdown-item:hover {
+        background: #F3ECFB;
+        color: #8C56D4;
+    }
+    .custom-dropdown-item.active {
+        background: #8C56D4 !important;
+        color: #ffffff !important;
+        font-weight: 700;
+    }
+
+    /* Mobile Search Bar Close Button */
+    .mobile-search-close-btn {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        border-radius: 6px !important;
+        background-color: #ef4444 !important;
+        border: 1.5px solid #dc2626 !important;
+        color: #ffffff !important;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease-in-out;
+        outline: none !important;
+        box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25) !important;
+    }
+    .mobile-search-close-btn:hover {
+        background-color: #dc2626 !important;
+        transform: scale(1.05);
+    }
+
+    /* Mobile & Tablet Card Layout */
+    #mobileCardList {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        align-items: flex-start !important;
+    }
+    #mobileCardList > .col-12 {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    @media (min-width: 768px) and (max-width: 991.98px) {
+        #mobileCardList > .col-md-6 {
+            width: calc(50% - 4px) !important;
+            max-width: calc(50% - 4px) !important;
+            flex: 0 0 calc(50% - 4px) !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+    }
+    .invoice-mobile-card {
+        border: 1.5px solid #E5D5F7 !important;
+        border-radius: 14px !important;
+        box-shadow: 0 2px 10px rgba(140, 86, 212, 0.08) !important;
+        background-color: #ffffff;
+        padding: 14px !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    }
+    .invoice-mobile-card:hover {
+        box-shadow: 0 4px 16px rgba(140, 86, 212, 0.14) !important;
+        border-color: #d1b7f3 !important;
+    }
+
+    /* Action Buttons in Cards */
+    .mobile-card-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+    }
+    .mobile-action-btn {
+        flex: 1 1 0;
+        height: 32px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12.5px;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        border: 1px solid transparent;
+        text-decoration: none;
+    }
+    .mobile-action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    }
+    .mobile-action-btn.action-btn-profile {
+        background: #F3ECFB;
+        color: #8C56D4;
+        border-color: #E5D5F7;
+    }
+    .mobile-action-btn.action-btn-profile:hover {
+        background: #8C56D4;
+        color: #ffffff;
+    }
+    .mobile-action-btn.action-btn-return {
+        background: #FEF9EC;
+        color: #D97706;
+        border-color: #FDE68A;
+    }
+    .mobile-action-btn.action-btn-return:hover {
+        background: #D97706;
+        color: #ffffff;
+    }
+    .mobile-action-btn.action-btn-due {
+        background: #E0F7EC;
+        color: #16a34a;
+        border-color: #86efac;
+    }
+    .mobile-action-btn.action-btn-due:hover {
+        background: #16a34a;
+        color: #ffffff;
+    }
+    .mobile-action-btn.action-btn-edit {
+        background: #E0F2FE;
+        color: #0284C7;
+        border-color: #BAE6FD;
+    }
+    .mobile-action-btn.action-btn-edit:hover {
+        background: #0284C7;
+        color: #ffffff;
+    }
+    .mobile-action-btn.action-btn-delete {
+        background: #FEE2E2;
+        color: #DC2626;
+        border-color: #FECACA;
+    }
+    .mobile-action-btn.action-btn-delete:hover {
+        background: #DC2626;
+        color: #ffffff;
+    }
+
+    /* Floating Action Button (FAB) */
+    .floating-add-invoice-btn {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 52px;
+        height: 52px;
+        border-radius: 50% !important;
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        color: #ffffff !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        box-shadow: 0 6px 20px rgba(140, 86, 212, 0.4), 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+        z-index: 999;
+        text-decoration: none !important;
+        transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease;
+        border: 2px solid rgba(255, 255, 255, 0.25);
+        cursor: pointer;
+    }
+    .floating-add-invoice-btn:hover {
+        transform: scale(1.1) translateY(-3px);
+        box-shadow: 0 10px 28px rgba(140, 86, 212, 0.55), 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+        color: #ffffff !important;
+    }
+
+    /* Pagination */
+    .custom-pagination-btn {
+        min-width: 38px;
+        height: 38px;
+        padding: 0 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13.5px;
         font-weight: 600;
         border-radius: 8px;
         border: 1px solid #e2e8f0;
@@ -205,21 +826,18 @@
         cursor: pointer;
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
-
     .custom-pagination-btn:hover:not(.disabled):not(.active) {
         background-color: #f1f5f9;
         color: #0f172a;
         border-color: #cbd5e1;
     }
-
     .custom-pagination-btn.active {
-        background: linear-gradient(135deg, #16a34a, #15803d) !important;
+        background: linear-gradient(135deg, #8C56D4, #793FC5) !important;
         color: #ffffff !important;
-        border-color: #16a34a !important;
-        box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35) !important;
+        border-color: #8C56D4 !important;
+        box-shadow: 0 4px 12px rgba(140, 86, 212, 0.35) !important;
         font-weight: 700;
     }
-
     .custom-pagination-btn.disabled {
         opacity: 0.45;
         cursor: not-allowed;
@@ -228,28 +846,238 @@
         color: #94a3b8;
     }
 
-    /* Dark Mode Smart Pagination */
-    body[light-mode="dark"] .custom-pagination-btn {
+    /* Payment Chip */
+    .cl-payment-chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: 1.5px solid #cbd5e1;
+        background: #ffffff;
+        color: #475569;
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .cl-payment-chip:hover {
+        border-color: #8C56D4;
+        background: #FAF7FD;
+        color: #8C56D4;
+    }
+    .cl-payment-chip.active {
+        border-color: #8C56D4;
+        background: #8C56D4;
+        color: #ffffff;
+        box-shadow: 0 2px 8px rgba(140, 86, 212, 0.25);
+    }
+
+    .modal-dues-summary-card {
+        background: #FAF7FD;
+        border: 1px solid #E5D5F7;
+    }
+    .modal-calc-status-box {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+    }
+    .btn-close-red {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        border-radius: 50% !important;
+        width: 30px !important;
+        height: 30px !important;
+        border: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 14px !important;
+        cursor: pointer !important;
+    }
+    .btn-cancel-red {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+
+    /* Dark Mode Universal Border & Color Harmonization */
+    body[light-mode="dark"] .border,
+    html[light-mode="dark"] .border,
+    body[data-layout-mode="dark"] .border,
+    html[data-layout-mode="dark"] .border,
+    body.dark-mode .border,
+    html.dark-mode .border,
+    body.dark .border,
+    html.dark .border,
+    [data-bs-theme="dark"] .border,
+    [data-theme="dark"] .border,
+    body[light-mode="dark"] .border-bottom,
+    html[light-mode="dark"] .border-bottom,
+    body[data-layout-mode="dark"] .border-bottom,
+    html[data-layout-mode="dark"] .border-bottom,
+    body.dark-mode .border-bottom,
+    html.dark-mode .border-bottom,
+    body.dark .border-bottom,
+    html.dark .border-bottom,
+    [data-bs-theme="dark"] .border-bottom,
+    [data-theme="dark"] .border-bottom,
+    body[light-mode="dark"] .border-top,
+    html[light-mode="dark"] .border-top,
+    body[data-layout-mode="dark"] .border-top,
+    html[data-layout-mode="dark"] .border-top,
+    body.dark-mode .border-top,
+    html.dark-mode .border-top,
+    body.dark .border-top,
+    html.dark .border-top,
+    [data-bs-theme="dark"] .border-top,
+    [data-theme="dark"] .border-top,
+    body[light-mode="dark"] .border-start,
+    html[light-mode="dark"] .border-start,
+    body[data-layout-mode="dark"] .border-start,
+    html[data-layout-mode="dark"] .border-start,
+    body.dark-mode .border-start,
+    html.dark-mode .border-start,
+    [data-bs-theme="dark"] .border-start,
+    [data-theme="dark"] .border-start,
+    body[light-mode="dark"] .border-end,
+    html[light-mode="dark"] .border-end,
+    body[data-layout-mode="dark"] .border-end,
+    html[data-layout-mode="dark"] .border-end,
+    body.dark-mode .border-end,
+    html.dark-mode .border-end,
+    [data-bs-theme="dark"] .border-end,
+    [data-theme="dark"] .border-end,
+    body[light-mode="dark"] hr,
+    body[data-layout-mode="dark"] hr,
+    body.dark-mode hr,
+    [data-bs-theme="dark"] hr {
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .invoice-card-header,
+    body[data-layout-mode="dark"] .invoice-card-header,
+    body.dark-mode .invoice-card-header,
+    [data-bs-theme="dark"] .invoice-card-header { border-color: #334155 !important; }
+    body[light-mode="dark"] .invoice-main-heading,
+    body[data-layout-mode="dark"] .invoice-main-heading,
+    body.dark-mode .invoice-main-heading,
+    [data-bs-theme="dark"] .invoice-main-heading { color: #f8fafc !important; }
+    body[light-mode="dark"] .invoice-search-input,
+    body[light-mode="dark"] .toolbar-control-btn,
+    body[data-layout-mode="dark"] .invoice-search-input,
+    body[data-layout-mode="dark"] .toolbar-control-btn,
+    body.dark-mode .invoice-search-input,
+    body.dark-mode .toolbar-control-btn,
+    [data-bs-theme="dark"] .invoice-search-input,
+    [data-bs-theme="dark"] .toolbar-control-btn {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] .mobile-header-icon-btn,
+    body[data-layout-mode="dark"] .mobile-header-icon-btn,
+    body.dark-mode .mobile-header-icon-btn,
+    [data-bs-theme="dark"] .mobile-header-icon-btn {
+        background: #1e293b;
+        border-color: #334155;
+        color: #D2B7F1;
+    }
+    body[light-mode="dark"] .custom-dropdown-menu,
+    body[data-layout-mode="dark"] .custom-dropdown-menu,
+    body.dark-mode .custom-dropdown-menu,
+    [data-bs-theme="dark"] .custom-dropdown-menu {
+        background: #1e293b;
+        border-color: #334155;
+    }
+    body[light-mode="dark"] .custom-dropdown-item,
+    body[data-layout-mode="dark"] .custom-dropdown-item,
+    body.dark-mode .custom-dropdown-item,
+    [data-bs-theme="dark"] .custom-dropdown-item {
+        color: #cbd5e1;
+    }
+    body[light-mode="dark"] .invoice-top-summary-strip,
+    body[data-layout-mode="dark"] .invoice-top-summary-strip,
+    body.dark-mode .invoice-top-summary-strip,
+    [data-bs-theme="dark"] .invoice-top-summary-strip {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .invoice-mobile-card,
+    body[data-layout-mode="dark"] .invoice-mobile-card,
+    body.dark-mode .invoice-mobile-card,
+    [data-bs-theme="dark"] .invoice-mobile-card {
         background-color: #1e293b !important;
         border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .invoice-mobile-card h6,
+    body[light-mode="dark"] .invoice-mobile-card .text-dark,
+    body[data-layout-mode="dark"] .invoice-mobile-card h6,
+    body[data-layout-mode="dark"] .invoice-mobile-card .text-dark,
+    body.dark-mode .invoice-mobile-card h6,
+    body.dark-mode .invoice-mobile-card .text-dark,
+    [data-bs-theme="dark"] .invoice-mobile-card h6,
+    [data-bs-theme="dark"] .invoice-mobile-card .text-dark {
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] #printTable thead th,
+    body[data-layout-mode="dark"] #printTable thead th,
+    body.dark-mode #printTable thead th,
+    [data-bs-theme="dark"] #printTable thead th {
+        background: #0f172a !important;
         color: #cbd5e1 !important;
+        border-color: #334155 !important;
     }
-
-    body[light-mode="dark"] .custom-pagination-btn:hover:not(.disabled):not(.active) {
-        background-color: #334155 !important;
-        color: #ffffff !important;
+    body[light-mode="dark"] #printTable tbody tr td,
+    body[data-layout-mode="dark"] #printTable tbody tr td,
+    body.dark-mode #printTable tbody tr td,
+    [data-bs-theme="dark"] #printTable tbody tr td {
+        border-color: #334155 !important;
+        color: #f8fafc !important;
     }
-
-    body[light-mode="dark"] .custom-pagination-btn.active {
-        background: linear-gradient(135deg, #16a34a, #15803d) !important;
-        color: #ffffff !important;
-        border-color: #16a34a !important;
+    body[light-mode="dark"] .modal-content,
+    body[data-layout-mode="dark"] .modal-content,
+    body.dark-mode .modal-content,
+    [data-bs-theme="dark"] .modal-content {
+        background-color: #1e293b !important;
+        color: #f8fafc !important;
     }
-
-    body[light-mode="dark"] .custom-pagination-btn.disabled {
-        background-color: #0f172a !important;
-        border-color: #1e293b !important;
-        color: #475569 !important;
+    body[light-mode="dark"] .modal-dues-summary-card,
+    body[light-mode="dark"] .modal-calc-status-box,
+    body[data-layout-mode="dark"] .modal-dues-summary-card,
+    body[data-layout-mode="dark"] .modal-calc-status-box,
+    body.dark-mode .modal-dues-summary-card,
+    body.dark-mode .modal-calc-status-box,
+    [data-bs-theme="dark"] .modal-dues-summary-card,
+    [data-bs-theme="dark"] .modal-calc-status-box {
+        background: #0f172a !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .modal-sticky-footer,
+    body[data-layout-mode="dark"] .modal-sticky-footer,
+    body.dark-mode .modal-sticky-footer,
+    [data-bs-theme="dark"] .modal-sticky-footer {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .cl-payment-chip,
+    body[data-layout-mode="dark"] .cl-payment-chip,
+    body.dark-mode .cl-payment-chip,
+    [data-bs-theme="dark"] .cl-payment-chip {
+        background: #0f172a;
+        border-color: #334155;
+        color: #cbd5e1;
+    }
+    body[light-mode="dark"] .badge.bg-light,
+    body[data-layout-mode="dark"] .badge.bg-light,
+    body.dark-mode .badge.bg-light,
+    [data-bs-theme="dark"] .badge.bg-light {
+        background: #0f172a !important;
+        color: #e2e8f0 !important;
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .mobile-action-btn,
+    body[data-layout-mode="dark"] .mobile-action-btn,
+    body.dark-mode .mobile-action-btn,
+    [data-bs-theme="dark"] .mobile-action-btn {
+        border-color: #334155 !important;
     }
 </style>
 
@@ -257,22 +1085,173 @@
     let rawCustomerData = [];
     let currentPage = 1;
     let pageSize = 50;
+    let currentFilter = 'all';
 
     $(document).ready(function () {
         getList();
-        $("#searchInput").val("");
+        $("#searchInput, #mobileSearchInput").val("");
+
+        // Flatpickr for Payment Modal
+        if (typeof flatpickr !== 'undefined' && $('#clDueCollectionDate').length) {
+            flatpickr('#clDueCollectionDate', {
+                dateFormat: "d-m-Y",
+                defaultDate: new Date(),
+                disableMobile: true,
+                monthSelectorType: "static"
+            });
+        }
+
+        $('#customerDuePaymentModal').on('shown.bs.modal', function () {
+            const payInput = document.getElementById('clPayAmount');
+            if (payInput) {
+                payInput.focus();
+                payInput.select();
+            }
+        });
     });
 
-    $("#searchInput").on("keyup search input", function () {
+    // Close dropdowns on outside click
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-dropdown-wrap')) {
+            $('.custom-dropdown-menu').removeClass('show');
+            $('.custom-dropdown-wrap').removeClass('open');
+        }
+        if (!e.target.closest('#mobileSearchWrap') && !e.target.closest('#mobileSearchToggleBtn') && !e.target.closest('.search-live-dropdown')) {
+            $('#mobileSearchDropdown').addClass('d-none').empty();
+        }
+        if (!e.target.closest('.invoice-search-box-wrap') && !e.target.closest('.search-live-dropdown')) {
+            $('#desktopSearchDropdown').addClass('d-none').empty();
+        }
+    });
+
+    function toggleCustomDropdown(menuId) {
+        let menu = $('#' + menuId);
+        let wrap = menu.closest('.custom-dropdown-wrap');
+        $('.custom-dropdown-menu').not(menu).removeClass('show');
+        $('.custom-dropdown-wrap').not(wrap).removeClass('open');
+        menu.toggleClass('show');
+        wrap.toggleClass('open');
+    }
+
+    function toggleMobileSearchBar() {
+        let wrap = $('#mobileSearchWrap');
+        let btn = $('#mobileSearchToggleBtn');
+        wrap.toggleClass('d-none');
+        btn.toggleClass('active');
+        if (!wrap.hasClass('d-none')) {
+            $('#mobileSearchInput').focus();
+        }
+    }
+
+    function closeMobileSearchBar() {
+        $('#mobileSearchWrap').addClass('d-none');
+        $('#mobileSearchToggleBtn').removeClass('active');
+        $('#mobileSearchInput').val('');
+        $('#searchInput').val('');
+        $('#mobileSearchDropdown, #desktopSearchDropdown').addClass('d-none').empty();
+        currentPage = 1;
+        renderPaginatedList();
+    }
+
+    function selectEntriesOption(value, labelText) {
+        $('#entries').val(value);
+        $('#currentEntriesText').text(labelText);
+        $('#entriesDropdownMenu .custom-dropdown-item').removeClass('active');
+        $(`#entriesDropdownMenu .custom-dropdown-item[data-value="${value}"]`).addClass('active');
+        $('#entriesDropdownMenu').removeClass('show');
+        $('#entriesDropdownContainer').removeClass('open');
+        pageSize = parseInt(value) || 50;
+        currentPage = 1;
+        renderPaginatedList();
+    }
+
+    function selectFilterOption(filterType, labelText, event) {
+        if (event) event.preventDefault();
+        currentFilter = filterType;
+        $('#currentFilterText').text(labelText);
+        $('.custom-dropdown-item[data-filter]').removeClass('active');
+        $(`.custom-dropdown-item[data-filter="${filterType}"]`).addClass('active');
+        $('#filterDropdownMenu, #mobileFilterDropdownMenu').removeClass('show');
+        $('#filterDropdownContainer, #mobileFilterDropdownContainer').removeClass('open');
+        currentPage = 1;
+        renderPaginatedList();
+    }
+
+    function handleLiveSearch(term) {
+        let cleanTerm = (term || '').toLowerCase().trim();
+        renderLiveDropdown('mobileSearchDropdown', cleanTerm);
+        renderLiveDropdown('desktopSearchDropdown', cleanTerm);
+    }
+
+    $("#searchInput, #mobileSearchInput").on("keyup search input", function () {
+        let val = $(this).val();
+        if ($(this).attr('id') === 'mobileSearchInput') {
+            $("#searchInput").val(val);
+        } else {
+            $("#mobileSearchInput").val(val);
+        }
+        handleLiveSearch(val);
         currentPage = 1;
         renderPaginatedList();
     });
 
-    $("#entries").on("change", function () {
-        pageSize = parseInt($(this).val()) || 50;
+    function renderLiveDropdown(containerId, cleanTerm) {
+        const dropdown = $('#' + containerId);
+        if (!cleanTerm || cleanTerm.length === 0 || !rawCustomerData || rawCustomerData.length === 0) {
+            dropdown.addClass('d-none').empty();
+            return;
+        }
+
+        let matches = rawCustomerData.filter(item => {
+            let customerId = (item.customer_id || "").toLowerCase();
+            let name = (item.customer_name || "").toLowerCase();
+            let mobile = (item.mobile || "").toLowerCase();
+
+            return customerId.includes(cleanTerm) ||
+                   name.includes(cleanTerm) ||
+                   mobile.includes(cleanTerm);
+        }).slice(0, 8);
+
+        if (matches.length === 0) {
+            dropdown.html('<div class="p-3 text-center text-muted small"><i class="fa-solid fa-circle-exclamation me-1"></i>কোনো কাস্টমার পাওয়া যায়নি</div>').removeClass('d-none');
+            return;
+        }
+
+        let html = '';
+        matches.forEach(item => {
+            const img = item.img_url ? item.img_url : "{{ asset('back-end/assets/img/demo-img.jpeg') }}";
+            const due = parseFloat(item.total_due) || 0;
+            const dueDisplay = due > 0 ? `<span class="text-danger fw-bold" style="font-size: 11.5px;">৳ ${due.toFixed(2)}</span>` : '<span class="text-muted small" style="font-size: 11px;">পরিশোধিত</span>';
+            const mobileText = item.mobile ? `<span class="text-muted small d-block text-truncate" style="font-size: 11px; max-width: 180px;"><i class="fa-solid fa-phone me-1"></i>${item.mobile}</span>` : '';
+            const safeName = (item.customer_name || '').replace(/'/g, "\\'");
+
+            html += `
+                <div class="search-live-item" onclick="selectSearchDropdownItem('${safeName}')">
+                    <div class="d-flex align-items-center gap-2 overflow-hidden">
+                        <img src="${img}" class="rounded-circle border flex-shrink-0" style="width: 32px; height: 32px; object-fit: cover;" onerror="this.src='{{ asset('back-end/assets/img/demo-img.jpeg') }}'">
+                        <div class="overflow-hidden">
+                            <span class="fw-bold text-dark d-block text-truncate" style="font-size: 13px;">${item.customer_name}</span>
+                            ${mobileText}
+                        </div>
+                    </div>
+                    <div class="text-end flex-shrink-0 ms-2">
+                        <span class="badge bg-light text-dark border mb-1 d-inline-block" style="font-size: 10px;">${item.customer_id}</span>
+                        <div>${dueDisplay}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        dropdown.html(html).removeClass('d-none');
+    }
+
+    function selectSearchDropdownItem(name) {
+        $('#searchInput').val(name);
+        $('#mobileSearchInput').val(name);
+        $('.search-live-dropdown').addClass('d-none').empty();
         currentPage = 1;
         renderPaginatedList();
-    });
+    }
 
     async function getList() {
         try {
@@ -296,23 +1275,37 @@
     function renderPaginatedList() {
         if (!rawCustomerData) return;
 
-        let searchTerm = $("#searchInput").val().toLowerCase().trim();
+        let searchTerm = ($("#searchInput").val() || "").toLowerCase().trim();
 
         // 1. Filter Customers
         let filtered = rawCustomerData.filter(function (item) {
             let customerId = (item.customer_id || "").toLowerCase();
             let name = (item.customer_name || "").toLowerCase();
             let mobile = (item.mobile || "").toLowerCase();
+            let status = (item.status || "Active").toLowerCase();
+            let totalDue = parseFloat(item.total_due) || 0;
 
-            return !searchTerm || customerId.includes(searchTerm) || name.includes(searchTerm) || mobile.includes(searchTerm);
+            let matchesSearch = !searchTerm || customerId.includes(searchTerm) || name.includes(searchTerm) || mobile.includes(searchTerm);
+
+            let matchesFilter = true;
+            if (currentFilter === 'Active') {
+                matchesFilter = (status === 'active');
+            } else if (currentFilter === 'Inactive') {
+                matchesFilter = (status !== 'active');
+            } else if (currentFilter === 'due') {
+                matchesFilter = (totalDue > 0);
+            }
+
+            return matchesSearch && matchesFilter;
         });
 
-        // 2. Calculate Totals
-        let totalDueAmount = 0;
+        // 2. Summary
+        let totalDueSum = 0;
         filtered.forEach(item => {
-            totalDueAmount += parseFloat(item.total_due) || 0;
+            totalDueSum += (parseFloat(item.total_due) || 0);
         });
-        $("#total_previous_due_amount").text(`৳ ${totalDueAmount.toFixed(2)}`);
+        $('#topSummaryTotalCount').text(filtered.length);
+        $('#topSummaryTotalAmount').text(`৳ ${totalDueSum.toFixed(2)}`);
 
         // 3. Pagination Calculations
         let totalItems = filtered.length;
@@ -331,12 +1324,12 @@
         mobileCardList.empty();
 
         if (pageItems.length === 0) {
-            tableList.html('<tr><td colspan="8" class="text-center text-danger p-4 fw-bold">❌ কোনো কাস্টমার পাওয়া যায়নি।</td></tr>');
-            mobileCardList.html('<div class="p-4 text-center text-danger fw-bold bg-white rounded-3 border shadow-sm">❌ কোনো কাস্টমার পাওয়া যায়নি।</div>');
+            tableList.html('<tr><td colspan="8" class="text-center text-danger p-4 fw-bold">❌ কোনো কাস্টমার পাওয়া যায়নি।</td></tr>');
+            mobileCardList.html('<div class="col-12 p-4 text-center text-danger fw-bold bg-white rounded-3 border shadow-sm">❌ কোনো কাস্টমার পাওয়া যায়নি।</div>');
         } else {
             pageItems.forEach(function (item, idx) {
                 let realIndex = startIndex + idx;
-                const img_url = item.img_url ? item.img_url : "{{ asset('back-end/assets/img/brand-defult-img.svg') }}";
+                const img_url = item.img_url ? item.img_url : "{{ asset('back-end/assets/img/demo-img.jpeg') }}";
                 let totalDue = parseFloat(item.total_due) || 0;
 
                 let statusBadgeClass = (item.status || 'Active') === 'Active' ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-danger-subtle text-danger border border-danger-subtle';
@@ -347,101 +1340,120 @@
                         <td class="text-center fw-bold">${realIndex + 1}</td>
                         <td class="text-center">
                             <div class="d-flex align-items-center justify-content-center gap-1">
-                                <button href="#" data-id="${item['id']}" class="edit-link btn btn-sm btn-outline-success rounded-circle d-flex align-items-center justify-content-center p-0" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Edit Customer" style="width: 32px; height: 32px;">
-                                   <i class="fa-solid fa-pen-to-square"></i>
+                                <a href="/customer/profile/${item.id}" class="btn btn-sm btn-outline-primary px-2 py-1" style="border-radius: 6px;" title="প্রোফাইল দেখুন">
+                                    <i class="fa-solid fa-user"></i>
+                                </a>
+                                <button type="button" onclick="openCustomerReturn('${item.id}', '${item.customer_id}', '${item.customer_name}')" class="btn btn-sm px-2 py-1 action-btn-return" style="border-radius: 6px; border: 1.5px solid #FDE68A; background: #FEF9EC; color: #D97706;" title="পণ্য ফেরত">
+                                    <i class="fa-solid fa-rotate-left"></i>
                                 </button>
-                                <button href="#" data-id="${item['id']}" class="custom-delete-modal-btn btn btn-sm btn-outline-danger rounded-circle d-flex align-items-center justify-content-center p-0" data-bs-toggle="modal" data-bs-target="#confirmationModal" title="Delete Customer" style="width: 32px; height: 32px;">
-                                   <i class="fa-solid fa-trash"></i>
+                                <button type="button" onclick="clOpenPaymentModal(${item.id})" class="btn btn-sm btn-outline-warning px-2 py-1" style="border-radius: 6px;" title="বকেয়া আদায়">
+                                    <i class="fa-solid fa-money-bill-wave"></i>
+                                </button>
+                                <button type="button" onclick="openCustomerUpdateModal(${item.id})" class="edit-link btn btn-sm btn-outline-success px-2 py-1" style="border-radius: 6px;" title="এডিট করুন">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button type="button" data-id="${item.id}" class="custom-delete-modal-btn btn btn-sm btn-outline-danger px-2 py-1" style="border-radius: 6px;" data-bs-toggle="modal" data-bs-target="#confirmationModal" title="মুছে ফেলুন">
+                                    <i class="fa-solid fa-trash"></i>
                                 </button>
                             </div>
                         </td>
                         <td>
-                            <a href="/customer/profile/${item['id']}" class="fw-bold text-success text-decoration-none">
-                                <i class="fa-solid fa-user me-1"></i>${item['customer_id'] ?? 'N/A'}
+                            <a href="/customer/profile/${item.id}" class="fw-bold text-decoration-none" style="color: #8C56D4;">
+                                <i class="fa-solid fa-user me-1"></i>${item.customer_id ?? 'N/A'}
                             </a>
                         </td>
                         <td class="text-center">
-                            <img style="width: 45px; height: 45px; object-fit: cover;" class="rounded-circle border shadow-sm" alt="${item['customer_name']}" src="${img_url}" onerror="this.src='{{ asset('back-end/assets/img/brand-defult-img.svg') }}'">
+                            <img style="width: 42px; height: 42px; object-fit: cover;" class="rounded-circle border shadow-sm" alt="${item.customer_name}" src="${img_url}" onerror="this.src='{{ asset('back-end/assets/img/demo-img.jpeg') }}'">
                         </td>
                         <td>
-                            <a href="/customer/profile/${item['id']}" class="text-dark fw-bold text-decoration-none">${item['customer_name']}</a>
+                            <a href="/customer/profile/${item.id}" class="text-dark fw-bold text-decoration-none">${item.customer_name}</a>
                         </td>
-                        <td class="fw-medium text-secondary">${item['mobile'] || '-'}</td>
+                        <td class="fw-medium text-secondary">${item.mobile || '-'}</td>
                         <td class="text-end fw-bold ${totalDue > 0 ? 'text-danger' : 'text-dark'}">৳ ${totalDue.toFixed(2)}</td>
                         <td class="text-center">
                             <span class="badge ${statusBadgeClass} px-2 py-1 fw-bold" style="font-size: 11px; border-radius: 12px;">
-                                ${item['status'] || 'Active'}
+                                ${item.status || 'Active'}
                             </span>
                         </td>
                     </tr>`;
                 tableList.append(row);
 
-                // Mobile Card View
+                // Mobile & Tablet Card View (2-column on Tab >=768px, 1-col on Mobile)
                 let mobileCard = `
-                    <div class="customer-mobile-card card border shadow-sm rounded-4 mb-3 p-3 position-relative bg-white">
-                        <div class="d-flex align-items-center justify-content-between pb-2 mb-2 border-bottom">
-                            <div class="d-flex align-items-center gap-1">
-                                <span class="badge bg-secondary-subtle text-secondary fw-bold" style="font-size: 10px;">#${realIndex + 1}</span>
-                                <a href="/customer/profile/${item['id']}" onclick="window.location.href='/customer/profile/${item['id']}';" class="badge bg-success-subtle text-success border border-success-subtle fw-bold text-decoration-none" style="font-size: 11px; cursor: pointer;">
-                                    <i class="fa-solid fa-user me-1 text-success"></i>${item['customer_id'] ?? 'N/A'}
+                    <div class="col-12 col-md-6">
+                        <a href="/customer/profile/${item.id}" class="text-decoration-none d-block h-100">
+                        <div class="invoice-mobile-card d-flex flex-column justify-content-between h-100">
+                            <div>
+                                <!-- Card Header: ID & Status -->
+                                <div class="d-flex align-items-center justify-content-between pb-2 mb-2 border-bottom">
+                                    <div class="d-flex align-items-center gap-1.5">
+                                        <span class="badge bg-secondary-subtle text-secondary fw-bold" style="font-size: 10px;">#${realIndex + 1}</span>
+                                        <span class="badge bg-light text-dark border fw-bold" style="font-size: 11px;">
+                                            <i class="fa-solid fa-user me-1" style="color: #8C56D4;"></i>${item.customer_id ?? 'N/A'}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="badge ${statusBadgeClass} px-2 py-1 fw-bold" style="font-size: 10px; border-radius: 12px;">
+                                            ${item.status || 'Active'}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Card Body: Image+Name on Left | Due Amount on Right -->
+                                <div class="d-flex align-items-center justify-content-between gap-2 mb-0">
+                                    <div class="d-flex align-items-center gap-2 flex-shrink-1 overflow-hidden">
+                                        <img src="${img_url}" class="rounded-circle border shadow-sm flex-shrink-0" style="width: 44px; height: 44px; object-fit: cover;" onerror="this.src='{{ asset('back-end/assets/img/demo-img.jpeg') }}'">
+                                        <div class="overflow-hidden">
+                                            <h6 class="fw-bold text-dark mb-0 text-truncate" style="font-size: 13.5px;">${item.customer_name}</h6>
+                                            <span class="text-muted text-truncate d-block" style="font-size: 11px;">
+                                                <i class="fa-solid fa-phone me-1"></i>${item.mobile || 'মোবাইল নেই'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="text-end flex-shrink-0 ms-2">
+                                        <div style="font-size: 10px; color: #64748b; white-space: nowrap;">বকেয়া পাওনা</div>
+                                        <div class="fw-bold ${totalDue > 0 ? 'text-danger' : 'text-dark'}" style="font-size: 13.5px; white-space: nowrap;">৳ ${totalDue.toFixed(2)}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Icon-Only 5 Action Buttons (Profile, Return, Due, Edit, Delete) -->
+                            <div class="mobile-card-actions pt-2 mt-2 border-top" onclick="event.stopPropagation(); event.preventDefault();">
+                                <a href="/customer/profile/${item.id}" class="mobile-action-btn action-btn-profile flex-grow-1" onclick="event.stopPropagation();" title="প্রোফাইল">
+                                    <i class="fa-solid fa-user"></i>
                                 </a>
-                            </div>
-                            <div>
-                                <span class="badge ${statusBadgeClass} px-2 py-1 fw-bold" style="font-size: 10px; border-radius: 12px;">
-                                    ${item['status'] || 'Active'}
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-center gap-3 mb-2">
-                            <a href="/customer/profile/${item['id']}" onclick="window.location.href='/customer/profile/${item['id']}';">
-                                <img src="${img_url}" class="rounded-circle border shadow-sm" style="width: 48px; height: 48px; object-fit: cover;" onerror="this.src='{{ asset('back-end/assets/img/brand-defult-img.svg') }}'">
-                            </a>
-                            <div>
-                                <h6 class="fw-bold mb-0" style="font-size: 14px;">
-                                    <a href="/customer/profile/${item['id']}" onclick="window.location.href='/customer/profile/${item['id']}';" class="text-dark text-decoration-none">
-                                        ${item['customer_name']}
-                                    </a>
-                                </h6>
-                                <span class="text-muted small" style="font-size: 11px;">
-                                    <i class="fa-solid fa-phone me-1"></i>${item['mobile'] || 'No Mobile'}
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="bg-light p-2 rounded-3 my-2 d-flex align-items-center justify-content-between" style="border: 1px solid #f1f5f9;">
-                            <span class="text-muted small fw-bold" style="font-size: 11px;">মোট বকেয়া (Total Due):</span>
-                            <span class="fw-bold fs-6 ${totalDue > 0 ? 'text-danger' : 'text-dark'}">৳ ${totalDue.toFixed(2)}</span>
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between pt-2 mt-1 border-top">
-                            <a href="/customer/profile/${item['id']}" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold" style="font-size: 11px;">
-                                <i class="fa-solid fa-user-circle me-1"></i>প্রোফাইল
-                            </a>
-                            <div class="d-flex align-items-center gap-2">
-                                <button data-id="${item['id']}" class="edit-link btn btn-sm btn-outline-success rounded-circle d-flex align-items-center justify-content-center p-0" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Edit Customer" style="width: 34px; height: 34px;">
-                                    <i class="fa-solid fa-pen-to-square fs-6"></i>
+                                <button type="button" class="mobile-action-btn action-btn-return flex-grow-1" onclick="event.stopPropagation(); openCustomerReturn('${item.id}', '${item.customer_id}', '${item.customer_name}');" title="পণ্য ফেরত">
+                                    <i class="fa-solid fa-rotate-left"></i>
                                 </button>
-                                <button data-id="${item['id']}" class="custom-delete-modal-btn btn btn-sm btn-outline-danger rounded-circle d-flex align-items-center justify-content-center p-0" data-bs-toggle="modal" data-bs-target="#confirmationModal" title="Delete Customer" style="width: 34px; height: 34px;">
-                                    <i class="fa-solid fa-trash fs-6"></i>
+                                <button type="button" class="mobile-action-btn action-btn-due flex-grow-1" onclick="event.stopPropagation(); clOpenPaymentModal(${item.id});" title="বকেয়া আদায়">
+                                    <i class="fa-solid fa-money-bill-wave"></i>
+                                </button>
+                                <button type="button" class="mobile-action-btn action-btn-edit edit-link flex-grow-1" onclick="event.stopPropagation(); openCustomerUpdateModal(${item.id});" title="এডিট">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button type="button" class="mobile-action-btn action-btn-delete custom-delete-modal-btn flex-grow-1" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#confirmationModal" title="মুছুন" onclick="event.stopPropagation();">
+                                    <i class="fa-solid fa-trash"></i>
                                 </button>
                             </div>
                         </div>
+                        </a>
                     </div>`;
                 mobileCardList.append(mobileCard);
             });
         }
 
-        // Bind event for delete button (edit modal is handled automatically via data-bs-toggle and show.bs.modal)
-        $('.custom-delete-modal-btn').off('click').on('click', function() {
+        // Delete button listener
+        $('.custom-delete-modal-btn').off('click').on('click', function(e) {
+            e.stopPropagation();
             let id = $(this).data('id');
             $("#deleteID").val(id);
+            $("#confirmationModal").modal('show');
         });
 
         // 4. Update Display Info & Pagination UI
         let fromCount = totalItems > 0 ? startIndex + 1 : 0;
         let toCount = endIndex;
-        $("#display-info").html(`Showing <span class="badge bg-light text-dark border px-2 py-1 mx-1 fw-bold fs-6">${fromCount} - ${toCount}</span> of <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 mx-1 fw-bold fs-6">${totalItems}</span> entries`);
+        $("#display-info").html(`মোট <span class="badge bg-purple-subtle text-primary border px-2 py-1 mx-1 fw-bold fs-6" style="color: #8C56D4 !important;">${totalItems}</span> টির মধ্যে <span class="badge bg-light text-dark border px-2 py-1 mx-1 fw-bold fs-6">${fromCount} - ${toCount}</span> টি কাস্টমার প্রদর্শিত হচ্ছে`);
 
         renderPaginationControls(totalPages);
     }
@@ -455,7 +1467,7 @@
         // Prev Button
         let prevDisabled = currentPage === 1 ? 'disabled' : '';
         let prevBtn = `<button type="button" class="custom-pagination-btn ${prevDisabled}" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">
-            <i class="fa-solid fa-chevron-left me-1"></i> Prev
+            <i class="fa-solid fa-chevron-left me-1"></i> পূর্ববর্তী
         </button>`;
         pagContainer.append(prevBtn);
 
@@ -464,7 +1476,7 @@
         let endPage = Math.min(totalPages, currentPage + 2);
 
         if (startPage > 1) {
-            pagContainer.append(`<button type="button" class="custom-pagination-btn" onclick="goToPage(1)">1</button>`);
+            pagContainer.append(`<button type="button" class="custom-pagination-btn" onclick="goToPage(1)">১</button>`);
             if (startPage > 2) {
                 pagContainer.append(`<span class="px-1 text-muted fw-bold">...</span>`);
             }
@@ -472,8 +1484,7 @@
 
         for (let p = startPage; p <= endPage; p++) {
             let activeClass = (p === currentPage) ? 'active' : '';
-            let pageBtn = `<button type="button" class="custom-pagination-btn ${activeClass}" onclick="goToPage(${p})">${p}</button>`;
-            pagContainer.append(pageBtn);
+            pagContainer.append(`<button type="button" class="custom-pagination-btn ${activeClass}" onclick="goToPage(${p})">${p}</button>`);
         }
 
         if (endPage < totalPages) {
@@ -486,7 +1497,7 @@
         // Next Button
         let nextDisabled = currentPage === totalPages ? 'disabled' : '';
         let nextBtn = `<button type="button" class="custom-pagination-btn ${nextDisabled}" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">
-            Next <i class="fa-solid fa-chevron-right ms-1"></i>
+            পরবর্তী <i class="fa-solid fa-chevron-right ms-1"></i>
         </button>`;
         pagContainer.append(nextBtn);
     }
@@ -495,5 +1506,177 @@
         currentPage = page;
         renderPaginatedList();
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openCustomerCreateModal() {
+        if ($('#customerCreateModal').length) {
+            $('#customerCreateModal').addClass('show').fadeIn(200);
+        } else if ($('#myModal').length) {
+            $('#myModal').css('display', 'block');
+        }
+    }
+
+    function openCustomerUpdateModal(id) {
+        if (typeof FillUpCustomerUpdateForm === 'function') {
+            FillUpCustomerUpdateForm(id);
+            $('#customerUpdateModal').addClass('show').fadeIn(200);
+        } else if (typeof FillUpUpdateForm === 'function') {
+            FillUpUpdateForm(id);
+            $('#exampleModal').modal('show');
+        }
+    }
+
+    /* ================= CUSTOMER DUE COLLECTION MODAL LOGIC ================= */
+    let clCurrentTotalDue = 0;
+
+    async function clOpenPaymentModal(id) {
+        try {
+            showLoader();
+            $('#clUpdateID').val(id);
+            $('#clPaymentForm')[0].reset();
+            clSelectPaymentChip('cash');
+
+            let res = await axios.post("/api/customer-due-collection-details-by-id", {
+                id: id.toString()
+            }, HeaderToken());
+
+            hideLoader();
+
+            if (res.data.status === "success") {
+                const data = res.data;
+                let prevDue = parseFloat(data.previous_due) || 0;
+                let orderDue = parseFloat(data.order_due) || 0;
+                let totalDue = parseFloat(data.total_due) || (prevDue + orderDue);
+
+                clCurrentTotalDue = totalDue;
+                $('#clCustomerPreviousDue').text(`৳ ${prevDue.toFixed(2)}`);
+                $('#clOrderPreviousDue').text(`৳ ${orderDue.toFixed(2)}`);
+                $('#clTotalPreviousDue').text(`৳ ${totalDue.toFixed(2)}`).data('raw', totalDue);
+                $('#clFinalDueAmount').text(`৳ ${totalDue.toFixed(2)}`);
+                $('#clShowPaymentStatusDisplay').text('Pending').removeClass('bg-success bg-warning').addClass('bg-secondary');
+
+                $('#customerDuePaymentModal').modal('show');
+                setTimeout(function() {
+                    const payInput = document.getElementById('clPayAmount');
+                    if (payInput) {
+                        payInput.focus();
+                        payInput.select();
+                    }
+                }, 150);
+            } else {
+                errorToast(res.data.message || "কাস্টমার বকেয়া তথ্য পাওয়া যায়নি।");
+            }
+        } catch (e) {
+            hideLoader();
+            console.error(e);
+            errorToast("বকেয়া তথ্য লোড করতে সমস্যা হয়েছে।");
+        }
+    }
+
+    function clClosePaymentModal() {
+        $('#customerDuePaymentModal').modal('hide');
+    }
+
+    function clCalculateDuePayment() {
+        let totalDue = parseFloat($('#clTotalPreviousDue').data('raw')) || 0;
+        let discount = parseFloat($('#clDiscountAmount').val()) || 0;
+        let payAmount = parseFloat($('#clPayAmount').val()) || 0;
+
+        let totalDeduction = discount + payAmount;
+        let remainingDue = Math.max(0, totalDue - totalDeduction);
+
+        $('#clFinalDueAmount').text(`৳ ${remainingDue.toFixed(2)}`);
+
+        let statusBadge = $('#clShowPaymentStatusDisplay');
+        if (remainingDue === 0 && payAmount > 0) {
+            statusBadge.text('Fully Paid').removeClass('bg-secondary bg-warning').addClass('bg-success');
+        } else if (payAmount > 0 && remainingDue > 0) {
+            statusBadge.text('Partial Paid').removeClass('bg-secondary bg-success').addClass('bg-warning');
+        } else {
+            statusBadge.text('Pending').removeClass('bg-success bg-warning').addClass('bg-secondary');
+        }
+    }
+
+    function clSelectPaymentChip(method) {
+        $('.cl-payment-chip').removeClass('active');
+        $(`input[name="clPayment"][value="${method}"]`).closest('.cl-payment-chip').addClass('active');
+        $(`input[name="clPayment"][value="${method}"]`).prop('checked', true);
+
+        if (method === 'cash') {
+            $('#clTransactionIdWrapper').slideUp(150);
+            $('#clTransactionInput').val('');
+        } else {
+            $('#clTransactionIdWrapper').slideDown(150);
+        }
+    }
+
+    async function clSavePaymentInfo(event) {
+        event.preventDefault();
+        try {
+            let updateID = $('#clUpdateID').val();
+            let payAmount = parseFloat($('#clPayAmount').val()) || 0;
+            let discountAmount = parseFloat($('#clDiscountAmount').val()) || 0;
+            let prevDue = parseFloat($('#clTotalPreviousDue').data('raw')) || 0;
+            let dueAmount = Math.max(0, prevDue - (payAmount + discountAmount));
+            let collectionDate = $('#clDueCollectionDate').val();
+            let paymentStatus = $('#clShowPaymentStatusDisplay').text();
+            let paymentMethod = $('input[name="clPayment"]:checked').val() || 'cash';
+            let transactionId = $('#clTransactionInput').val();
+
+            if (!payAmount && !discountAmount) {
+                errorToast("অনুগ্রহ করে পরিশোধের পরিমাণ অথবা ছাড় লিখুন।");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append('id', updateID);
+            formData.append('paid_amount', payAmount);
+            formData.append('discount_amount', discountAmount);
+            formData.append('due_amount', dueAmount);
+            formData.append('previous_due_amount', prevDue);
+            formData.append('due_collection_date', collectionDate);
+            formData.append('payment_status', paymentStatus);
+            formData.append('transaction_id', transactionId);
+            formData.append('payment_method', paymentMethod);
+
+            showLoader();
+            let res = await axios.post("/api/customer-payment-details-update", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    ...HeaderToken().headers
+                }
+            });
+            hideLoader();
+
+            if (res.data.status === "success") {
+                successToast(res.data.message || "বকেয়া সফলভাবে সংগ্রহ করা হয়েছে।");
+                clClosePaymentModal();
+                getList();
+            } else {
+                errorToast(res.data.message || "বকেয়া আপডেট ব্যর্থ হয়েছে।");
+            }
+        } catch (e) {
+            hideLoader();
+            console.error(e);
+            errorToast("বকেয়া সংগ্রহ সংরক্ষণ করতে সমস্যা হয়েছে।");
+        }
+    }
+
+    // Open Sale Return Page for Customer
+    async function openCustomerReturn(id, customerId, name) {
+        showLoader();
+        try {
+            try { sessionStorage.setItem('return_back_url', window.location.href); } catch (e) {}
+            let res = await axios.get(`/api/search-invoice-for-return?customer_id=${encodeURIComponent(id)}&order_no=${encodeURIComponent(customerId || name || '')}`, HeaderToken());
+            hideLoader();
+            if (res.data.status === 'success' && res.data.order && res.data.order.id) {
+                window.location.href = `/return/${res.data.order.id}`;
+            } else {
+                errorToast(res.data.message || "এই কাস্টমারের কোনো বিক্রয় ইনভয়েস পাওয়া যায়নি।");
+            }
+        } catch (e) {
+            hideLoader();
+            errorToast("এই কাস্টমারের কোনো বিক্রয় ইনভয়েস পাওয়া যায়নি।");
+        }
     }
 </script>

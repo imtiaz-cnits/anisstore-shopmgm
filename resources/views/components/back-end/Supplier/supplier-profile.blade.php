@@ -598,6 +598,339 @@
         border-color: #334155 !important;
         color: #f8fafc !important;
     }
+
+    /* Modal Responsive & Slide-up Design - Full Bottom Sheet on ALL screens */
+    #paySupplierDueModal.modal {
+        padding: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        height: 100dvh !important;
+        display: none;
+        overflow: hidden !important;
+        background: rgba(15, 23, 42, 0.75) !important;
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+        z-index: 107000 !important;
+    }
+
+    #paySupplierDueModal.modal.show {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+    }
+
+    #paySupplierDueModal .modal-dialog {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        top: auto !important;
+        min-height: auto !important;
+        height: auto !important;
+        transform: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
+    }
+
+    #paySupplierDueModal .modal-content {
+        border-radius: 0 !important;
+        border-top-left-radius: 20px !important;
+        border-top-right-radius: 20px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 90vh !important;
+        max-height: 90dvh !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35) !important;
+        animation: slideUpSupplierDueModalProf 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    @keyframes slideUpSupplierDueModalProf {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+    }
+
+    #paySupplierDueModal .modal-body {
+        flex: 1 1 auto !important;
+        max-height: calc(90vh - 130px) !important;
+        max-height: calc(90dvh - 130px) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        padding: 14px 16px !important;
+    }
+
+    #paySupplierDueModal .modal-sticky-footer {
+        flex: 0 0 auto !important;
+        position: sticky !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        z-index: 100 !important;
+        padding: 10px 16px !important;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05) !important;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .modal-sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        color: #ffffff;
+        padding: 14px 18px;
+    }
+
+    /* Standard Form Inputs inside Modal */
+    .invoice-search-input {
+        height: 42px !important;
+        min-height: 42px !important;
+        border: 1.5px solid #cbd5e1 !important;
+        border-radius: 10px !important;
+        padding: 8px 14px !important;
+        font-size: 14px !important;
+        color: #1e293b !important;
+        background: #ffffff !important;
+        transition: all 0.2s ease-in-out !important;
+        font-family: 'Noto Sans Bengali', 'Poppins', sans-serif !important;
+        box-shadow: none !important;
+    }
+    .invoice-search-input:focus {
+        border-color: #8C56D4 !important;
+        box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.2) !important;
+        outline: none !important;
+    }
+
+    .invoice-search-submit-btn {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        height: 44px !important;
+        border-radius: 10px !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.3px;
+        transition: all 0.2s ease-in-out !important;
+        box-shadow: 0 2px 8px rgba(140, 86, 212, 0.25) !important;
+        cursor: pointer !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .invoice-search-submit-btn:hover {
+        background: linear-gradient(135deg, #793FC5 0%, #672EB0 100%) !important;
+        box-shadow: 0 4px 14px rgba(140, 86, 212, 0.4) !important;
+        transform: translateY(-1px);
+        color: #ffffff !important;
+    }
+
+    .sl-btn-close-red {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        border-radius: 50% !important;
+        width: 30px !important;
+        height: 30px !important;
+        border: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 14px !important;
+        cursor: pointer !important;
+        padding: 0 !important;
+    }
+    .sl-btn-cancel-red {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        border: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    .sl-btn-cancel-red:hover {
+        background: #dc2626 !important;
+        color: #ffffff !important;
+    }
+
+    .sl-payment-chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: 1.5px solid #cbd5e1;
+        background: #ffffff;
+        color: #475569;
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        user-select: none;
+    }
+    .sl-payment-chip:hover {
+        border-color: #8C56D4;
+        background: #FAF7FD;
+        color: #8C56D4;
+    }
+    .sl-payment-chip.active {
+        border-color: #8C56D4 !important;
+        background: #8C56D4 !important;
+        color: #ffffff !important;
+        box-shadow: 0 2px 8px rgba(140, 86, 212, 0.25);
+    }
+
+    .modal-dues-summary-card {
+        background-color: #FAF7FD;
+        border: 1.5px solid #E5D5F7;
+    }
+    .modal-calc-status-box {
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+    }
+
+    /* Dark Mode Overrides for Modal */
+    [data-bs-theme="dark"] #paySupplierDueModal .modal-sticky-footer,
+    body[light-mode="dark"] #paySupplierDueModal .modal-sticky-footer,
+    body.dark-mode #paySupplierDueModal .modal-sticky-footer {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+    }
+
+    [data-bs-theme="dark"] #paySupplierDueModal .modal-dues-summary-card,
+    body[light-mode="dark"] #paySupplierDueModal .modal-dues-summary-card,
+    body.dark-mode #paySupplierDueModal .modal-dues-summary-card {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+    }
+
+    [data-bs-theme="dark"] #paySupplierDueModal .modal-calc-status-box,
+    body[light-mode="dark"] #paySupplierDueModal .modal-calc-status-box,
+    body.dark-mode #paySupplierDueModal .modal-calc-status-box {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+    }
+
+    [data-bs-theme="dark"] .sl-payment-chip,
+    body[light-mode="dark"] .sl-payment-chip,
+    body.dark-mode .sl-payment-chip {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+        color: #cbd5e1 !important;
+    }
+    [data-bs-theme="dark"] .sl-payment-chip.active,
+    body[light-mode="dark"] .sl-payment-chip.active,
+    body.dark-mode .sl-payment-chip.active {
+        background-color: #8C56D4 !important;
+        border-color: #8C56D4 !important;
+        color: #ffffff !important;
+    }
+
+    [data-bs-theme="dark"] .invoice-search-input,
+    body[light-mode="dark"] .invoice-search-input,
+    body.dark-mode .invoice-search-input {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+
+    /* Dark Mode Universal Border & Color Harmonization */
+    body[light-mode="dark"] .border,
+    html[light-mode="dark"] .border,
+    body[data-layout-mode="dark"] .border,
+    html[data-layout-mode="dark"] .border,
+    body.dark-mode .border,
+    html.dark-mode .border,
+    body.dark .border,
+    html.dark .border,
+    [data-bs-theme="dark"] .border,
+    [data-theme="dark"] .border,
+    body[light-mode="dark"] .border-bottom,
+    html[light-mode="dark"] .border-bottom,
+    body[data-layout-mode="dark"] .border-bottom,
+    html[data-layout-mode="dark"] .border-bottom,
+    body.dark-mode .border-bottom,
+    html.dark-mode .border-bottom,
+    body.dark .border-bottom,
+    html.dark .border-bottom,
+    [data-bs-theme="dark"] .border-bottom,
+    [data-theme="dark"] .border-bottom,
+    body[light-mode="dark"] .border-top,
+    html[light-mode="dark"] .border-top,
+    body[data-layout-mode="dark"] .border-top,
+    html[data-layout-mode="dark"] .border-top,
+    body.dark-mode .border-top,
+    html.dark-mode .border-top,
+    body.dark .border-top,
+    html.dark .border-top,
+    [data-bs-theme="dark"] .border-top,
+    [data-theme="dark"] .border-top,
+    body[light-mode="dark"] .border-start,
+    html[light-mode="dark"] .border-start,
+    body[data-layout-mode="dark"] .border-start,
+    html[data-layout-mode="dark"] .border-start,
+    body.dark-mode .border-start,
+    html.dark-mode .border-start,
+    [data-bs-theme="dark"] .border-start,
+    [data-theme="dark"] .border-start,
+    body[light-mode="dark"] .border-end,
+    html[light-mode="dark"] .border-end,
+    body[data-layout-mode="dark"] .border-end,
+    html[data-layout-mode="dark"] .border-end,
+    body.dark-mode .border-end,
+    html.dark-mode .border-end,
+    [data-bs-theme="dark"] .border-end,
+    [data-theme="dark"] .border-end,
+    body[light-mode="dark"] .supplier-profile-header-card,
+    body[data-layout-mode="dark"] .supplier-profile-header-card,
+    body.dark-mode .supplier-profile-header-card,
+    [data-bs-theme="dark"] .supplier-profile-header-card,
+    body[light-mode="dark"] .supplier-net-due-box,
+    body[data-layout-mode="dark"] .supplier-net-due-box,
+    body.dark-mode .supplier-net-due-box,
+    [data-bs-theme="dark"] .supplier-net-due-box,
+    body[light-mode="dark"] .metric-card-box,
+    body[data-layout-mode="dark"] .metric-card-box,
+    body.dark-mode .metric-card-box,
+    [data-bs-theme="dark"] .metric-card-box,
+    body[light-mode="dark"] .invoice-mobile-card,
+    body[data-layout-mode="dark"] .invoice-mobile-card,
+    body.dark-mode .invoice-mobile-card,
+    [data-bs-theme="dark"] .invoice-mobile-card,
+    body[light-mode="dark"] .modal-sticky-footer,
+    body[data-layout-mode="dark"] .modal-sticky-footer,
+    body.dark-mode .modal-sticky-footer,
+    [data-bs-theme="dark"] .modal-sticky-footer,
+    body[light-mode="dark"] .badge.bg-light,
+    body[data-layout-mode="dark"] .badge.bg-light,
+    body.dark-mode .badge.bg-light,
+    [data-bs-theme="dark"] .badge.bg-light,
+    body[light-mode="dark"] .mobile-action-btn,
+    body[data-layout-mode="dark"] .mobile-action-btn,
+    body.dark-mode .mobile-action-btn,
+    [data-bs-theme="dark"] .mobile-action-btn {
+        border-color: #334155 !important;
+    }
+    body[light-mode="dark"] .modal-sticky-footer,
+    body[data-layout-mode="dark"] .modal-sticky-footer,
+    body.dark-mode .modal-sticky-footer,
+    [data-bs-theme="dark"] .modal-sticky-footer {
+        background: #1e293b !important;
+    }
 </style>
 
 <div class="main-content">
@@ -825,87 +1158,123 @@
     </div>
 </div>
 
-<!-- Pay Supplier Due Modal -->
-<div class="modal fade" id="paySupplierDueModal" tabindex="-1" aria-labelledby="paySupplierDueModalLabel" aria-hidden="true" style="z-index: 1085;">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px; overflow: hidden;">
-            <div class="modal-header text-white py-3 px-4" style="background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;">
-                <h5 class="modal-title fw-bold" id="paySupplierDueModalLabel" style="font-size: 15px;">
-                    <i class="fa-solid fa-hand-holding-dollar me-2"></i>সাপ্লাইয়ারের বকেয়া পরিশোধ (Pay Due)
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- ================= PAYMENT MODAL (Supplier Due Collection) ================= -->
+<div class="modal fade" id="paySupplierDueModal" aria-labelledby="paySupplierDueModalLabel" aria-hidden="true" style="z-index: 107000;">
+    <div class="modal-dialog" style="width: 100%;">
+        <div class="modal-content w-100 border-0 rounded-4 shadow-lg overflow-hidden p-0">
+            <!-- Modal Header -->
+            <div class="modal-header-purple p-3 px-4 d-flex align-items-center justify-content-between" style="background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important; color: #ffffff !important;">
+                <div class="d-flex align-items-center gap-2 text-start flex-grow-1" style="min-width: 0; text-align: left !important;">
+                    <i class="fa-solid fa-hand-holding-dollar fs-5 flex-shrink-0"></i>
+                    <h5 class="modal-title fw-bold m-0 text-white text-start" id="paySupplierDueModalLabel" style="font-size: 16px; text-align: left !important; line-height: 1.3;">সাপ্লায়ার বকেয়া পরিশোধ (Due Collection)</h5>
+                </div>
+                <button type="button" class="sl-btn-close-red flex-shrink-0 ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
-            <form id="paySupplierDueForm" onsubmit="submitSupplierPayment(event)">
-                <div class="modal-body p-4">
-                    <!-- Supplier Quick Info Box -->
-                    <div class="bg-light p-3 rounded-3 mb-3 border">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <span class="fw-bold text-dark fs-6" id="modalSupplierName">Supplier Name</span>
-                            <span class="badge" style="background: #8C56D4; color: #fff;" id="modalSupplierId">ID</span>
+
+            <!-- Modal Form with Scrollable Body and Sticky Bottom Action Buttons -->
+            <form id="paySupplierDueForm" onsubmit="submitSupplierPayment(event)" class="d-flex flex-column w-100 flex-grow-1 overflow-hidden m-0 p-0">
+                <input type="hidden" id="spUpdateID">
+
+                <div class="modal-body p-3 p-md-4 flex-grow-1 overflow-y-auto">
+                    <!-- Date & Dues Summary Card -->
+                    <div class="modal-dues-summary-card p-3 mb-3 rounded-3 w-100">
+                        <div class="mb-2.5">
+                            <label for="supplierModalCollectionDate" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">পরিশোধের তারিখ *</label>
+                            <div class="position-relative w-100">
+                                <input type="text" class="form-control invoice-search-input custom-flatpickr-input text-start w-100 ps-3 pe-5" id="supplierModalCollectionDate" placeholder="DD-MM-YYYY" readonly autocomplete="off" required style="font-size: 14px; font-weight: 500; width: 100% !important;">
+                                <span class="position-absolute end-0 top-50 translate-middle-y me-3 text-muted" style="pointer-events: none;">
+                                    <i class="fa-regular fa-calendar-days" style="color: #8C56D4;"></i>
+                                </span>
+                            </div>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-muted small">পরিশোধের সর্বমোট বকেয়া:</span>
-                            <span class="fw-bold text-danger fs-6" id="modalSupplierTotalDue">৳ ০০.০০</span>
+                        <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+                            <span class="text-muted small dues-label text-start">সাপ্লায়ার পূর্বের বকেয়া:</span>
+                            <span class="fw-bold text-dark dues-val" id="supplierModalSupplierPreviousDue">৳ 0.00</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+                            <span class="text-muted small dues-label text-start">পারচেজ পূর্বের বকেয়া:</span>
+                            <span class="fw-bold text-dark dues-val" id="supplierModalPurchasePreviousDue">৳ 0.00</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between py-1.5">
+                            <span class="fw-bold text-slate-800 dues-total-label text-start">মোট পূর্বের বকেয়া:</span>
+                            <span class="fw-bold text-danger fs-6" id="supplierModalTotalPreviousDue" data-raw="0">৳ 0.00</span>
                         </div>
                     </div>
 
-                    <!-- Payment Target Selector -->
-                    <div class="mb-3">
-                        <label class="form-label fw-bold d-block text-dark small">পরিশোধের খাত (Payment Target) <span class="text-danger">*</span></label>
-                        <div class="btn-group w-100" role="group" id="supplierCollectionTypeGroup">
-                            <input type="radio" class="btn-check" name="supplier_collection_type" id="stype_all" value="all" checked onchange="onSupplierCollectionTypeChange()">
-                            <label class="btn btn-outline-primary fw-bold py-2" for="stype_all" title="আগের ও পারচেজের উভয় বকেয়া পরিশোধ" style="font-size: 12px; border-color: #8C56D4; color: #8C56D4;">
-                                <i class="fa-solid fa-layer-group me-1"></i> উভয় বকেয়া
+                    <!-- Discount & Pay Amount -->
+                    <div class="row g-2 mb-3 w-100 m-0">
+                        <div class="col-6 ps-0 pe-1">
+                            <label for="supplierModalDiscountAmount" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">ছাড় (Discount)</label>
+                            <input type="number" inputmode="decimal" step="any" min="0" id="supplierModalDiscountAmount" class="form-control invoice-search-input text-start w-100 ps-3" oninput="calculateSupplierProfileDuePayment()" placeholder="৳ 0.00" style="width: 100% !important;">
+                        </div>
+                        <div class="col-6 ps-1 pe-0">
+                            <label for="supplierModalPaidAmount" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">পরিশোধিত টাকা *</label>
+                            <input type="number" inputmode="decimal" step="any" min="0" id="supplierModalPaidAmount" class="form-control invoice-search-input text-start fw-bold w-100 ps-3" oninput="calculateSupplierProfileDuePayment()" placeholder="৳ 0.00" required style="width: 100% !important;">
+                        </div>
+                    </div>
+
+                    <!-- Calculation Status Box -->
+                    <div class="modal-calc-status-box p-3 mb-3 rounded-3 d-flex align-items-center justify-content-between w-100">
+                        <div class="text-start">
+                            <span class="text-muted small d-block status-label text-start" style="font-size: 11px;">অবশিষ্ট বকেয়া:</span>
+                            <span class="fw-bold text-danger fs-6" id="supplierModalFinalDueAmount">৳ 0.00</span>
+                        </div>
+                        <div class="text-end">
+                            <span class="text-muted small d-block status-label" style="font-size: 11px;">পেমেন্ট স্ট্যাটাস:</span>
+                            <span class="badge bg-secondary px-2.5 py-1 fw-bold" id="supplierModalPaymentStatusDisplay" style="font-size: 11px; border-radius: 12px;">Pending</span>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="mb-3 w-100">
+                        <label class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">পেমেন্ট মাধ্যম *</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <label class="sl-payment-chip active" onclick="supplierProfileSelectPaymentChip('cash')">
+                                <input type="radio" name="spPaymentMethodRadio" id="spmCash" value="cash" checked style="display: none;">
+                                <i class="fa-solid fa-money-bill-wave me-1"></i> Cash
                             </label>
-
-                            <input type="radio" class="btn-check" name="supplier_collection_type" id="stype_previous" value="previous" onchange="onSupplierCollectionTypeChange()">
-                            <label class="btn btn-outline-primary fw-bold py-2" for="stype_previous" title="শুধুমাত্র পুরানো বকেয়া পরিশোধ" style="font-size: 12px; border-color: #8C56D4; color: #8C56D4;">
-                                <i class="fa-solid fa-clock-rotate-left me-1"></i> আগের বকেয়া
+                            <label class="sl-payment-chip" onclick="supplierProfileSelectPaymentChip('bkash')">
+                                <input type="radio" name="spPaymentMethodRadio" id="spmBkash" value="bkash" style="display: none;">
+                                <i class="fa-solid fa-mobile-screen me-1"></i> bKash
                             </label>
-
-                            <input type="radio" class="btn-check" name="supplier_collection_type" id="stype_purchase" value="purchase" onchange="onSupplierCollectionTypeChange()">
-                            <label class="btn btn-outline-primary fw-bold py-2" for="stype_purchase" title="শুধুমাত্র পারচেজ ইনভয়েসের বকেয়া পরিশোধ" style="font-size: 12px; border-color: #8C56D4; color: #8C56D4;">
-                                <i class="fa-solid fa-cart-shopping me-1"></i> পারচেজ বকেয়া
+                            <label class="sl-payment-chip" onclick="supplierProfileSelectPaymentChip('nagad')">
+                                <input type="radio" name="spPaymentMethodRadio" id="spmNagad" value="nagad" style="display: none;">
+                                <i class="fa-solid fa-mobile-screen me-1"></i> Nagad
+                            </label>
+                            <label class="sl-payment-chip" onclick="supplierProfileSelectPaymentChip('rocket')">
+                                <input type="radio" name="spPaymentMethodRadio" id="spmRocket" value="rocket" style="display: none;">
+                                <i class="fa-solid fa-mobile-screen me-1"></i> Rocket
+                            </label>
+                            <label class="sl-payment-chip" onclick="supplierProfileSelectPaymentChip('bank')">
+                                <input type="radio" name="spPaymentMethodRadio" id="spmBank" value="bank" style="display: none;">
+                                <i class="fa-solid fa-building-columns me-1"></i> Bank
+                            </label>
+                            <label class="sl-payment-chip" onclick="supplierProfileSelectPaymentChip('mastercard')">
+                                <input type="radio" name="spPaymentMethodRadio" id="spmCard" value="mastercard" style="display: none;">
+                                <i class="fa-solid fa-credit-card me-1"></i> Card
                             </label>
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="supplierModalPaidAmount" class="form-label fw-bold text-dark small">পরিশোধের পরিমাণ (৳) <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <span class="input-group-text fw-bold" style="color: #8C56D4;">৳</span>
-                            <input type="number" step="0.01" class="form-control fw-bold fs-5 text-primary" id="supplierModalPaidAmount" placeholder="0.00" required style="border-radius: 0 10px 10px 0; color: #8C56D4 !important;">
-                        </div>
-                    </div>
-
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label for="supplierModalPaymentMethod" class="form-label fw-bold text-dark small">পেমেন্ট মেথড</label>
-                            <select class="form-select fw-semibold" id="supplierModalPaymentMethod" style="border-radius: 10px;">
-                                <option value="Cash" selected>💵 Cash (নগদ)</option>
-                                <option value="Bank">🏦 Bank Transfer</option>
-                                <option value="bKash">📱 bKash</option>
-                                <option value="Nagad">📱 Nagad</option>
-                                <option value="Rocket">📱 Rocket</option>
-                                <option value="Cheque">📄 Cheque</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="supplierModalCollectionDate" class="form-label fw-bold text-dark small">পরিশোধের তারিখ</label>
-                            <input type="date" class="form-control fw-semibold" id="supplierModalCollectionDate" style="border-radius: 10px;">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="supplierModalNote" class="form-label fw-bold text-dark small">নোট / রেফারেন্স</label>
-                        <input type="text" class="form-control" id="supplierModalNote" placeholder="পেমেন্ট সম্পর্কিত কোনো তথ্য লিখুন" style="border-radius: 10px;">
+                    <!-- Transaction ID (non-cash) -->
+                    <div class="mb-3 w-100" id="supplierModalTransactionWrapper" style="display: none;">
+                        <label for="supplierModalTransactionInput" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">ট্রানজেকশন আইডি</label>
+                        <input type="text" id="supplierModalTransactionInput" class="form-control invoice-search-input text-start w-100 ps-3" placeholder="ট্রানজেকশন আইডি লিখুন..." style="width: 100% !important;">
                     </div>
                 </div>
-                <div class="modal-footer bg-light py-3 px-4 border-top">
-                    <button type="button" class="btn btn-secondary fw-bold rounded-pill px-4" data-bs-dismiss="modal">বাতিল</button>
-                    <button type="submit" class="btn fw-bold rounded-pill px-4 shadow-xs text-white" style="background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); border: none;">
-                        <i class="fa-solid fa-check me-1"></i> পেমেন্ট জমা দিন
-                    </button>
+
+                <!-- Sticky Bottom Action Buttons right above keyboard -->
+                <div class="modal-sticky-footer p-3 border-top w-100">
+                    <div class="d-flex align-items-center gap-2 w-100">
+                        <button type="button" class="btn sl-btn-cancel-red py-2 px-3 fw-bold flex-grow-1" data-bs-dismiss="modal" style="height: 44px; border-radius: 10px; font-size: 14px;">
+                            <i class="fa-solid fa-xmark me-1"></i> বাতিল
+                        </button>
+                        <button type="submit" id="btnSubmitSupplierPayment" class="invoice-search-submit-btn flex-grow-1 py-2 px-3 fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px;">
+                            <i class="fa-solid fa-check me-1"></i> পরিশোধ নিশ্চিত করুন
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -927,32 +1296,98 @@
     const pathParts = window.location.pathname.split('/');
     const supplierProfileId = pathParts[pathParts.length - 1];
 
+    let spDueDatePicker = null;
+
+    function initSpDueDatePicker() {
+        if (typeof flatpickr !== 'undefined') {
+            spDueDatePicker = flatpickr("#supplierModalCollectionDate", {
+                dateFormat: "d-m-Y",
+                defaultDate: new Date(),
+                disableMobile: true,
+                allowInput: true,
+                monthSelectorType: "static"
+            });
+        } else {
+            setTimeout(initSpDueDatePicker, 100);
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
+        initSpDueDatePicker();
         loadSupplierProfileData();
     });
 
-    function onSupplierCollectionTypeChange() {
-        const selectedType = document.querySelector('input[name="supplier_collection_type"]:checked')?.value || 'all';
-        const modalTotalDue = document.getElementById('modalSupplierTotalDue');
-        const inputAmount = document.getElementById('supplierModalPaidAmount');
+    function supplierProfileSelectPaymentChip(method) {
+        $('.sl-payment-chip').removeClass('active');
+        $(`.sl-payment-chip input[value="${method}"]`).closest('.sl-payment-chip').addClass('active');
+        $(`#spm${method.charAt(0).toUpperCase() + method.slice(1)}`).prop('checked', true);
 
-        let targetMax = 0;
-        let targetText = '';
-
-        if (selectedType === 'previous') {
-            targetMax = window.supplierPreviousDueVal;
-            targetText = `৳ ${engToBanglaNumProf(targetMax.toFixed(2))} (শুধুমাত্র আগের বকেয়া)`;
-        } else if (selectedType === 'purchase') {
-            targetMax = window.supplierPurchaseDueVal;
-            targetText = `৳ ${engToBanglaNumProf(targetMax.toFixed(2))} (শুধুমাত্র পারচেজ বকেয়া)`;
+        if (method === 'cash') {
+            $('#supplierModalTransactionWrapper').hide();
         } else {
-            targetMax = window.supplierTotalDueVal;
-            targetText = `৳ ${engToBanglaNumProf(targetMax.toFixed(2))} (আগের: ৳${engToBanglaNumProf(window.supplierPreviousDueVal.toFixed(2))} | পারচেজ: ৳${engToBanglaNumProf(window.supplierPurchaseDueVal.toFixed(2))})`;
+            $('#supplierModalTransactionWrapper').show();
+            $('#supplierModalTransactionInput').attr('placeholder', `Enter ${method.toUpperCase()} Transaction ID`);
+        }
+    }
+
+    function calculateSupplierProfileDuePayment() {
+        const totalPreviousDue = parseFloat($('#supplierModalTotalPreviousDue').attr('data-raw')) || 0;
+        const discount = parseFloat($('#supplierModalDiscountAmount').val()) || 0;
+        const payAmount = parseFloat($('#supplierModalPaidAmount').val()) || 0;
+        const totalInput = discount + payAmount;
+        const submitBtn = $('#btnSubmitSupplierPayment');
+
+        if (totalInput > totalPreviousDue) {
+            if (typeof errorToast === 'function') {
+                errorToast("পরিশোধিত টাকা মোট বকেয়ার চেয়ে বেশি হতে পারে না!");
+            }
+            submitBtn.prop('disabled', true);
+        } else {
+            submitBtn.prop('disabled', false);
         }
 
-        modalTotalDue.innerText = targetText;
-        inputAmount.value = targetMax > 0 ? targetMax.toFixed(2) : '';
+        let finalDue = totalPreviousDue - totalInput;
+        if (finalDue < 0) finalDue = 0;
+        $('#supplierModalFinalDueAmount').text(`৳ ${finalDue.toFixed(2)}`);
+
+        const statusEl = $('#supplierModalPaymentStatusDisplay');
+        statusEl.removeClass('bg-secondary bg-success bg-warning bg-danger');
+        if (finalDue === 0 && totalInput > 0) {
+            statusEl.text("Fully Paid").addClass('bg-success');
+        } else if (finalDue > 0 && totalInput > 0) {
+            statusEl.text("Partial Paid").addClass('bg-warning');
+        } else {
+            statusEl.text("Pending").addClass('bg-secondary');
+        }
     }
+
+    function syncSupplierProfileModalData() {
+        const sPrevDue = parseFloat(window.supplierPreviousDueVal || 0);
+        const pPrevDue = parseFloat(window.supplierPurchaseDueVal || 0);
+        const retDue   = parseFloat(window.supplierReturnsVal || 0);
+        const totDue   = Math.max(0, sPrevDue + pPrevDue - retDue);
+
+        $('#supplierModalSupplierPreviousDue').text(`৳ ${sPrevDue.toFixed(2)}`);
+        $('#supplierModalPurchasePreviousDue').text(`৳ ${pPrevDue.toFixed(2)}`);
+        $('#supplierModalTotalPreviousDue').text(`৳ ${totDue.toFixed(2)}`).attr('data-raw', totDue);
+        $('#supplierModalFinalDueAmount').text(`৳ ${totDue.toFixed(2)}`);
+    }
+
+    // Modal show event - Populate fresh data
+    $('#paySupplierDueModal').on('show.bs.modal', function () {
+        syncSupplierProfileModalData();
+        supplierProfileSelectPaymentChip('cash');
+        calculateSupplierProfileDuePayment();
+    });
+
+    // Modal shown event - Auto focus to open on-screen keyboard immediately on mobile & tab
+    $('#paySupplierDueModal').on('shown.bs.modal', function () {
+        const payInput = document.getElementById('supplierModalPaidAmount');
+        if (payInput) {
+            payInput.focus();
+            payInput.click();
+        }
+    });
 
     async function loadSupplierProfileData() {
         try {
@@ -997,11 +1432,12 @@
                 $('#transactionsCount').text(engToBanglaNumProf(transactions.length));
 
                 // Pre-fill Modal Info
-                $('#modalSupplierName').text(supplier.name || 'N/A');
-                $('#modalSupplierId').text(supplier.supplier_id || 'SUP-0000');
-                $('#supplierModalCollectionDate').val(new Date().toISOString().split('T')[0]);
-
-                onSupplierCollectionTypeChange();
+                syncSupplierProfileModalData();
+                const todayProf = new Date();
+                const dProf = String(todayProf.getDate()).padStart(2, '0');
+                const mProf = String(todayProf.getMonth() + 1).padStart(2, '0');
+                const yProf = todayProf.getFullYear();
+                $('#supplierModalCollectionDate').val(`${dProf}-${mProf}-${yProf}`);
 
                 // 1. Render Purchases Table & Mobile Cards
                 const purchasesTbody = $('#purchasesTableBody');
@@ -1371,30 +1807,54 @@
     async function submitSupplierPayment(event) {
         event.preventDefault();
 
-        const collectionType = document.querySelector('input[name="supplier_collection_type"]:checked')?.value || 'all';
-        const paidAmount = parseFloat(document.getElementById('supplierModalPaidAmount').value) || 0;
-        const paymentMethod = document.getElementById('supplierModalPaymentMethod').value;
-        const collectionDate = document.getElementById('supplierModalCollectionDate').value;
-        const note = document.getElementById('supplierModalNote').value;
+        const paidAmount       = parseFloat(document.getElementById('supplierModalPaidAmount').value) || 0;
+        const discountAmount   = parseFloat(document.getElementById('supplierModalDiscountAmount')?.value) || 0;
+        const paymentMethod    = $('input[name="spPaymentMethodRadio"]:checked').val() || 'cash';
+        const collectionDate   = document.getElementById('supplierModalCollectionDate').value;
+        const transactionId    = document.getElementById('supplierModalTransactionInput')?.value || '';
+        const paymentStatus    = $('#supplierModalPaymentStatusDisplay').text().trim() || 'Pending';
+
+        const supplierPreviousDue = parseFloat($('#supplierModalSupplierPreviousDue').text().replace(/[^\d.-]/g, '')) || 0;
+        const purchasePreviousDue = parseFloat($('#supplierModalPurchasePreviousDue').text().replace(/[^\d.-]/g, '')) || 0;
+        const totalPreviousDue    = parseFloat($('#supplierModalTotalPreviousDue').attr('data-raw')) || 0;
+        const dueAmount           = Math.max(0, totalPreviousDue - (paidAmount + discountAmount));
 
         if (paidAmount <= 0) {
-            alert("অনুগ্রহ করে 0 টাকার বেশি পরিশোধের সঠিক পরিমাণ লিখুন।");
+            if (typeof errorToast === 'function') {
+                errorToast("অনুগ্রহ করে 0 টাকার বেশি পরিশোধের সঠিক পরিমাণ লিখুন।");
+            } else {
+                alert("অনুগ্রহ করে 0 টাকার বেশি পরিশোধের সঠিক পরিমাণ লিখুন।");
+            }
             return;
+        }
+
+        let formattedDate = collectionDate;
+        if (collectionDate && collectionDate.includes('-')) {
+            const parts = collectionDate.split('-');
+            if (parts.length === 3 && parts[0].length === 2 && parts[2].length === 4) {
+                formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            }
         }
 
         try {
             if (typeof showLoader === 'function') showLoader();
 
-            const payload = {
-                supplier_id: window.supplierDbId,
-                collection_type: collectionType,
-                paid_amount: paidAmount,
-                payment_method: paymentMethod,
-                payment_date: collectionDate,
-                note: note
-            };
+            let formData = new FormData();
+            formData.append('id', window.supplierDbId);
+            formData.append('paid_amount', paidAmount);
+            formData.append('due_amount', dueAmount);
+            formData.append('purchase_payable_amount', purchasePreviousDue);
+            formData.append('supplier_previous_due', supplierPreviousDue);
+            formData.append('due_collection_date', formattedDate);
+            formData.append('discount_amount', discountAmount);
+            formData.append('payment_status', paymentStatus);
+            formData.append('transaction_id', transactionId);
+            formData.append('payment_method', paymentMethod);
 
-            const res = await axios.post('/supplier-payment-details-update', payload, HeaderToken());
+            const res = await axios.post('/api/supplier-payment-details-update', formData, {
+                headers: { 'Content-Type': 'multipart/form-data', ...HeaderToken().headers }
+            });
+
             if (typeof hideLoader === 'function') hideLoader();
 
             if (res.data && res.data.status === 'success') {
@@ -1410,12 +1870,20 @@
 
                 loadSupplierProfileData();
             } else {
-                alert(res.data?.message || "পেমেন্ট জমা করতে সমস্যা হয়েছে!");
+                if (typeof errorToast === 'function') {
+                    errorToast(res.data?.message || "পেমেন্ট জমা করতে সমস্যা হয়েছে!");
+                } else {
+                    alert(res.data?.message || "পেমেন্ট জমা করতে সমস্যা হয়েছে!");
+                }
             }
         } catch (err) {
             if (typeof hideLoader === 'function') hideLoader();
             console.error(err);
-            alert("ত্রুটি: " + (err.response?.data?.message || err.message || "পেমেন্ট রিকোয়েস্ট সফল হয়নি।"));
+            if (typeof errorToast === 'function') {
+                errorToast("ত্রুটি: " + (err.response?.data?.message || err.message || "পেমেন্ট রিকোয়েস্ট সফল হয়নি।"));
+            } else {
+                alert("ত্রুটি: " + (err.response?.data?.message || err.message || "পেমেন্ট রিকোয়েস্ট সফল হয়নি।"));
+            }
         }
     }
 </script>

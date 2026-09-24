@@ -27,6 +27,7 @@
                             <div class="position-relative d-none d-lg-block" style="width: 240px;">
                                 <input type="text" id="desktopSearchInput" class="form-control invoice-search-input" style="height: 38px !important; min-height: 38px !important; font-size: 13px !important; padding-right: 32px !important;" placeholder="কম স্টক পণ্য খুঁজুন..." autocomplete="off" />
                                 <i class="fa-solid fa-magnifying-glass position-absolute end-0 top-50 translate-middle-y me-2.5 text-muted" style="pointer-events: none; font-size: 13px;"></i>
+                                <div id="desktopSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
                             </div>
 
                             <!-- Mobile Search Toggle Button (< 992px) -->
@@ -70,6 +71,7 @@
                         <div class="d-flex align-items-center gap-2 mb-0">
                             <div class="position-relative flex-grow-1 mb-0">
                                 <input type="text" id="mobileSearchInput" class="form-control invoice-search-input mb-0" placeholder="কম স্টক পণ্য খুঁজুন..." autocomplete="off" />
+                                <div id="mobileSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
                             </div>
                             <button type="button" class="mobile-search-close-btn mb-0" onclick="closeMobileSearchBar()" title="বন্ধ করুন">
                                 <i class="fa-solid fa-xmark"></i>
@@ -982,6 +984,62 @@
         background: #8C56D4 !important;
         color: #ffffff !important;
     }
+
+    /* Live Search Dropdown Styles */
+    .search-live-dropdown {
+        top: calc(100% + 4px);
+        background: #ffffff;
+        border: 1.5px solid #E5D5F7;
+        z-index: 1060;
+        max-height: 280px;
+        overflow-y: auto;
+        box-shadow: 0 12px 32px rgba(140, 86, 212, 0.18) !important;
+    }
+    .search-live-item {
+        padding: 9px 14px;
+        border-bottom: 1px solid #f1f5f9;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .search-live-item:last-child {
+        border-bottom: none;
+    }
+    .search-live-item:hover {
+        background: #F3ECFB;
+    }
+    body[light-mode="dark"] .search-live-dropdown,
+    body[data-layout-mode="dark"] .search-live-dropdown,
+    body.dark-mode .search-live-dropdown,
+    html[light-mode="dark"] .search-live-dropdown,
+    html[data-layout-mode="dark"] .search-live-dropdown,
+    html.dark .search-live-dropdown,
+    [data-bs-theme="dark"] .search-live-dropdown {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+    }
+    body[light-mode="dark"] .search-live-item,
+    body[data-layout-mode="dark"] .search-live-item,
+    body.dark-mode .search-live-item,
+    html[light-mode="dark"] .search-live-item,
+    html[data-layout-mode="dark"] .search-live-item,
+    html.dark .search-live-item,
+    [data-bs-theme="dark"] .search-live-item {
+        border-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+    body[light-mode="dark"] .search-live-item:hover,
+    body[data-layout-mode="dark"] .search-live-item:hover,
+    body.dark-mode .search-live-item:hover,
+    html[light-mode="dark"] .search-live-item:hover,
+    html[data-layout-mode="dark"] .search-live-item:hover,
+    html.dark .search-live-item:hover,
+    [data-bs-theme="dark"] .search-live-item:hover {
+        background: #334155 !important;
+    }
 </style>
 
 <script>
@@ -1023,6 +1081,9 @@
             $(".custom-dropdown-menu").removeClass("show");
             $(".custom-dropdown-wrap").removeClass("open");
         }
+        if (!$(e.target).closest("#desktopSearchInput, #mobileSearchInput, #desktopSearchDropdown, #mobileSearchDropdown").length) {
+            $(".search-live-dropdown").addClass("d-none").empty();
+        }
     });
 
     // --- Mobile Search Bar Handlers ---
@@ -1041,18 +1102,100 @@
         $("#mobileSearchWrap").addClass("d-none");
         $("#mobileSearchInput").val("");
         $("#desktopSearchInput").val("");
+        $(".search-live-dropdown").addClass("d-none").empty();
         $("#mobileSearchToggleBtn").removeClass("active");
         currentPage = 1;
         renderPaginatedList();
     }
 
-    $("#mobileSearchInput, #desktopSearchInput").on("keyup search input change", function () {
+    function handleLiveSearch(term) {
+        let cleanTerm = (term || "").toLowerCase().trim();
+        renderLiveDropdown("mobileSearchDropdown", cleanTerm);
+        renderLiveDropdown("desktopSearchDropdown", cleanTerm);
+    }
+
+    $("#desktopSearchInput").on("keyup search input focus", function () {
         let val = $(this).val();
         $("#mobileSearchInput").val(val);
-        $("#desktopSearchInput").val(val);
+        handleLiveSearch(val);
         currentPage = 1;
         renderPaginatedList();
     });
+
+    $("#mobileSearchInput").on("keyup search input focus", function () {
+        let val = $(this).val();
+        $("#desktopSearchInput").val(val);
+        handleLiveSearch(val);
+        currentPage = 1;
+        renderPaginatedList();
+    });
+
+    function renderLiveDropdown(containerId, cleanTerm) {
+        const dropdown = $("#" + containerId);
+        if (!cleanTerm || cleanTerm.length === 0 || !rawLowStockData || rawLowStockData.length === 0) {
+            dropdown.addClass("d-none").empty();
+            return;
+        }
+
+        let termEng = typeof banglaToEngNum === 'function' ? banglaToEngNum(cleanTerm) : cleanTerm;
+        let termBn  = typeof engToBanglaNum === 'function' ? engToBanglaNum(cleanTerm) : cleanTerm;
+
+        let matches = rawLowStockData.filter(item => {
+            let name = normalizeSearchStr(item.product_name || "");
+            let code = normalizeSearchStr(item.product_code || item.barcode || "");
+            let cat = item.category ? normalizeSearchStr(item.category.category_name || "") : "";
+            let brand = item.brand ? normalizeSearchStr(item.brand.name || "") : "";
+
+            return name.includes(cleanTerm) ||
+                   code.includes(cleanTerm) || code.includes(termEng) || code.includes(termBn) ||
+                   cat.includes(cleanTerm) ||
+                   brand.includes(cleanTerm);
+        }).slice(0, 8);
+
+        if (matches.length === 0) {
+            dropdown.html('<div class="p-3 text-center text-muted small"><i class="fa-solid fa-circle-exclamation me-1"></i>কোনো কম স্টক পণ্য পাওয়া যায়নি</div>').removeClass("d-none");
+            return;
+        }
+
+        let html = '';
+        matches.forEach(item => {
+            const img = item.img_url ? item.img_url : "{{ asset('back-end/assets/img/demo-img.jpeg') }}";
+            const price = parseFloat(item.sell_price || item.unit_price || 0);
+            const priceDisplay = price > 0 ? `<span class="fw-bold" style="color: #8C56D4; font-size: 12px;">৳ ${price.toFixed(2)}</span>` : '<span class="text-muted small" style="font-size: 11px;">-</span>';
+            const catText = item.category ? `<span class="text-muted small d-block text-truncate" style="font-size: 11px; max-width: 180px;"><i class="fa-solid fa-tag me-1"></i>${item.category.category_name}</span>` : (item.brand ? `<span class="text-muted small d-block text-truncate" style="font-size: 11px; max-width: 180px;"><i class="fa-solid fa-layer-group me-1"></i>${item.brand.name}</span>` : '');
+            const safeName = (item.product_name || '').replace(/'/g, "\\'");
+            const codeBadge = (item.product_code || item.barcode) ? `<span class="badge bg-light text-dark border mb-1 d-inline-block" style="font-size: 10px;">${item.product_code || item.barcode}</span>` : '';
+            const qtyVal = parseInt(item.quantity) || 0;
+            const stockDisplay = qtyVal <= 0 ? `<span class="badge bg-danger text-white" style="font-size: 10px;">শূন্য স্টক</span>` : `<span class="badge bg-danger-subtle text-danger fw-bold" style="font-size: 10.5px;">স্টক: ${qtyVal}</span>`;
+
+            html += `
+                <div class="search-live-item" onclick="selectSearchDropdownItem('${safeName}')">
+                    <div class="d-flex align-items-center gap-2 overflow-hidden">
+                        <img src="${img}" class="rounded-circle border flex-shrink-0" style="width: 32px; height: 32px; object-fit: cover;" onerror="this.src='{{ asset('back-end/assets/img/demo-img.jpeg') }}'">
+                        <div class="overflow-hidden">
+                            <span class="fw-bold text-dark d-block text-truncate" style="font-size: 13px;">${item.product_name}</span>
+                            ${catText}
+                        </div>
+                    </div>
+                    <div class="text-end flex-shrink-0 ms-2">
+                        ${codeBadge}
+                        <div>${priceDisplay}</div>
+                        <div>${stockDisplay}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        dropdown.html(html).removeClass("d-none");
+    }
+
+    function selectSearchDropdownItem(name) {
+        $("#desktopSearchInput").val(name);
+        $("#mobileSearchInput").val(name);
+        $(".search-live-dropdown").addClass("d-none").empty();
+        currentPage = 1;
+        renderPaginatedList();
+    }
 
     async function getLowStockList() {
         const tableList = $("#tableList");

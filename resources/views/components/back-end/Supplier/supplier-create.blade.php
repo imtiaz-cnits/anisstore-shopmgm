@@ -251,7 +251,7 @@
                     <div class="col-md-6 col-12">
                         <div class="form-row mb-2">
                             <label for="supplierMobile" class="fw-bold text-dark mb-1" style="font-size: 13px;">মোবাইল নম্বর <span class="text-danger">*</span></label>
-                            <input type="tel" inputmode="tel" pattern="[0-9]*" maxlength="15" placeholder="০১৭xxxxxxxx" id="supplierMobile" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" oninput="enforceBanglaNumberInput(this)" required />
+                            <input type="tel" inputmode="tel" maxlength="15" placeholder="০১৭xxxxxxxx" id="supplierMobile" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" oninput="enforceBanglaNumberInput(this)" required />
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
@@ -275,7 +275,7 @@
                     <div class="col-md-6 col-12">
                         <div class="form-row mb-2">
                             <label for="supplierPurchasePayableAmount" class="fw-bold text-dark mb-1" style="font-size: 13px;">পূর্বের দেনা / বাকি</label>
-                            <input type="text" inputmode="decimal" pattern="[0-9]*" placeholder="৳ ০.০০" id="supplierPurchasePayableAmount" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" oninput="enforceBanglaNumberInput(this)" />
+                            <input type="text" inputmode="decimal" placeholder="৳ ০.০০" id="supplierPurchasePayableAmount" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" oninput="enforceBanglaNumberInput(this)" />
                         </div>
                     </div>
                     <div class="col-12">

@@ -14,6 +14,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <script>
+        (function() {
+            var mode = localStorage.getItem("layout-mode") || localStorage.getItem("light-mode") || localStorage.getItem("lightMode") || localStorage.getItem("theme");
+            if (mode === "dark" || (!mode && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.setAttribute("data-bs-theme", "dark");
+                document.documentElement.setAttribute("light-mode", "dark");
+                document.documentElement.setAttribute("data-layout-mode", "dark");
+                document.documentElement.classList.add("dark-mode");
+                window.addEventListener('DOMContentLoaded', function() {
+                    document.body && document.body.setAttribute("data-layout-mode", "dark");
+                });
+            }
+        })();
+    </script>
+
     <style>
         body {
             background-color: #eef2f6;
@@ -22,6 +37,119 @@
             font-family: 'Noto Sans Bengali', 'Segoe UI', Tahoma, sans-serif;
             color: #1e293b;
             font-size: 11px;
+        }
+
+        /* Screen Dark Mode Styling */
+        @media screen {
+            [data-bs-theme="dark"],
+            [data-layout-mode="dark"],
+            [light-mode="dark"],
+            .dark-mode {
+                background-color: #0b1120 !important;
+                color: #f1f5f9 !important;
+            }
+
+            [data-bs-theme="dark"] body,
+            [data-layout-mode="dark"] body,
+            [light-mode="dark"] body,
+            body.dark-mode,
+            body[data-layout-mode="dark"] {
+                background-color: #0b1120 !important;
+                color: #f1f5f9 !important;
+            }
+
+            [data-bs-theme="dark"] .invoice-page-container,
+            [data-layout-mode="dark"] .invoice-page-container,
+            [light-mode="dark"] .invoice-page-container,
+            .dark-mode .invoice-page-container,
+            body[data-layout-mode="dark"] .invoice-page-container {
+                background-color: #1e293b !important;
+                color: #f1f5f9 !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+                border: 1px solid #334155 !important;
+            }
+
+            [data-bs-theme="dark"] .store-name,
+            [data-layout-mode="dark"] .store-name,
+            [light-mode="dark"] .store-name,
+            .dark-mode .store-name {
+                color: #a78bfa !important;
+            }
+
+            [data-bs-theme="dark"] .store-desc,
+            [data-layout-mode="dark"] .store-desc,
+            [light-mode="dark"] .store-desc,
+            .dark-mode .store-desc {
+                color: #94a3b8 !important;
+            }
+
+            [data-bs-theme="dark"] .store-meta,
+            [data-layout-mode="dark"] .store-meta,
+            [light-mode="dark"] .store-meta,
+            .dark-mode .store-meta,
+            [data-bs-theme="dark"] .invoice-main-heading,
+            [data-layout-mode="dark"] .invoice-main-heading,
+            [light-mode="dark"] .invoice-main-heading,
+            .dark-mode .invoice-main-heading,
+            [data-bs-theme="dark"] .text-dark,
+            [data-layout-mode="dark"] .text-dark,
+            [light-mode="dark"] .text-dark,
+            .dark-mode .text-dark {
+                color: #f8fafc !important;
+            }
+
+            [data-bs-theme="dark"] .text-muted,
+            [data-layout-mode="dark"] .text-muted,
+            [light-mode="dark"] .text-muted,
+            .dark-mode .text-muted {
+                color: #94a3b8 !important;
+            }
+
+            [data-bs-theme="dark"] .bg-light,
+            [data-layout-mode="dark"] .bg-light,
+            [light-mode="dark"] .bg-light,
+            .dark-mode .bg-light {
+                background-color: #0f172a !important;
+                border-color: #334155 !important;
+            }
+
+            [data-bs-theme="dark"] .border-bottom,
+            [data-layout-mode="dark"] .border-bottom,
+            [data-bs-theme="dark"] .border-top,
+            [data-layout-mode="dark"] .border-top,
+            [light-mode="dark"] .border-bottom,
+            [light-mode="dark"] .border-top,
+            [data-bs-theme="dark"] .border,
+            [data-layout-mode="dark"] .border {
+                border-color: #334155 !important;
+            }
+
+            [data-bs-theme="dark"] .invoice-table td,
+            [data-layout-mode="dark"] .invoice-table td,
+            [light-mode="dark"] .invoice-table td,
+            .dark-mode .invoice-table td {
+                border-bottom: 1px solid #334155 !important;
+                color: #f1f5f9 !important;
+            }
+
+            [data-bs-theme="dark"] .signature-line,
+            [data-layout-mode="dark"] .signature-line,
+            [light-mode="dark"] .signature-line,
+            .dark-mode .signature-line {
+                border-top: 1.5px solid #475569 !important;
+            }
+
+            [data-bs-theme="dark"] .calc-totals-box > div,
+            [data-layout-mode="dark"] .calc-totals-box > div {
+                border-color: #334155 !important;
+            }
+
+            [data-bs-theme="dark"] div[style*="background: #f8fafc"],
+            [data-layout-mode="dark"] div[style*="background: #f8fafc"],
+            [light-mode="dark"] div[style*="background: #f8fafc"] {
+                background: #0f172a !important;
+                border-color: #334155 !important;
+            }
         }
 
         /* Top Purple Navigation Bar (Screen Only) - Sticky & Modern */
@@ -245,8 +373,8 @@
 
     <!-- 1. Top Purple App Navigation Header (Screen Mode) -->
     <div class="invoice-top-bar no-print">
-        <button type="button" onclick="goBackToPreviousPage(event)" class="back-link" title="পেছনে যান">
-            <i class="fa-solid fa-arrow-left"></i> <span>পেছনে</span>
+        <button type="button" onclick="goBackToPreviousPage(event)" ontouchend="goBackToPreviousPage(event)" class="back-link" title="ফিরে যান">
+            <i class="fa-solid fa-arrow-left"></i> <span>ফিরে যান</span>
         </button>
         <h5 class="top-title">বিক্রয় ইনভয়েস</h5>
         <button type="button" class="print-top-btn" onclick="window.print()" title="ইনভয়েস প্রিন্ট করুন">
@@ -426,21 +554,26 @@
                 event.preventDefault();
                 event.stopPropagation();
             }
-            // 1. If document.referrer is from our domain and not current page, go back to it
+            try {
+                let savedUrl = sessionStorage.getItem('invoice_back_url') || sessionStorage.getItem('return_back_url');
+                if (savedUrl && savedUrl !== window.location.href && savedUrl.indexOf('/invoice/') === -1) {
+                    sessionStorage.removeItem('invoice_back_url');
+                    window.location.href = savedUrl;
+                    return;
+                }
+            } catch (e) {}
+
             if (document.referrer && document.referrer.indexOf(window.location.host) !== -1 && document.referrer !== window.location.href) {
                 window.location.href = document.referrer;
                 return;
             }
-            // 2. If browser history exists, go back with fallback
+
             if (window.history && window.history.length > 1) {
                 window.history.back();
-                setTimeout(function() {
-                    window.location.href = '/admin-dashboard-invoice';
-                }, 300);
                 return;
             }
-            // 3. Fallback directly to invoice list
-            window.location.href = '/admin-dashboard-invoice';
+
+            window.location.href = '/customer-list';
         }
 
         function engToBanglaNum(str) {

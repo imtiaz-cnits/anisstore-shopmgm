@@ -225,11 +225,11 @@
                     <div class="row g-2 mb-3 w-100 m-0">
                         <div class="col-6 ps-0 pe-1">
                             <label for="slDiscountAmount" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">ছাড় (Discount)</label>
-                            <input type="number" inputmode="decimal" pattern="[0-9]*" step="any" min="0" id="slDiscountAmount" class="form-control invoice-search-input text-start w-100 ps-3" oninput="slCalculateDuePayment()" placeholder="৳ ০.০০" style="width: 100% !important;">
+                            <input type="number" inputmode="decimal" step="any" min="0" id="slDiscountAmount" class="form-control invoice-search-input text-start w-100 ps-3" oninput="slCalculateDuePayment()" placeholder="৳ ০.০০" style="width: 100% !important;">
                         </div>
                         <div class="col-6 ps-1 pe-0">
                             <label for="slPayAmount" class="form-label mb-1.5 fw-semibold small text-start d-block" style="font-size: 12.5px;">পরিশোধিত টাকা *</label>
-                            <input type="number" inputmode="decimal" pattern="[0-9]*" step="any" min="0" id="slPayAmount" class="form-control invoice-search-input text-start fw-bold w-100 ps-3" oninput="slCalculateDuePayment()" placeholder="৳ ০.০০" required style="width: 100% !important;">
+                            <input type="number" inputmode="decimal" step="any" min="0" id="slPayAmount" class="form-control invoice-search-input text-start fw-bold w-100 ps-3" oninput="slCalculateDuePayment()" placeholder="৳ ০.০০" required style="width: 100% !important;">
                         </div>
                     </div>
 
@@ -889,6 +889,64 @@
         color: #475569 !important;
     }
 
+    /* Universal Dark Mode Border & Color Harmonization */
+    body[light-mode="dark"] .border,
+    html[light-mode="dark"] .border,
+    body[data-layout-mode="dark"] .border,
+    html[data-layout-mode="dark"] .border,
+    body.dark-mode .border,
+    html.dark-mode .border,
+    body.dark .border,
+    html.dark .border,
+    [data-bs-theme="dark"] .border,
+    [data-theme="dark"] .border,
+    body[light-mode="dark"] .border-bottom,
+    html[light-mode="dark"] .border-bottom,
+    body[data-layout-mode="dark"] .border-bottom,
+    html[data-layout-mode="dark"] .border-bottom,
+    body.dark-mode .border-bottom,
+    html.dark-mode .border-bottom,
+    body.dark .border-bottom,
+    html.dark .border-bottom,
+    [data-bs-theme="dark"] .border-bottom,
+    [data-theme="dark"] .border-bottom,
+    body[light-mode="dark"] .border-top,
+    html[light-mode="dark"] .border-top,
+    body[data-layout-mode="dark"] .border-top,
+    html[data-layout-mode="dark"] .border-top,
+    body.dark-mode .border-top,
+    html.dark-mode .border-top,
+    body.dark .border-top,
+    html.dark .border-top,
+    [data-bs-theme="dark"] .border-top,
+    [data-theme="dark"] .border-top,
+    body[light-mode="dark"] .border-start,
+    html[light-mode="dark"] .border-start,
+    body[data-layout-mode="dark"] .border-start,
+    html[data-layout-mode="dark"] .border-start,
+    body.dark-mode .border-start,
+    html.dark-mode .border-start,
+    [data-bs-theme="dark"] .border-start,
+    [data-theme="dark"] .border-start,
+    body[light-mode="dark"] .border-end,
+    html[light-mode="dark"] .border-end,
+    body[data-layout-mode="dark"] .border-end,
+    html[data-layout-mode="dark"] .border-end,
+    body.dark-mode .border-end,
+    html.dark-mode .border-end,
+    [data-bs-theme="dark"] .border-end,
+    [data-theme="dark"] .border-end,
+    body[light-mode="dark"] .badge.bg-light,
+    body[data-layout-mode="dark"] .badge.bg-light,
+    body.dark-mode .badge.bg-light,
+    [data-bs-theme="dark"] .badge.bg-light,
+    body[light-mode="dark"] .mobile-action-btn,
+    body[data-layout-mode="dark"] .mobile-action-btn,
+    body.dark-mode .mobile-action-btn,
+    [data-bs-theme="dark"] .mobile-action-btn {
+        border-color: #334155 !important;
+    }
+
     /* ===== Payment Modal Styles (Supplier List) ===== */
     .sl-btn-close-red {
         background: #ef4444 !important;
@@ -1371,93 +1429,92 @@
         color: #c084fc !important;
     }
 
-    @media screen and (max-width: 991.98px) {
-        #supplierDuePaymentModal.modal {
-            padding: 0 !important;
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            height: 100dvh !important;
-            display: none;
-            overflow: hidden !important;
-            background: rgba(15, 23, 42, 0.75) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
-            z-index: 107000 !important;
-        }
+    /* Supplier Due Payment Modal - Full Bottom Sheet on ALL screens */
+    #supplierDuePaymentModal.modal {
+        padding: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        height: 100dvh !important;
+        display: none;
+        overflow: hidden !important;
+        background: rgba(15, 23, 42, 0.75) !important;
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+        z-index: 107000 !important;
+    }
 
-        #supplierDuePaymentModal.modal.show {
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: flex-end !important;
-            align-items: center !important;
-        }
+    #supplierDuePaymentModal.modal.show {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+    }
 
-        #supplierDuePaymentModal .modal-dialog {
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            position: fixed !important;
-            bottom: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            top: auto !important;
-            min-height: auto !important;
-            height: auto !important;
-            transform: none !important;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: flex-end !important;
-        }
+    #supplierDuePaymentModal .modal-dialog {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        top: auto !important;
+        min-height: auto !important;
+        height: auto !important;
+        transform: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
+    }
 
-        #supplierDuePaymentModal .modal-content {
-            border-radius: 0 !important;
-            border-top-left-radius: 20px !important;
-            border-top-right-radius: 20px !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            max-height: 90vh !important;
-            max-height: 90dvh !important;
-            display: flex !important;
-            flex-direction: column !important;
-            overflow: hidden !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            border: none !important;
-            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35) !important;
-            animation: slideUpSupplierDueModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
-        }
+    #supplierDuePaymentModal .modal-content {
+        border-radius: 0 !important;
+        border-top-left-radius: 20px !important;
+        border-top-right-radius: 20px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 90vh !important;
+        max-height: 90dvh !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35) !important;
+        animation: slideUpSupplierDueModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
 
-        @keyframes slideUpSupplierDueModal {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
+    @keyframes slideUpSupplierDueModal {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+    }
 
-        #supplierDuePaymentModal .modal-body {
-            flex: 1 1 auto !important;
-            max-height: calc(90vh - 130px) !important;
-            max-height: calc(90dvh - 130px) !important;
-            overflow-y: auto !important;
-            -webkit-overflow-scrolling: touch;
-            padding: 14px 16px !important;
-        }
+    #supplierDuePaymentModal .modal-body {
+        flex: 1 1 auto !important;
+        max-height: calc(90vh - 130px) !important;
+        max-height: calc(90dvh - 130px) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        padding: 14px 16px !important;
+    }
 
-        #supplierDuePaymentModal .modal-sticky-footer {
-            flex: 0 0 auto !important;
-            position: sticky !important;
-            bottom: 0 !important;
-            width: 100% !important;
-            z-index: 100 !important;
-            padding: 10px 16px !important;
-            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05) !important;
-        }
+    #supplierDuePaymentModal .modal-sticky-footer {
+        flex: 0 0 auto !important;
+        position: sticky !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        z-index: 100 !important;
+        padding: 10px 16px !important;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05) !important;
     }
 
     [data-bs-theme="dark"] #supplierDuePaymentModal .modal-sticky-footer,

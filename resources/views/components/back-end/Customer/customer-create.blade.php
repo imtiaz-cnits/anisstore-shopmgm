@@ -1,237 +1,382 @@
 <style>
-    .financemodal .modal-content {
-        border-radius: 10px;
-        width: 60%;
+    /* Scoped Fix for Customer Create Modal Overlay & Mobile View Responsiveness */
+    .newbrand,
+    #customerCreateModal,
+    #myModal {
+        display: none;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 107000 !important;
+        background: rgba(15, 23, 42, 0.65) !important;
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        padding: 16px 12px !important;
+        box-sizing: border-box !important;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
     }
 
-    @media screen and (max-width: 992px) {
-        .financemodal .modal-content {
-            width: 90%;
+    .newbrand.show,
+    .newbrand.show-modal,
+    #customerCreateModal.show,
+    #customerCreateModal.show-modal,
+    #myModal.show,
+    #myModal.show-modal {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .newbrand-content,
+    #customerCreateModal .newbrand-content,
+    #myModal .newbrand-content {
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        transform: none !important;
+        -webkit-transform: none !important;
+        margin: 20px auto !important;
+        width: 100% !important;
+        max-width: 580px !important;
+        border-radius: 20px !important;
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    #customerCreateModal .modal-header-purple,
+    #myModal .modal-header-purple {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        padding: 14px 18px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        color: #ffffff !important;
+        border-bottom: 1px solid #E5D5F7 !important;
+    }
+
+    #customerCreateModal .btn-close-red,
+    #myModal .btn-close-red {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        border-radius: 50% !important;
+        width: 32px !important;
+        height: 32px !important;
+        border: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 15px !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+    }
+    #customerCreateModal .btn-close-red:hover,
+    #myModal .btn-close-red:hover {
+        background: #dc2626 !important;
+        transform: rotate(90deg) scale(1.05);
+    }
+
+    #customerCreateModal .btn-cancel-red,
+    #myModal .btn-cancel-red {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        border: 1px solid #dc2626 !important;
+        border-radius: 10px !important;
+        font-weight: 700 !important;
+        transition: all 0.2s ease !important;
+    }
+    #customerCreateModal .btn-cancel-red:hover,
+    #myModal .btn-cancel-red:hover {
+        background: #dc2626 !important;
+        color: #ffffff !important;
+    }
+
+    #customerCreateModal .form-control:focus,
+    #customerCreateModal input:focus,
+    #customerCreateModal textarea:focus,
+    #myModal .form-control:focus,
+    #myModal input:focus,
+    #myModal textarea:focus {
+        border-color: #8C56D4 !important;
+        box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.15) !important;
+        background: #ffffff !important;
+    }
+
+    body[light-mode="dark"] #customerCreateModal .newbrand-content,
+    html[light-mode="dark"] #customerCreateModal .newbrand-content,
+    body[light-mode="dark"] #myModal .newbrand-content {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+
+    body[light-mode="dark"] #customerCreateModal .form-control,
+    body[light-mode="dark"] #myModal .form-control {
+        background: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+
+    body[light-mode="dark"] #customerCreateModal label,
+    body[light-mode="dark"] #myModal label {
+        color: #e2e8f0 !important;
+    }
+
+    @media screen and (max-width: 991.98px) {
+        .newbrand,
+        #customerCreateModal,
+        #myModal {
+            padding: 0 !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: flex-end !important;
+            align-items: center !important;
+            overflow: hidden !important;
+        }
+
+        .newbrand-content,
+        #customerCreateModal .newbrand-content,
+        #myModal .newbrand-content {
+            position: fixed !important;
+            top: auto !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            max-height: 85vh !important;
+            max-height: 85dvh !important;
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+            border-top-left-radius: 24px !important;
+            border-top-right-radius: 24px !important;
+            box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.35) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+            animation: slideUpCustomerModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
+        @keyframes slideUpCustomerModal {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        #customerCreateModal .modal-body-scroll,
+        #myModal .modal-body-scroll {
+            flex: 1 1 auto !important;
+            max-height: calc(85vh - 130px) !important;
+            max-height: calc(85dvh - 130px) !important;
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch;
+            padding: 14px 16px 20px 16px !important;
+        }
+
+        #customerCreateModal .modal-sticky-footer,
+        #myModal .modal-sticky-footer {
+            flex: 0 0 auto !important;
+            position: sticky !important;
+            bottom: 0 !important;
+            background: #ffffff !important;
+            z-index: 100 !important;
+            border-top: 1px solid #e2e8f0 !important;
+            padding: 10px 16px !important;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        #customerCreateModal .actions-btn-group,
+        #myModal .actions-btn-group {
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 10px !important;
+            width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        #customerCreateModal .actions-btn-group button,
+        #myModal .actions-btn-group button {
+            flex: 1 !important;
+            width: 50% !important;
+            height: 46px !important;
+            font-size: 14px !important;
         }
     }
 
-    .financemodal .modal-content .col-lg-6,
-    .financemodal .modal-content .col-lg-4 {
-        padding: 0 6px !important;
-    }
-
-    .newbrand .upload-profile .item,
-    .newcategory .upload-profile .item {
-        width: 100%;
-        display: flex !important;
-        gap: 10px;
-        margin-bottom: 15px;
-    }
-
-    .newbrand .upload-profile .item .img-box,
-    .newcategory .upload-profile .item .img-box {
-        width: 84px;
-        height: 70px;
-        border-radius: 6px;
-        background: #f2f2f2;
-        display: flex !important;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .newbrand .profile-wrapper,
-    .newcategory .profile-wrapper {
-        width: 100%;
-    }
-
-    .newbrand .parent,
-    .newcategory .parent {
-        width: 100%;
-        height: 100%;
-        display: inline-flex;
-        justify-content: space-between;
-        flex-direction: column;
-    }
-
-    .newbrand .profile-wrapper p,
-    .newcategory .profile-wrapper p {
-        margin: 8px 0px 0px 0px;
-        font-size: 14px;
-        color: #aaaaaa;
-    }
-
-    .newbrand .custom-file-input-wrapper,
-    .newcategory .custom-file-input-wrapper {
-        font-family: var(--primary-font);
-        position: relative;
-        width: 100%;
-        height: 46px;
-        border-radius: 5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 16px;
-        color: #666;
-        background: #ededed;
-        cursor: pointer;
-    }
-
-    .newbrand .custom-file-input,
-    .newcategory .custom-file-input {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        opacity: 0;
-        z-index: 2;
-        cursor: pointer;
-    }
-
-    .newbrand .custom-file-input-wrapper input[type="file"],
-    .newcategory .custom-file-input-wrapper input[type="file"] {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        opacity: 0;
-        z-index: -2;
-        cursor: pointer;
-    }
-
-    .newbrand .custom-file-input-wrapper::before,
-    .newcategory .custom-file-input-wrapper::before {
-        content: "";
-        position: absolute;
-        margin: 0px 118px 0px auto;
-        width: 20px;
-        height: 20px;
-        background-image: url("../icons/upload-photo-icon.svg");
-        background-size: cover;
-        background-position: center;
-    }
-
-    .newbrand .custom-file-input-wrapper::after,
-    .newcategory .custom-file-input-wrapper::after {
-        content: "Upload Photo";
-        margin-right: -20px !important;
-    }
-
-    .newbrand .upload p,
-    .newcategory .upload p {
-        font-size: 12px;
-        color: #777;
+    body[light-mode="dark"] #customerCreateModal .modal-sticky-footer,
+    body[light-mode="dark"] #myModal .modal-sticky-footer {
+        background: #1e293b !important;
+        border-color: #334155 !important;
     }
 </style>
 
-<div class="main-content" id="myModal">
-    <div class="page-content">
+<div class="newbrand" id="customerCreateModal">
+    <div class="newbrand-content">
+        <!-- Sleek Purple Header with Red Close Button -->
+        <div class="modal-header-purple">
+            <h5 class="fw-bold m-0 d-flex align-items-center gap-2 text-white" style="font-size: 16.5px;">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>নতুন কাস্টমার যোগ করুন</span>
+            </h5>
+            <button type="button" onclick="closeCustomerCreateModal()" class="btn-close-red" title="বন্ধ করুন">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
 
-        <!-- Create Customer Modal Start -->
-        <section id="createProduct" class="financemodal">
-            <div class="modal-content">
-                <a class="close-btn closes">
-                    <i class="fa-solid fa-xmark"></i>
-                </a>
-                <h2 class="heading">Add New Customer</h2>
-                <div id="popup-modal">
-                    <form onsubmit="return Save(event)" id="signup">
-                        <div class="row">
-                            <div class="col-lg-6 mb-3">
-                                <div class="form-row">
-                                    <input type="text" placeholder="Enter Customer Name *" id="CustomerName" required />
-                                </div>
-                            </div>
-                            <div class="col-lg-6 mb-3">
-                                <div class="form-row">
-                                    <input type="tel" inputmode="tel" placeholder="Enter Customer Number *" id="CustomerMobile" required oninput="if(typeof enforceBanglaNumberInput==='function'){enforceBanglaNumberInput(this, false);}else{this.value=this.value.replace(/[^0-9+০-৯]/g,'');}" />
-                                </div>
-                            </div>
-                            <div class="col-lg-6 mb-3">
-                                <div class="form-row">
-                                    <input type="email" placeholder="Enter Customer Email" id="CustomerEmail" />
-                                </div>
-                            </div>
-                            <div class="col-lg-6 mb-3">
-                                <div class="form-row">
-                                    <input type="text" inputmode="numeric" placeholder="Enter Nid Number" id="CustomerNIDNumber" oninput="if(typeof enforceBanglaNumberInput==='function'){enforceBanglaNumberInput(this, false);}else{this.value=this.value.replace(/[^0-9০-৯]/g,'');}" />
-                                </div>
-                            </div>
+        <form onsubmit="return CustomerDataSave(event)" id="customerCreateForm" class="d-flex flex-column flex-grow-1 overflow-hidden m-0">
+            <div id="popup-modal" class="modal-body-scroll p-3 flex-grow-1">
+                <div class="row g-2">
+                    <div class="col-md-6 col-12">
+                        <div class="form-row mb-2">
+                            <label for="CustomerName" class="fw-bold text-dark mb-1" style="font-size: 13px;">কাস্টমারের নাম <span class="text-danger">*</span></label>
+                            <input type="text" placeholder="কাস্টমারের নাম লিখুন..." id="CustomerName" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" required />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-row mb-2">
+                            <label for="CustomerMobile" class="fw-bold text-dark mb-1" style="font-size: 13px;">মোবাইল নম্বর <span class="text-danger">*</span></label>
+                            <input type="tel" inputmode="tel" maxlength="15" placeholder="০১৭xxxxxxxx" id="CustomerMobile" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" oninput="if(typeof enforceBanglaNumberInput==='function'){enforceBanglaNumberInput(this, false);}else{this.value=this.value.replace(/[^0-9+০-৯]/g,'');}" required />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-row mb-2">
+                            <label for="CustomerEmail" class="fw-bold text-dark mb-1" style="font-size: 13px;">ইমেইল</label>
+                            <input type="email" inputmode="email" placeholder="example@domain.com" id="CustomerEmail" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-row mb-2">
+                            <label for="CustomerNIDNumber" class="fw-bold text-dark mb-1" style="font-size: 13px;">জাতীয় পরিচয়পত্র (NID)</label>
+                            <input type="text" inputmode="numeric" placeholder="জাতীয় পরিচয়পত্র নম্বর..." id="CustomerNIDNumber" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" oninput="if(typeof enforceBanglaNumberInput==='function'){enforceBanglaNumberInput(this, false);}else{this.value=this.value.replace(/[^0-9০-৯]/g,'');}" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-row mb-2">
+                            <label for="PreviousDueAmount" class="fw-bold text-dark mb-1" style="font-size: 13px;">পূর্বের বকেয়া / বাকি</label>
+                            <input type="text" inputmode="decimal" placeholder="৳ ০.০০" id="PreviousDueAmount" class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff;" oninput="if(typeof enforceBanglaNumberInput==='function'){enforceBanglaNumberInput(this, true);}else{this.value=this.value.replace(/[^0-9.০-৯]/g,'');}" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-row mb-2">
+                            <label for="more_address_details" class="fw-bold text-dark mb-1" style="font-size: 13px;">বিস্তারিত ঠিকানা</label>
+                            <textarea id="more_address_details" rows="1" placeholder="কাস্টমারের ঠিকানা লিখুন..." class="form-control fw-bold" style="height: 44px; border-radius: 10px; font-size: 14px; border: 1.5px solid #cbd5e1; background: #ffffff; resize: none;"></textarea>
+                        </div>
+                    </div>
 
-                            <div class="col-lg-6 mb-3">
-                                <div class="form-row">
-                                    <input type="text" inputmode="decimal" placeholder="Enter Previous Due Amount" id="PreviousDueAmount" oninput="if(typeof enforceBanglaNumberInput==='function'){enforceBanglaNumberInput(this, true);}else{this.value=this.value.replace(/[^0-9.০-৯]/g,'');}" />
+                    <!-- Upload Photo -->
+                    <div class="col-12 mb-2">
+                        <div class="form-row mb-2">
+                            <label class="fw-bold text-dark mb-1" style="font-size: 13px;">কাস্টমার ছবি</label>
+                            <div class="d-flex align-items-center gap-3 p-2.5 border rounded-3 bg-light" style="width: 100%; border: 1.5px dashed #cbd5e1 !important;">
+                                <div class="bg-white border rounded-3 d-flex align-items-center justify-content-center shadow-xs overflow-hidden position-relative" style="width: 64px; height: 56px; flex-shrink: 0;">
+                                    <img id="customerImgPreview" src="" class="d-none w-100 h-100 object-fit-cover" />
+                                    <i id="customerImgIcon" class="fa-regular fa-image fa-2x" style="color: #8C56D4 !important;"></i>
                                 </div>
-                            </div>
-                            <div class="col-lg-6 mb-3">
-                                <div class="form-row">
-                                    <textarea name="address_details" id="more_address_details" cols="30" rows="3"
-                                        placeholder="Enter Address Details"></textarea>
+                                <div class="flex-grow-1">
+                                    <input type="file" id="ProductImage" class="form-control form-control-sm" accept="image/*" onchange="previewCustomerCreateImg(event)" style="border-radius: 8px;" />
+                                    <small class="text-muted d-block mt-1" style="font-size: 11px;">PNG, JPG বা JPEG (সর্বোচ্চ ২ MB)</small>
                                 </div>
-                            </div>
-
-                            <!-- Upload Photo moved to bottom -->
-                            <div class="col-lg-12">
-                                <div class="mb-3">
-                                    <div class="upload-profile">
-                                        <div class="item">
-                                            <div class="img-box">
-                                                <svg width="32" height="32" viewBox="0 0 50 50" fill="red"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect width="50" height="50" fill="url(#pattern0_1204_6)"
-                                                        fill-opacity="0.5" />
-                                                    <defs>
-                                                        <pattern id="pattern0_1204_6"
-                                                            patternContentUnits="objectBoundingBox" width="1"
-                                                            height="1">
-                                                            <use xlink:href="#image0_1204_6" transform="scale(0.005)" />
-                                                        </pattern>
-                                                        <image id="image0_1204_6" width="200" height="200"
-                                                            xlink:href="data:image/png;base64,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" />
-                                                        </defs>
-                                                    </svg>
-                                                </div>
-
-                                                <div class="profile-wrapper">
-                                                    <label class="custom-file-input-wrapper">
-                                                        <input type="file" class="custom-file-input" id="ProductImage"
-                                                            aria-label="Upload Photo" />
-                                                    </label>
-                                                    <p>PNG, JPEG or GIF (up to 1 MB)</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="actions mt-3">
-                                <button onclick="CustomerDataSave(event)" class="btn-save">Submit</button>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </section>
-        <!-- Create Customer Modal End -->
+
+            <!-- Sticky Bottom Footer with Equal Side-by-Side Action Buttons -->
+            <div class="modal-sticky-footer">
+                <div class="actions-btn-group">
+                    <button type="button" onclick="closeCustomerCreateModal()" class="btn btn-cancel-red shadow-sm d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa-solid fa-xmark"></i>
+                        <span>বাতিল</span>
+                    </button>
+                    <button type="submit" id="saveCustomerBtn" class="btn text-white fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2" style="background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important; border-radius: 10px; border: none;">
+                        <i class="fa-solid fa-check"></i>
+                        <span>সেভ করুন</span>
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
 <script>
+    function openCustomerCreateModal() {
+        $('#customerCreateModal').addClass('show').fadeIn(200);
+        $('body').css('overflow', 'hidden');
+        setTimeout(function() {
+            const nameInput = document.getElementById('CustomerName');
+            if (nameInput) {
+                nameInput.focus();
+                nameInput.select();
+            }
+        }, 150);
+    }
+
+    function closeCustomerCreateModal() {
+        $('#customerCreateModal').removeClass('show').fadeOut(200);
+        $('body').css('overflow', 'auto');
+        $('#customerCreateForm')[0].reset();
+        $('#customerImgPreview').addClass('d-none').attr('src', '');
+        $('#customerImgIcon').removeClass('d-none');
+    }
+
+    // Support legacy buttons/triggers
+    $(document).on('click', '#openModalBtns, .create-invoice', function() {
+        openCustomerCreateModal();
+    });
+
+    $(document).on('click', '#customerCreateModal', function(e) {
+        if ($(e.target).is('#customerCreateModal')) {
+            closeCustomerCreateModal();
+        }
+    });
+
+    function previewCustomerCreateImg(event) {
+        const input = event.target;
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('#customerImgPreview').attr('src', e.target.result).removeClass('d-none');
+                $('#customerImgIcon').addClass('d-none');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
     async function CustomerDataSave(event) {
-        event.preventDefault();
+        if (event) event.preventDefault();
         try {
-            let ProductImageInput = document.getElementById('ProductImage')?.files[0];
             let CustomerName = document.getElementById('CustomerName').value.trim();
-            let more_address_details = document.getElementById('more_address_details').value.trim();
             let CustomerMobile = document.getElementById('CustomerMobile').value.trim();
             let CustomerEmail = document.getElementById('CustomerEmail').value.trim();
             let CustomerNIDNumber = document.getElementById('CustomerNIDNumber').value.trim();
             let PreviousDueAmount = document.getElementById('PreviousDueAmount').value.trim();
+            let more_address_details = document.getElementById('more_address_details').value.trim();
+            let ProductImageInput = document.getElementById('ProductImage')?.files[0];
 
             if (CustomerName.length === 0) {
-                errorToast("Customer Name is required!");
+                errorToast("কাস্টমারের নাম প্রদান করা আবশ্যক!");
                 return false;
             }
             if (CustomerMobile.length === 0) {
-                errorToast("Customer Mobile is required!");
+                errorToast("কাস্টমারের মোবাইল নম্বর প্রদান করা আবশ্যক!");
                 return false;
             }
 
@@ -246,6 +391,7 @@
                 formData.append('img', ProductImageInput);
             }
 
+            showLoader();
             const config = {
                 headers: {
                     'content-type': 'multipart/form-data',
@@ -254,26 +400,24 @@
             };
 
             let res = await axios.post("/api/create-customer", formData, config);
+            hideLoader();
 
             if (res.data['status'] === "success") {
-                successToast(res.data['message']);
-                document.getElementById("signup").reset();
-                const modal = document.getElementById('myModal');
-                closeModal(modal);
-                setTimeout(() => {
-                    location.reload();
-                }, 500);
+                successToast(res.data['message'] || "কাস্টমার সফলভাবে যুক্ত হয়েছে!");
+                closeCustomerCreateModal();
+                if (typeof getList === 'function') {
+                    getList();
+                } else {
+                    setTimeout(() => { location.reload(); }, 500);
+                }
             } else {
-                errorToast(res.data['message']);
+                errorToast(res.data['message'] || "কাস্টমার যোগ করতে সমস্যা হয়েছে।");
             }
         } catch (e) {
+            hideLoader();
             console.error(e);
             unauthorized(e.response ? e.response.status : 500);
         }
         return false;
-    }
-
-    function closeModal(modal) {
-        if (modal) modal.style.display = 'none';
     }
 </script>

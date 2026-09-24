@@ -452,6 +452,62 @@
         background: #DC2626 !important;
         color: #ffffff !important;
     }
+
+    /* Live Search Dropdown Styles */
+    .search-live-dropdown {
+        top: calc(100% + 4px);
+        background: #ffffff;
+        border: 1.5px solid #E5D5F7;
+        z-index: 1060;
+        max-height: 280px;
+        overflow-y: auto;
+        box-shadow: 0 12px 32px rgba(140, 86, 212, 0.18) !important;
+    }
+    .search-live-item {
+        padding: 9px 14px;
+        border-bottom: 1px solid #f1f5f9;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .search-live-item:last-child {
+        border-bottom: none;
+    }
+    .search-live-item:hover {
+        background: #F3ECFB;
+    }
+    body[light-mode="dark"] .search-live-dropdown,
+    body[data-layout-mode="dark"] .search-live-dropdown,
+    body.dark-mode .search-live-dropdown,
+    html[light-mode="dark"] .search-live-dropdown,
+    html[data-layout-mode="dark"] .search-live-dropdown,
+    html.dark .search-live-dropdown,
+    [data-bs-theme="dark"] .search-live-dropdown {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+    }
+    body[light-mode="dark"] .search-live-item,
+    body[data-layout-mode="dark"] .search-live-item,
+    body.dark-mode .search-live-item,
+    html[light-mode="dark"] .search-live-item,
+    html[data-layout-mode="dark"] .search-live-item,
+    html.dark .search-live-item,
+    [data-bs-theme="dark"] .search-live-item {
+        border-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+    body[light-mode="dark"] .search-live-item:hover,
+    body[data-layout-mode="dark"] .search-live-item:hover,
+    body.dark-mode .search-live-item:hover,
+    html[light-mode="dark"] .search-live-item:hover,
+    html[data-layout-mode="dark"] .search-live-item:hover,
+    html.dark .search-live-item:hover,
+    [data-bs-theme="dark"] .search-live-item:hover {
+        background: #334155 !important;
+    }
 </style>
 
 <!-- Opening Balance Main Content Start -->
@@ -515,7 +571,8 @@
                     <div id="mobileSearchWrap" class="mb-3 d-none position-relative">
                         <div class="d-flex align-items-center gap-2 mb-0">
                             <div class="position-relative flex-grow-1 mb-0">
-                                <input type="text" id="mobileSearchInput" class="form-control ob-search-input mb-0" placeholder="🔍 ব্যালেন্স খুঁজুন (তারিখ, টাকা, নোট)..." autocomplete="off" oninput="handleSearch(this.value)" />
+                                <input type="text" id="mobileSearchInput" class="form-control ob-search-input mb-0" placeholder="🔍 ব্যালেন্স খুঁজুন (তারিখ, টাকা, নোট)..." autocomplete="off" />
+                                <div id="mobileSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
                             </div>
                             <button type="button" class="ob-search-close-btn mb-0" onclick="closeMobileSearchBar()" title="বন্ধ করুন">
                                 <i class="fa-solid fa-xmark"></i>
@@ -526,8 +583,9 @@
                     <!-- Desktop Search Toolbar (>= 992px) -->
                     <div class="mb-3 d-none d-lg-flex align-items-center justify-content-between gap-3">
                         <div class="position-relative flex-grow-1" style="max-width: 440px;">
-                            <input type="text" id="searchInput" class="form-control ob-search-input ps-5" placeholder="🔍 ব্যালেন্স খুঁজুন (তারিখ, টাকা, নোট)..." autocomplete="off" oninput="handleSearch(this.value)" />
+                            <input type="text" id="searchInput" class="form-control ob-search-input ps-5" placeholder="🔍 ব্যালেন্স খুঁজুন (তারিখ, টাকা, নোট)..." autocomplete="off" />
                             <i class="fa-solid fa-magnifying-glass position-absolute text-muted" style="left: 16px; top: 50%; transform: translateY(-50%); font-size: 14px;"></i>
+                            <div id="desktopSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
                         </div>
                         <div id="filterBadgeText" class="badge px-3 py-2 fw-bold text-muted bg-light border" style="font-size: 12.5px; border-radius: 8px;">
                             <i class="fa-solid fa-filter me-1 text-primary" style="color: #8C56D4 !important;"></i> ফিল্টার: সকল ব্যালেন্স
@@ -631,6 +689,9 @@
         const wrap = document.getElementById('mobileSearchWrap');
         const input = document.getElementById('mobileSearchInput');
         if (input) input.value = '';
+        const desktopInput = document.getElementById('searchInput');
+        if (desktopInput) desktopInput.value = '';
+        $('.search-live-dropdown').addClass('d-none').empty();
         if (wrap) wrap.classList.add('d-none');
         handleSearch('');
     }
@@ -668,6 +729,90 @@
         window.currentSearchTerm = (term || '').trim().toLowerCase();
         renderFilteredData();
     }
+
+    function handleLiveSearch(term) {
+        let cleanTerm = (term || "").toLowerCase().trim();
+        renderLiveDropdown("mobileSearchDropdown", cleanTerm);
+        renderLiveDropdown("desktopSearchDropdown", cleanTerm);
+    }
+
+    function renderLiveDropdown(containerId, cleanTerm) {
+        const dropdown = $("#" + containerId);
+        let items = window.rawOpeningBalanceData || [];
+        if (!cleanTerm || cleanTerm.length === 0 || !items || items.length === 0) {
+            dropdown.addClass("d-none").empty();
+            return;
+        }
+
+        let matches = items.filter(i => {
+            const dateMatch = (i.date || '').toLowerCase().includes(cleanTerm);
+            const amountMatch = (i.amount || '').toString().includes(cleanTerm);
+            const noteMatch = (i.note || '').toLowerCase().includes(cleanTerm);
+            return dateMatch || amountMatch || noteMatch;
+        }).slice(0, 8);
+
+        if (matches.length === 0) {
+            dropdown.html('<div class="p-3 text-center text-muted small"><i class="fa-solid fa-circle-exclamation me-1"></i>কোনো ব্যালেন্স পাওয়া যায়নি</div>').removeClass("d-none");
+            return;
+        }
+
+        let html = '';
+        matches.forEach(item => {
+            const dateStr = item.date ? formatBengaliDate(item.date) : '-';
+            const amountFormatted = parseFloat(item.amount || 0).toLocaleString('en-US', {minimumFractionDigits: 2});
+            const noteText = item.note ? `<span class="text-muted small d-block text-truncate" style="font-size: 11px;"><i class="fa-solid fa-note-sticky me-1"></i>${item.note}</span>` : '<span class="text-muted small d-block" style="font-size: 11px;">প্রারম্ভিক ব্যালেন্স</span>';
+            const safeSearchTerm = (item.date || item.amount || '').toString().replace(/'/g, "\\'");
+
+            html += `
+                <div class="search-live-item" onclick="selectSearchDropdownItem('${safeSearchTerm}')">
+                    <div class="d-flex align-items-center gap-2 overflow-hidden">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px; background: #FAF5FF; color: #8C56D4; font-size: 13px;">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <span class="fw-bold text-dark d-block text-truncate" style="font-size: 13px;">তারিখ: ${dateStr}</span>
+                            ${noteText}
+                        </div>
+                    </div>
+                    <div class="text-end flex-shrink-0 ms-2">
+                        <span class="badge bg-light text-dark border mb-1 d-inline-block" style="font-size: 10px;">ব্যালেন্স</span>
+                        <div class="text-success fw-bold" style="font-size: 11.5px;">৳ ${toBengaliNumber(amountFormatted)}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        dropdown.html(html).removeClass("d-none");
+    }
+
+    function selectSearchDropdownItem(term) {
+        $("#searchInput").val(term);
+        $("#mobileSearchInput").val(term);
+        $(".search-live-dropdown").addClass("d-none").empty();
+        handleSearch(term);
+    }
+
+    $(document).ready(function() {
+        $("#searchInput").on("keyup search input focus", function () {
+            let val = $(this).val();
+            $("#mobileSearchInput").val(val);
+            handleLiveSearch(val);
+            handleSearch(val);
+        });
+
+        $("#mobileSearchInput").on("keyup search input focus", function () {
+            let val = $(this).val();
+            $("#searchInput").val(val);
+            handleLiveSearch(val);
+            handleSearch(val);
+        });
+
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest("#searchInput, #mobileSearchInput, #desktopSearchDropdown, #mobileSearchDropdown").length) {
+                $(".search-live-dropdown").addClass("d-none").empty();
+            }
+        });
+    });
 
     // Number to Bengali digits helper
     function toBengaliNumber(num) {
