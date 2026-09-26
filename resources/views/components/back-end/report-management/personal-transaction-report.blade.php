@@ -1,345 +1,2218 @@
 @extends('layouts.dashboard-sidenav')
-@section('title', 'Sales Report')
+@section('title', 'ব্যক্তিগত লেনদেন রিপোর্ট তালিকা - মেসার্স আনিস ষ্টোর')
 @section('content')
-    <!-- Hero Main Content Start -->
-    <div class="main-content">
-        <div class="page-content">
-            <!-- Table Start -->
-            <div class="bredcam">
-                <div class="bredcam-title">
-                    <h1>Personal Transaction Report List</h1>
+
+<!-- Flatpickr CSS & JS per rules.md -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<!-- html2pdf.js for Bengali Unicode PDF Export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        #printableArea, #printableArea * {
+            visibility: visible;
+        }
+        #printableArea {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+        #printableArea .table-responsive {
+            display: block !important;
+        }
+        #printableArea table {
+            display: table !important;
+            width: 100% !important;
+        }
+        #mobileCardList {
+            display: none !important;
+        }
+        .no-print {
+            display: none !important;
+        }
+    }
+
+    /* 1. Header & Title */
+    .invoice-card-header {
+        border-color: #f1f5f9;
+    }
+    .invoice-title-icon-box {
+        width: 42px;
+        height: 42px;
+        background: #F3ECFB;
+        color: #8C56D4;
+        border: 1px solid #E5D5F7;
+        flex-shrink: 0;
+    }
+    .invoice-main-heading {
+        color: #1e293b;
+        font-size: 20px;
+        letter-spacing: -0.2px;
+        font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;
+        border-left: 4px solid #8C56D4 !important;
+        padding-left: 10px !important;
+        line-height: 1.2 !important;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* 2. Standardized Form Inputs & Datepicker */
+    .custom-flatpickr-input,
+    .invoice-search-input {
+        height: 42px !important;
+        min-height: 42px !important;
+        border: 1.5px solid #cbd5e1 !important;
+        border-radius: 10px !important;
+        padding: 8px 14px !important;
+        font-size: 14px !important;
+        color: #1e293b !important;
+        background: #ffffff !important;
+        transition: all 0.2s ease-in-out !important;
+        font-family: 'Noto Sans Bengali', 'Poppins', sans-serif !important;
+        box-shadow: none !important;
+    }
+
+    .custom-date-input-wrap .custom-flatpickr-input {
+        padding-right: 38px !important;
+        cursor: pointer !important;
+    }
+
+    .custom-flatpickr-input:focus,
+    .invoice-search-input:focus {
+        border-color: #8C56D4 !important;
+        box-shadow: 0 0 0 3px rgba(140, 86, 212, 0.2) !important;
+        outline: none !important;
+    }
+
+    .calendar-addon-btn {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #8C56D4;
+        cursor: pointer;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+        transition: transform 0.2s ease;
+    }
+    .calendar-addon-btn:hover {
+        transform: translateY(-50%) scale(1.15);
+    }
+
+    .invoice-search-addon-icon {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 15px;
+        pointer-events: none;
+    }
+
+    .invoice-search-submit-btn {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        height: 42px !important;
+        border-radius: 10px !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.3px;
+        transition: all 0.2s ease-in-out !important;
+        box-shadow: 0 2px 8px rgba(140, 86, 212, 0.25) !important;
+        cursor: pointer !important;
+    }
+    .invoice-search-submit-btn:hover {
+        background: linear-gradient(135deg, #793FC5 0%, #672EB0 100%) !important;
+        box-shadow: 0 4px 14px rgba(140, 86, 212, 0.4) !important;
+        transform: translateY(-1px);
+        color: #ffffff !important;
+    }
+
+    /* Mobile Header Icon Buttons */
+    .mobile-header-icon-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: #ffffff;
+        border: 1.5px solid #cbd5e1;
+        color: #8C56D4;
+        font-size: 14.5px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease-in-out;
+        outline: none !important;
+        box-shadow: 0 1px 3px rgba(140, 86, 212, 0.08);
+    }
+    .mobile-header-icon-btn:hover,
+    .mobile-header-icon-btn:active {
+        background: #F3ECFB;
+        border-color: #8C56D4;
+        color: #793FC5;
+        transform: translateY(-1px);
+    }
+
+    .mobile-search-close-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 6px;
+        background: #ef4444;
+        color: #ffffff;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+    .mobile-search-close-btn:hover {
+        background: #dc2626;
+    }
+
+    .toolbar-control-btn {
+        height: 42px !important;
+        min-height: 42px !important;
+        background: #ffffff !important;
+        border: 1.5px solid #cbd5e1 !important;
+        border-radius: 10px !important;
+        color: #1e293b !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease-in-out !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+        outline: none !important;
+    }
+    .toolbar-control-btn:hover {
+        border-color: #8C56D4 !important;
+        background: #FAF7FD !important;
+        color: #8C56D4 !important;
+        transform: translateY(-1px);
+    }
+    .dropdown-arrow-icon {
+        font-size: 11px;
+        color: #94a3b8;
+        transition: transform 0.2s ease;
+    }
+    .custom-dropdown-wrap.open .dropdown-arrow-icon {
+        transform: rotate(180deg);
+        color: #8C56D4;
+    }
+
+    /* Container Overflow fix for Dropdown clipping */
+    .data-table,
+    .data-table .card,
+    .data-table .card-body,
+    .page-content {
+        overflow: visible !important;
+    }
+    .custom-dropdown-wrap {
+        position: relative !important;
+    }
+
+    /* Custom Dropdown Menu */
+    .custom-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 6px);
+        right: 0 !important;
+        left: auto !important;
+        background: #ffffff;
+        border: 1.5px solid #E5D5F7;
+        border-radius: 12px;
+        padding: 6px;
+        box-shadow: 0 10px 25px -5px rgba(140, 86, 212, 0.25);
+        z-index: 10500 !important;
+        display: none;
+        min-width: 175px;
+    }
+    .custom-dropdown-wrap.open .custom-dropdown-menu {
+        display: block;
+    }
+    .custom-dropdown-item {
+        padding: 8px 14px;
+        font-size: 13.5px;
+        color: #334155;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+    }
+    .custom-dropdown-item:hover {
+        background: #F3ECFB;
+        color: #8C56D4;
+    }
+    .custom-dropdown-item.active {
+        background: #8C56D4;
+        color: #ffffff !important;
+    }
+    .custom-dropdown-divider {
+        height: 1px;
+        background-color: #E2E8F0;
+        margin: 4px 0;
+    }
+
+    /* Search Live Dropdown */
+    .search-live-dropdown {
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border: 1.5px solid #E5D5F7;
+        border-radius: 10px;
+        max-height: 280px;
+        overflow-y: auto;
+        z-index: 10600 !important;
+        margin-top: 4px;
+    }
+    .search-live-item {
+        padding: 9px 12px;
+        border-bottom: 1px solid #f1f5f9;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background 0.15s ease;
+    }
+    .search-live-item:hover {
+        background: #FAF7FD;
+    }
+    .search-live-item:last-child {
+        border-bottom: none;
+    }
+
+    /* Summary Strip */
+    .invoice-top-summary-strip {
+        border-radius: 6px !important;
+        border: 1px solid #f1f5f9 !important;
+        box-shadow: 0 4px 18px rgba(140, 86, 212, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    /* Metric Cards Grid */
+    .ledger-metric-card {
+        border-radius: 14px;
+        border: 1px solid #e2e8f0;
+        padding: 12px 14px;
+        transition: all 0.2s ease;
+    }
+
+    /* Mobile & Tablet Card Grid: Tab = 2 cards (col-md-6), Mobile = 1 card (col-12) */
+    .min-w-0 {
+        min-width: 0 !important;
+    }
+    .card-content-wrap {
+        min-width: 0 !important;
+        width: 100% !important;
+        flex: 1 1 0% !important;
+        overflow: hidden !important;
+    }
+    .card-title-row {
+        min-width: 0 !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 6px !important;
+        overflow: hidden !important;
+    }
+    .card-title-text {
+        min-width: 0 !important;
+        flex: 1 1 0% !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        display: block !important;
+    }
+    .card-badge-pill {
+        flex-shrink: 0 !important;
+        max-width: 110px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    #mobileCardList {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        align-items: flex-start !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+    }
+    #mobileCardList > .col-12 {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+    @media (min-width: 768px) and (max-width: 991.98px) {
+        #mobileCardList > .col-md-6 {
+            width: calc(50% - 4px) !important;
+            max-width: calc(50% - 4px) !important;
+            flex: 0 0 calc(50% - 4px) !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            min-width: 0 !important;
+            box-sizing: border-box !important;
+        }
+    }
+
+    .card-date-divider {
+        border-right: 1px solid #e2e8f0;
+        padding-right: 12px !important;
+        margin-right: 12px !important;
+        min-width: 56px;
+        flex-shrink: 0;
+    }
+    body[light-mode="dark"] .card-date-divider,
+    html[light-mode="dark"] .card-date-divider,
+    body.dark-mode .card-date-divider,
+    body[data-layout-mode="dark"] .card-date-divider,
+    [data-bs-theme="dark"] .card-date-divider {
+        border-color: #334155 !important;
+    }
+    .modal-top-amount-box {
+        background: #FAF7FD;
+        border: 1.5px solid #E5D5F7;
+        border-radius: 12px;
+        transition: all 0.2s ease;
+    }
+    body[light-mode="dark"] .modal-top-amount-box,
+    html[light-mode="dark"] .modal-top-amount-box,
+    body.dark-mode .modal-top-amount-box,
+    body[data-layout-mode="dark"] .modal-top-amount-box,
+    [data-bs-theme="dark"] .modal-top-amount-box {
+        background: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+    body[light-mode="dark"] .modal-top-amount-box h3,
+    body.dark-mode .modal-top-amount-box h3 {
+        color: #D2B7F1 !important;
+    }
+
+    /* Mobile Cards (< 992px) with 10px padding & no cramped text */
+    .invoice-mobile-card {
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 6px !important;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04) !important;
+        background: #ffffff;
+        padding: 10px !important;
+        transition: all 0.2s ease;
+        min-width: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+    .invoice-mobile-card:hover {
+        border-color: #8C56D4 !important;
+        box-shadow: 0 4px 12px rgba(140, 86, 212, 0.12) !important;
+    }
+
+    /* 1-Row Box Type Action Buttons: Full Width, 2 Equal Columns */
+    .mobile-card-actions {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        padding-top: 8px !important;
+        margin-top: 8px !important;
+        border-top: 1px solid #f1f5f9 !important;
+        width: 100% !important;
+    }
+    .mobile-action-btn {
+        flex: 1 1 0 !important;
+        width: 100% !important;
+        height: 32px !important;
+        border-radius: 6px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        font-size: 12.5px !important;
+        font-weight: 600 !important;
+        transition: all 0.2s ease-in-out !important;
+        cursor: pointer !important;
+        border: 1px solid transparent !important;
+        text-decoration: none !important;
+    }
+    .mobile-action-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    .mobile-action-btn.action-btn-print {
+        background: #F3ECFB !important;
+        color: #8C56D4 !important;
+        border-color: #E5D5F7 !important;
+    }
+    .mobile-action-btn.action-btn-print:hover {
+        background: #8C56D4 !important;
+        color: #ffffff !important;
+    }
+    .mobile-action-btn.action-btn-view {
+        background: #E0F2FE !important;
+        color: #0284C7 !important;
+        border-color: #BAE6FD !important;
+    }
+    .mobile-action-btn.action-btn-view:hover {
+        background: #0284C7 !important;
+        color: #ffffff !important;
+    }
+
+    /* Bottom Slide-up Modal Styling */
+    #customDateRangeModal .modal-dialog,
+    #personalDetailsModal .modal-dialog {
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    @media (max-width: 991.98px) {
+        #customDateRangeModal,
+        #personalDetailsModal {
+            padding: 10px !important;
+            z-index: 105050 !important;
+        }
+        #customDateRangeModal .modal-dialog,
+        #personalDetailsModal .modal-dialog {
+            position: fixed !important;
+            bottom: 10px !important;
+            left: 10px !important;
+            right: 10px !important;
+            margin: 0 auto !important;
+            width: calc(100% - 20px) !important;
+            max-width: calc(100% - 20px) !important;
+            transform: translateY(0) !important;
+        }
+        #customDateRangeModal .modal-content,
+        #personalDetailsModal .modal-content {
+            border-radius: 16px !important;
+            max-height: calc(90dvh - 20px) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+            width: 100% !important;
+        }
+        #personalDetailsBody {
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch;
+            max-height: calc(90dvh - 140px) !important;
+        }
+    }
+
+    .modal-header-purple {
+        background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%) !important;
+        padding: 14px 18px !important;
+        color: #ffffff !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 10 !important;
+    }
+    .btn-close-red {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        border-radius: 50% !important;
+        width: 30px !important;
+        height: 30px !important;
+        border: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 13px !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+    }
+    .btn-close-red:hover {
+        background: #dc2626 !important;
+        transform: rotate(90deg) scale(1.05);
+    }
+    .modal-sticky-footer {
+        position: sticky !important;
+        bottom: 0 !important;
+        z-index: 10 !important;
+        background: #ffffff !important;
+        border-top: 1px solid #e2e8f0 !important;
+        padding: 12px 16px !important;
+    }
+
+    /* Flatpickr Customization */
+    .flatpickr-calendar {
+        font-family: 'Noto Sans Bengali', 'Poppins', sans-serif !important;
+        border-radius: 12px !important;
+        box-shadow: 0 10px 30px rgba(140, 86, 212, 0.2) !important;
+        border: 1px solid #E5D5F7 !important;
+        z-index: 106000 !important;
+    }
+    .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange {
+        background: #8C56D4 !important;
+        border-color: #8C56D4 !important;
+    }
+
+    /* Dark Mode Overrides - matching Product List */
+    body[light-mode="dark"] .data-table > .card,
+    html[light-mode="dark"] .data-table > .card,
+    body[data-layout-mode="dark"] .data-table > .card,
+    body.dark-mode .data-table > .card,
+    [data-bs-theme="dark"] .data-table > .card {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+
+    body[light-mode="dark"] .invoice-card-header,
+    html[light-mode="dark"] .invoice-card-header,
+    body.dark-mode .invoice-card-header {
+        border-color: #334155 !important;
+    }
+
+    body[light-mode="dark"] .invoice-title-icon-box,
+    html[light-mode="dark"] .invoice-title-icon-box,
+    body.dark-mode .invoice-title-icon-box {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        color: #D2B7F1 !important;
+    }
+
+    body[light-mode="dark"] .invoice-main-heading,
+    html[light-mode="dark"] .invoice-main-heading,
+    body.dark-mode .invoice-main-heading {
+        color: #F3ECFB !important;
+    }
+
+    body[light-mode="dark"] .custom-flatpickr-input,
+    html[light-mode="dark"] .custom-flatpickr-input,
+    body[light-mode="dark"] .invoice-search-input,
+    html[light-mode="dark"] .invoice-search-input,
+    body[light-mode="dark"] .toolbar-control-btn,
+    html[light-mode="dark"] .toolbar-control-btn,
+    body[light-mode="dark"] .mobile-header-icon-btn,
+    html[light-mode="dark"] .mobile-header-icon-btn,
+    body.dark-mode .mobile-header-icon-btn,
+    body.dark-mode .toolbar-control-btn {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+        color: #F3ECFB !important;
+    }
+    body[light-mode="dark"] .mobile-header-icon-btn:hover,
+    body.dark-mode .mobile-header-icon-btn:hover {
+        background: #334155 !important;
+        border-color: #8C56D4 !important;
+    }
+
+    body[light-mode="dark"] .custom-dropdown-menu,
+    html[light-mode="dark"] .custom-dropdown-menu,
+    body[light-mode="dark"] .search-live-dropdown,
+    html[light-mode="dark"] .search-live-dropdown,
+    body.dark-mode .custom-dropdown-menu,
+    body.dark-mode .search-live-dropdown {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    body[light-mode="dark"] .custom-dropdown-item,
+    html[light-mode="dark"] .custom-dropdown-item,
+    body.dark-mode .custom-dropdown-item {
+        color: #cbd5e1 !important;
+    }
+    body[light-mode="dark"] .custom-dropdown-item:hover,
+    html[light-mode="dark"] .custom-dropdown-item:hover,
+    body.dark-mode .custom-dropdown-item:hover {
+        background: #334155 !important;
+        color: #D2B7F1 !important;
+    }
+    body[light-mode="dark"] .custom-dropdown-divider,
+    body.dark-mode .custom-dropdown-divider {
+        background-color: #334155 !important;
+    }
+
+    body[light-mode="dark"] .search-live-item,
+    html[light-mode="dark"] .search-live-item,
+    body.dark-mode .search-live-item {
+        border-bottom-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] .search-live-item:hover,
+    html[light-mode="dark"] .search-live-item:hover {
+        background: #334155 !important;
+    }
+
+    /* Dark Mode Banner Cards & Top Summary Strip - NO WHITE BG */
+    body[light-mode="dark"] .invoice-top-summary-strip,
+    html[light-mode="dark"] .invoice-top-summary-strip,
+    body[data-layout-mode="dark"] .invoice-top-summary-strip,
+    body.dark-mode .invoice-top-summary-strip,
+    [data-bs-theme="dark"] .invoice-top-summary-strip {
+        background: #1e293b !important;
+        background-color: #1e293b !important;
+        border: 1px solid #334155 !important;
+        box-shadow: none !important;
+        color: #f1f5f9 !important;
+    }
+    body[light-mode="dark"] .summary-divider-bar,
+    body.dark-mode .summary-divider-bar {
+        background-color: #334155 !important;
+    }
+
+    body[light-mode="dark"] .ledger-metric-card,
+    html[light-mode="dark"] .ledger-metric-card,
+    body[data-layout-mode="dark"] .ledger-metric-card,
+    body.dark-mode .ledger-metric-card,
+    [data-bs-theme="dark"] .ledger-metric-card {
+        background: #1e293b !important;
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+        border: 1px solid #334155 !important;
+        box-shadow: none !important;
+        color: #f1f5f9 !important;
+    }
+    body[light-mode="dark"] .ledger-metric-card .text-dark,
+    body.dark-mode .ledger-metric-card .text-dark {
+        color: #f1f5f9 !important;
+    }
+
+    /* Dark Mode Mobile Cards */
+    body[light-mode="dark"] .invoice-mobile-card,
+    html[light-mode="dark"] .invoice-mobile-card,
+    body[data-layout-mode="dark"] .invoice-mobile-card,
+    body.dark-mode .invoice-mobile-card,
+    [data-bs-theme="dark"] .invoice-mobile-card {
+        background: #1e293b !important;
+        background-color: #1e293b !important;
+        border: 1px solid #334155 !important;
+        border-color: #334155 !important;
+        box-shadow: none !important;
+        color: #f1f5f9 !important;
+    }
+    body[light-mode="dark"] .invoice-mobile-card .text-dark,
+    body.dark-mode .invoice-mobile-card .text-dark {
+        color: #F3ECFB !important;
+    }
+    body[light-mode="dark"] .invoice-mobile-card .text-muted,
+    body.dark-mode .invoice-mobile-card .text-muted,
+    body[light-mode="dark"] .invoice-mobile-card .text-secondary,
+    body.dark-mode .invoice-mobile-card .text-secondary {
+        color: #94a3b8 !important;
+    }
+    body[light-mode="dark"] .invoice-mobile-card .border-end,
+    body.dark-mode .invoice-mobile-card .border-end,
+    body[light-mode="dark"] .invoice-mobile-card .border-top,
+    body.dark-mode .invoice-mobile-card .border-top {
+        border-color: #334155 !important;
+    }
+
+    body[light-mode="dark"] .mobile-action-btn.action-btn-print,
+    body.dark-mode .mobile-action-btn.action-btn-print {
+        background: #2e1065 !important;
+        color: #D2B7F1 !important;
+        border-color: #581c87 !important;
+    }
+    body[light-mode="dark"] .mobile-action-btn.action-btn-print:hover,
+    body.dark-mode .mobile-action-btn.action-btn-print:hover {
+        background: #8C56D4 !important;
+        color: #ffffff !important;
+    }
+    body[light-mode="dark"] .mobile-action-btn.action-btn-view,
+    body.dark-mode .mobile-action-btn.action-btn-view {
+        background: #082f49 !important;
+        color: #7dd3fc !important;
+        border-color: #0369a1 !important;
+    }
+    body[light-mode="dark"] .mobile-action-btn.action-btn-view:hover,
+    body.dark-mode .mobile-action-btn.action-btn-view:hover {
+        background: #0284c7 !important;
+        color: #ffffff !important;
+    }
+
+    body[light-mode="dark"] .modal-content,
+    html[light-mode="dark"] .modal-content,
+    body.dark-mode .modal-content,
+    body[data-layout-mode="dark"] .modal-content {
+        background-color: #1e293b !important;
+        border: 1px solid #334155 !important;
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] .modal-sticky-footer,
+    html[light-mode="dark"] .modal-sticky-footer,
+    body.dark-mode .modal-sticky-footer {
+        background-color: #1e293b !important;
+        border-top: 1px solid #334155 !important;
+    }
+    .detail-info-item,
+    .detail-item-info {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        padding: 12px 16px !important;
+        border-radius: 8px !important;
+        min-height: 46px;
+    }
+    body[light-mode="dark"] .detail-info-item,
+    body.dark-mode .detail-info-item,
+    body[data-layout-mode="dark"] .detail-info-item,
+    [data-bs-theme="dark"] .detail-info-item,
+    body[light-mode="dark"] .detail-item-info,
+    body.dark-mode .detail-item-info,
+    body[data-layout-mode="dark"] .detail-item-info,
+    [data-bs-theme="dark"] .detail-item-info {
+        background: #0f172a !important;
+        border: 1px solid #334155 !important;
+        color: #f1f5f9 !important;
+    }
+
+    /* Dark Mode Borders & Dividers */
+    body[light-mode="dark"] .border,
+    html[light-mode="dark"] .border,
+    body.dark-mode .border,
+    body[data-layout-mode="dark"] .border,
+    [data-bs-theme="dark"] .border,
+    body[light-mode="dark"] .card,
+    html[light-mode="dark"] .card,
+    body.dark-mode .card,
+    body[data-layout-mode="dark"] .card,
+    [data-bs-theme="dark"] .card,
+    body[light-mode="dark"] .border-top,
+    html[light-mode="dark"] .border-top,
+    body.dark-mode .border-top,
+    body[data-layout-mode="dark"] .border-top,
+    [data-bs-theme="dark"] .border-top,
+    body[light-mode="dark"] .border-bottom,
+    html[light-mode="dark"] .border-bottom,
+    body.dark-mode .border-bottom,
+    body[data-layout-mode="dark"] .border-bottom,
+    [data-bs-theme="dark"] .border-bottom,
+    body[light-mode="dark"] .border-end,
+    html[light-mode="dark"] .border-end,
+    body.dark-mode .border-end,
+    body[data-layout-mode="dark"] .border-end,
+    [data-bs-theme="dark"] .border-end,
+    body[light-mode="dark"] .border-start,
+    html[light-mode="dark"] .border-start,
+    body.dark-mode .border-start,
+    body[data-layout-mode="dark"] .border-start,
+    [data-bs-theme="dark"] .border-start,
+    body[light-mode="dark"] .table-bordered,
+    html[light-mode="dark"] .table-bordered,
+    body.dark-mode .table-bordered,
+    body[data-layout-mode="dark"] .table-bordered,
+    [data-bs-theme="dark"] .table-bordered,
+    body[light-mode="dark"] footer.footer,
+    html[light-mode="dark"] footer.footer,
+    body.dark-mode footer.footer,
+    body[data-layout-mode="dark"] footer.footer,
+    [data-bs-theme="dark"] footer.footer {
+        border-color: #334155 !important;
+        --bs-border-color: #334155 !important;
+    }
+
+    body[light-mode="dark"] #display-info,
+    body.dark-mode #display-info {
+        color: #94a3b8 !important;
+    }
+
+    body[light-mode="dark"] #printTable,
+    html[light-mode="dark"] #printTable,
+    body.dark-mode #printTable,
+    body[data-layout-mode="dark"] #printTable,
+    [data-bs-theme="dark"] #printTable,
+    body[light-mode="dark"] #printTable th,
+    body.dark-mode #printTable th,
+    body[light-mode="dark"] #printTable td,
+    body.dark-mode #printTable td {
+        border-color: #334155 !important;
+        --bs-table-border-color: #334155 !important;
+        --bs-table-bg: #1e293b !important;
+        color: #f1f5f9 !important;
+    }
+
+    body[light-mode="dark"] #printTable thead,
+    html[light-mode="dark"] #printTable thead,
+    body.dark-mode #printTable thead,
+    body[light-mode="dark"] #printTable thead th,
+    body.dark-mode #printTable thead th,
+    body[light-mode="dark"] #printTable tfoot,
+    html[light-mode="dark"] #printTable tfoot,
+    body.dark-mode #printTable tfoot,
+    body[light-mode="dark"] #printTable tfoot td,
+    body.dark-mode #printTable tfoot td {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #cbd5e1 !important;
+        --bs-table-bg: #0f172a !important;
+        --bs-table-border-color: #334155 !important;
+    }
+
+    body[light-mode="dark"] #printTable tbody tr:hover,
+    body.dark-mode #printTable tbody tr:hover {
+        background-color: rgba(140, 86, 212, 0.08) !important;
+        --bs-table-hover-bg: rgba(140, 86, 212, 0.08) !important;
+    }
+
+    body[light-mode="dark"] .flatpickr-calendar,
+    html[light-mode="dark"] .flatpickr-calendar {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    body[light-mode="dark"] .flatpickr-day,
+    html[light-mode="dark"] .flatpickr-day {
+        color: #f8fafc !important;
+    }
+
+    @media (max-width: 991.98px) {
+        .page-content {
+            background-color: #ffffff !important;
+        }
+        body[light-mode="dark"] .page-content,
+        html[light-mode="dark"] .page-content,
+        body.dark-mode .page-content {
+            background-color: #0f172a !important;
+        }
+        .data-table .card {
+            border: 0 !important;
+            border-color: transparent !important;
+            box-shadow: none !important;
+        }
+        .data-table .card-body {
+            padding: 8px !important;
+            border-radius: 0 !important;
+        }
+    }
+</style>
+
+<div class="main-content">
+    <div class="page-content" style="padding: 0px !important;">
+        <div class="data-table">
+            <div class="card border-0">
+                <div class="card-body p-3 p-lg-4">
+
+                    <!-- 1. Header: Mobile/Tab (Title left, Search & Filter icons right) | Desktop (Icon box + Title) -->
+                    <div class="invoice-card-header mb-3 pb-2 border-bottom d-flex align-items-center justify-content-between no-print">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="invoice-title-icon-box rounded-3 d-none d-lg-flex align-items-center justify-content-center">
+                                <i class="fa-solid fa-user-tag fs-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="invoice-main-heading m-0 p-0 fw-bold">ব্যক্তিগত লেনদেন রিপোর্ট তালিকা</h4>
+                            </div>
+                        </div>
+
+                        <!-- Mobile & Tab Action Buttons (Search, Print, Filter) -->
+                        <div class="d-flex align-items-center gap-2 d-lg-none">
+                            <button type="button" id="mobileSearchToggleBtn" class="mobile-header-icon-btn" onclick="toggleMobileSearchBar()" title="অনুসন্ধান">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+
+                            <button type="button" id="mobileTablePrintBtn" class="mobile-header-icon-btn" onclick="printFullReportTable()" title="সম্পূর্ণ রিপোর্ট প্রিন্ট">
+                                <i class="fa-solid fa-print"></i>
+                            </button>
+
+                            <div class="custom-dropdown-wrap position-relative" id="mobileFilterDropdownContainer">
+                                <button type="button" class="mobile-header-icon-btn" id="mobileFilterDropdownToggle" onclick="toggleCustomDropdown('mobileFilterDropdownMenu')" title="ফিল্টার">
+                                    <i class="fa-solid fa-filter"></i>
+                                </button>
+                                <div class="custom-dropdown-menu end-0 shadow-lg" id="mobileFilterDropdownMenu" style="min-width: 175px;">
+                                    <a href="#" class="custom-dropdown-item active" data-filter="all" onclick="selectFilterOption('all', 'সব সময়', event)">সব সময়</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="today" onclick="selectFilterOption('today', 'আজকের', event)">আজকের</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="yesterday" onclick="selectFilterOption('yesterday', 'গতকাল', event)">গতকাল</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="7" onclick="selectFilterOption('7', 'গত ৭ দিন', event)">গত ৭ দিন</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="30" onclick="selectFilterOption('30', 'গত ৩০ দিন', event)">গত ৩০ দিন</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="365" onclick="selectFilterOption('365', 'গত বছর', event)">গত বছর</a>
+                                    <div class="custom-dropdown-divider"></div>
+                                    <a href="#" class="custom-dropdown-item d-flex align-items-center justify-content-center fw-bold" onclick="openCustomDateModal(event)" style="color: #8C56D4 !important;">
+                                        <i class="fa-regular fa-calendar-days me-2"></i>
+                                        <span>তারিখ</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Expandable Search Bar -->
+                    <div id="mobileSearchWrap" class="mb-3 d-none position-relative no-print">
+                        <div class="d-flex align-items-center gap-2 mb-0">
+                            <div class="position-relative flex-grow-1 mb-0">
+                                <input type="text" id="mobileSearchInput" class="form-control invoice-search-input mb-0" placeholder="ইনভেস্টর বা খরচের খাত খুঁজুন..." autocomplete="off" />
+                                <div id="mobileSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
+                            </div>
+                            <button type="button" class="mobile-search-close-btn mb-0" onclick="closeMobileSearchBar()" title="বন্ধ করুন">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Date Section (Desktop only >= 992px) -->
+                    <div class="invoice-date-section mb-3 d-none d-lg-block no-print">
+                        <div class="invoice-date-grid mb-2.5" style="display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 10px !important;">
+                            <div class="date-field-col" style="min-width: 0;">
+                                <label for="startDate" class="form-label mb-1 fw-semibold text-slate-700" style="font-size: 13px;">শুরুর তারিখ *</label>
+                                <div class="custom-date-input-wrap position-relative">
+                                    <input type="text" id="startDate" name="startDate" class="custom-flatpickr-input form-control w-100 text-start" placeholder="DD/MM/YYYY" readonly autocomplete="off" />
+                                    <span class="calendar-addon-btn" onclick="openDatePicker('startDate')">
+                                        <i class="fa-regular fa-calendar-days"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="date-field-col" style="min-width: 0;">
+                                <label for="endDate" class="form-label mb-1 fw-semibold text-slate-700" style="font-size: 13px;">শেষের তারিখ *</label>
+                                <div class="custom-date-input-wrap position-relative">
+                                    <input type="text" id="endDate" name="endDate" class="custom-flatpickr-input form-control w-100 text-start" placeholder="DD/MM/YYYY" readonly autocomplete="off" />
+                                    <span class="calendar-addon-btn" onclick="openDatePicker('endDate')">
+                                        <i class="fa-regular fa-calendar-days"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Search Button -->
+                        <button type="button" class="invoice-search-submit-btn w-100 fw-bold d-flex align-items-center justify-content-center gap-2" onclick="fetchPersonalTransactionReport()">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <span>অনুসন্ধান করুন</span>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Search Box -->
+                    <div class="invoice-search-box-wrap mb-3 position-relative d-none d-lg-block no-print">
+                        <input type="text" id="searchInput" class="form-control invoice-search-input" placeholder="ইনভেস্টর বা খরচের খাত দিয়ে খুঁজুন..." autocomplete="off" />
+                        <i class="fa-solid fa-magnifying-glass invoice-search-addon-icon"></i>
+                        <div id="desktopSearchDropdown" class="search-live-dropdown shadow-lg rounded-3 d-none position-absolute w-100 start-0"></div>
+                    </div>
+
+                    <!-- 3. Toolbar Section (Desktop only >= 992px) -->
+                    <div class="invoice-toolbar-section mb-3 d-none d-lg-flex flex-column gap-3 no-print">
+                        <div class="toolbar-row-1 d-flex align-items-center justify-content-between gap-2 w-100 mb-1">
+                            <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                                <span class="fw-semibold text-slate-700 small" style="font-size: 13.5px; white-space: nowrap;">এন্ট্রি:</span>
+                                <div class="custom-dropdown-wrap position-relative" id="entriesDropdownContainer" style="width: auto !important;">
+                                    <button type="button" class="toolbar-control-btn d-inline-flex align-items-center justify-content-between px-3 gap-2" id="entriesDropdownToggle" onclick="toggleCustomDropdown('entriesDropdownMenu')" style="width: auto !important; min-width: 80px;">
+                                        <span id="currentEntriesText" class="fw-bold">১৫</span>
+                                        <i class="fa-solid fa-chevron-down dropdown-arrow-icon"></i>
+                                    </button>
+                                    <input type="hidden" id="entries" value="15">
+                                    <div class="custom-dropdown-menu" id="entriesDropdownMenu">
+                                        <div class="custom-dropdown-item" onclick="selectEntriesOption(5, '৫')">৫ টি</div>
+                                        <div class="custom-dropdown-item" onclick="selectEntriesOption(10, '১০')">১০ টি</div>
+                                        <div class="custom-dropdown-item active" onclick="selectEntriesOption(15, '১৫')">১৫ টি</div>
+                                        <div class="custom-dropdown-item" onclick="selectEntriesOption(25, '২৫')">২৫ টি</div>
+                                        <div class="custom-dropdown-item" onclick="selectEntriesOption(50, '৫০')">৫০ টি</div>
+                                        <div class="custom-dropdown-item" onclick="selectEntriesOption(100, '১০০')">১০০ টি</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="custom-dropdown-wrap position-relative flex-grow-1" id="filterDropdownContainer" style="max-width: 220px;">
+                                <button type="button" class="toolbar-control-btn w-100 d-flex align-items-center justify-content-between px-3" id="filterDropdownToggle" onclick="toggleCustomDropdown('filterDropdownMenu')">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-filter me-2" style="color: #8C56D4; font-size: 13px;"></i>
+                                        <span id="currentFilterText" class="fw-bold fs-7 text-truncate">ফিল্টার</span>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-down dropdown-arrow-icon ms-1"></i>
+                                </button>
+                                <div class="custom-dropdown-menu end-0" id="filterDropdownMenu">
+                                    <a href="#" class="custom-dropdown-item active" data-filter="all" onclick="selectFilterOption('all', 'সব সময়', event)">সব সময়</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="today" onclick="selectFilterOption('today', 'আজকের', event)">আজকের</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="yesterday" onclick="selectFilterOption('yesterday', 'গতকাল', event)">গতকাল</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="7" onclick="selectFilterOption('7', 'গত ৭ দিন', event)">গত ৭ দিন</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="30" onclick="selectFilterOption('30', 'গত ৩০ দিন', event)">গত ৩০ দিন</a>
+                                    <a href="#" class="custom-dropdown-item" data-filter="365" onclick="selectFilterOption('365', 'গত বছর', event)">গত বছর</a>
+                                    <div class="custom-dropdown-divider"></div>
+                                    <a href="#" class="custom-dropdown-item d-flex align-items-center justify-content-center fw-bold" onclick="openCustomDateModal(event)" style="color: #8C56D4 !important;">
+                                        <i class="fa-regular fa-calendar-days me-2"></i>
+                                        <span>তারিখ</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="toolbar-row-2 w-100" style="display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 10px !important;">
+                            <button type="button" id="pdfBtn" onclick="exportPersonalPDF()" class="toolbar-control-btn w-100 d-flex align-items-center justify-content-center px-3" title="PDF ডাউনলোড করুন">
+                                <i class="fa-solid fa-file-pdf text-danger me-2" style="font-size: 15px;"></i>
+                                <span class="fw-bold fs-7">PDF</span>
+                            </button>
+                            <button type="button" id="printBtn" onclick="printFullReportTable()" class="toolbar-control-btn w-100 d-flex align-items-center justify-content-center px-3" title="প্রিন্ট করুন">
+                                <i class="fa-solid fa-print me-2" style="color: #8C56D4; font-size: 15px;"></i>
+                                <span class="fw-bold fs-7">প্রিন্ট</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Top Dynamic Summary Strip (1 Row, 6px radius) -->
+                    <div class="invoice-top-summary-strip mb-3 p-2.5 px-3 bg-white" style="border-radius: 6px !important; border: none !important; box-shadow: 0 4px 18px rgba(140, 86, 212, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex flex-column text-start ps-1 flex-grow-1">
+                                <span class="text-muted small fw-medium" style="font-size: 12px;">মোট লেনদেন</span>
+                                <span class="fw-bold" id="topSummaryTotalCount" style="font-size: 15.5px; color: #8C56D4; font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;">০ টি</span>
+                            </div>
+                            <div class="summary-divider-bar" style="width: 1.5px; height: 32px; background-color: #E5D5F7; flex-shrink: 0; margin: 0 16px;"></div>
+                            <div class="d-flex flex-column text-end pe-1 flex-grow-1">
+                                <span class="text-muted small fw-medium" style="font-size: 12px;">নিট ব্যালেন্স</span>
+                                <span class="fw-bold" id="topSummaryTotalAmount" style="font-size: 15.5px; color: #8C56D4; font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;">৳ ০.০০</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4 Financial Summary Cards Grid -->
+                    <div class="row g-2 g-md-3 mb-3 no-print">
+                        <div class="col-6 col-md-3">
+                            <div class="ledger-metric-card h-100" style="background: #f0fdf4; border-left: 4px solid #16a34a !important;">
+                                <span class="text-muted small fw-bold d-block mb-1" style="font-size: 11px;">মোট বিনিয়োগ</span>
+                                <h4 id="summaryInvestAmount" class="fw-bold text-success mb-0" style="font-size: 15px;">৳ ০.০০</h4>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="ledger-metric-card h-100" style="background: #fef2f2; border-left: 4px solid #ef4444 !important;">
+                                <span class="text-muted small fw-bold d-block mb-1" style="font-size: 11px;">ব্যক্তিগত খরচ</span>
+                                <h4 id="summaryExpenseAmount" class="fw-bold text-danger mb-0" style="font-size: 15px;">৳ ০.০০</h4>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="ledger-metric-card h-100" style="background: #f0f9ff; border-left: 4px solid #0284c7 !important;">
+                                <span class="text-muted small fw-bold d-block mb-1" style="font-size: 11px;">অবশিষ্ট ব্যালেন্স</span>
+                                <h4 id="summaryBalanceAmount" class="fw-bold text-primary mb-0" style="font-size: 15px;">৳ ০.০০</h4>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="ledger-metric-card h-100" style="background: #f5f3ff; border-left: 4px solid #8C56D4 !important;">
+                                <span class="text-muted small fw-bold d-block mb-1" style="font-size: 11px;">মোট রেকর্ড</span>
+                                <h4 id="summaryTotalCount" class="fw-bold mb-0" style="font-size: 15px; color: #8C56D4;">০ টি</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PRINTABLE CONTAINER START -->
+                    <div id="printableArea">
+                        <!-- Table View (Desktop screens >= 992px) -->
+                        <div class="table-responsive d-none d-lg-block mb-3">
+                            <table id="printTable" class="table table-bordered table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="text-center" style="width: 55px;">ক্রমিক</th>
+                                        <th class="text-start" style="width: 130px;">তারিখ</th>
+                                        <th class="text-start">ব্যক্তিগত খরচের খাত</th>
+                                        <th class="text-end text-danger" style="width: 140px;">ব্যক্তিগত খরচ</th>
+                                        <th class="text-start">বিনিয়োগকারীর নাম</th>
+                                        <th class="text-end text-success" style="width: 150px;">বিনিয়োগের পরিমাণ</th>
+                                        <th class="text-end" style="width: 140px;">অবশিষ্ট ব্যালেন্স</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td colspan="7" class="text-center py-4 text-muted">ডাটা লোড হচ্ছে...</td></tr>
+                                </tbody>
+                                <tfoot class="table-light fw-bold border-top">
+                                    <tr>
+                                        <td colspan="3" class="text-end ps-4">সর্বমোট:</td>
+                                        <td class="text-end text-danger" id="totalExpenseAmount">৳ ০.০০</td>
+                                        <td></td>
+                                        <td class="text-end text-success" id="totalInvestAmount">৳ ০.০০</td>
+                                        <td class="text-end text-primary" id="totalMainBalance">৳ ০.০০</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <!-- Mobile & Tablet Responsive Card List View (< 992px) -->
+                        <div id="mobileCardList" class="d-flex flex-wrap d-lg-none mb-3 align-items-start no-print" style="gap: 8px !important;"></div>
+                    </div>
+                    <!-- PRINTABLE CONTAINER END -->
+
+                    <!-- Smart Pagination & Display Info Footer -->
+                    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between pt-3 mt-3 border-top gap-2 no-print">
+                        <div class="text-muted small fw-medium" id="display-info" style="font-size: 13px;">
+                            মোট ০ টির মধ্যে ০ - ০ টি রেকর্ড প্রদর্শিত হচ্ছে
+                        </div>
+                        <div id="pagination" class="d-flex align-items-center gap-1.5 flex-wrap justify-content-center"></div>
+                    </div>
+
                 </div>
             </div>
-            <div class="data-table">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="date-wrapper mb-3">
+        </div>
 
-                            <div class="item mb-2">
-                                <div class="form-row w-100">
-                                    <label for="title">Start Date *</label> <br>
-                                    <input type="date" id="startDate" name="dateInput">
-                                </div>
-                            </div>
-
-                            <div class="item mb-2">
-                                <div class="form-row w-100">
-                                    <label for="title">Start Date *</label> <br>
-                                    <input type="date" id="endDate" name="dateInput">
-                                </div>
-                            </div>
-
-                            <button class="search-btn"id="searchBtn"
-                                onclick="fetchpersonaltransactionReport()">Search</button>
-
+        <!-- Custom Date Range Filter Modal -->
+        <div class="modal fade" id="customDateRangeModal" tabindex="-1" aria-labelledby="customDateRangeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" style="max-width: 440px;">
+                <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                    <div class="modal-header-purple d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-regular fa-calendar-days fs-6"></i>
+                            <h6 class="modal-title fw-bold m-0" id="customDateRangeModalLabel" style="font-size: 15px;">তারিখ অনুযায়ী ফিল্টার</h6>
                         </div>
-                        <!-- Action Buttons -->
-                        <div class="button-wrapper mb-3">
-                            <!-- Search and Filter -->
-                            <div class="d-flex">
-                                <div class="input-group">
-                                    <input type="text" id="searchInput" class="form-control"
-                                        placeholder="Searching Invoice..." />
-                                    <!-- Entries per page -->
-                                    <div
-                                        style="
-                          display: flex;
-                          align-items: center;
-                          gap: 10px;
-                          justify-content: center;
-                        ">
-                                        <div class="entries-page">
-                                            <label for="entries" class="mr-2">Entries:</label>
-                                            <div class="select-container">
-                                                <select id="entries" class="form-control" style="width: auto">
-                                                    <option value="5">5</option>
-                                                    <option value="10">10</option>
-                                                    <option value="25">25</option>
-                                                    <option value="50">50</option>
-                                                    <option value="100">100</option>
-                                                </select>
-                                                <span class="dropdown-icon">&#9662;</span>
-                                                <!-- Dropdown icon -->
-                                            </div>
-                                        </div>
+                        <button type="button" class="btn-close-red" data-bs-dismiss="modal" aria-label="Close" onclick="closeCustomDateModal()">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body p-3">
+                        <form id="mobileCustomDateForm" onsubmit="applyMobileCustomDateFilter(event)">
+                            <div class="row g-2">
+                                <div class="col-12 col-md-6 mb-2.5">
+                                    <label for="mobileStartDate" class="form-label mb-1 fw-semibold text-slate-700" style="font-size: 13px;">শুরুর তারিখ *</label>
+                                    <div class="custom-date-input-wrap position-relative">
+                                        <input type="text" id="mobileStartDate" name="mobileStartDate" class="custom-flatpickr-input form-control w-100 text-start" placeholder="DD/MM/YYYY" readonly autocomplete="off" />
+                                        <span class="calendar-addon-btn" onclick="openMobileDatePicker('mobileStartDate')">
+                                            <i class="fa-regular fa-calendar-days"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="mobileEndDate" class="form-label mb-1 fw-semibold text-slate-700" style="font-size: 13px;">শেষের তারিখ *</label>
+                                    <div class="custom-date-input-wrap position-relative">
+                                        <input type="text" id="mobileEndDate" name="mobileEndDate" class="custom-flatpickr-input form-control w-100 text-start" placeholder="DD/MM/YYYY" readonly autocomplete="off" />
+                                        <span class="calendar-addon-btn" onclick="openMobileDatePicker('mobileEndDate')">
+                                            <i class="fa-regular fa-calendar-days"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-sticky-footer d-flex align-items-center gap-2 px-0 pt-3 pb-0">
+                                <button type="button" class="btn btn-outline-danger fw-bold d-flex align-items-center justify-content-center gap-1.5 px-3" style="height: 42px; border-radius: 10px; font-size: 14px; min-width: 90px;" onclick="resetDateFilter()" title="রিসেট করুন">
+                                    <span>রিসেট</span>
+                                </button>
+                                <button type="submit" class="invoice-search-submit-btn flex-grow-1 fw-bold d-flex align-items-center justify-content-center gap-2" style="height: 42px;">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <span>অনুসন্ধান করুন</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                        <div class="input-group-append">
-                                            <div class="dropdown-custom">
-                                                <button class="dropdown-button">
-                                                    <svg width="32" height="32" viewBox="0 0 39 38" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <rect y="1" width="25" height="3" rx="1.5"
-                                                            fill="#192045" />
-                                                        <rect y="11" width="25" height="3" rx="1.5"
-                                                            fill="#192045" />
-                                                        <rect y="21" width="25" height="3" rx="1.5"
-                                                            fill="#192045" />
-                                                        <path
-                                                            d="M32 1C32 0.447715 31.5523 -2.41411e-08 31 0C30.4477 2.41411e-08 30 0.447715 30 1L32 1ZM30.2929 37.7071C30.6834 38.0976 31.3166 38.0976 31.7071 37.7071L38.0711 31.3431C38.4616 30.9526 38.4616 30.3195 38.0711 29.9289C37.6805 29.5384 37.0474 29.5384 36.6569 29.9289L31 35.5858L25.3431 29.9289C24.9526 29.5384 24.3195 29.5384 23.9289 29.9289C23.5384 30.3195 23.5384 30.9526 23.9289 31.3431L30.2929 37.7071ZM30 1L30 37L32 37L32 1L30 1Z"
-                                                            fill="#192045" />
-                                                    </svg>
-                                                    <span>Filter</span>
-                                                </button>
-                                                <div class="dropdown-menus">
-                                                    <a href="#" data-filter="all">All time</a>
-                                                    <a href="#" data-filter="today">Today</a>
-                                                    <a href="#" data-filter="7">Last 7 Days</a>
-                                                    <a href="#" data-filter="30">Last Month</a>
-                                                    <a href="#" data-filter="365">Last Year</a>
-                                                </div>
-                                            </div>
+        <!-- Personal Transaction Details Modal (Sticky header & footer, scrollable body) -->
+        <div class="modal fade" id="personalDetailsModal" tabindex="-1" aria-labelledby="personalDetailsModalLabel" aria-hidden="true" style="z-index: 10600;">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 480px;">
+                <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                    <div class="modal-header-purple d-flex align-items-center justify-content-between flex-shrink-0">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-user-tag fs-6 text-white"></i>
+                            <h6 class="modal-title fw-bold m-0 text-white" id="personalDetailsModalLabel" style="font-size: 15px;">ব্যক্তিগত লেনদেনের বিবরণ</h6>
+                        </div>
+                        <button type="button" class="btn-close-red" data-bs-dismiss="modal" aria-label="Close" title="বন্ধ করুন">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body p-3 overflow-y-auto" style="max-height: calc(85vh - 120px);" id="personalDetailsBody">
+                        <!-- Filled dynamically -->
+                    </div>
+                    <div class="modal-sticky-footer d-flex align-items-center justify-content-between gap-2 flex-shrink-0">
+                        <button type="button" class="btn btn-outline-danger fw-bold px-3 py-2" data-bs-dismiss="modal" style="height: 38px; border-radius: 6px; font-size: 13px;">
+                            <i class="fa-solid fa-xmark me-1"></i> বন্ধ করুন
+                        </button>
+                        <button type="button" id="personalDetailModalPrintBtn" class="btn text-white fw-bold px-3 py-2 d-inline-flex align-items-center gap-1.5" style="height: 38px; border-radius: 6px; background: linear-gradient(135deg, #8C56D4 0%, #793FC5 100%); font-size: 13px; border: none;">
+                            <i class="fa-solid fa-print"></i> স্লিপ প্রিন্ট করুন
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright no-print">
+            <footer class="footer text-center py-3 mt-4 text-muted small border-top">&copy; {{ date('Y') }} মেসার্স আনিস ষ্টোর | Software By: <a href="https://www.codenextit.com" target="_blank" class="fw-bold text-decoration-none" style="color: #8C56D4 !important;">CodeNext IT</a></footer>
+        </div>
+    </div>
+</div>
+
+<script>
+    function engToBanglaNum(input) {
+        if (input === null || input === undefined) return '';
+        const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        return input.toString().replace(/[0-9]/g, w => bnDigits[+w]);
+    }
+
+    function banglaToEngNum(input) {
+        if (!input) return '';
+        const bnDigits = {'০':'0', '১':'1', '২':'2', '৩':'3', '৪':'4', '৫':'5', '৬':'6', '৭':'7', '৮':'8', '৯':'9'};
+        return input.toString().replace(/[০-৯]/g, w => bnDigits[w]);
+    }
+
+    function formatMoneyBn(amount) {
+        if (amount === null || isNaN(amount)) return "০.০০";
+        let formatted = parseFloat(amount).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        return engToBanglaNum(formatted);
+    }
+
+    let rawMergedRows = [];
+    let filteredMergedRows = [];
+    let currentPage = 1;
+    let itemsPerPage = 15;
+    let activeFilter = 'all';
+
+    let startDatePicker = null;
+    let endDatePicker = null;
+    let mobileStartDatePicker = null;
+    let mobileEndDatePicker = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        initFlatpickrCalendars();
+        setupDropdownHandlers();
+        setupSearchListeners();
+
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const defaultDateStr = `${dd}-${mm}-${yyyy}`;
+
+        if (startDatePicker) startDatePicker.setDate(defaultDateStr, false);
+        if (endDatePicker) endDatePicker.setDate(defaultDateStr, false);
+        if (mobileStartDatePicker) mobileStartDatePicker.setDate(defaultDateStr, false);
+        if (mobileEndDatePicker) mobileEndDatePicker.setDate(defaultDateStr, false);
+
+        fetchPersonalTransactionReport();
+    });
+
+    function initFlatpickrCalendars() {
+        const flatpickrConfig = {
+            dateFormat: "d-m-Y",
+            allowInput: false,
+            disableMobile: true,
+            monthSelectorType: "static",
+            prevArrow: '<i class="fa-solid fa-chevron-left" style="color:#8C56D4;"></i>',
+            nextArrow: '<i class="fa-solid fa-chevron-right" style="color:#8C56D4;"></i>',
+        };
+
+        startDatePicker = flatpickr("#startDate", flatpickrConfig);
+        endDatePicker = flatpickr("#endDate", flatpickrConfig);
+        mobileStartDatePicker = flatpickr("#mobileStartDate", flatpickrConfig);
+        mobileEndDatePicker = flatpickr("#mobileEndDate", flatpickrConfig);
+    }
+
+    function openDatePicker(id) {
+        if (id === 'startDate' && startDatePicker) startDatePicker.open();
+        if (id === 'endDate' && endDatePicker) endDatePicker.open();
+    }
+    function openMobileDatePicker(id) {
+        if (id === 'mobileStartDate' && mobileStartDatePicker) mobileStartDatePicker.open();
+        if (id === 'mobileEndDate' && mobileEndDatePicker) mobileEndDatePicker.open();
+    }
+
+    function toggleCustomDropdown(menuId) {
+        const wrap = $("#" + menuId).closest(".custom-dropdown-wrap");
+        const isOpen = wrap.hasClass("open");
+        $(".custom-dropdown-wrap").removeClass("open");
+        if (!isOpen) wrap.addClass("open");
+    }
+
+    function setupDropdownHandlers() {
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest(".custom-dropdown-wrap").length) {
+                $(".custom-dropdown-wrap").removeClass("open");
+            }
+            if (!$(e.target).closest("#mobileSearchWrap, #mobileSearchToggleBtn, .invoice-search-box-wrap").length) {
+                $(".search-live-dropdown").addClass("d-none").empty();
+            }
+        });
+    }
+
+    function toggleMobileSearchBar() {
+        const wrap = $("#mobileSearchWrap");
+        if (wrap.hasClass("d-none")) {
+            wrap.removeClass("d-none");
+            $("#mobileSearchInput").focus();
+        } else {
+            closeMobileSearchBar();
+        }
+    }
+
+    function closeMobileSearchBar() {
+        $("#mobileSearchWrap").addClass("d-none");
+        $("#mobileSearchInput").val("");
+        $("#mobileSearchDropdown").addClass("d-none").empty();
+        applyClientFilter("");
+    }
+
+    function selectEntriesOption(val, label) {
+        itemsPerPage = parseInt(val);
+        $("#currentEntriesText").text(label);
+        $("#entries").val(val);
+        $("#entriesDropdownMenu .custom-dropdown-item").removeClass("active");
+        $(`#entriesDropdownMenu .custom-dropdown-item:contains('${label}')`).addClass("active");
+        $(".custom-dropdown-wrap").removeClass("open");
+        currentPage = 1;
+        renderPaginatedView();
+    }
+
+    function selectFilterOption(type, label, e) {
+        if (e) e.preventDefault();
+        activeFilter = type;
+        $("#currentFilterText").text(label);
+        $(".custom-dropdown-wrap").removeClass("open");
+
+        $(".custom-dropdown-menu a[data-filter]").removeClass("active");
+        $(`.custom-dropdown-menu a[data-filter='${type}']`).addClass("active");
+
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const todayStr = `${dd}-${mm}-${yyyy}`;
+
+        if (type === 'all') {
+            const firstOfYear = `01-01-${yyyy}`;
+            setDates(firstOfYear, todayStr);
+        } else if (type === 'today') {
+            setDates(todayStr, todayStr);
+        } else if (type === 'yesterday') {
+            const yest = new Date(today);
+            yest.setDate(today.getDate() - 1);
+            const yDd = String(yest.getDate()).padStart(2, '0');
+            const yMm = String(yest.getMonth() + 1).padStart(2, '0');
+            const yStr = `${yDd}-${yMm}-${yest.getFullYear()}`;
+            setDates(yStr, yStr);
+        } else if (type === '7') {
+            const d7 = new Date(today);
+            d7.setDate(today.getDate() - 6);
+            const d7Str = `${String(d7.getDate()).padStart(2, '0')}-${String(d7.getMonth() + 1).padStart(2, '0')}-${d7.getFullYear()}`;
+            setDates(d7Str, todayStr);
+        } else if (type === '30') {
+            const d30 = new Date(today);
+            d30.setDate(today.getDate() - 29);
+            const d30Str = `${String(d30.getDate()).padStart(2, '0')}-${String(d30.getMonth() + 1).padStart(2, '0')}-${d30.getFullYear()}`;
+            setDates(d30Str, todayStr);
+        } else if (type === '365') {
+            const d365 = new Date(today);
+            d365.setDate(today.getDate() - 364);
+            const d365Str = `${String(d365.getDate()).padStart(2, '0')}-${String(d365.getMonth() + 1).padStart(2, '0')}-${d365.getFullYear()}`;
+            setDates(d365Str, todayStr);
+        }
+        fetchPersonalTransactionReport();
+    }
+
+    function setDates(startStr, endStr) {
+        if (startDatePicker) startDatePicker.setDate(startStr, false);
+        if (endDatePicker) endDatePicker.setDate(endStr, false);
+        if (mobileStartDatePicker) mobileStartDatePicker.setDate(startStr, false);
+        if (mobileEndDatePicker) mobileEndDatePicker.setDate(endStr, false);
+    }
+
+    function openCustomDateModal(e) {
+        if (e) e.preventDefault();
+        $(".custom-dropdown-wrap").removeClass("open");
+        const modal = new bootstrap.Modal(document.getElementById('customDateRangeModal'));
+        modal.show();
+    }
+
+    function closeCustomDateModal() {
+        const modalEl = document.getElementById('customDateRangeModal');
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        if (modal) modal.hide();
+    }
+
+    function resetDateFilter() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const todayStr = `${dd}-${mm}-${yyyy}`;
+        setDates(todayStr, todayStr);
+        closeCustomDateModal();
+        selectFilterOption('today', 'আজকের');
+    }
+
+    function applyMobileCustomDateFilter(e) {
+        e.preventDefault();
+        const sVal = $("#mobileStartDate").val();
+        const eVal = $("#mobileEndDate").val();
+        if (startDatePicker) startDatePicker.setDate(sVal, false);
+        if (endDatePicker) endDatePicker.setDate(eVal, false);
+        closeCustomDateModal();
+        $("#currentFilterText").text("তারিখ");
+        fetchPersonalTransactionReport();
+    }
+
+    function toApiDate(dmyStr) {
+        if (!dmyStr) return '';
+        const parts = dmyStr.split('-');
+        if (parts.length === 3) return `${parts[2]}-${parts[1]}-${parts[0]}`;
+        return dmyStr;
+    }
+
+    function setupSearchListeners() {
+        $("#searchInput, #mobileSearchInput").on("keyup search input focus", function () {
+            let val = $(this).val();
+            $("#searchInput").val(val);
+            $("#mobileSearchInput").val(val);
+            handleLiveSearch(val);
+            applyClientFilter(val);
+        });
+    }
+
+    function handleLiveSearch(term) {
+        let clean = (term || "").toLowerCase().trim();
+        renderLiveDropdown("desktopSearchDropdown", clean);
+        renderLiveDropdown("mobileSearchDropdown", clean);
+    }
+
+    function renderLiveDropdown(containerId, clean) {
+        const dropdown = $("#" + containerId);
+        if (!clean || clean.length === 0 || !rawMergedRows || rawMergedRows.length === 0) {
+            dropdown.addClass("d-none").empty();
+            return;
+        }
+
+        let matches = rawMergedRows.filter(item => {
+            let exp = String(item.expense_type || "").toLowerCase();
+            let inv = String(item.investor_name || "").toLowerCase();
+            return exp.includes(clean) || inv.includes(clean);
+        }).slice(0, 8);
+
+        if (matches.length === 0) {
+            dropdown.html('<div class="p-3 text-center text-muted small">কোনো তথ্য পাওয়া যায়নি</div>').removeClass("d-none");
+            return;
+        }
+
+        let html = '';
+        matches.forEach(item => {
+            const safeSearch = (item.investor_name !== 'N/A' ? item.investor_name : item.expense_type).replace(/'/g, "\\'");
+            html += `
+                <div class="search-live-item" onclick="selectSearchItem('${safeSearch}')">
+                    <div class="d-flex align-items-center gap-2 overflow-hidden">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 30px; height: 30px; background: #F3ECFB; color: #8C56D4; font-size: 12px;">
+                            <i class="fa-solid fa-user-tag"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <span class="fw-bold text-dark d-block text-truncate" style="font-size: 13px;">${item.investor_name !== 'N/A' ? item.investor_name : item.expense_type}</span>
+                            <span class="text-muted small" style="font-size: 11px;">তারিখ: ${item.date || ''}</span>
+                        </div>
+                    </div>
+                    <div class="text-end flex-shrink-0 ms-2">
+                        <div class="fw-bold ${item.invest_amount > 0 ? 'text-success' : 'text-danger'}" style="font-size: 12.5px;">৳ ${formatMoneyBn(item.invest_amount > 0 ? item.invest_amount : item.expense_amount)}</div>
+                    </div>
+                </div>
+            `;
+        });
+        dropdown.html(html).removeClass("d-none");
+    }
+
+    function selectSearchItem(val) {
+        $("#searchInput").val(val);
+        $("#mobileSearchInput").val(val);
+        $(".search-live-dropdown").addClass("d-none").empty();
+        applyClientFilter(val);
+    }
+
+    function applyClientFilter(term) {
+        let clean = (term || "").toLowerCase().trim();
+        if (!clean) {
+            filteredMergedRows = [...rawMergedRows];
+        } else {
+            filteredMergedRows = rawMergedRows.filter(item => {
+                let exp = String(item.expense_type || "").toLowerCase();
+                let inv = String(item.investor_name || "").toLowerCase();
+                return exp.includes(clean) || inv.includes(clean);
+            });
+        }
+        currentPage = 1;
+        renderPaginatedView();
+    }
+
+    async function fetchPersonalTransactionReport() {
+        const sVal = $("#startDate").val();
+        const eVal = $("#endDate").val();
+
+        const startDate = toApiDate(sVal);
+        const endDate = toApiDate(eVal);
+
+        if (!startDate || !endDate) {
+            alert("অনুগ্রহ করে শুরুর ও শেষের তারিখ নির্বাচন করুন।");
+            return;
+        }
+
+        try {
+            if (typeof showLoader === "function") showLoader();
+            const res = await axios.get(
+                `/api/personal-investor-transaction-report-list?start_date=${startDate}&end_date=${endDate}`,
+                HeaderToken()
+            );
+            if (typeof hideLoader === "function") hideLoader();
+
+            if (res.data && res.data.status === 'success') {
+                const expenseData = res.data.ExpenseData || [];
+                const investData = res.data.InvestData || [];
+                const totalExpense = parseFloat(res.data.ExpenceAmount || 0);
+                const totalInvest = parseFloat(res.data.InvestAmount || 0);
+                const netBalance = totalInvest - totalExpense;
+
+                rawMergedRows = [];
+                let maxRows = Math.max(expenseData.length, investData.length);
+
+                for (let i = 0; i < maxRows; i++) {
+                    const exp = expenseData[i] || {};
+                    const inv = investData[i] || {};
+
+                    const expAmt = parseFloat(exp.expense_amount || 0);
+                    const invAmt = parseFloat(inv.invest_amount || 0);
+                    const rowBal = invAmt - expAmt;
+
+                    rawMergedRows.push({
+                        date: exp.date || inv.date || '-',
+                        expense_type: exp.type_name || (expAmt > 0 ? 'ব্যক্তিগত খরচ' : '-'),
+                        expense_amount: expAmt,
+                        investor_name: inv.name || (invAmt > 0 ? 'বিনিয়োগ' : '-'),
+                        invest_amount: invAmt,
+                        balance: rowBal
+                    });
+                }
+
+                $("#summaryInvestAmount").text('৳ ' + formatMoneyBn(totalInvest));
+                $("#summaryExpenseAmount").text('৳ ' + formatMoneyBn(totalExpense));
+                $("#summaryBalanceAmount").text('৳ ' + formatMoneyBn(netBalance));
+                $("#summaryTotalCount").text(engToBanglaNum(rawMergedRows.length) + ' টি');
+
+                $("#topSummaryTotalCount").text(engToBanglaNum(rawMergedRows.length) + ' টি');
+                $("#topSummaryTotalAmount").text('৳ ' + formatMoneyBn(netBalance));
+
+                $("#totalExpenseAmount").text('৳ ' + formatMoneyBn(totalExpense));
+                $("#totalInvestAmount").text('৳ ' + formatMoneyBn(totalInvest));
+                $("#totalMainBalance").text('৳ ' + formatMoneyBn(netBalance));
+
+                filteredMergedRows = [...rawMergedRows];
+                currentPage = 1;
+                renderPaginatedView();
+            } else {
+                alert('ব্যক্তিগত লেনদেন রিপোর্ট লোড ব্যর্থ হয়েছে: ' + (res.data.message || ''));
+            }
+        } catch (e) {
+            if (typeof hideLoader === "function") hideLoader();
+            console.error('Error fetching personal transaction report:', e);
+            if (e.response && typeof unauthorized === "function") {
+                unauthorized(e.response.status);
+            }
+        }
+    }
+
+    function renderPaginatedView() {
+        const totalItems = filteredMergedRows.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+        if (currentPage > totalPages) currentPage = totalPages;
+
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+        const pageItems = filteredMergedRows.slice(startIndex, endIndex);
+
+        const tbody = $("#printTable tbody");
+        tbody.empty();
+
+        const mobileContainer = $("#mobileCardList");
+        mobileContainer.empty();
+
+        if (pageItems.length === 0) {
+            tbody.html('<tr><td colspan="7" class="text-center py-4 text-muted fw-bold">কোনো লেনদেন রেকর্ড পাওয়া যায়নি</td></tr>');
+            mobileContainer.html('<div class="col-12 p-4 text-center text-muted fw-bold invoice-mobile-card shadow-sm" style="border-radius: 6px !important;">কোনো লেনদেন রেকর্ড পাওয়া যায়নি</div>');
+        } else {
+            pageItems.forEach((item, idx) => {
+                const realIndex = startIndex + idx;
+                const isInvest = item.invest_amount > 0;
+                const badgeClass = isInvest ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-danger-subtle text-danger border border-danger-subtle';
+                const badgeLabel = isInvest ? 'বিনিয়োগ' : 'খরচ';
+
+                // Desktop Row
+                const row = `
+                    <tr>
+                        <td class="text-center fw-semibold text-muted">${engToBanglaNum(realIndex + 1)}</td>
+                        <td class="fw-semibold text-dark text-nowrap">${item.date}</td>
+                        <td>
+                            <div class="fw-bold text-dark">${item.expense_type}</div>
+                        </td>
+                        <td class="text-end fw-bold text-danger">${item.expense_amount > 0 ? '৳ ' + formatMoneyBn(item.expense_amount) : '-'}</td>
+                        <td>
+                            <div class="fw-bold text-dark">${item.investor_name}</div>
+                        </td>
+                        <td class="text-end fw-bold text-success">${item.invest_amount > 0 ? '৳ ' + formatMoneyBn(item.invest_amount) : '-'}</td>
+                        <td class="text-end fw-bold ${item.balance >= 0 ? 'text-primary' : 'text-danger'}">৳ ${formatMoneyBn(item.balance)}</td>
+                    </tr>
+                `;
+                tbody.append(row);
+
+                // Mobile & Tablet Card
+                const dateObj = formatCardDate(item.date);
+                const displayName = item.investor_name !== '-' && item.investor_name !== 'N/A' ? item.investor_name : item.expense_type;
+                const mobileCard = `
+                    <div class="col-12 col-md-6 align-self-start mb-0">
+                        <div class="invoice-mobile-card card shadow-sm position-relative mb-0" style="cursor: pointer; border-radius: 6px !important;">
+                            <div class="d-flex align-items-stretch" style="width: 100%; min-width: 0; overflow: hidden;">
+                                <!-- Left Date Column: Day on top, Month name below -->
+                                <div class="d-flex flex-column justify-content-center align-items-center text-center card-date-divider">
+                                    <span class="fw-bold" style="color: #8C56D4; font-size: 19px; line-height: 1;">${dateObj.day}</span>
+                                    <span class="small mt-1 text-muted" style="font-size: 11px; font-weight: 600;">${dateObj.month}</span>
+                                </div>
+
+                                <div class="card-content-wrap d-flex flex-column justify-content-between">
+                                    <div class="card-title-row mb-0.5">
+                                        <div class="fw-bold text-dark card-title-text" style="font-size: 14px;" title="${displayName}">
+                                            ${displayName}
+                                        </div>
+                                        <div class="card-badge-pill">
+                                            <span class="badge ${badgeClass} px-2 py-0.5 fw-bold" style="font-size: 11px; border-radius: 6px;" title="${badgeLabel}">
+                                                ${badgeLabel}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-title-row mb-1">
+                                        <div class="card-title-text" style="font-size: 11.5px; color: #64748b;">
+                                            <span>বিনিয়োগ: ৳ ${formatMoneyBn(item.invest_amount)} | খরচ: ৳ ${formatMoneyBn(item.expense_amount)}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex align-items-center justify-content-between gap-2" style="width: 100%; min-width: 0; overflow: hidden;">
+                                        <div class="fw-bold ${item.balance >= 0 ? 'text-primary' : 'text-danger'} text-truncate" style="font-size: 14px; min-width: 0; flex: 1 1 0%;">
+                                            ব্যালেন্স: ৳ ${formatMoneyBn(item.balance)}
+                                        </div>
+                                        <div class="d-flex align-items-center flex-shrink-0">
+                                            <span class="badge bg-light text-dark border" style="font-size: 11px;">#${engToBanglaNum(realIndex + 1)}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="button-item">
-
-                                <div class="icon-buttons">
-                                    <button id="copyBtn">
-                                        <svg width="32" height="32" viewBox="0 0 44 44" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect x="0.5" y="0.5" width="43" height="43" rx="5.5"
-                                                stroke="#192045" />
-                                            <path
-                                                d="M33.3002 17.45H21.1502C19.659 17.45 18.4502 18.6588 18.4502 20.15V32.3C18.4502 33.7912 19.659 35 21.1502 35H33.3002C34.7914 35 36.0002 33.7912 36.0002 32.3V20.15C36.0002 18.6588 34.7914 17.45 33.3002 17.45Z"
-                                                stroke="#192045" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M13.05 25.55H11.7C10.9839 25.55 10.2972 25.2655 9.79081 24.7592C9.28446 24.2528 9 23.5661 9 22.85V10.7C9 9.98392 9.28446 9.29716 9.79081 8.79081C10.2972 8.28446 10.9839 8 11.7 8H23.85C24.5661 8 25.2528 8.28446 25.7592 8.79081C26.2655 9.29716 26.55 9.98392 26.55 10.7V12.05"
-                                                stroke="#192045" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                    <button id="csvBtn">
-                                        <svg width="32" height="32" viewBox="0 0 44 44" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect x="0.5" y="0.5" width="43" height="43" rx="5.5"
-                                                stroke="#192045" />
-                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M36 14.7144V33.1114C36 34.1386 35.5936 35.1238 34.8703 35.8501C34.1469 36.5765 33.1658 36.9845 32.1429 36.9845H30.2143V35.048H32.1429C32.6543 35.048 33.1449 34.8439 33.5066 34.4808C33.8682 34.1176 34.0714 33.625 34.0714 33.1114V14.7144H30.2143C29.4471 14.7144 28.7112 14.4084 28.1687 13.8636C27.6262 13.3188 27.3214 12.58 27.3214 11.8096V7.93653H16.7143C16.2028 7.93653 15.7123 8.14056 15.3506 8.50373C14.9889 8.8669 14.7857 9.35946 14.7857 9.87306V27.3018H12.8571V9.87306C12.8571 8.84586 13.2635 7.86073 13.9869 7.13439C14.7102 6.40805 15.6913 6 16.7143 6H27.3214L36 14.7144ZM15.7828 34.7401C15.7938 35.0452 15.8683 35.3446 16.0015 35.6191C16.1347 35.8936 16.3236 36.1371 16.5561 36.3338C16.8069 36.543 17.1135 36.7056 17.478 36.8218C17.8444 36.94 18.2706 36.9981 18.7605 36.9981C19.4124 36.9981 19.9639 36.8954 20.4171 36.6921C20.8723 36.4888 21.2194 36.2041 21.4566 35.84C21.6977 35.474 21.8173 35.0499 21.8173 34.5697C21.8173 34.1359 21.7305 33.7757 21.5589 33.4852C21.3823 33.195 21.1329 32.9566 20.8356 32.7939C20.494 32.6043 20.1261 32.4673 19.7441 32.3872L18.5464 32.1083C18.2641 32.0562 17.9975 31.9396 17.7673 31.7675C17.6793 31.6994 17.6084 31.6115 17.5602 31.511C17.5119 31.4105 17.4878 31.3 17.4896 31.1885C17.4896 30.8864 17.6091 30.6385 17.8464 30.4448C18.0874 30.2493 18.4172 30.1505 18.8338 30.1505C19.1096 30.1505 19.3468 30.195 19.5474 30.2822C19.732 30.3577 19.895 30.4782 20.0218 30.6327C20.1405 30.7764 20.2202 30.9485 20.2532 31.1323H21.6996C21.6756 30.7379 21.5419 30.3582 21.3139 30.0362C21.0702 29.6886 20.7368 29.4142 20.3496 29.2423C19.8761 29.0336 19.3623 28.9331 18.8454 28.9479C18.2803 28.9479 17.7827 29.0447 17.3488 29.2384C16.9149 29.4301 16.5774 29.7031 16.3324 30.0537C16.0875 30.4061 15.966 30.8186 15.966 31.2911C15.966 31.6803 16.0431 32.0192 16.2013 32.3058C16.3594 32.5944 16.587 32.8287 16.8801 33.0166C17.1733 33.2005 17.5204 33.34 17.9196 33.429L19.1115 33.7079C19.5107 33.8028 19.8077 33.9267 20.0044 34.0816C20.1005 34.1552 20.1774 34.2511 20.2285 34.361C20.2795 34.471 20.3033 34.5918 20.2976 34.713C20.3013 34.9126 20.2441 35.1085 20.1336 35.2745C20.0095 35.4446 19.8385 35.5745 19.6419 35.6483C19.4278 35.7393 19.1616 35.7839 18.8454 35.7839C18.6197 35.7839 18.4153 35.7587 18.2282 35.7064C18.0577 35.659 17.8961 35.5837 17.7499 35.4837C17.6215 35.4003 17.5116 35.2912 17.427 35.1632C17.3424 35.0353 17.2849 34.8913 17.2581 34.7401H15.7828ZM10.5544 32.5169C10.5544 32.0367 10.62 31.6261 10.7511 31.2911C10.8655 30.9817 11.0681 30.713 11.3336 30.5184C11.6042 30.3368 11.9243 30.2441 12.2496 30.2531C12.5389 30.2531 12.7954 30.3151 13.0172 30.441C13.2346 30.5576 13.416 30.7317 13.5418 30.9445C13.6762 31.1685 13.7555 31.4214 13.7732 31.6823H15.2486V31.5429C15.2358 31.1861 15.1493 30.836 14.9946 30.5146C14.8399 30.1933 14.6203 29.9077 14.3499 29.676C14.0728 29.4403 13.7524 29.2613 13.4068 29.1493C13.0305 29.0214 12.6354 28.9579 12.2381 28.9615C11.5515 28.9615 10.9652 29.1048 10.4811 29.3933C9.999 29.6799 9.63257 30.0885 9.378 30.6172C9.12729 31.1478 9 31.7791 9 32.5131V33.4774C9 34.2114 9.12343 34.8408 9.37221 35.3675C9.62486 35.8923 9.99321 36.297 10.4754 36.5798C10.9575 36.8606 11.5438 37 12.2381 37C12.8031 37 13.3065 36.8935 13.752 36.6824C14.1956 36.4694 14.5504 36.1789 14.8127 35.8032C15.0788 35.4187 15.23 34.9659 15.2486 34.498V34.3508H13.7751C13.757 34.6002 13.6789 34.8414 13.5476 35.0538C13.419 35.2594 13.2379 35.4266 13.023 35.5379C12.7822 35.6549 12.5171 35.7127 12.2496 35.7064C11.9238 35.7157 11.6027 35.6266 11.3278 35.4508C11.0637 35.262 10.8627 34.9973 10.7511 34.6917C10.6101 34.3029 10.5434 33.891 10.5544 33.4774V32.5189V32.5169ZM26.4439 36.8509H24.606L22.0256 29.1067H23.7941L25.5221 35.1835H25.5954L27.3079 29.1067H29.0031L26.4439 36.8528V36.8509Z"
-                                                fill="#192045" />
-                                        </svg>
-                                    </button>
-                                    <button id="pdfBtn">
-                                        <svg width="32" height="32" viewBox="0 0 44 44" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect x="0.5" y="0.5" width="43" height="43" rx="5.5"
-                                                stroke="#192045" />
-                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M36 15V34C36 35.0609 35.5936 36.0783 34.8703 36.8284C34.1469 37.5786 33.1658 38 32.1429 38H30.2143V36H32.1429C32.6543 36 33.1449 35.7893 33.5066 35.4142C33.8682 35.0391 34.0714 34.5304 34.0714 34V15H30.2143C29.4471 15 28.7112 14.6839 28.1687 14.1213C27.6262 13.5587 27.3214 12.7956 27.3214 12V8H16.7143C16.2028 8 15.7123 8.21071 15.3506 8.58579C14.9889 8.96086 14.7857 9.46957 14.7857 10V28H12.8571V10C12.8571 8.93913 13.2635 7.92172 13.9869 7.17157C14.7102 6.42143 15.6913 6 16.7143 6H27.3214L36 15ZM12.0857 29.7H9V37.698H10.5255V35.014H12.0741C12.6276 35.014 13.0982 34.9 13.4859 34.668C13.8774 34.434 14.1763 34.118 14.3788 33.72C14.589 33.3024 14.6957 32.8371 14.6893 32.366C14.6893 31.866 14.5871 31.414 14.3846 31.012C14.1832 30.6124 13.8752 30.2812 13.4974 30.058C13.1117 29.818 12.6431 29.7 12.0857 29.7ZM13.1368 32.366C13.1437 32.6295 13.0874 32.8907 12.9729 33.126C12.8701 33.3309 12.7101 33.4989 12.5139 33.608C12.2893 33.7232 12.041 33.7795 11.7906 33.772H10.5197V30.96H11.7926C12.213 30.96 12.5428 31.08 12.78 31.322C13.0172 31.566 13.1368 31.914 13.1368 32.366ZM15.4839 29.7V37.698H18.2996C19.0729 37.698 19.7151 37.538 20.2243 37.224C20.7395 36.9043 21.1419 36.4212 21.3718 35.846C21.6225 35.246 21.7498 34.522 21.7498 33.678C21.7498 32.838 21.6244 32.122 21.3718 31.528C21.1446 30.9594 20.7461 30.4824 20.2359 30.168C19.7267 29.856 19.0806 29.7 18.2976 29.7H15.4839ZM17.0094 30.99H18.0951C18.5734 30.99 18.963 31.09 19.2696 31.294C19.5879 31.5099 19.8281 31.8293 19.9524 32.202C20.1047 32.604 20.1799 33.106 20.1799 33.708C20.1859 34.1069 20.1418 34.5049 20.0488 34.892C19.9801 35.1973 19.8514 35.4846 19.6708 35.736C19.503 35.9603 19.2807 36.1342 19.0266 36.24C18.729 36.3555 18.4129 36.4111 18.0951 36.404H17.0094V30.99ZM24.228 34.516V37.698H22.7044V29.7H27.6184V31.006H24.228V33.24H27.3253V34.516H24.228Z"
-                                                fill="#192045" />
-                                        </svg>
-                                    </button>
-                                    <button id="printBtn">
-                                        <svg width="32" height="32" viewBox="0 0 44 44" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect x="0.5" y="0.5" width="43" height="43" rx="5.5"
-                                                stroke="#192045" />
-                                            <path
-                                                d="M29.817 17.0382H14.1692C13.8755 17.0382 13.5939 16.9216 13.3863 16.714C13.1787 16.5063 13.062 16.2247 13.062 15.9311V8.10716C13.062 7.81352 13.1787 7.53191 13.3863 7.32428C13.5939 7.11665 13.8755 7 14.1692 7H29.817C30.1107 7 30.3923 7.11665 30.5999 7.32428C30.8075 7.53191 30.9242 7.81352 30.9242 8.10716V15.9311C30.9242 16.2247 30.8075 16.5063 30.5999 16.714C30.3923 16.9216 30.1107 17.0382 29.817 17.0382ZM15.2763 14.8239H28.7099V9.21432H15.2763V14.8239Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M29.817 36.6719H14.1692C13.8755 36.6719 13.5939 36.5552 13.3863 36.3476C13.1787 36.14 13.062 35.8584 13.062 35.5647V23.5402C13.062 23.2466 13.1787 22.965 13.3863 22.7573C13.5939 22.5497 13.8755 22.4331 14.1692 22.4331H29.817C30.1107 22.4331 30.3923 22.5497 30.5999 22.7573C30.8075 22.965 30.9242 23.2466 30.9242 23.5402V35.5647C30.9242 35.8584 30.8075 36.14 30.5999 36.3476C30.3923 36.5552 30.1107 36.6719 29.817 36.6719ZM15.2763 34.4576H28.7099V24.6474H15.2763V34.4576Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M33.3784 31.4313H29.8171C29.5234 31.4313 29.2418 31.3147 29.0342 31.107C28.8266 30.8994 28.7099 30.6178 28.7099 30.3242C28.7099 30.0305 28.8266 29.7489 29.0342 29.5413C29.2418 29.3337 29.5234 29.217 29.8171 29.217H33.3784C33.7479 29.2166 34.1021 29.0697 34.3634 28.8084C34.6247 28.5472 34.7716 28.1929 34.772 27.8235V18.4325C34.7718 18.0629 34.6249 17.7085 34.3637 17.4471C34.1024 17.1857 33.748 17.0386 33.3784 17.0382H10.6079C10.2383 17.0386 9.88393 17.1857 9.62265 17.4471C9.36137 17.7085 9.21451 18.0629 9.21432 18.4325V27.8235C9.21471 28.1929 9.36165 28.5472 9.62291 28.8084C9.88417 29.0697 10.2384 29.2166 10.6079 29.217H14.1692C14.4629 29.217 14.7445 29.3337 14.9521 29.5413C15.1597 29.7489 15.2764 30.0305 15.2764 30.3242C15.2764 30.6178 15.1597 30.8994 14.9521 31.107C14.7445 31.3147 14.4629 31.4313 14.1692 31.4313H10.6079C9.65136 31.4302 8.73437 31.0497 8.05801 30.3733C7.38166 29.697 7.00117 28.78 7 27.8235V18.4325C7.00098 17.4759 7.38138 16.5587 8.05775 15.8822C8.73413 15.2057 9.65123 14.8251 10.6079 14.8239H33.3784C34.3351 14.8251 35.2522 15.2057 35.9286 15.8822C36.6049 16.5587 36.9853 17.4759 36.9863 18.4325V27.8235C36.9851 28.78 36.6046 29.697 35.9283 30.3733C35.2519 31.0497 34.335 31.4302 33.3784 31.4313Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M12.9884 20.8764C12.9519 20.8765 12.9155 20.8748 12.8792 20.8712C12.8437 20.8675 12.8054 20.8616 12.7721 20.855C12.7389 20.8484 12.6983 20.8388 12.6666 20.8284C12.6349 20.8181 12.598 20.8055 12.5647 20.7915C12.5315 20.7775 12.499 20.762 12.4673 20.745C12.435 20.7284 12.4037 20.7099 12.3736 20.6897C12.344 20.6697 12.3145 20.6483 12.2865 20.6254C12.2584 20.6026 12.2311 20.5775 12.2053 20.5516C12.1794 20.5258 12.1551 20.4985 12.1315 20.4704C12.1086 20.4425 12.0872 20.4135 12.0673 20.3833C12.0471 20.3528 12.0286 20.3218 12.0119 20.2903C11.9949 20.2586 11.9794 20.2254 11.9654 20.1922C11.9514 20.159 11.9396 20.1243 11.9285 20.0903C11.9174 20.0564 11.9093 20.0165 11.9019 19.9848C11.8945 19.953 11.8894 19.911 11.8857 19.8777C11.8786 19.8041 11.8786 19.73 11.8857 19.6563C11.8894 19.6209 11.8953 19.5825 11.9019 19.5493C11.9086 19.5161 11.9182 19.4755 11.9285 19.4437C11.9388 19.412 11.9514 19.3751 11.9654 19.3419C11.9794 19.3087 11.9949 19.2754 12.0119 19.2437C12.0289 19.212 12.0473 19.181 12.0673 19.1507C12.0872 19.1206 12.1086 19.0915 12.1315 19.0636C12.1543 19.0356 12.1794 19.0083 12.2053 18.9824C12.2311 18.9566 12.2584 18.9322 12.2865 18.9086C12.3145 18.885 12.344 18.8643 12.3736 18.8444C12.4037 18.8241 12.435 18.8056 12.4673 18.789C12.4993 18.7723 12.5318 18.7568 12.5647 18.7425C12.598 18.7285 12.6326 18.7167 12.6666 18.7056C12.7005 18.6946 12.7404 18.6864 12.7721 18.6791C12.8039 18.6717 12.846 18.6665 12.8792 18.6628C12.9516 18.6562 13.0245 18.6562 13.0969 18.6628C13.1331 18.6665 13.1707 18.6724 13.2047 18.6791C13.2386 18.6857 13.2785 18.6953 13.3095 18.7056C13.3405 18.716 13.3789 18.7285 13.4121 18.7425C13.4453 18.7566 13.4778 18.7721 13.5095 18.789C13.5417 18.8058 13.573 18.8243 13.6033 18.8444C13.6328 18.8643 13.6623 18.8857 13.6903 18.9086C13.7184 18.9315 13.7457 18.9566 13.7715 18.9824C13.7974 19.0083 13.821 19.0356 13.8454 19.0636C13.8697 19.0917 13.8896 19.1212 13.9096 19.1507C13.9295 19.1802 13.9479 19.212 13.9649 19.2437C13.9819 19.2754 13.9974 19.3087 14.0114 19.3419C14.0254 19.3751 14.0373 19.4098 14.0483 19.4437C14.0594 19.4777 14.0675 19.5175 14.0749 19.5493C14.0823 19.581 14.0875 19.6231 14.0911 19.6563C14.0982 19.73 14.0982 19.8041 14.0911 19.8777C14.0875 19.9132 14.0815 19.9516 14.0749 19.9848C14.0683 20.018 14.0587 20.0586 14.0483 20.0903C14.038 20.1221 14.0254 20.159 14.0114 20.1922C13.9974 20.2254 13.9819 20.2586 13.9649 20.2903C13.9479 20.3221 13.9295 20.3531 13.9096 20.3833C13.8896 20.4136 13.8675 20.4424 13.8454 20.4704C13.8232 20.4985 13.7974 20.5258 13.7715 20.5516C13.7457 20.5775 13.7184 20.6018 13.6903 20.6254C13.6623 20.6491 13.6328 20.6697 13.6033 20.6897C13.573 20.7098 13.5417 20.7283 13.5095 20.745C13.4775 20.7617 13.4451 20.7772 13.4121 20.7915C13.3789 20.8055 13.3442 20.8174 13.3095 20.8284C13.2748 20.8395 13.2401 20.8476 13.2047 20.855C13.1692 20.8624 13.1309 20.8675 13.0969 20.8712C13.0609 20.8748 13.0246 20.8765 12.9884 20.8764Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M16.236 20.8764C16.1998 20.8764 16.1622 20.8764 16.1267 20.8712C16.0913 20.8661 16.0529 20.8616 16.0197 20.855C15.9865 20.8484 15.9459 20.8388 15.9142 20.8284C15.8824 20.8181 15.8455 20.8055 15.8123 20.7915C15.7791 20.7775 15.7459 20.762 15.7141 20.745C15.6824 20.728 15.6514 20.7096 15.6211 20.6897C15.591 20.6698 15.5619 20.6483 15.534 20.6254C15.506 20.6026 15.4787 20.5775 15.4528 20.5516C15.427 20.5258 15.4026 20.4985 15.379 20.4704C15.3554 20.4424 15.3347 20.4129 15.3148 20.3833C15.2946 20.3531 15.2758 20.3218 15.2587 20.2896C15.2425 20.2579 15.227 20.2254 15.213 20.1922C15.1989 20.159 15.1871 20.1243 15.176 20.0903C15.165 20.0564 15.1569 20.0165 15.1495 19.9848C15.1421 19.953 15.1369 19.911 15.1332 19.8777C15.1262 19.8041 15.1262 19.7299 15.1332 19.6563C15.1369 19.6209 15.1428 19.5825 15.1495 19.5493C15.1561 19.5161 15.1657 19.4755 15.176 19.4437C15.1864 19.412 15.1989 19.3751 15.213 19.3419C15.227 19.3087 15.2425 19.2762 15.2587 19.2444C15.2758 19.2123 15.2946 19.181 15.3148 19.1507C15.3347 19.1212 15.3561 19.0917 15.379 19.0636C15.4019 19.0356 15.427 19.0083 15.4528 18.9824C15.4787 18.9566 15.506 18.9322 15.534 18.9086C15.5619 18.8857 15.591 18.8643 15.6211 18.8444C15.6516 18.8242 15.6826 18.8058 15.7141 18.789C15.7459 18.7721 15.7791 18.7566 15.8123 18.7425C15.8455 18.7285 15.8802 18.7167 15.9142 18.7056C15.9481 18.6946 15.988 18.6864 16.0197 18.6791C16.0514 18.6717 16.0935 18.6665 16.1267 18.6628C16.2004 18.656 16.2745 18.656 16.3482 18.6628C16.3836 18.6665 16.422 18.6724 16.4552 18.6791C16.4884 18.6857 16.529 18.6953 16.5607 18.7056C16.5925 18.716 16.6294 18.7285 16.6626 18.7425C16.6958 18.7566 16.7283 18.7721 16.76 18.789C16.7918 18.806 16.8235 18.8245 16.8538 18.8444C16.884 18.8643 16.9128 18.8857 16.9409 18.9086C16.9689 18.9315 16.9962 18.9566 17.0221 18.9824C17.0479 19.0083 17.0715 19.0356 17.0959 19.0636C17.1202 19.0917 17.1401 19.1212 17.1601 19.1507C17.1801 19.181 17.1986 19.2123 17.2154 19.2444C17.2322 19.2764 17.2477 19.3089 17.2619 19.3419C17.276 19.3751 17.2878 19.4098 17.2988 19.4437C17.3099 19.4777 17.318 19.5175 17.3254 19.5493C17.3328 19.581 17.338 19.6231 17.3417 19.6563C17.3487 19.7299 17.3487 19.8041 17.3417 19.8777C17.338 19.9132 17.3321 19.9516 17.3254 19.9848C17.3188 20.018 17.3092 20.0586 17.2988 20.0903C17.2885 20.1221 17.276 20.159 17.2619 20.1922C17.2479 20.2254 17.2324 20.2579 17.2154 20.2896C17.1986 20.3218 17.1801 20.3531 17.1601 20.3833C17.1401 20.4129 17.118 20.4424 17.0959 20.4704C17.0737 20.4985 17.0479 20.5258 17.0221 20.5516C16.9962 20.5775 16.9689 20.6018 16.9409 20.6254C16.9128 20.6491 16.8833 20.6697 16.8538 20.6897C16.8242 20.7096 16.7918 20.728 16.76 20.745C16.7283 20.762 16.6958 20.7775 16.6626 20.7915C16.6294 20.8055 16.5947 20.8174 16.5607 20.8284C16.5268 20.8395 16.4869 20.8476 16.4552 20.855C16.4234 20.8624 16.3814 20.8675 16.3482 20.8712C16.3149 20.8749 16.2721 20.8764 16.236 20.8764Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M26.3481 28.8479H17.6384C17.3448 28.8479 17.0632 28.7313 16.8555 28.5237C16.6479 28.316 16.5312 28.0344 16.5312 27.7408C16.5312 27.4472 16.6479 27.1655 16.8555 26.9579C17.0632 26.7503 17.3448 26.6336 17.6384 26.6336H26.3481C26.6417 26.6336 26.9233 26.7503 27.1309 26.9579C27.3386 27.1655 27.4552 27.4472 27.4552 27.7408C27.4552 28.0344 27.3386 28.316 27.1309 28.5237C26.9233 28.7313 26.6417 28.8479 26.3481 28.8479Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M26.3481 32.7599H17.6384C17.3448 32.7599 17.0632 32.6433 16.8555 32.4356C16.6479 32.228 16.5312 31.9464 16.5312 31.6528C16.5312 31.3591 16.6479 31.0775 16.8555 30.8699C17.0632 30.6622 17.3448 30.5456 17.6384 30.5456H26.3481C26.6417 30.5456 26.9233 30.6622 27.1309 30.8699C27.3386 31.0775 27.4552 31.3591 27.4552 31.6528C27.4552 31.9464 27.3386 32.228 27.1309 32.4356C26.9233 32.6433 26.6417 32.7599 26.3481 32.7599Z"
-                                                fill="#192045" />
-                                        </svg>
-                                    </button>
-                                    <button id="xlsxBtn">
-                                        <svg width="32" height="32" viewBox="0 0 44 44" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect x="0.5" y="0.5" width="43" height="43" rx="5.5"
-                                                stroke="#192045" />
-                                            <path
-                                                d="M31.311 37.6837H12.689C11.4457 37.6821 10.2539 37.1874 9.37488 36.3082C8.49586 35.429 8.00142 34.2371 8 32.9938V10.689C8.00165 9.44591 8.4962 8.25421 9.3752 7.37521C10.2542 6.49621 11.4459 6.00166 12.689 6.00001H24.5811C25.1989 5.99879 25.8107 6.11998 26.3814 6.35658C26.9521 6.59318 27.4702 6.94051 27.9059 7.37849L34.6206 14.087C35.5011 14.9717 35.9968 16.1681 36 17.4162V32.9938C35.9986 34.2371 35.5041 35.429 34.6251 36.3082C33.7461 37.1874 32.5543 37.6821 31.311 37.6837ZM12.689 8.23201C12.0376 8.23272 11.413 8.49181 10.9524 8.95243C10.4918 9.41305 10.2327 10.0376 10.232 10.689V32.9938C10.2327 33.6453 10.4918 34.27 10.9524 34.7307C11.413 35.1915 12.0375 35.4508 12.689 35.4517H31.311C31.9625 35.4508 32.587 35.1915 33.0476 34.7307C33.5082 34.27 33.7673 33.6453 33.768 32.9938V17.4136C33.7664 16.7578 33.5059 16.1292 33.043 15.6646L26.3274 8.95518C26.0986 8.7252 25.8264 8.54287 25.5267 8.41874C25.2269 8.29461 24.9055 8.23114 24.5811 8.23201H12.689Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M33.8932 17.1279H29.7363C28.4971 17.1267 27.309 16.6339 26.4327 15.7576C25.5565 14.8814 25.0637 13.6933 25.0625 12.4541V7.11958H27.2945V12.4541C27.2952 13.1014 27.5527 13.7221 28.0105 14.1799C28.4682 14.6377 29.0889 14.8952 29.7363 14.8959H33.8932V17.1279Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M30.0858 31.4564H13.9136V16.7431H30.0858V31.4564ZM16.1456 29.2244H27.8538V18.9751H16.1456V29.2244Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M28.6242 25.2157H15.4643C15.1792 25.1996 14.9111 25.075 14.715 24.8675C14.5189 24.66 14.4097 24.3853 14.4097 24.0997C14.4097 23.8142 14.5189 23.5395 14.715 23.332C14.9111 23.1245 15.1792 22.9999 15.4643 22.9837H28.6242C28.9092 22.9999 29.1773 23.1245 29.3734 23.332C29.5695 23.5395 29.6788 23.8142 29.6788 24.0997C29.6788 24.3853 29.5695 24.66 29.3734 24.8675C29.1773 25.075 28.9092 25.1996 28.6242 25.2157Z"
-                                                fill="#192045" />
-                                            <path
-                                                d="M20.2146 31.2511C19.8916 31.2209 19.5934 31.0648 19.3846 30.8165C19.1757 30.5683 19.073 30.2478 19.0986 29.9244V18.2751C19.073 17.9517 19.1757 17.6312 19.3846 17.383C19.5934 17.1347 19.8916 16.9786 20.2146 16.9484C20.5376 16.9786 20.8357 17.1347 21.0446 17.383C21.2534 17.6312 21.3561 17.9517 21.3306 18.2751V29.9244C21.3561 30.2478 21.2534 30.5683 21.0446 30.8165C20.8357 31.0648 20.5376 31.2209 20.2146 31.2511Z"
-                                                fill="#192045" />
-                                        </svg>
-                                    </button>
-                                </div>
+                            <!-- Mobile Card Actions (1 Row Full Width, 2 Equal Columns) -->
+                            <div class="mobile-card-actions">
+                                <button type="button" class="mobile-action-btn action-btn-print" onclick="printSingleRecord(${realIndex})" title="প্রিন্ট করুন">
+                                    <i class="fa-solid fa-print"></i> প্রিন্ট
+                                </button>
+                                <button type="button" class="mobile-action-btn action-btn-view" onclick="openRecordDetailsModal(${realIndex})" title="বিস্তারিত দেখুন">
+                                    <i class="fa-solid fa-eye"></i> বিস্তারিত
+                                </button>
                             </div>
                         </div>
+                    </div>
+                `;
+                mobileContainer.append(mobileCard);
+            });
+        }
 
-                        <!-- Table -->
-                        <div class="table-wrapper">
-                            <table id="printTable" class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Serial No:</th>
-                                        <th>Date</th>
-                                        <th>Expense Type Name</th>
-                                        <th>Expense Amount</th>
-                                        <th>Investor Name</th>
-                                        <th>Invest Amount</th>
-                                        <th>Balance</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                                <tfoot>
-                                    <tr id="totalCounts">
-                                        <th colspan="3"><strong style="color: black">Total</strong></th>
-                                        <th id="totalExpenseAmount">0.00</th>
-                                        <th></th>
-                                        <th id="totalInvestAmount">0.00</th>
-                                        <th id="totalMainBalance">0.00</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- Pagination and Display Info -->
-                        <div class="my-3">
-                            <span id="display-info"></span>
-                        </div>
+        const fromCount = totalItems > 0 ? startIndex + 1 : 0;
+        const toCount = endIndex;
+        $("#display-info").html(`মোট <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 mx-1 fw-bold fs-6">${engToBanglaNum(totalItems)}</span> টির মধ্যে <span class="badge bg-light text-dark border px-2 py-1 mx-1 fw-bold fs-6">${engToBanglaNum(fromCount)} - ${engToBanglaNum(toCount)}</span> টি রেকর্ড প্রদর্শিত হচ্ছে`);
+
+        renderPaginationControls(totalPages);
+    }
+
+    function renderPaginationControls(totalPages) {
+        const pagContainer = $("#pagination");
+        pagContainer.empty();
+        if (totalPages <= 1) return;
+
+        let prevBtn = `<button type="button" class="btn btn-sm btn-outline-secondary ${currentPage === 1 ? 'disabled' : ''}" onclick="goToPage(${currentPage - 1})"><i class="fa-solid fa-chevron-left"></i></button>`;
+        pagContainer.append(prevBtn);
+
+        let startP = Math.max(1, currentPage - 2);
+        let endP = Math.min(totalPages, currentPage + 2);
+
+        for (let p = startP; p <= endP; p++) {
+            let activeClass = p === currentPage ? 'btn-primary' : 'btn-outline-secondary';
+            let style = p === currentPage ? 'background-color: #8C56D4 !important; border-color: #8C56D4 !important; color:#fff;' : '';
+            pagContainer.append(`<button type="button" class="btn btn-sm ${activeClass}" style="${style}" onclick="goToPage(${p})">${engToBanglaNum(p)}</button>`);
+        }
+
+        let nextBtn = `<button type="button" class="btn btn-sm btn-outline-secondary ${currentPage === totalPages ? 'disabled' : ''}" onclick="goToPage(${currentPage + 1})"><i class="fa-solid fa-chevron-right"></i></button>`;
+        pagContainer.append(nextBtn);
+    }
+
+    function goToPage(p) {
+        currentPage = p;
+        renderPaginatedView();
+    }
+
+    function exportPersonalPDF() {
+        const element = document.getElementById('printableArea');
+        const opt = {
+            margin: 10,
+            filename: 'personal-transaction-report.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    // Date formatting helper for mobile cards: Day on top, Month name below
+    function formatCardDate(dateStr) {
+        if (!dateStr) return { day: '-', month: '-' };
+        const bnMonths = ["জানু", "ফেব্রু", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টে", "অক্টো", "নভে", "ডিসে"];
+        let clean = String(dateStr).trim().split(/[\s,T]+/)[0];
+        let day = '', month = '';
+        if (clean.includes('-') || clean.includes('/')) {
+            let sub = clean.split(/[-/]/);
+            if (sub[0].length === 4) {
+                day = engToBanglaNum(parseInt(sub[2], 10));
+                month = bnMonths[parseInt(sub[1], 10) - 1] || sub[1];
+            } else {
+                day = engToBanglaNum(parseInt(sub[0], 10));
+                month = bnMonths[parseInt(sub[1], 10) - 1] || sub[1];
+            }
+        } else {
+            day = engToBanglaNum(clean);
+        }
+        return { day: day || '-', month: month || '-' };
+    }
+
+    // Helper to get current Date and Time formatted in Bengali
+    function getBnDateTimeNow() {
+        const now = new Date();
+        const d = engToBanglaNum(String(now.getDate()).padStart(2, '0'));
+        const m = engToBanglaNum(String(now.getMonth() + 1).padStart(2, '0'));
+        const y = engToBanglaNum(now.getFullYear());
+        let hours = now.getHours();
+        const minutes = engToBanglaNum(String(now.getMinutes()).padStart(2, '0'));
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        const h = engToBanglaNum(String(hours).padStart(2, '0'));
+        return {
+            date: `${d}/${m}/${y}`,
+            time: `${h}:${minutes} ${ampm}`
+        };
+    }
+
+    // Print Single Record (Voucher Slip - Borderless, Full-width, 10px Page Margin per Image 4)
+    function printSingleRecord(index) {
+        const item = filteredMergedRows[index];
+        if (!item) return;
+
+        const isInvest = item.invest_amount > 0;
+        const typeLabel = isInvest ? 'বিনিয়োগ জমা' : 'ব্যক্তিগত খরচ';
+        const amount = isInvest ? item.invest_amount : item.expense_amount;
+        const partyOrCategory = isInvest ? (item.investor_name || '-') : (item.expense_type || '-');
+
+        const printWindow = window.open('', '_blank', 'width=700,height=800');
+        printWindow.document.write(`
+            <!DOCTYPE html>
+            <html lang="bn">
+            <head>
+                <meta charset="utf-8">
+                <title>ব্যক্তিগত লেনদেন ভাউচার</title>
+                <style>
+                    @page {
+                        size: auto;
+                        margin: 10px !important;
+                    }
+                    * {
+                        box-sizing: border-box;
+                    }
+                    body {
+                        font-family: 'Noto Sans Bengali', 'Segoe UI', Arial, sans-serif;
+                        padding: 10px !important;
+                        margin: 0 !important;
+                        color: #1e293b;
+                        background: #ffffff;
+                        width: 100% !important;
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                    }
+                    .slip-container {
+                        border: none !important;
+                        padding: 0 !important;
+                        max-width: 100% !important;
+                        width: 100% !important;
+                        margin: 0 auto;
+                    }
+                    .shop-header {
+                        text-align: center;
+                        border-bottom: 2px solid #8C56D4;
+                        padding-bottom: 12px;
+                        margin-bottom: 15px;
+                    }
+                    .shop-name {
+                        font-size: 22px;
+                        font-weight: bold;
+                        color: #8C56D4;
+                        margin: 0;
+                    }
+                    .slip-title {
+                        font-size: 13px;
+                        color: #64748b;
+                        margin-top: 4px;
+                    }
+                    .slip-row {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 8px 0;
+                        border-bottom: 1px solid #f1f5f9;
+                        font-size: 13.5px;
+                    }
+                    .slip-label {
+                        color: #64748b;
+                        font-weight: 500;
+                    }
+                    .slip-val {
+                        font-weight: 700;
+                        color: #0f172a;
+                        text-align: right;
+                    }
+                    .amount-box {
+                        text-align: center;
+                        background: #FAF7FD;
+                        border: 1.5px solid #E5D5F7;
+                        border-radius: 8px;
+                        padding: 12px;
+                        margin: 15px 0;
+                        font-size: 20px;
+                        font-weight: bold;
+                        color: ${isInvest ? '#16a34a' : '#dc2626'};
+                    }
+                    .signature-row {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-top: 45px;
+                        padding-top: 10px;
+                        font-size: 12px;
+                    }
+                    .sig-line {
+                        border-top: 1px solid #94a3b8;
+                        width: 130px;
+                        text-align: center;
+                        padding-top: 5px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="slip-container">
+                    <div class="shop-header">
+                        <div class="shop-name">মেসার্স আনিস ষ্টোর</div>
+                        <div class="slip-title">ব্যক্তিগত লেনদেন ভাউচার</div>
+                    </div>
+                    <div class="slip-row">
+                        <span class="slip-label">তারিখ:</span>
+                        <span class="slip-val">${item.date || '-'}</span>
+                    </div>
+                    <div class="slip-row">
+                        <span class="slip-label">লেনদেনের ধরন:</span>
+                        <span class="slip-val" style="color: ${isInvest ? '#16a34a' : '#dc2626'}; font-weight: bold;">${typeLabel}</span>
+                    </div>
+                    <div class="slip-row">
+                        <span class="slip-label">${isInvest ? 'বিনিয়োগকারীর নাম:' : 'খরচের খাত:'}</span>
+                        <span class="slip-val">${partyOrCategory}</span>
+                    </div>
+                    <div class="amount-box">
+                        মোট টাকা: ৳ ${formatMoneyBn(amount)}
+                    </div>
+                    <div class="slip-row">
+                        <span class="slip-label">অবশিষ্ট ব্যালেন্স:</span>
+                        <span class="slip-val" style="color: #8C56D4;">৳ ${formatMoneyBn(item.balance)}</span>
+                    </div>
+                    <div class="signature-row">
+                        <div class="sig-line">সংশ্লিষ্ট ব্যক্তি</div>
+                        <div class="sig-line">ম্যানেজার</div>
                     </div>
                 </div>
+                <script>
+                    window.onload = function() { window.print(); setTimeout(function() { window.close(); }, 500); };
+                <\/script>
+            </body>
+            </html>
+        `);
+        printWindow.document.close();
+    }
+
+    // Open Record Details Modal (Dark mode compatible per Image 5)
+    function openRecordDetailsModal(index) {
+        const item = filteredMergedRows[index];
+        if (!item) return;
+
+        const isInvest = item.invest_amount > 0;
+        const typeLabel = isInvest ? 'বিনিয়োগ জমা' : 'ব্যক্তিগত খরচ';
+        const badgeClass = isInvest ? 'text-success bg-success-subtle border-success-subtle' : 'text-danger bg-danger-subtle border-danger-subtle';
+        const amount = isInvest ? item.invest_amount : item.expense_amount;
+        const partyOrCategory = isInvest ? (item.investor_name || '-') : (item.expense_type || '-');
+
+        let html = `
+            <div class="modal-top-amount-box text-center p-3 mb-3">
+                <span class="badge ${badgeClass} border px-2.5 py-1 fw-bold mb-1" style="font-size: 12px; border-radius: 6px;">${typeLabel}</span>
+                <h3 class="fw-bold m-0 ${isInvest ? 'text-success' : 'text-danger'}" style="font-size: 22px;">
+                    ${isInvest ? '+' : '-'} ৳ ${formatMoneyBn(amount)}
+                </h3>
             </div>
-            <div class="copyright">
-                <footer class="footer text-center py-3 mt-4 text-muted small border-top">&copy; 2026 মেসার্স আনিস ষ্টোর | Software By: <a href="https://www.codenextit.com" target="_blank" class="text-success fw-bold text-decoration-none">CodeNext IT</a></footer>
+
+            <div class="d-flex flex-column gap-2">
+                <div class="detail-info-item detail-item-info p-2.5 rounded-3 d-flex justify-content-between align-items-center">
+                    <span class="detail-info-label small">তারিখ</span>
+                    <span class="detail-info-val fw-bold">${item.date || '-'}</span>
+                </div>
+                <div class="detail-info-item detail-item-info p-2.5 rounded-3 d-flex justify-content-between align-items-center">
+                    <span class="detail-info-label small">লেনদেনের ধরন</span>
+                    <span class="detail-info-val fw-bold">${typeLabel}</span>
+                </div>
+                <div class="detail-info-item detail-item-info p-2.5 rounded-3 d-flex justify-content-between align-items-center">
+                    <span class="detail-info-label small">${isInvest ? 'বিনিয়োগকারীর নাম' : 'খরচের খাত'}</span>
+                    <span class="detail-info-val fw-bold text-dark">${partyOrCategory}</span>
+                </div>
+                <div class="detail-info-item detail-item-info p-2.5 rounded-3 d-flex justify-content-between align-items-center">
+                    <span class="detail-info-label small">বিনিয়োগের পরিমাণ</span>
+                    <span class="detail-info-val fw-bold text-success">${item.invest_amount > 0 ? '৳ ' + formatMoneyBn(item.invest_amount) : '-'}</span>
+                </div>
+                <div class="detail-info-item detail-item-info p-2.5 rounded-3 d-flex justify-content-between align-items-center">
+                    <span class="detail-info-label small">ব্যক্তিগত খরচ</span>
+                    <span class="detail-info-val fw-bold text-danger">${item.expense_amount > 0 ? '৳ ' + formatMoneyBn(item.expense_amount) : '-'}</span>
+                </div>
+                <div class="detail-info-item detail-item-info p-2.5 rounded-3 d-flex justify-content-between align-items-center">
+                    <span class="detail-info-label small">অবশিষ্ট ব্যালেন্স</span>
+                    <span class="detail-info-val fw-bold text-primary">৳ ${formatMoneyBn(item.balance)}</span>
+                </div>
             </div>
-            <!-- Table End -->
-        </div>
-    </div>
-    <!-- Hero Main Content End -->
+        `;
 
-    <script>
+        $("#personalDetailsBody").html(html);
+        $("#personalDetailModalPrintBtn").attr("onclick", `printSingleRecord(${index})`);
 
-        document.addEventListener("DOMContentLoaded", () => {
-            // Set default start and end dates to today
-            const today = new Date().toISOString().split("T")[0];
-            document.getElementById("startDate").value = today;
-            document.getElementById("endDate").value = today;
+        const modal = new bootstrap.Modal(document.getElementById('personalDetailsModal'));
+        modal.show();
+    }
 
-            // Fetch today's report on page load
-            fetchpersonaltransactionReport();
-        });
+    // Print Full Report Table (Matching Image 2: Multi-page thead, 10px page margin, full dataset)
+    function printFullReportTable() {
+        const now = getBnDateTimeNow();
+        const sVal = $("#startDate").val() || '';
+        const eVal = $("#endDate").val() || '';
+        const periodText = sVal === eVal ? sVal : `${sVal} থেকে ${eVal}`;
 
-        async function fetchpersonaltransactionReport() {
-            let startDate = document.getElementById("startDate").value;
-            let endDate = document.getElementById("endDate").value;
+        let totalExpense = 0;
+        let totalInvest = 0;
+        let netBalance = 0;
 
-            // If no dates are selected, use today's date
-            if (!startDate || !endDate) {
-                const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-                startDate = today;
-                endDate = today;
-                document.getElementById("startDate").value = today;
-                document.getElementById("endDate").value = today;
-            }
-
-            await searchReports(startDate, endDate);
+        let rowsHtml = '';
+        if (filteredMergedRows.length === 0) {
+            rowsHtml = `<tr><td colspan="7" style="text-align: center; padding: 20px; color: #64748b;">কোনো লেনদেন রেকর্ড পাওয়া যায়নি</td></tr>`;
+        } else {
+            filteredMergedRows.forEach((item, idx) => {
+                totalExpense += (item.expense_amount || 0);
+                totalInvest += (item.invest_amount || 0);
+                rowsHtml += `
+                    <tr>
+                        <td style="text-align: center;">${engToBanglaNum(idx + 1)}</td>
+                        <td style="text-align: center;">${item.date || ''}</td>
+                        <td>${item.expense_type || '-'}</td>
+                        <td style="text-align: right; color: #dc2626; font-weight: 600;">${item.expense_amount > 0 ? '৳ ' + formatMoneyBn(item.expense_amount) : '-'}</td>
+                        <td>${item.investor_name || '-'}</td>
+                        <td style="text-align: right; color: #16a34a; font-weight: 600;">${item.invest_amount > 0 ? '৳ ' + formatMoneyBn(item.invest_amount) : '-'}</td>
+                        <td style="text-align: right; font-weight: 600; color: ${item.balance >= 0 ? '#8C56D4' : '#dc2626'};">৳ ${formatMoneyBn(item.balance)}</td>
+                    </tr>
+                `;
+            });
+            netBalance = totalInvest - totalExpense;
         }
 
-        /**
-         * Fetch report data from the backend
-         */
-        async function searchReports(startDate, endDate) {
-            try {
-                showLoader(); // Show loader during API request
-                const res = await axios.get(
-                    `/api/personal-investor-transaction-report-list?start_date=${startDate}&end_date=${endDate}`,
-                    HeaderToken() // Make sure the token is set properly for authorization
-                );
-                hideLoader(); // Hide loader after response
-
-                if (res.data.status === 'success') {
-                    const expenseData = res.data.ExpenseData;
-                    const investData = res.data.InvestData;
-                    const totalExpenseAmount = res.data.ExpenceAmount;
-                    const totalInvestAmount = res.data.InvestAmount;
-
-                    // Log the data to check its structure
-                    console.log('Expense Data:', expenseData);
-                    console.log('Invest Data:', investData);
-
-                    updateTable(expenseData, investData, totalExpenseAmount, totalInvestAmount);
-                } else {
-                    alert('Failed to fetch data: ' + res.data.message);
-                }
-            } catch (e) {
-                hideLoader(); // Ensure loader is hidden on error
-                console.error(e); // Log the error
-                unauthorized(e.response ? e.response.status : 500); // Handle unauthorized access
-            }
+        const printWindow = window.open('', '_blank', 'width=1100,height=850');
+        if (!printWindow) {
+            window.print();
+            return;
         }
+        printWindow.document.write(`
+            <!DOCTYPE html>
+            <html lang="bn">
+            <head>
+                <title>ব্যক্তিগত লেনদেন রিপোর্ট তালিকা - মেসার্স আনিস ষ্টোর</title>
+                <meta charset="utf-8">
+                <style>
+                    @page {
+                        size: auto;
+                        margin: 10px !important;
+                    }
+                    * {
+                        box-sizing: border-box;
+                    }
+                    body {
+                        font-family: 'Noto Sans Bengali', 'Segoe UI', Arial, sans-serif;
+                        padding: 10px;
+                        margin: 0;
+                        color: #0f172a;
+                        background: #ffffff;
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                    }
+                    .header-wrap {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                        margin-bottom: 8px;
+                    }
+                    .company-title {
+                        font-size: 22px;
+                        font-weight: 800;
+                        color: #8C56D4;
+                        margin: 0 0 2px 0;
+                    }
+                    .company-sub {
+                        font-size: 12px;
+                        color: #475569;
+                        margin: 0 0 2px 0;
+                    }
+                    .company-contact {
+                        font-size: 11px;
+                        color: #64748b;
+                        margin: 0;
+                    }
+                    .report-pill-badge {
+                        display: inline-block;
+                        border: 2px solid #8C56D4;
+                        border-radius: 20px;
+                        padding: 4px 18px;
+                        color: #8C56D4;
+                        font-weight: 700;
+                        font-size: 13.5px;
+                        text-align: center;
+                    }
+                    .print-time-meta {
+                        font-size: 11px;
+                        color: #64748b;
+                        margin-top: 5px;
+                        text-align: right;
+                    }
+                    .divider-bar {
+                        height: 3px;
+                        background: #8C56D4;
+                        margin: 8px 0 12px 0;
+                    }
+                    .summary-box {
+                        background: #f8fafc;
+                        border: 1.5px solid #e2e8f0;
+                        border-radius: 8px;
+                        padding: 8px 14px;
+                        margin-bottom: 12px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        font-size: 12px;
+                    }
+                    .summary-box-left {
+                        line-height: 1.6;
+                    }
+                    .summary-box-right {
+                        text-align: right;
+                        line-height: 1.6;
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-bottom: 12px;
+                    }
+                    thead {
+                        display: table-header-group !important;
+                    }
+                    tfoot {
+                        display: table-footer-group !important;
+                    }
+                    tr {
+                        page-break-inside: avoid !important;
+                    }
+                    th {
+                        background-color: #f1f5f9 !important;
+                        color: #1e293b;
+                        border: 1px solid #cbd5e1;
+                        padding: 6px 8px;
+                        font-size: 11.5px;
+                        font-weight: 700;
+                    }
+                    td {
+                        border: 1px solid #e2e8f0;
+                        padding: 5px 8px;
+                        font-size: 11.5px;
+                        vertical-align: middle;
+                    }
+                    tfoot td {
+                        background-color: #f8fafc !important;
+                        border: 1px solid #cbd5e1;
+                        font-weight: bold;
+                        padding: 6px 8px;
+                        font-size: 12px;
+                    }
+                    .footer-note {
+                        display: flex;
+                        justify-content: space-between;
+                        border-top: 1px dashed #cbd5e1;
+                        padding-top: 8px;
+                        font-size: 11px;
+                        color: #64748b;
+                        margin-top: 12px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="header-wrap">
+                    <div>
+                        <h1 class="company-title">মেসার্স আনিস ষ্টোর</h1>
+                        <p class="company-sub">প্রোঃ মোঃ আনিসুর রহমান</p>
+                        <p class="company-contact">কাঁচামাল আড়ৎ, শেরপুর রোড, বগুড়া | মোবা: ০১৭১২-৩৪৫৬৭৮</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="report-pill-badge">ব্যক্তিগত লেনদেন রিপোর্ট তালিকা</div>
+                        <div class="print-time-meta">প্রিন্ট সময়: ${now.date} | ${now.time}</div>
+                    </div>
+                </div>
 
-        /**
-         * Update the table with fetched data
-         */
-        function updateTable(expenseData, investData, totalExpenseAmount, totalInvestAmount) {
-            const tableList = $("#printTable tbody");
-            tableList.empty();
+                <div class="divider-bar"></div>
 
-            let totalBalance = 0;
-            let maxRows = Math.max(expenseData.length, investData.length);
+                <div class="summary-box">
+                    <div class="summary-box-left">
+                        <div><strong>রিপোর্ট সময়কাল:</strong> ${periodText || 'সব সময়'}</div>
+                        <div><strong>মোট রেকর্ড সংখ্যা:</strong> ${engToBanglaNum(filteredMergedRows.length)} টি</div>
+                    </div>
+                    <div class="summary-box-right">
+                        <div><strong>মোট বিনিয়োগ:</strong> <span style="color: #16a34a; font-weight: bold;">৳ ${formatMoneyBn(totalInvest)}</span> | <strong>মোট খরচ:</strong> <span style="color: #dc2626; font-weight: bold;">৳ ${formatMoneyBn(totalExpense)}</span></div>
+                        <div><strong>অবশিষ্ট ব্যালেন্স:</strong> <span style="color: #8C56D4; font-weight: bold;">৳ ${formatMoneyBn(netBalance)}</span></div>
+                    </div>
+                </div>
 
-            // Loop through and populate rows with data
-            for (let i = 0; i < maxRows; i++) {
-                const expense = expenseData[i] || {};
-                const invest = investData[i] || {};
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 5%; text-align: center;">ক্রম</th>
+                            <th style="width: 12%; text-align: center;">তারিখ</th>
+                            <th style="width: 23%; text-align: left;">খরচের বিবরণ</th>
+                            <th style="width: 15%; text-align: right;">খরচের পরিমাণ (৳)</th>
+                            <th style="width: 20%; text-align: left;">বিনিয়োগকারীর নাম</th>
+                            <th style="width: 15%; text-align: right;">বিনিয়োগের পরিমাণ (৳)</th>
+                            <th style="width: 10%; text-align: right;">ব্যালেন্স (৳)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rowsHtml}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" style="text-align: right; font-weight: bold;">সর্বমোট :</td>
+                            <td style="text-align: right; color: #dc2626; font-weight: bold;">৳ ${formatMoneyBn(totalExpense)}</td>
+                            <td style="text-align: center;">-</td>
+                            <td style="text-align: right; color: #16a34a; font-weight: bold;">৳ ${formatMoneyBn(totalInvest)}</td>
+                            <td style="text-align: right; color: #8C56D4; font-weight: bold;">৳ ${formatMoneyBn(netBalance)}</td>
+                        </tr>
+                    </tfoot>
+                </table>
 
-                const expenseAmount = parseFloat(expense.expense_amount || 0); // Ensure expense_amount is correct
-                const investAmount = parseFloat(invest.invest_amount || 0); // Ensure invest_amount is correct
-                const balance = investAmount - expenseAmount;
+                <div class="footer-note">
+                    <span>প্রিন্ট সময়: ${now.date} | ${now.time}</span>
+                    <span>সফটওয়্যার তৈরি করেছে কোডনেক্সট আইটি লিমিটেড</span>
+                </div>
 
-                totalBalance += balance;
-
-                const row = `
-                <tr>
-                    <td>${i + 1}</td>
-                    <td>${expense.date || invest.date || 'N/A'}</td>
-                    <td>${expense.type_name || 'N/A'}</td> <!-- Ensure type_name is correct -->
-                    <td>${expenseAmount.toFixed(2)}</td>  <!-- Ensure expense_amount is correct -->
-                    <td>${invest.name || 'N/A'}</td>
-                    <td>${investAmount.toFixed(2)}</td>
-                    <td>${balance.toFixed(2)}</td>
-                </tr>`;
-                tableList.append(row);
-            }
-
-            // Update totals in the footer
-            $('#totalExpenseAmount').text(totalExpenseAmount.toFixed(2));
-            $('#totalInvestAmount').text(totalInvestAmount.toFixed(2));
-            $('#totalMainBalance').text(totalBalance.toFixed(2));
-        }
-
-        /**
-         * Handle errors
-         */
-        function handleError(error) {
-            console.error("An error occurred:", error);
-            if (error.response && error.response.status === 401) {
-                alert("Unauthorized access. Please log in.");
-            } else {
-                alert("An error occurred while fetching data.");
-            }
-        }
-    </script>
-
-
+                <script>
+                    window.onload = function() {
+                        window.print();
+                        setTimeout(function() { window.close(); }, 600);
+                    };
+                <\/script>
+            </body>
+            </html>
+        `);
+        printWindow.document.close();
+    }
+</script>
 
 @endsection

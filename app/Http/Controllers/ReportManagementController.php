@@ -55,7 +55,9 @@ public function SalesReportList(Request $request)
                 $orderDetailsAmount = $order->details->sum('price');
                 $orderDetailsSellingAmount = $order->details->sum('selling_price');
                 return [
+                    'id' => $order->id,
                     'order_no' => $order->order_no,
+                    'created_at' => $order->created_at,
                     'paid_amount' => $order->paid_amount,
                     'due_amount' => $order->due_amount,
                     'return_amount' => $returnAmount,
@@ -589,12 +591,18 @@ public function DailyReceiptPaymentReport(Request $request)
                 return response()->json(['status' => 'fail', 'message' => 'Start and End dates are required']);
             }
 
-            // Expense Query - Filter by expense type "Personal" and date range
+            // Expense Query - Filter by expense type "Personal" or "ব্যক্তিগত" and date range
             $expenseQuery = Expense::query()
                 ->whereHas('expenseType', function ($query) {
-                    $query->where('type_name', 'Personal');
+                    $query->whereIn('type_name', ['Personal', 'personal', 'ব্যক্তিগত', 'ব্যক্তিগত খরচ', 'Personal Expense']);
                 })
-                ->whereBetween('date', [$startDate, $endDate]);
+                ->where(function ($q) use ($startDate, $endDate) {
+                    $q->whereBetween('date', [$startDate, $endDate])
+                      ->orWhereBetween('created_at', [
+                          \Carbon\Carbon::parse($startDate)->startOfDay(),
+                          \Carbon\Carbon::parse($endDate)->endOfDay()
+                      ]);
+                });
 
             // Fetch the Expense Data with Expense Type
             $ExpenseData = $expenseQuery->with('expenseType')->get();
@@ -603,9 +611,15 @@ public function DailyReceiptPaymentReport(Request $request)
                 return $expense;
             });
 
-            // Invest Query - Filter by date range
+            // Invest Query - Filter by date range (supports date or created_at)
             $investQuery = Invest::query()
-                ->whereBetween('date', [$startDate, $endDate]);
+                ->where(function ($q) use ($startDate, $endDate) {
+                    $q->whereBetween('date', [$startDate, $endDate])
+                      ->orWhereBetween('created_at', [
+                          \Carbon\Carbon::parse($startDate)->startOfDay(),
+                          \Carbon\Carbon::parse($endDate)->endOfDay()
+                      ]);
+                });
 
             // Fetch the Invest Data with Investor Info
             $InvestData = $investQuery->with('investor_infos')->get();

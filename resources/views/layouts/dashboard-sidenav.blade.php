@@ -2893,7 +2893,6 @@
               <ul class="py-0.5 px-1 space-y-0.5">
                 <li><a href="{{ url('admin-dashboard-daily-ledger-report') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-daily-ledger-report') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-book-bookmark text-[10px] text-purple-200/80 w-4 text-center"></i><span>দৈনিক আয়-ব্যয় লেজার</span></a></li>
                 <li><a href="{{ url('admin-dashboard-sales-report') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-sales-report') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-chart-line text-[10px] text-purple-200/80 w-4 text-center"></i><span>বিক্রয় রিপোর্ট</span></a></li>
-                <li><a href="{{ url('admin-dashboard-income-expense-report') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-income-expense-report') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-chart-column text-[10px] text-purple-200/80 w-4 text-center"></i><span>আয় ও ব্যয় রিপোর্ট</span></a></li>
                 <li><a href="{{ url('admin-dashboard-daily-receipt-payment-report') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-daily-receipt-payment-report') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-file-waveform text-[10px] text-purple-200/80 w-4 text-center"></i><span>দৈনিক জমা ও খরচ রিপোর্ট</span></a></li>
                 <li><a href="{{ url('admin-dashboard-personal-transaction-report') }}" class="sidebar-flyout-link {{ request()->is('admin-dashboard-personal-transaction-report') ? 'active-flyout-link' : '' }}"><i class="fa-solid fa-user-tag text-[10px] text-purple-200/80 w-4 text-center"></i><span>ব্যক্তিগত লেনদেন রিপোর্ট</span></a></li>
               </ul>
@@ -3044,13 +3043,7 @@
             </a>
             <div class="sidebar-mini-tooltip">বিক্রয় রিপোর্ট</div>
           </li>
-          <li class="relative group">
-            <a href="{{ url('admin-dashboard-income-expense-report') }}" class="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] text-slate-200 hover:text-white hover:bg-white/10 transition-all duration-150 {{ request()->is('admin-dashboard-income-expense-report') ? 'active-submenu-link' : '' }}">
-              <i class="fa-solid fa-chart-column text-xs text-purple-200/80 w-4 text-center"></i>
-              <span>আয় ও ব্যয় রিপোর্ট</span>
-            </a>
-            <div class="sidebar-mini-tooltip">আয় ও ব্যয় রিপোর্ট</div>
-          </li>
+
           <li class="relative group">
             <a href="{{ url('admin-dashboard-daily-receipt-payment-report') }}" class="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] text-slate-200 hover:text-white hover:bg-white/10 transition-all duration-150 {{ request()->is('admin-dashboard-daily-receipt-payment-report') ? 'active-submenu-link' : '' }}">
               <i class="fa-solid fa-file-waveform text-xs text-purple-200/80 w-4 text-center"></i>

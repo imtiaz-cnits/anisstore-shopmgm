@@ -179,7 +179,6 @@ Route::view('/admin-dashboard-invest-list', 'pages.back-end-page.investor-info-l
 // Report Management View Page Start
 
 Route::view('/admin-dashboard-sales-report', 'components.back-end.report-management.sales-report');
-Route::view('/admin-dashboard-income-expense-report', 'components.back-end.report-management.income-expense-report');
 Route::view('/admin-dashboard-daily-receipt-payment-report', 'components.back-end.report-management.daily-receipt-payment-report');
 Route::view('/admin-dashboard-personal-transaction-report', 'components.back-end.report-management.personal-transaction-report');
 Route::view('/admin-best-selling-report', 'components.back-end.report-management.best-selling-report');
